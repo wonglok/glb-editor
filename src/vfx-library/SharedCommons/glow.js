@@ -330,18 +330,15 @@ export async function glow({ vfx }) {
               mySquareUV.y += -resolution.y / resolution.x / 2.0;
             }
 
-
             vec4 dudvCol = vec4(1.0);
 
-            if (energyMode == 1.0 || true) {
-              // dudvCol = texture2D( dudv, vec2( mod(2.0 * mySquareUV.x - time * 0.3, 1.0),  mod(2.0 * mySquareUV.y - time * 0.0, 1.0)) ) ;
-              dudvCol = texture2D( dudv, vec2( mod(2.0 * mySquareUV.x - time * 0.3, 1.0),  mod(2.0 * mySquareUV.y - time * 0.0, 1.0)) ) ;
-            }
+            // if (energyMode == 1.0 || true) {
+            //   // dudvCol = texture2D( dudv, vec2( mod(2.0 * mySquareUV.x - time * 0.3, 1.0),  mod(2.0 * mySquareUV.y - time * 0.0, 1.0)) ) ;
+            //   dudvCol = texture2D( dudv, vec2( mod(2.0 * mySquareUV.x - time * 0.3, 1.0),  mod(2.0 * mySquareUV.y - time * 0.0, 1.0)) ) ;
+            // }
 
-
-
-            vec4 glow =  texture2D( bloomTexture, myUV * (0.95 + 0.05 * dudvCol.yz) ) ;
-            vec4 base =  texture2D( baseTexture, myUV * (0.95 + 0.05 * dudvCol.yz) ) ;
+            vec4 glow =  texture2D( bloomTexture, myUV * (0.93 + 0.07 * dudvCol.yz) ) ;
+            vec4 base =  texture2D( baseTexture, myUV * (0.93 + 0.07 * dudvCol.yz) ) ;
             vec4 hudColor =  vec4(0.0);
 
             // const float edgeDetectionQuality = 1.0;
@@ -362,7 +359,6 @@ export async function glow({ vfx }) {
             vec4 col4 = LinearTosRGB(vec4(
               base.rgb + glow.rgb
               , base.a + glow.a ));
-
             gl_FragColor = col4;
 
           }
