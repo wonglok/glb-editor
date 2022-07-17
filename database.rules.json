@@ -1,0 +1,79 @@
+{
+  "rules": {
+    ".read": true,
+    ".write": false,
+    //
+    //
+    "profiles": {
+      "$owner_id": {
+        ".read": "true",
+        // ".write": "true"
+        ".write": "auth != null && $owner_id === auth.uid || auth != null && root.child('admin').hasChild(auth.uid)"
+      }
+    },
+    "rooms": {
+      "$roomID": {
+        "$owner_id": {
+          ".read": "true",
+          ".write": "auth != null && $owner_id === auth.uid || auth != null && root.child('admin').hasChild(auth.uid)"
+        }
+      }
+    },
+    "online": {
+      "$roomID": {
+        ".read": "true",
+        "$owner_id": {
+          ".read": "true",
+          ".write": "auth != null && $owner_id === auth.uid || auth != null && root.child('admin').hasChild(auth.uid)"
+        }
+      }
+    },
+    // "objects": {
+    //   "$roomID": {
+    //     ".read": "true",
+    //     "$owner_id": {
+    //       ".read": "true",
+    //       ".write": "auth != null && $owner_id === auth.uid || auth != null && root.child('admin').hasChild(auth.uid)"
+    //     }
+    //   }
+    // },
+    "profile": {
+      "$owner_user_id": {
+        ".read": "true",
+        "canvas": {
+          ".read": "true",
+          "$canvasID": {
+            ".read": "true",
+            ".write": "auth !== null && auth.uid === $owner_user_id",
+            "shareACL": {
+              ".write": "auth !== null && auth.uid === $owner_user_id"
+            },
+            "ownerACL": {
+              ".write": "auth !== null && auth.uid === $owner_user_id"
+            }
+          }
+        },
+        "layout": {
+          ".read": "true",
+          "$canvasID": {
+            ".write": "auth !== null && auth.uid === $owner_user_id",
+            "shareACL": {
+              ".write": "auth !== null && auth.uid === $owner_user_id"
+            },
+            "ownerACL": {
+              ".write": "auth !== null && auth.uid === $owner_user_id"
+            }
+          }
+        }
+      }
+    },
+    "canvas": {
+      "$canvasID": {
+        "$ownerID": {
+          ".read": true,
+          ".write": "auth !== null && auth.uid === $ownerID || auth !== null && root.child('profile').child($ownerID).child('canvas').child($canvasID).child('shareACL').hasChild(auth.uid)"
+        }
+      }
+    }
+  }
+}
