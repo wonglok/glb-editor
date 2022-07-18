@@ -682,6 +682,7 @@ export class BirdMapGame extends Object3D {
 
             ///
           } else {
+            lastY = MathUtils.lerp(lastY, player.rotation.y, 1)
             diffY = 0
             tempVector.set(0, 0, 0)
             Core.now.goToPlace.position.x = player.position.x
