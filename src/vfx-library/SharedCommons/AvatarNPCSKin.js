@@ -127,3 +127,5 @@ export class AvatarNPCSKin {
     // console.log(walker, avatarURL);
   }
 }
+
+export { Joy }
