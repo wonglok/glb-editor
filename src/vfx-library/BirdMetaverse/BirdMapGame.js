@@ -44,8 +44,6 @@ BufferGeometry.prototype.computeBoundsTree = computeBoundsTree
 BufferGeometry.prototype.disposeBoundsTree = disposeBoundsTree
 Mesh.prototype.raycast = acceleratedRaycast
 
-//
-
 export class BirdMapGame extends Object3D {
   constructor({ api, params, onDone, onDoneMyAvatar }) {
     super()
@@ -78,6 +76,9 @@ export class BirdMapGame extends Object3D {
       playerSpeed: 5,
       physicsSteps: 1,
 
+      lastAngleY: 0,
+      diffAngleY: 0,
+
       reset: () => {
         this.resetPlayer = this.resetPlayer || (() => {})
         this.resetPlayer({ position: Settings.resetPosition })
@@ -95,7 +96,6 @@ export class BirdMapGame extends Object3D {
     let collider, visualizer, player, controls
     let state = {}
     this.state = state
-
     //
     state.fwdArrowPressed = false
     state.bkdArrowPressed = false
@@ -568,6 +568,9 @@ export class BirdMapGame extends Object3D {
       let coord = new Vector3()
       let sOffset = new Vector3()
       let spherical = new Spherical()
+      let lookAtObj = new Object3D()
+      let lastY = 0
+      let diffY = 0
       function updatePlayer(delta) {
         playerVelocity.x = 0
         playerVelocity.z = 0
@@ -611,6 +614,9 @@ export class BirdMapGame extends Object3D {
         // }
 
         if (Core.now.goToPlace.position.length() !== 0) {
+          Settings.diffAngleY = player.position.y - Settings.lastAngleY
+          Settings.lastAngleY = player.position.y
+
           sOffset.copy(Core.now.goToPlace.position)
           sOffset.y = controls.target.y
           sOffset.sub(controls.target)
@@ -634,10 +640,18 @@ export class BirdMapGame extends Object3D {
             faster = 1.6
           }
           //
+
           if (diff.length() >= 0.5) {
             player.position.addScaledVector(
               tempVector,
               Settings.playerSpeed * faster * 1.25 * delta
+            )
+
+            lookAtObj.position.copy(player.position)
+            lookAtObj.lookAt(
+              Core.now.goToPlace.position.x,
+              player.position.y,
+              Core.now.goToPlace.position.z
             )
 
             player.lookAt(
@@ -654,7 +668,33 @@ export class BirdMapGame extends Object3D {
             Core.now.avatarAct = 'standing'
             Core.now.goToPlace.visible = false
           }
+
           //
+          // //
+          // diffY = lookAtObj.rotation.y - lastY
+          // lastY = lookAtObj.rotation.y
+
+          let sign = 0
+          if (diffY < 0) {
+            sign = -1
+          } else if (diffY > 0) {
+            sign = 1
+          }
+
+          //
+          tempVector.set(sign, 0, 0).applyQuaternion(controls.object.quaternion)
+
+          quaternion.setFromAxisAngle(tempVector, 0.1)
+          controls.object.quaternion.premultiply(quaternion)
+          tempVector.applyQuaternion(quaternion)
+          controls.object.position.addScaledVector(
+            tempVector,
+            coord.copy(camera.position).sub(controls.target).length() *
+              delta *
+              1.0
+          )
+          controls.saveState()
+          controls.update()
         } else {
           // tempVector.set(0, 0, 0)
           // Core.now.goToPlace.position.x = player.position.x
@@ -723,6 +763,7 @@ export class BirdMapGame extends Object3D {
         //   controls.update()
         // }
 
+        //
         if (state.lftArrowPressed) {
           tempVector.set(1, 0, 0).applyQuaternion(controls.object.quaternion)
 

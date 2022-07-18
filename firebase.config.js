@@ -21,4 +21,7 @@ const firebaseConfig = {
   measurementId: 'G-FL9SS1CX70',
 }
 
-export { firebaseConfig }
+/// CMS Graph ID
+const HomePageGraphID = '-N7AxPc4xiB2DP9pUCZh'
+
+export { firebaseConfig, HomePageGraphID }

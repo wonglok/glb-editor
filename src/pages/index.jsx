@@ -5,6 +5,7 @@ import Head from 'next/head'
 import { ENLogicGraphAutoLoad } from '@/vfx-runtime/ENLogicGraph'
 import { Canvas } from '@react-three/fiber'
 import { BGColor } from '@/vfx-library/Generic/BG'
+import { HomePageGraphID } from 'firebase.config'
 // import Shader from '@/components/canvas/Shader/Shader'
 
 // Dynamic import is used to prevent a payload when the website start that will include threejs r3f etc..
@@ -30,9 +31,8 @@ const Page = (props) => {
 
 Page.r3f = (props) => (
   <>
-    {/* <ENLogicGraphAutoLoad
-      graphID={'-N6Vt6s7fcEEH1tfhehe'}
-    ></ENLogicGraphAutoLoad> */}
+    {/* openverse landing page */}
+    <ENLogicGraphAutoLoad graphID={HomePageGraphID}></ENLogicGraphAutoLoad>
   </>
 )
 
