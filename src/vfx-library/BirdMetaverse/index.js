@@ -23,7 +23,7 @@ export default function BirdMetaverse({
   useFrame(() => {
     // Core.work()
   }, 1000)
-  //
+  // //
   useEffect(() => {}, [])
   return (
     <>
@@ -41,7 +41,14 @@ export default function BirdMetaverse({
             lighting({
               api,
             })
-            glow({ vfx: api })
+
+            api.now.gl.setAnimationLoop(() => {
+              Core.work()
+              api.now.gl.render(api.now.scene, api.now.camera)
+            })
+
+            // glow({ vfx: api })
+
             Joy.preloadActions()
 
             new BirdMapGame({

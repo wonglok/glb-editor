@@ -103,13 +103,6 @@ function CoreVR() {
         controllerModelFactory.createControllerModel(controllerGrip2)
       )
       scene.add(controllerGrip2)
-
-      renderer.setAnimationLoop(() => {
-        Core.work()
-        if (Core.now.canvas) {
-          Core.now.canvas.work()
-        }
-      })
     }
     run()
   }, [])

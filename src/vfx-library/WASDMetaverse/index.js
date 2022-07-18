@@ -44,6 +44,13 @@ export default function WASDMetaverse({
               api,
             })
 
+            api.now.gl.setAnimationLoop(() => {
+              Core.work()
+              if (Core.now.canvas) {
+                Core.now.canvas.work()
+              }
+            })
+
             glow({ vfx: api })
 
             Joy.preloadActions()
