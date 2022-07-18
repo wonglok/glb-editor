@@ -27,7 +27,7 @@ export class OnlinePop {
       })
     }
 
-    container.appendChild(logoutBtn)
+    container.insertBefore(logoutBtn, container.children[0])
 
     setupFirebase()
     firebase.auth().onAuthStateChanged((user) => {
@@ -48,6 +48,7 @@ export class OnlinePop {
         //
         div.style.width = '350px'
         div.style.height = '180px'
+        div.style.zIndex = '0'
         // div.style.backgroundColor = '#ffffff'
 
         let sub = document.createElement('div')

@@ -25,7 +25,7 @@ export class Overlay {
       height: 50px;
       // border: white solid 3px;
       border-radius: 100%;
-      z-index: 30px;
+      z-index: 130;
       user-select: none;
       background: rgba(255,255,255,0.6);
       color: black;
@@ -44,6 +44,7 @@ export class Overlay {
       background-position-x: 50%;
       background-position-y: 50%;
       background-repeat: no-repeat no-repeat;
+
     `
 
     // gear.innerHTML = `
@@ -54,7 +55,8 @@ export class Overlay {
       popup.style.display = 'block'
       iframe.src = Ready
     })
-    container.appendChild(gear)
+    // container.appendChild(gear)
+    container.insertBefore(gear, container.children[0])
 
     let popup = document.createElement('div')
 
