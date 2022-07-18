@@ -24,7 +24,6 @@ import {
   disposeBoundsTree,
   acceleratedRaycast,
 } from 'three-mesh-bvh'
-
 import { MeshBVH, MeshBVHVisualizer } from 'three-mesh-bvh'
 import { OrbitControls, RoundedBoxGeometry } from 'three-stdlib'
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader'
@@ -703,21 +702,18 @@ export class BirdMapGame extends Object3D {
           // Core.now.goToPlace.visible = false
         }
 
-        tempVector.set(diffY, 0, 0).applyQuaternion(controls.object.quaternion)
-
-        quaternion.setFromAxisAngle(tempVector, 0.1)
-        controls.object.quaternion.premultiply(quaternion)
-
-        tempVector.applyQuaternion(quaternion)
-
-        controls.object.position.addScaledVector(
-          tempVector,
-          coord.copy(camera.position).sub(controls.target).length() *
-            delta *
-            2.0
-        )
-        controls.saveState()
-        controls.update()
+        // tempVector.set(diffY, 0, 0).applyQuaternion(controls.object.quaternion)
+        // quaternion.setFromAxisAngle(tempVector, 0.1)
+        // controls.object.quaternion.premultiply(quaternion)
+        // tempVector.applyQuaternion(quaternion)
+        // controls.object.position.addScaledVector(
+        //   tempVector,
+        //   coord.copy(camera.position).sub(controls.target).length() *
+        //     delta *
+        //     2.0
+        // )
+        // controls.saveState()
+        // controls.update()
 
         //
         if (state.fwdArrowPressed) {
@@ -1029,6 +1025,7 @@ export class BirdMapGame extends Object3D {
               },
             })
           } else {
+            //
           }
         },
       })
