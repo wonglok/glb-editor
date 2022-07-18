@@ -649,7 +649,7 @@ export class BirdMapGame extends Object3D {
               Settings.playerSpeed * faster * 1.25 * delta
             )
 
-            lastY = MathUtils.lerp(lastY, player.rotation.y, 0.1)
+            lastY = MathUtils.lerp(lastY, player.rotation.y, 0.05)
             player.lookAt(
               Core.now.goToPlace.position.x,
               player.position.y,
