@@ -1,5 +1,4 @@
 import { removeS3, uploadS3 } from './aws.s3.gui'
-import firebase from 'firebase-v8/firebase-app'
 import { onReady } from '@/vfx-cms/firebase'
 export default function S3BtnTester() {
   return (
@@ -14,6 +13,11 @@ export default function S3BtnTester() {
 
             if (file) {
               try {
+                let firebase = await import('firebase-v8').then((e) => {
+                  return e.default
+                })
+
+                //
                 await onReady()
                 let userIDTokenForUpload = await firebase
                   .auth()
@@ -53,7 +57,6 @@ export default function S3BtnTester() {
                   })
 
                 console.log(result)
-
                 let result2 = await removeS3({
                   idToken: userIDTokenForRemoveObject,
                   fileS3: result.fileInfo,

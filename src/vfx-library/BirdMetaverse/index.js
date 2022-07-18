@@ -21,7 +21,7 @@ export default function BirdMetaverse({
   children = null,
 }) {
   useFrame(() => {
-    Core.work()
+    // Core.work()
   }, 1000)
   //
   useEffect(() => {}, [])

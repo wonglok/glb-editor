@@ -36,39 +36,41 @@ const LCanvas = ({ children }) => {
   const dom = useStore((state) => state.dom)
 
   return (
-    <Canvas
-      mode='concurrent'
-      style={{
-        position: 'absolute',
-        top: 0,
-        zIndex: 20,
-      }}
-      // gl={(rendererCanvas) => {
-      //   const renderer = new WebGLRenderer({
-      //     canvas: rendererCanvas,
-      //     powerPreference: 'high-performance',
-      //     premultipliedAlpha: false,
-      //     depth: false,
-      //     stencil: false,
-      //     antialias: false,
-      //     preserveDrawingBuffer: true,
-      //   })
+    <div className='w-full h-full' id='myroot'>
+      <Canvas
+        mode='concurrent'
+        style={{
+          position: 'absolute',
+          top: 0,
+          zIndex: 20,
+        }}
+        // gl={(rendererCanvas) => {
+        //   const renderer = new WebGLRenderer({
+        //     canvas: rendererCanvas,
+        //     powerPreference: 'high-performance',
+        //     premultipliedAlpha: false,
+        //     depth: false,
+        //     stencil: false,
+        //     antialias: false,
+        //     preserveDrawingBuffer: true,
+        //   })
 
-      //   // renderer.outputEncoding = sRGBEncoding
-      //   // renderer.toneMapping = ACESFilmicToneMapping
+        //   // renderer.outputEncoding = sRGBEncoding
+        //   // renderer.toneMapping = ACESFilmicToneMapping
 
-      //   return renderer
-      // }}
-      // onCreated={(state) => state.events.connect(dom.current)}
-    >
-      {/* <LControl /> */}
+        //   return renderer
+        // }}
+        // onCreated={(state) => state.events.connect(dom.current)}
+      >
+        {/* <LControl /> */}
 
-      <Preload all />
+        <Preload all />
 
-      {/* <Effect></Effect> */}
+        {/* <Effect></Effect> */}
 
-      {children}
-    </Canvas>
+        {children}
+      </Canvas>
+    </div>
   )
 }
 

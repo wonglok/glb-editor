@@ -2037,6 +2037,14 @@
     screen-space-reflections "^1.0.8"
     three-stdlib "^2.8.11"
 
+"@react-three/xr@^4.0.0":
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/@react-three/xr/-/xr-4.0.0.tgz#d22913edc3a98aeb9156757f47f1f584b5f45435"
+  integrity sha512-9BBAeaFoowIIbqpJlLNd8Qb7SaTQihUH+tFwDRMTB3KWz3TVCikOjdct5/6afGvaqFpMB1+pkAY/9J1KDsODKw==
+  dependencies:
+    three-stdlib "^2.12.1"
+    zustand "^3.7.1"
+
 "@rollup/plugin-node-resolve@^7.1.1":
   version "7.1.3"
   resolved "https://registry.npmjs.org/@rollup/plugin-node-resolve/-/plugin-node-resolve-7.1.3.tgz"

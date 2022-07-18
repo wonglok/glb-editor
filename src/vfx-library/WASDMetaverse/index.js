@@ -22,7 +22,7 @@ export default function WASDMetaverse({
   children = null,
 }) {
   useFrame(() => {
-    Core.work()
+    // Core.work()
   }, 1000)
   //
   useEffect(() => {}, [])
@@ -33,6 +33,7 @@ export default function WASDMetaverse({
           //
           init={({ api }) => {
             //
+
             Core.now.canvas = api
 
             Core.onLoop(() => {
