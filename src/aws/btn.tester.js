@@ -1,5 +1,6 @@
 import { removeS3, uploadS3 } from './aws.s3.gui'
-
+import firebase from 'firebase-v8/firebase-app'
+import { onReady } from '@/vfx-cms/firebase'
 export default function S3BtnTester() {
   return (
     <div>
@@ -13,12 +14,48 @@ export default function S3BtnTester() {
 
             if (file) {
               try {
+                await onReady()
+                let userIDTokenForUpload = await firebase
+                  .auth()
+                  .currentUser.getIdToken(/* forceRefresh */ true)
+                  .then(function (idToken) {
+                    // Send token to your backend via HTTPS
+                    // ...
+
+                    return idToken
+                  })
+                  .catch(function (error) {
+                    // Handle error
+
+                    return ''
+                  })
+
                 let result = await uploadS3({
                   file,
+                  idToken: userIDTokenForUpload,
                   folderPath: 'tester-folder',
                 })
+
+                await onReady()
+                let userIDTokenForRemoveObject = await firebase
+                  .auth()
+                  .currentUser.getIdToken(/* forceRefresh */ true)
+                  .then(function (idToken) {
+                    // Send token to your backend via HTTPS
+                    // ...
+
+                    return idToken
+                  })
+                  .catch(function (error) {
+                    // Handle error
+
+                    return ''
+                  })
+
                 console.log(result)
+
                 let result2 = await removeS3({
+                  idToken: userIDTokenForRemoveObject,
                   fileS3: result.fileInfo,
                 })
                 console.log(result2)

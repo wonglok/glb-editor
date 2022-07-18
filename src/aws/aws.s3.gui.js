@@ -11,11 +11,12 @@ async function onResponseJSON(r) {
   }
 }
 
-export async function removeS3({ fileS3 }) {
+export async function removeS3({ fileS3, idToken = '' }) {
   let result = await fetch(`/api/aws/remove`, {
     method: 'POST',
     body: JSON.stringify({
       fileS3,
+      idToken,
     }),
     headers: {
       'Content-Type': 'application/json',
@@ -29,7 +30,7 @@ export async function removeS3({ fileS3 }) {
   }
 }
 
-export async function uploadS3({ file, folderPath = 'general' }) {
+export async function uploadS3({ file, idToken = '', folderPath = 'general' }) {
   //
 
   //
@@ -49,6 +50,7 @@ export async function uploadS3({ file, folderPath = 'general' }) {
     body: JSON.stringify({
       fileName: signName,
       folderPath: folderPath,
+      idToken: idToken,
     }),
     headers: {
       'Content-Type': 'application/json',
