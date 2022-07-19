@@ -13,3 +13,5 @@ export default function Test() {
     </div>
   )
 }
+
+//  https://effectnode-2022.s3.ap-southeast-1.amazonaws.com/multiverse/production/manual/NYC_Expo_19-v1.glb

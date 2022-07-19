@@ -3,12 +3,14 @@ import dynamic from 'next/dynamic'
 import Instructions from '@/components/dom/Instructions'
 import Head from 'next/head'
 import { ENLogicGraphAutoLoad } from '@/vfx-runtime/ENLogicGraph'
-import { Canvas, useThree } from '@react-three/fiber'
+import { Canvas, useFrame, useThree } from '@react-three/fiber'
 import { BGColor } from '@/vfx-library/Generic/BG'
 import { HomePageGraphID } from 'firebase.config'
 
 import { useEffect } from 'react'
 import { Core } from '@/vfx-core/Core'
+import { Box } from '@react-three/drei'
+import { PerspectiveCamera, Vector2 } from 'three'
 
 // import Shader from '@/components/canvas/Shader/Shader'
 
@@ -36,12 +38,9 @@ const Page = (props) => {
 Page.r3f = (props) => (
   <>
     {/* openverse landing page */}
-    <Shader></Shader>
-    <ButtonVR></ButtonVR>
-    <CoreVR></CoreVR>
+    {/* <ButtonVR></ButtonVR>
+    <CoreVR></CoreVR> */}
 
-    {/*  */}
-    {/*  */}
     {/*  */}
     <ENLogicGraphAutoLoad graphID={HomePageGraphID}></ENLogicGraphAutoLoad>
   </>
@@ -57,54 +56,70 @@ export async function getStaticProps() {
   }
 }
 
-function ButtonVR() {
-  let renderer = useThree((s) => s.gl)
-  useEffect(() => {
-    let run = async () => {
-      let { VRButton } = await import('three/examples/jsm/webxr/VRButton.js')
+// function ButtonVR() {
+//   let renderer = useThree((s) => s.gl)
+//   useEffect(() => {
+//     let run = async () => {
+//       let { VRButton } = await import('three/examples/jsm/webxr/VRButton.js')
 
-      let myroot = document.querySelector('#myroot')
-      let btn = VRButton.createButton(renderer)
-      btn.style.zIndex = 10000
-      myroot.appendChild(btn)
-    }
-    run()
-  }, [])
-  return null
-}
+//       let myroot = document.querySelector('#myroot')
+//       let btn = VRButton.createButton(renderer)
+//       btn.style.zIndex = 10000
+//       myroot.appendChild(btn)
+//     }
+//     run()
+//   }, [])
+//   return null
+// }
 
-//
-function CoreVR() {
-  let renderer = useThree((s) => s.gl)
-  let scene = useThree((s) => s.scene)
-  useEffect(() => {
-    let run = async () => {
-      renderer.xr.enabled = true
+// //
+// function CoreVR() {
+//   useFrame(() => {
+//     //
+//   }, 9999999999)
+//   let renderer = useThree((s) => s.gl)
+//   let scene = useThree((s) => s.scene)
+//   useEffect(() => {
+//     let run = async () => {
+//       renderer.xr.enabled = true
+//       let camera = new PerspectiveCamera()
+//       camera.position.z = 2
+//       camera.position.y = 0.5
+//       let v2 = new Vector2()
+//       renderer.setAnimationLoop(() => {
+//         renderer.getSize(v2)
+//         camera.aspect = v2.x / v2.y
+//         renderer.xr.updateCamera(camera)
+//         camera.updateMatrix()
+//         camera.updateProjectionMatrix()
 
-      let { XRControllerModelFactory } = await import(
-        'three/examples/jsm/webxr/XRControllerModelFactory.js'
-      )
+//         renderer.render(scene, cameraArr)
+//       })
 
-      // The XRControllerModelFactory will automatically fetch controller models
-      // that match what the user is holding as closely as possible. The models
-      // should be attached to the object returned from getControllerGrip in
-      // order to match the orientation of the held device.
+//       // let { XRControllerModelFactory } = await import(
+//       //   'three/examples/jsm/webxr/XRControllerModelFactory.js'
+//       // )
 
-      const controllerModelFactory = new XRControllerModelFactory()
+//       // The XRControllerModelFactory will automatically fetch controller models
+//       // that match what the user is holding as closely as possible. The models
+//       // should be attached to the object returned from getControllerGrip in
+//       // order to match the orientation of the held device.
 
-      let controllerGrip1 = renderer.xr.getControllerGrip(0)
-      controllerGrip1.add(
-        controllerModelFactory.createControllerModel(controllerGrip1)
-      )
-      scene.add(controllerGrip1)
+//       // const controllerModelFactory = new XRControllerModelFactory()
 
-      let controllerGrip2 = renderer.xr.getControllerGrip(1)
-      controllerGrip2.add(
-        controllerModelFactory.createControllerModel(controllerGrip2)
-      )
-      scene.add(controllerGrip2)
-    }
-    run()
-  }, [])
-  return null
-}
+//       // let controllerGrip1 = renderer.xr.getControllerGrip(0)
+//       // controllerGrip1.add(
+//       //   controllerModelFactory.createControllerModel(controllerGrip1)
+//       // )
+//       // scene.add(controllerGrip1)
+
+//       // let controllerGrip2 = renderer.xr.getControllerGrip(1)
+//       // controllerGrip2.add(
+//       //   controllerModelFactory.createControllerModel(controllerGrip2)
+//       // )
+//       // scene.add(controllerGrip2)
+//     }
+//     run()
+//   }, [])
+//   return null
+// }

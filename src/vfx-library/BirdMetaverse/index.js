@@ -23,6 +23,7 @@ export default function BirdMetaverse({
   useFrame(() => {
     // Core.work()
   }, 1000)
+
   // //
   useEffect(() => {}, [])
   return (
