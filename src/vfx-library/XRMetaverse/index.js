@@ -47,10 +47,10 @@ export default function XRMetaverse({
   let group = useRef()
   // let [name, setName] = useState('clicked')
   useInteraction(group, 'onSelect', (event) => {
-    console.log(event.target?.name)
+    console.log(event)
     // setName(event.target.name)
-    if (event.intersection) {
-      Core.now.goToPlace.position.copy(event.intersection.point)
+    if (event.intersections && event.intersections[0]) {
+      Core.now.goToPlace.position.copy(event.intersections[0].point)
     }
   })
 
