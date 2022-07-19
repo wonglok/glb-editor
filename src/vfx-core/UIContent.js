@@ -1,17 +1,26 @@
-import { useLayoutEffect } from 'react'
+import { useEffect } from 'react'
 import { createRoot } from 'react-dom/client'
 
 export function UIContent({ children, className }) {
-  useLayoutEffect(() => {
-    let doc = document.querySelector('#myroot')
-    let div = document.createElement('div')
-    doc.appendChild(div)
+  useEffect(() => {
+    let clean = () => {}
+    let tttt = setInterval(() => {
+      let doc = document.querySelector('#myroot')
+      if (doc) {
+        let div = document.createElement('div')
+        clearInterval(tttt)
+        doc.appendChild(div)
+        div.className = className || ''
+        let root = createRoot(div)
+        root.render(children)
+        clean = () => {
+          doc.removeChild(div)
+        }
+      }
+    })
 
-    div.className = className || ''
-    let root = createRoot(div)
-    root.render(children)
     return () => {
-      doc.removeChild(div)
+      clean()
     }
   }, [children, className])
 

@@ -8,9 +8,17 @@ import { Joy } from '../SharedCommons/AvatarSkin'
 import { firebaseConfig } from 'firebase.config'
 import { glow } from '../SharedCommons/glow'
 import { Core } from '@/vfx-core/Core'
-import { useFrame } from '@react-three/fiber'
+import { useFrame, useThree } from '@react-three/fiber'
 import { XRMapGame } from './XRMapGame'
-import { DefaultXRControllers, Hands, useXR } from '@react-three/xr'
+import { meshBound } from '@react-three/drei'
+import {
+  DefaultXRControllers,
+  Hands,
+  useInteraction,
+  useXR,
+} from '@react-three/xr'
+import { Object3D } from 'three'
+import { UIContent } from '@/vfx-core/UIContent'
 //
 export default function XRMetaverse({
   resetPosition = [0, 1.5, 0],
@@ -27,68 +35,84 @@ export default function XRMetaverse({
   let { player: xrPlayer } = useXR()
   // //
 
-  const controllers = useXR((state) => state.controllers)
-
   useFrame(() => {
     Core.work()
   })
-  useEffect(() => {}, [])
+
+  const { gl, camera } = useThree()
+
+  // const controllers = useXR((state) => state.controllers)
+
+  let group = useRef()
+  // let [name, setName] = useState('clicked')
+  useInteraction(group, 'onSelect', (event) => {
+    console.log(event.target.name)
+    // setName(event.target.name)
+    Core.now.goToPlace.position.copy(event.intersection.point)
+  })
+
   return (
     <>
+      <UIContent>
+        <div className='fixed top-0 left-0 z-50 p-2 bg-white'>{name}</div>
+      </UIContent>
       <Suspense fallback={null}>
         {xrPlayer && (
-          <TJLab
-            //
-            init={({ api }) => {
-              //
-              Core.now.canvas = api
+          <>
+            <DefaultXRControllers
+              /** Optional material props to pass to controllers' ray indicators */
+              rayMaterial={{ color: 'blue' }}
+              /** Whether to hide controllers' rays on blur. Default is `false` */
+              hideRaysOnBlur={false}
+            />
+            <group raycast={meshBound} ref={group}>
+              <TJLab
+                //
+                init={({ api }) => {
+                  //
+                  Core.now.canvas = api
 
-              Core.onLoop(() => {
-                api.work()
-              })
+                  Core.onLoop(() => {
+                    api.work()
+                  })
 
-              lighting({
-                api,
-              })
+                  lighting({
+                    api,
+                  })
 
-              // api.now.gl.setAnimationLoop(() => {
-              //   Core.work()
-              //   api.now.gl.render(api.now.scene, api.now.camera)
-              // })
+                  // api.now.gl.setAnimationLoop(() => {
+                  //   Core.work()
+                  //   api.now.gl.render(api.now.scene, api.now.camera)
+                  // })
 
-              // glow({ vfx: api })
+                  // glow({ vfx: api })
 
-              Joy.preloadActions()
+                  Joy.preloadActions()
 
-              new XRMapGame({
-                xrPlayer: xrPlayer,
-                api,
-                onDone: onDoneMap,
-                onDoneMyAvatar: onDoneMyAvatar,
+                  new XRMapGame({
+                    xrPlayer: xrPlayer,
+                    api,
+                    onDone: onDoneMap,
+                    onDoneMyAvatar: onDoneMyAvatar,
 
-                params: {
-                  firstPerson,
-                  resetPosition: resetPosition,
-                  firebaseConfig: firebaseConfig,
-                  mapURL,
-                  // mapURL: `/Metaverse/places/lobby/hall-v2-v1.glb`,
-                  // mapURL: `/Metaverse/places/theatre-large/theatre-larger-one-v1.glb`,
-                  // mapURL: `/Metaverse/places/tvstudio/tv-studio-v1.glb`,
-                  // mapURL: `/Metaverse/places/theatre-small/low-res-cinema-v1.glb`,
-                  // mapURL: `/Metaverse/places/dome/dome.glb`,
-                },
-              })
-            }}
-          ></TJLab>
+                    params: {
+                      firstPerson,
+                      resetPosition: resetPosition,
+                      firebaseConfig: firebaseConfig,
+                      mapURL,
+                      // mapURL: `/Metaverse/places/lobby/hall-v2-v1.glb`,
+                      // mapURL: `/Metaverse/places/theatre-large/theatre-larger-one-v1.glb`,
+                      // mapURL: `/Metaverse/places/tvstudio/tv-studio-v1.glb`,
+                      // mapURL: `/Metaverse/places/theatre-small/low-res-cinema-v1.glb`,
+                      // mapURL: `/Metaverse/places/dome/dome.glb`,
+                    },
+                  })
+                }}
+              ></TJLab>
+            </group>
+          </>
         )}
       </Suspense>
-      <Hands />
-      <DefaultXRControllers
-        /** Optional material props to pass to controllers' ray indicators */
-        rayMaterial={{ color: 'blue' }}
-        /** Whether to hide controllers' rays on blur. Default is `false` */
-        hideRaysOnBlur={false}
-      />
 
       {children}
     </>
