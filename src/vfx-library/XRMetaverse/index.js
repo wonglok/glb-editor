@@ -14,6 +14,7 @@ import { meshBound } from '@react-three/drei'
 import {
   DefaultXRControllers,
   Hands,
+  Interactive,
   useInteraction,
   useXR,
 } from '@react-three/xr'
@@ -46,9 +47,11 @@ export default function XRMetaverse({
   let group = useRef()
   // let [name, setName] = useState('clicked')
   useInteraction(group, 'onSelect', (event) => {
-    console.log(event.target.name)
+    console.log(event.target?.name)
     // setName(event.target.name)
-    Core.now.goToPlace.position.copy(event.intersection.point)
+    if (event.intersection) {
+      Core.now.goToPlace.position.copy(event.intersection.point)
+    }
   })
 
   return (
@@ -94,6 +97,8 @@ export default function XRMetaverse({
                     api,
                     onDone: onDoneMap,
                     onDoneMyAvatar: onDoneMyAvatar,
+
+                    mounter: group.current,
 
                     params: {
                       firstPerson,

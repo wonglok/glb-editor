@@ -46,7 +46,7 @@ BufferGeometry.prototype.disposeBoundsTree = disposeBoundsTree
 Mesh.prototype.raycast = acceleratedRaycast
 
 export class XRMapGame extends Object3D {
-  constructor({ xrPlayer, api, params, onDone, onDoneMyAvatar }) {
+  constructor({ mounter, xrPlayer, api, params, onDone, onDoneMyAvatar }) {
     super()
     let o3d = new Object3D()
 
@@ -129,7 +129,7 @@ export class XRMapGame extends Object3D {
       let camera = new PerspectiveCamera()
       let scene = await api.ready.scene
 
-      scene.add(o3d)
+      mounter.add(o3d)
       api.onClean(() => {
         scene.remove(o3d)
         o3d.clear()
