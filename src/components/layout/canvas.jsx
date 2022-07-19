@@ -4,6 +4,7 @@ import useStore from '@/helpers/store'
 import { useEffect, useRef } from 'react'
 import { SSRPass } from 'screen-space-reflections'
 import * as POSTPROCESSING from 'postprocessing'
+import { VRCanvas } from '@react-three/xr'
 import {
   ACESFilmicToneMapping,
   Object3D,
@@ -37,7 +38,7 @@ const LCanvas = ({ children }) => {
 
   return (
     <div className='w-full h-full' id='myroot'>
-      <Canvas
+      <VRCanvas
         mode='concurrent'
         style={{
           position: 'absolute',
@@ -69,7 +70,7 @@ const LCanvas = ({ children }) => {
         {/* <Effect></Effect> */}
 
         {children}
-      </Canvas>
+      </VRCanvas>
     </div>
   )
 }
