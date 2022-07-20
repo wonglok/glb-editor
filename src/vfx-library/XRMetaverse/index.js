@@ -53,6 +53,7 @@ export default function XRMetaverse({
           if (it && canRun) {
             //
             //
+            //
 
             it.parent.getWorldPosition(wp)
             it.parent.getWorldDirection(wd)
@@ -106,9 +107,9 @@ export default function XRMetaverse({
 
   return (
     <>
-      <UIContent>
+      {/* <UIContent>
         <div className='fixed top-0 left-0 z-50 p-2 bg-white'>{name}</div>
-      </UIContent>
+      </UIContent> */}
       <Suspense fallback={null}>
         {xrPlayer && (
           <>
@@ -137,7 +138,6 @@ export default function XRMetaverse({
                 //   Core.work()
                 //   api.now.gl.render(api.now.scene, api.now.camera)
                 // })
-
                 // glow({ vfx: api })
 
                 Joy.preloadActions()
