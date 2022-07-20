@@ -136,7 +136,7 @@ export default function XRMetaverse({
 
                 // api.now.gl.setAnimationLoop(() => {
                 //   Core.work()
-                //   api.now.gl.render(api.now.scene, api.now.camera)
+                //   // api.now.gl.render(api.now.scene, api.now.camera)
                 // })
                 // glow({ vfx: api })
 
