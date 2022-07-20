@@ -54,8 +54,8 @@ export default function XRMetaverse({
             //
             //
 
-            it.getWorldPosition(wp)
-            it.getWorldDirection(wd)
+            it.parent.getWorldPosition(wp)
+            it.parent.getWorldDirection(wd)
 
             raycaster.set(wp, wd)
             raycaster.firstHitOnly = true
