@@ -46,7 +46,15 @@ BufferGeometry.prototype.disposeBoundsTree = disposeBoundsTree
 Mesh.prototype.raycast = acceleratedRaycast
 
 export class XRMapGame extends Object3D {
-  constructor({ mounter, xrPlayer, api, params, onDone, onDoneMyAvatar }) {
+  constructor({
+    casterGroup,
+    mounter,
+    xrPlayer,
+    api,
+    params,
+    onDone,
+    onDoneMyAvatar,
+  }) {
     super()
     let o3d = new Object3D()
 
@@ -493,6 +501,8 @@ export class XRMapGame extends Object3D {
           collider.material.color = new Color('#ff0000')
           collider.visible = false
 
+          casterGroup.add(collider)
+
           self.collider = collider
           api.now.collider = collider
 
@@ -508,7 +518,12 @@ export class XRMapGame extends Object3D {
 
           let beacon = new Mesh(
             new SphereBufferGeometry(0.5, 4, 1),
-            new MeshPhysicalMaterial({ color: 0xff0000, wireframe: true })
+            new MeshStandardMaterial({
+              color: 0xff0000,
+              metalness: 1,
+              roughness: 0.2,
+              wireframe: false,
+            })
           )
           beacon.scale.y = 2.0
           beacon.position.y = 1
@@ -522,15 +537,64 @@ export class XRMapGame extends Object3D {
           })
           o3d.add(Core.now.goToPlace)
 
-          let caster = () => {
+          let beaconHover0 = new Mesh(
+            new SphereBufferGeometry(0.5, 4, 1),
+            new MeshStandardMaterial({
+              color: 0x0000ff,
+              metalness: 1,
+              roughness: 0.2,
+              wireframe: false,
+            })
+          )
+          beaconHover0.scale.y = 2.0
+          beaconHover0.position.y = 1
+          Core.now.onHover0.add(beaconHover0)
+          api.onLoop((dt) => {
+            //
+            beaconHover0.rotation.y += dt
+          })
+          api.onClean(() => {
+            beaconHover0.removeFromParent()
+          })
+          o3d.add(Core.now.onHover0)
+          Core.now.onHover0.visible = true
+
+          let beaconHover1 = new Mesh(
+            new SphereBufferGeometry(0.5, 4, 1),
+            new MeshStandardMaterial({
+              color: 0x0000ff,
+              metalness: 1,
+              roughness: 0.2,
+              wireframe: false,
+            })
+          )
+          beaconHover1.scale.y = 2.0
+          beaconHover1.position.y = 1
+          Core.now.onHover1.add(beaconHover1)
+          api.onLoop((dt) => {
+            //
+            beaconHover1.rotation.y += dt
+          })
+          api.onClean(() => {
+            beaconHover1.removeFromParent()
+          })
+          o3d.add(Core.now.onHover1)
+          Core.now.onHover1.visible = true
+
+          let caster = (type = 'goTo') => {
             raycaster.setFromCamera(api.now.mouse, api.now.camera)
             raycaster.firstHitOnly = true
             let hit = raycaster.intersectObjects([collider])
             if (hit && hit[0]) {
-              Core.now.goToPlace.position.copy(hit[0].point)
-              Core.now.goToPlace.visible = true
+              if (type === 'goTo') {
+                Core.now.goToPlace.position.copy(hit[0].point)
+                Core.now.goToPlace.visible = true
+              } else if (type === 'hover') {
+                // Core.now.onHover.position.copy(hit[0].point)
+              }
             }
           }
+
           api.now.gl.domElement.addEventListener('click', (ev) => {
             caster()
           })
@@ -551,7 +615,26 @@ export class XRMapGame extends Object3D {
           Core.onLoop(() => {
             if (isDown) {
               caster()
+            } else {
+              // caster('hover')
             }
+            // if (renderer.xr.isPresenting) {
+            //   // raycaster.set()
+            //   // raycaster.firstHitOnly = true
+            //   // let hit = raycaster.intersectObjects([collider])
+            //   // if (hit && hit[0]) {
+            //   //   if (type === 'goTo') {
+            //   //     Core.now.goToPlace.position.copy(hit[0].point)
+            //   //     Core.now.goToPlace.visible = true
+            //   //   } else if (type === 'hover') {
+            //   //     Core.now.onHover.position.copy(hit[0].point)
+            //   //   }
+            //   // }
+            //   console.log(rightContoller)
+            // } else {
+            //   //
+
+            // }
           })
 
           //
@@ -694,6 +777,9 @@ export class XRMapGame extends Object3D {
 
             // diffY = lastY - player.rotation.y
 
+            Core.now.goToPlace.visible = true
+            // Core.now.onHover.visible = false
+
             diffY = 0
             ///
           } else {
@@ -704,6 +790,7 @@ export class XRMapGame extends Object3D {
             Core.now.goToPlace.position.z = player.position.z
             Core.now.avatarAct = 'standing'
             Core.now.goToPlace.visible = false
+            // Core.now.onHover.visible = true
           }
 
           //

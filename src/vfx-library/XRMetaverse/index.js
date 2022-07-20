@@ -15,10 +15,12 @@ import {
   DefaultXRControllers,
   Hands,
   Interactive,
+  useController,
   useInteraction,
   useXR,
+  useXREvent,
 } from '@react-three/xr'
-import { Object3D } from 'three'
+import { Object3D, Raycaster, Vector3 } from 'three'
 import { UIContent } from '@/vfx-core/UIContent'
 //
 export default function XRMetaverse({
@@ -33,26 +35,74 @@ export default function XRMetaverse({
   //   // Core.work()
   // }, 1000)
 
-  let { player: xrPlayer } = useXR()
+  let { player: xrPlayer, controllers } = useXR()
   // //
+
+  // console.log(controllers)
+  let group = useRef(new Object3D())
+
+  useEffect(() => {
+    let canRun = true
+    //controllers
+    if (controllers && controllers.length > 0) {
+      controllers.forEach((it, idx) => {
+        let wp = new Vector3()
+        let wd = new Vector3()
+        let raycaster = new Raycaster()
+        Core.onLoop(() => {
+          if (it && canRun) {
+            //
+            //
+
+            it.getWorldPosition(wp)
+            it.getWorldDirection(wd)
+
+            raycaster.set(wp, wd)
+            raycaster.firstHitOnly = true
+            let hit = raycaster.intersectObjects([group.current])
+            if (hit && hit[0]) {
+              if (idx === 0) {
+                hit[0].object.getWorldPosition(Core.now.onHover0.position)
+              } else if (idx === 1) {
+                hit[0].object.getWorldPosition(Core.now.onHover1.position)
+                //
+              }
+            }
+
+            //
+            //
+          }
+        })
+      })
+    }
+
+    return () => {
+      canRun = false
+    }
+  }, [controllers])
 
   useFrame(() => {
     Core.work()
   })
 
-  const { gl, camera } = useThree()
+  const { gl, camera, scene } = useThree()
 
   // const controllers = useXR((state) => state.controllers)
 
-  let group = useRef()
   // let [name, setName] = useState('clicked')
   useInteraction(group, 'onSelect', (event) => {
-    console.log(event)
     // setName(event.target.name)
     if (event.intersections && event.intersections[0]) {
       Core.now.goToPlace.position.copy(event.intersections[0].point)
     }
   })
+
+  // useInteraction(group, 'onHover', (event) => {
+  //   // setName(event.target.name)
+  //   if (event.intersections && event.intersections[0]) {
+  //     Core.now.onHover0.position.copy(event.intersections[0].point)
+  //   }
+  // })
 
   return (
     <>
@@ -68,53 +118,54 @@ export default function XRMetaverse({
               /** Whether to hide controllers' rays on blur. Default is `false` */
               hideRaysOnBlur={false}
             />
-            <group raycast={meshBound} ref={group}>
-              <TJLab
+
+            <TJLab
+              //
+              init={({ api }) => {
                 //
-                init={({ api }) => {
-                  //
-                  Core.now.canvas = api
+                Core.now.canvas = api
 
-                  Core.onLoop(() => {
-                    api.work()
-                  })
+                Core.onLoop(() => {
+                  api.work()
+                })
 
-                  lighting({
-                    api,
-                  })
+                lighting({
+                  api,
+                })
 
-                  // api.now.gl.setAnimationLoop(() => {
-                  //   Core.work()
-                  //   api.now.gl.render(api.now.scene, api.now.camera)
-                  // })
+                // api.now.gl.setAnimationLoop(() => {
+                //   Core.work()
+                //   api.now.gl.render(api.now.scene, api.now.camera)
+                // })
 
-                  // glow({ vfx: api })
+                // glow({ vfx: api })
 
-                  Joy.preloadActions()
+                Joy.preloadActions()
 
-                  new XRMapGame({
-                    xrPlayer: xrPlayer,
-                    api,
-                    onDone: onDoneMap,
-                    onDoneMyAvatar: onDoneMyAvatar,
+                new XRMapGame({
+                  xrPlayer: xrPlayer,
+                  api,
+                  onDone: onDoneMap,
+                  onDoneMyAvatar: onDoneMyAvatar,
 
-                    mounter: group.current,
+                  mounter: scene,
 
-                    params: {
-                      firstPerson,
-                      resetPosition: resetPosition,
-                      firebaseConfig: firebaseConfig,
-                      mapURL,
-                      // mapURL: `/Metaverse/places/lobby/hall-v2-v1.glb`,
-                      // mapURL: `/Metaverse/places/theatre-large/theatre-larger-one-v1.glb`,
-                      // mapURL: `/Metaverse/places/tvstudio/tv-studio-v1.glb`,
-                      // mapURL: `/Metaverse/places/theatre-small/low-res-cinema-v1.glb`,
-                      // mapURL: `/Metaverse/places/dome/dome.glb`,
-                    },
-                  })
-                }}
-              ></TJLab>
-            </group>
+                  casterGroup: group.current,
+
+                  params: {
+                    firstPerson,
+                    resetPosition: resetPosition,
+                    firebaseConfig: firebaseConfig,
+                    mapURL,
+                    // mapURL: `/Metaverse/places/lobby/hall-v2-v1.glb`,
+                    // mapURL: `/Metaverse/places/theatre-large/theatre-larger-one-v1.glb`,
+                    // mapURL: `/Metaverse/places/tvstudio/tv-studio-v1.glb`,
+                    // mapURL: `/Metaverse/places/theatre-small/low-res-cinema-v1.glb`,
+                    // mapURL: `/Metaverse/places/dome/dome.glb`,
+                  },
+                })
+              }}
+            ></TJLab>
           </>
         )}
       </Suspense>
