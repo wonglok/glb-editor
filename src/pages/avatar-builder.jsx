@@ -33,17 +33,17 @@ const LCanvas = dynamic(() => import('@/components/layout/canvas'), {
 // dom components goes here
 const Page = (props) => {
   return (
-    <LCanvas>
-      <Head>
-        <title>Open Multiverse</title>
-      </Head>
-    </LCanvas>
+    <Head>
+      <title>Open Multiverse</title>
+    </Head>
   )
 }
 
 Page.r3f = (props) => (
   <>
-    <AvatarPlace></AvatarPlace>
+    <LCanvas>
+      <AvatarPlace></AvatarPlace>
+    </LCanvas>
   </>
 )
 
