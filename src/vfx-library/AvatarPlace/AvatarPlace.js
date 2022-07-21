@@ -8,22 +8,21 @@ import {
   useGLTF,
 } from '@react-three/drei'
 import { useFrame } from '@react-three/fiber'
-import { useRouter } from 'next/router'
-import { Suspense, useEffect, useRef, useState } from 'react'
-import { Color, MeshStandardMaterial, Object3D, SkinnedMesh } from 'three'
+import { useEffect, useRef, useState } from 'react'
 import { clone } from 'three/examples/jsm/utils/SkeletonUtils'
 import { HDR } from './HDR'
 
+// import { useRouter } from 'next/router'
+// import { Color, MeshStandardMaterial, Object3D, SkinnedMesh } from 'three'
 // import {
 //   prune,
 //   dedup,
 //   resample,
 //   textureResize,
 // } from '@gltf-transform/functions'
-
-// //
 // import { WebIO } from '@gltf-transform/core'
 // import { DracoMeshCompression } from '@gltf-transform/extensions'
+
 import { Core } from '@/vfx-core/Core'
 
 // import { Core } from 'vfx/layout/Core'
@@ -88,11 +87,21 @@ function AvatarContent() {
           async function (gltf) {
             //
 
-            // let rawBlob = new Blob([gltf], {
-            //   type: 'application/octet-stream',
-            // })
+            // let { WebIO } = await import('@gltf-transform/core')
 
-            // let rawUrl = URL.createObjectURL(rawBlob)
+            // let { prune, dedup, resample, textureResize } = await import(
+            //   '@gltf-transform/functions'
+            // )
+
+            // let { DracoMeshCompression } = await import(
+            //   '@gltf-transform/extensions'
+            // )
+
+            // // let rawBlob = new Blob([gltf], {
+            // //   type: 'application/octet-stream',
+            // // })
+
+            // // let rawUrl = URL.createObjectURL(rawBlob)
 
             // const io = new WebIO({
             //   mode: 'cors',
@@ -100,16 +109,16 @@ function AvatarContent() {
             // })
 
             // let glbDocument = await io.readBinary(new Uint8Array(gltf))
-            // // let glbDocument = await io.read(rawUrl)
+            // // // let glbDocument = await io.read(rawUrl)
 
-            // /**
-            //  * simple_pipeline.js
-            //  *
-            //  * Short example of an glTF optimization pipeline implemented with
-            //  * the glTF-Transform (https://gltf-transform.donmccurdy.com/) API.
-            //  * Other common problems — e.g. high vertex or draw counts — may
-            //  * require working in other tools, like gltfpack or Blender.
-            //  */
+            // // /**
+            // //  * simple_pipeline.js
+            // //  *
+            // //  * Short example of an glTF optimization pipeline implemented with
+            // //  * the glTF-Transform (https://gltf-transform.donmccurdy.com/) API.
+            // //  * Other common problems — e.g. high vertex or draw counts — may
+            // //  * require working in other tools, like gltfpack or Blender.
+            // //  */
 
             // await glbDocument.transform(
             //   // Remove duplicate vertex or texture data, if any.
@@ -135,13 +144,13 @@ function AvatarContent() {
             //   })
 
             // let newBin = await io.writeBinary(glbDocument)
-            // let newBin = gltf
+            // // let newBin = gltf
 
-            let newFile = new Blob([gltf], {
-              type: 'application/octet-stream',
-            })
+            // let newFile = new Blob([newBin], {
+            //   type: 'application/octet-stream',
+            // })
 
-            let newURL = URL.createObjectURL(newFile)
+            let newURL = URL.createObjectURL(gltf)
 
             let ahr = document.createElement('a')
             ahr.href = newURL
