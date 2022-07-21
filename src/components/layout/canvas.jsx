@@ -1,17 +1,17 @@
 import { Canvas, useFrame, useThree } from '@react-three/fiber'
 import { OrbitControls, Preload } from '@react-three/drei'
-import useStore from '@/helpers/store'
-import { useEffect, useRef } from 'react'
-import { SSRPass } from 'screen-space-reflections'
-import * as POSTPROCESSING from 'postprocessing'
-import { VRCanvas } from '@react-three/xr'
-import {
-  ACESFilmicToneMapping,
-  Object3D,
-  sRGBEncoding,
-  Vector3,
-  WebGLRenderer,
-} from 'three'
+// import useStore from '@/helpers/store'
+// import { useEffect, useRef } from 'react'
+// import { SSRPass } from 'screen-space-reflections'
+// import * as POSTPROCESSING from 'postprocessing'
+// import { VRCanvas } from '@react-three/xr'
+// import {
+//   ACESFilmicToneMapping,
+//   Object3D,
+//   sRGBEncoding,
+//   Vector3,
+//   WebGLRenderer,
+// } from 'three'
 // import { Core } from '@/vfx-core/Core'
 
 // const LControl = () => {
@@ -34,7 +34,7 @@ import {
 // }
 
 const LCanvas = ({ children, MyVRCanvas = Canvas }) => {
-  const dom = useStore((state) => state.dom)
+  // const dom = useStore((state) => state.dom)
 
   return (
     <div className='w-full h-full' id='myroot'>
