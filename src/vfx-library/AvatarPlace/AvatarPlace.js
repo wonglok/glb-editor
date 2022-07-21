@@ -28,8 +28,6 @@ import { Core } from '@/vfx-core/Core'
 
 // import { Core } from 'vfx/layout/Core'
 export function AvatarPlace() {
-  let url = new URL(location.href)
-
   let time = useRef(0)
 
   useFrame(({ clock }) => {
