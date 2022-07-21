@@ -2,6 +2,7 @@ import Shader from '@/components/canvas/Shader/Shader'
 import { ENLogicGraphAutoLoad } from '@/vfx-runtime/ENLogicGraph'
 import { useXR, VRCanvas } from '@react-three/xr'
 import { HomePageGraphID } from 'firebase.config'
+import dynamic from 'next/dynamic'
 import { useEffect } from 'react'
 // import { Box } from '@react-three/drei'
 

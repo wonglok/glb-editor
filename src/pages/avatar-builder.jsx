@@ -12,6 +12,7 @@ import Head from 'next/head'
 // import { PerspectiveCamera, Vector2 } from 'three'
 import { AvatarPlace } from '@/vfx-library/AvatarPlace/AvatarPlace'
 // import dynamic from 'next/dynamic'
+import dynamic from 'next/dynamic'
 
 // import Shader from '@/components/canvas/Shader/Shader'
 
