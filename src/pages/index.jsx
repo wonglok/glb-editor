@@ -11,6 +11,7 @@ import { useEffect } from 'react'
 import { Core } from '@/vfx-core/Core'
 import { Box } from '@react-three/drei'
 import { PerspectiveCamera, Vector2 } from 'three'
+import { VRCanvas } from '@react-three/xr'
 
 // import Shader from '@/components/canvas/Shader/Shader'
 
@@ -41,7 +42,7 @@ const Page = (props) => {
 
 Page.r3f = (props) => (
   <>
-    <LCanvas>
+    <LCanvas MyVRCanvas={VRCanvas}>
       {/* openverse landing page */}
       {/* <ButtonVR></ButtonVR>
     <CoreVR></CoreVR> */}

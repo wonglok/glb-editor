@@ -3,6 +3,8 @@ import dynamic from 'next/dynamic'
 import Instructions from '@/components/dom/Instructions'
 import Head from 'next/head'
 import { ENLogicGraphAutoLoad } from '@/vfx-runtime/ENLogicGraph'
+import { VRCanvas } from '@react-three/xr'
+
 // import { Canvas } from '@react-three/fiber'
 // import { BGColor } from '@/vfx-library/Generic/BG'
 // import Shader from '@/components/canvas/Shader/Shader'
@@ -38,7 +40,7 @@ Page.r3f = (props) => {
   let url = typeof window !== 'undefined' ? new URL(location.href) : null
 
   return (
-    <LCanvas>
+    <LCanvas MyVRCanvas={VRCanvas}>
       {/* Landing Page WebGL */}
       {url && (
         <ENLogicGraphAutoLoad
