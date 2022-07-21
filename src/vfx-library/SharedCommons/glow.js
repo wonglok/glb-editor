@@ -120,7 +120,7 @@ export async function glow({ vfx }) {
   const finalComposer = new EffectComposer(gl)
   finalComposer.addPass(renderPass)
 
-  finalComposer.renderToScreen = false
+  finalComposer.renderToScreen = true
 
   vfx.now.finalComposer = finalComposer
 
@@ -230,40 +230,41 @@ export async function glow({ vfx }) {
     drunkMode.value = Core.now.drunkMode === true ? 1.0 : 0.0
   })
 
-  let finalShader = new ShaderMaterial({
-    transparent: true,
-    uniforms: {
-      baseTexture: { value: null },
-      bloomTexture: {
-        value: bloomComposer.renderTarget2.texture,
+  const finalPass = new ShaderPass(
+    new ShaderMaterial({
+      transparent: true,
+      uniforms: {
+        baseTexture: { value: null },
+        bloomTexture: {
+          value: bloomComposer.renderTarget2.texture,
+        },
+        hud: {
+          value: new TextureLoader().load(`/postproc/hud.png`, (t) => {
+            t.encoding = sRGBEncoding
+            window.dispatchEvent(new CustomEvent('resize'))
+          }),
+        },
+        dudv: {
+          // public
+          value: new TextureLoader().load(`/postproc/NormalMap.png`, (t) => {
+            // value: new TextureLoader().load(`/postproc/NormalMap.png`, (t) => {
+            t.encoding = sRGBEncoding
+            t.wrapS = t.wrapT = RepeatWrapping
+          }),
+        },
+        drunkMode,
+        energyMode,
+        time,
+        resolution,
       },
-      hud: {
-        value: new TextureLoader().load(`/postproc/hud.png`, (t) => {
-          t.encoding = sRGBEncoding
-          window.dispatchEvent(new CustomEvent('resize'))
-        }),
-      },
-      dudv: {
-        // public
-        value: new TextureLoader().load(`/postproc/NormalMap.png`, (t) => {
-          // value: new TextureLoader().load(`/postproc/NormalMap.png`, (t) => {
-          t.encoding = sRGBEncoding
-          t.wrapS = t.wrapT = RepeatWrapping
-        }),
-      },
-      drunkMode,
-      energyMode,
-      time,
-      resolution,
-    },
-    vertexShader: /* glsl */ `
+      vertexShader: /* glsl */ `
           varying vec2 vUv;
           void main() {
             vUv = uv;
             gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );
           }
         `,
-    fragmentShader: /* glsl */ `
+      fragmentShader: /* glsl */ `
       uniform highp sampler2D baseTexture;
       uniform highp sampler2D bloomTexture;
       uniform sampler2D hud;
@@ -362,13 +363,10 @@ export async function glow({ vfx }) {
 
           }
         `,
-    defines: {},
-  })
-
-  Core.now.finalShader = finalShader
-
-  const finalPass = new ShaderPass(finalShader, 'baseTexture')
-
+      defines: {},
+    }),
+    'baseTexture'
+  )
   //
 
   finalPass.needsSwap = true

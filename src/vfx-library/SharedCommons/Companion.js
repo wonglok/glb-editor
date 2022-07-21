@@ -16,7 +16,7 @@ export class Companion extends Object3D {
       speedFactor: 1,
       Settings: parent.params,
       collider: parent.collider,
-      scene: parent.o3d,
+      scene: parent.o3d || parent,
       chaseDistance: 2,
     })
 
@@ -39,7 +39,7 @@ export class Companion extends Object3D {
         lastURL = url
         cleanUser()
         let avatar = new AvatarNPCSKin({
-          scene: parent.o3d,
+          scene: parent.o3d || parent,
           chaser,
           avatarURL: url,
         })

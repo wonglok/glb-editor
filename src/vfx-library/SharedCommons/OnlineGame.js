@@ -103,6 +103,7 @@ export class OnlineGame {
       let snap = await get(refUserProfile)
       let myself = snap.exportVal()
 
+      // init create
       if (myself === null) {
         set(refUserProfile, {
           //
@@ -124,6 +125,7 @@ export class OnlineGame {
         api.now.myAvatarURL = ''
       }
 
+      // sync into server
       let lastMyAvatarURL = ''
       setInterval(() => {
         //
@@ -137,6 +139,7 @@ export class OnlineGame {
         }
       })
 
+      // update user client
       onValue(refUserProfile, async (snap) => {
         let me = snap.exportVal()
 

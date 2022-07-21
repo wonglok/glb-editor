@@ -34,7 +34,7 @@ export class MapGame extends Object3D {
     Core.now.renderMode = 'loading'
 
     let o3d = new Object3D()
-
+    this.o3d = o3d
     this.add(o3d)
     //
     let DefaultAvatar = `/Metaverse/avatar/default-npc.glb`
@@ -128,7 +128,12 @@ export class MapGame extends Object3D {
       resetPlayer({ position: Settings.resetPosition })
       onSwitchCam(Settings.firstPerson)
 
-      new Companion({ api, parent: self, chase: player })
+      let ttc = setInterval(() => {
+        if (self.collider) {
+          clearInterval(ttc)
+          new Companion({ api, parent: self, chase: player })
+        }
+      })
 
       window.addEventListener('keydown', function (e) {
         switch (e.code) {

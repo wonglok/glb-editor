@@ -24,6 +24,9 @@ const firebaseConfig = {
 /// CMS Graph ID
 const HomePageGraphID = '-N7AxPc4xiB2DP9pUCZh'
 
-const AdminEmail = ['yellowhappy831@gmail.com']
+const AdminEmail = [
+  //
+  'yellowhappy831@gmail.com',
+]
 
 export { firebaseConfig, HomePageGraphID, AdminEmail }
