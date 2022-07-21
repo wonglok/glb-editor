@@ -146,11 +146,11 @@ function AvatarContent() {
             // let newBin = await io.writeBinary(glbDocument)
             // // let newBin = gltf
 
-            // let newFile = new Blob([newBin], {
-            //   type: 'application/octet-stream',
-            // })
+            let newFile = new Blob([gltf], {
+              type: 'application/octet-stream',
+            })
 
-            let newURL = URL.createObjectURL(gltf)
+            let newURL = URL.createObjectURL(newFile)
 
             let ahr = document.createElement('a')
             ahr.href = newURL
