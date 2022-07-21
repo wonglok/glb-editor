@@ -123,7 +123,9 @@ export class MapGame extends Object3D {
         radius: 0.5,
         segment: new Line3(new Vector3(), new Vector3(0, -1.0, 0.0)),
       }
+
       // player.visible = true;
+
       o3d.add(player)
       resetPlayer({ position: Settings.resetPosition })
       onSwitchCam(Settings.firstPerson)
