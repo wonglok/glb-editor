@@ -104,11 +104,10 @@ export default function XRMetaverse({
   //     Core.now.onHover0.position.copy(event.intersections[0].point)
   //   }
   // })
-
   //
   /*
 
-  https://effectnode-2022.s3.ap-southeast-1.amazonaws.com/multiverse/production/manual/v2120nyc-v1.glb
+  https://dhjz4fdyjzwki.cloudfront.net/multiverse/production/manual/v2120nyc-v1.glb
 
   https://dhjz4fdyjzwki.cloudfront.net/multiverse/production/manual/NYC_Expo_19-v1.glb
 
