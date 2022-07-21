@@ -6,9 +6,9 @@ import Dom from '@/components/layout/dom'
 import '@/styles/index.css'
 import dynamic from 'next/dynamic'
 
-const LCanvas = dynamic(() => import('@/components/layout/canvas'), {
-  ssr: false,
-})
+// const LCanvas = dynamic(() => import('@/components/layout/canvas'), {
+//   ssr: false,
+// })
 
 function App({ Component, pageProps = { title: 'index' } }) {
   const router = useRouter()
@@ -23,7 +23,8 @@ function App({ Component, pageProps = { title: 'index' } }) {
       <Dom>
         <Component {...pageProps} />
       </Dom>
-      {Component?.r3f && <LCanvas>{Component.r3f(pageProps)}</LCanvas>}
+
+      {Component?.r3f && <>{Component.r3f(pageProps)}</>}
     </>
   )
 }

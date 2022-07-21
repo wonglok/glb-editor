@@ -26,14 +26,17 @@ import { AvatarPlace } from '@/vfx-library/AvatarPlace/AvatarPlace'
 /* <ButtonVR></ButtonVR> */
 /* <Instructions /> */
 
+const LCanvas = dynamic(() => import('@/components/layout/canvas'), {
+  ssr: false,
+})
 // dom components goes here
 const Page = (props) => {
   return (
-    <>
+    <LCanvas>
       <Head>
         <title>Open Multiverse</title>
       </Head>
-    </>
+    </LCanvas>
   )
 }
 

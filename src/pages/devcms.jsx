@@ -15,6 +15,10 @@ const Shader = dynamic(() => import('@/components/canvas/Shader/Shader'), {
   ssr: false,
 })
 
+const LCanvas = dynamic(() => import('@/components/layout/canvas'), {
+  ssr: false,
+})
+
 // dom components goes here
 const Page = (props) => {
   return (
@@ -33,14 +37,14 @@ Page.r3f = (props) => {
   let url = typeof window !== 'undefined' ? new URL(location.href) : null
 
   return (
-    <>
+    <LCanvas>
       {/* Landing Page WebGL */}
       {url && (
         <ENLogicGraphAutoLoad
           graphID={url.searchParams.get('graphID')}
         ></ENLogicGraphAutoLoad>
       )}
-    </>
+    </LCanvas>
   )
 }
 

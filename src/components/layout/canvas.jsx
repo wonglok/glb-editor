@@ -33,12 +33,12 @@ import {
 //   return <OrbitControls ref={control} domElement={dom.current} />
 // }
 
-const LCanvas = ({ children }) => {
+const LCanvas = ({ children, MyVRCanvas = Canvas }) => {
   const dom = useStore((state) => state.dom)
 
   return (
     <div className='w-full h-full' id='myroot'>
-      <VRCanvas
+      <MyVRCanvas
         mode='concurrent'
         style={{
           position: 'absolute',
@@ -70,7 +70,7 @@ const LCanvas = ({ children }) => {
         {/* <Effect></Effect> */}
 
         {children}
-      </VRCanvas>
+      </MyVRCanvas>
     </div>
   )
 }

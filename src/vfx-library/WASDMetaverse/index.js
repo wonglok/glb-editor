@@ -40,6 +40,8 @@ export default function WASDMetaverse({
               api.work()
             })
 
+            //
+
             lighting({
               api,
             })

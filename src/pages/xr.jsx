@@ -5,12 +5,16 @@ import { HomePageGraphID } from 'firebase.config'
 import { useEffect } from 'react'
 // import { Box } from '@react-three/drei'
 
+const LCanvas = dynamic(() => import('@/components/layout/canvas'), {
+  ssr: false,
+})
+
 export default function Page() {
   return (
     <>
-      <VRCanvas>
+      <LCanvas>
         <Content></Content>
-      </VRCanvas>
+      </LCanvas>
     </>
   )
 }

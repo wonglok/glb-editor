@@ -22,6 +22,10 @@ const Shader = dynamic(() => import('@/components/canvas/Shader/Shader'), {
   ssr: false,
 })
 
+const LCanvas = dynamic(() => import('@/components/layout/canvas'), {
+  ssr: false,
+})
+
 // dom components goes here
 const Page = (props) => {
   return (
@@ -37,12 +41,14 @@ const Page = (props) => {
 
 Page.r3f = (props) => (
   <>
-    {/* openverse landing page */}
-    {/* <ButtonVR></ButtonVR>
+    <LCanvas>
+      {/* openverse landing page */}
+      {/* <ButtonVR></ButtonVR>
     <CoreVR></CoreVR> */}
 
-    {/*  */}
-    <ENLogicGraphAutoLoad graphID={HomePageGraphID}></ENLogicGraphAutoLoad>
+      {/*  */}
+      <ENLogicGraphAutoLoad graphID={HomePageGraphID}></ENLogicGraphAutoLoad>
+    </LCanvas>
   </>
 )
 
