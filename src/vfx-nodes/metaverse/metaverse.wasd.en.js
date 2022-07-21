@@ -1,6 +1,5 @@
 import WASDMetaverse from '@/vfx-library/WASDMetaverse'
 import { MapGame } from '@/vfx-library/WASDMetaverse/MapGame'
-
 import { getID } from '@/vfx-runtime/ENUtils'
 
 export async function nodeData({ defaultData, nodeID }) {
