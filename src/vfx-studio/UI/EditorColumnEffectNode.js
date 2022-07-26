@@ -1,6 +1,6 @@
 import { Canvas } from '@react-three/fiber'
-import { EffectNodeEditor } from 'vfx-studio/effectnode/Editor/EffectNodeEditor/EffectNodeEditor'
-import { useAccessor } from 'vfx-studio/store/use-accessor'
+import { EffectNodeEditor } from '@/vfx-studio/effectnode/Editor/EffectNodeEditor/EffectNodeEditor'
+import { useAccessor } from '@/vfx-studio/store/use-accessor'
 
 export function EditorColumnEffectNode() {
   let layout = useAccessor((s) => s.layout)

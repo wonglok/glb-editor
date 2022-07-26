@@ -5,7 +5,7 @@ import {
   updateGLBBinary,
   loadMetadataByFileID,
   renameGLB,
-} from 'vfx-studio/shared/storage'
+} from '@/vfx-studio/shared/storage'
 import create from 'zustand'
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'

@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { useENEditor } from 'vfx-studio/store/use-en-editor'
+import { useENEditor } from '@/vfx-studio/store/use-en-editor'
 
 export function EffectNodeObjectNode({
   mini,

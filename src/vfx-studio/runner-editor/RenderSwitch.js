@@ -1,5 +1,5 @@
 import { useFrame } from '@react-three/fiber'
-// import { useAccessor } from 'vfx-studio/store/use-accessor'
+// import { useAccessor } from '@/vfx-studio/store/use-accessor'
 
 export function RenderSwitch() {
   ///

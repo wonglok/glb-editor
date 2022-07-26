@@ -8,7 +8,7 @@ import {
   // MeshStandardMaterial,
 } from 'three'
 import { Color } from 'three140'
-import { useAccessor } from 'vfx-studio/store/use-accessor'
+import { useAccessor } from '@/vfx-studio/store/use-accessor'
 
 export function MeshMaterialEditor() {
   let selectedMeshes = useAccessor((s) => s.selectedMeshes) || []
@@ -160,7 +160,7 @@ function Details({ mesh }) {
   //
   return (
     <div className='bg-white'>
-      <div className='py-2 text-center bg-green-300 text-xs '>{mesh.name}</div>
+      <div className='py-2 text-xs text-center bg-green-300'>{mesh.name}</div>
       <div className='p-2'>
         <div ref={refDiv}></div>
       </div>

@@ -1,5 +1,5 @@
 import { useRef } from 'react'
-import { useAccessor } from 'vfx-studio/store/use-accessor'
+import { useAccessor } from '@/vfx-studio/store/use-accessor'
 import { useThree } from '@react-three/fiber'
 import { HDRTex } from './HDRTex'
 import { OrbitControls, Select } from '@react-three/drei'

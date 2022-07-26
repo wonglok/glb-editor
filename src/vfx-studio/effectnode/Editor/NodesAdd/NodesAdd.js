@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useENEditor } from 'vfx-studio/store/use-en-editor'
+import { useENEditor } from '@/vfx-studio/store/use-en-editor'
 
 export function NodesAdd() {
   let setOverlay = useENEditor((s) => s.setOverlay)
@@ -26,7 +26,7 @@ export function NodesAdd() {
               width: `100%`,
               height: `100%`,
             }}
-            className='  backdrop-blur-lg rounded-xl shadow-xl'
+            className='shadow-xl backdrop-blur-lg rounded-xl'
             onClick={() => {
               setOverlay(false)
             }}
@@ -43,9 +43,9 @@ export function NodesAdd() {
               height: `400px`,
               overflow: 'scroll',
             }}
-            className='bg-yellow-400 border border-yellow-500 rounded-xl shadow-xl'
+            className='bg-yellow-400 border border-yellow-500 shadow-xl rounded-xl'
           >
-            <div className='p-2  bg-yellow-300 text-xl  text-center rounded-t-xl border-yellow-500 border-b'>
+            <div className='p-2 text-xl text-center bg-yellow-300 border-b border-yellow-500 rounded-t-xl'>
               Please Select a Node
             </div>
             <textarea
@@ -66,7 +66,7 @@ export function NodesAdd() {
                   setStr(ev.target.value || '')
                 }
               }}
-              className='p-2 -mb-2 w-full hover:bg-yellow-100  cursor-pointer  bg-white border-b border-yellow-500  '
+              className='w-full p-2 -mb-2 bg-white border-b border-yellow-500 cursor-pointer hover:bg-yellow-100'
             ></textarea>
 
             {codes &&
@@ -81,7 +81,7 @@ export function NodesAdd() {
                         addCode({ codeID: code.title })
                       }}
                       key={code.key}
-                      className='p-2 hover:bg-yellow-100  cursor-pointer  bg-white border-b border-yellow-500  '
+                      className='p-2 bg-white border-b border-yellow-500 cursor-pointer hover:bg-yellow-100'
                     >
                       {code.title}
                     </div>
@@ -91,7 +91,7 @@ export function NodesAdd() {
                         addCode({ codeID: code.title })
                       }}
                       key={code.key}
-                      className='p-2 hover:bg-yellow-100  cursor-pointer  bg-yellow-200 border-b border-yellow-500  '
+                      className='p-2 bg-yellow-200 border-b border-yellow-500 cursor-pointer hover:bg-yellow-100'
                     >
                       {code.title}
                     </div>
@@ -107,7 +107,7 @@ export function NodesAdd() {
               height: `50px`,
               borderRadius: '100%',
             }}
-            className='bg-red-500 text-white rounded-xl shadow-xl cursor-pointer'
+            className='text-white bg-red-500 shadow-xl cursor-pointer rounded-xl'
             onClick={() => {
               setOverlay(false)
             }}

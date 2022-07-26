@@ -5,7 +5,7 @@ import { LineGeometry } from 'three140/examples/jsm/lines/LineGeometry'
 import { LineMaterial } from 'three140/examples/jsm/lines/LineMaterial'
 // import { LineGeometry } from "three140/examples/jsm/lines/LineGeometry";
 import { Line2 } from 'three140/examples/jsm/lines/Line2'
-import { useENEditor } from 'vfx-studio/store/use-en-editor'
+import { useENEditor } from '@/vfx-studio/store/use-en-editor'
 import { useFrame } from '@react-three/fiber'
 
 //

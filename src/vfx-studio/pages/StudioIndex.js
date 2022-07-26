@@ -1,11 +1,11 @@
+import { Core } from '@/vfx-core/Core'
 import { useRouter } from 'next/router'
-import { Core } from 'vfx-core/Core'
-import { getID } from 'vfx-runtime/ENUtils'
+import { getID } from '@/vfx-runtime/ENUtils'
 
-import { Slug } from 'vfx-studio/shared/slug'
-import { writeGLB } from 'vfx-studio/shared/storage'
-import { FileInput } from 'vfx-studio/UI/FileInput'
-import { MyFiles } from 'vfx-studio/UI/MyFiles'
+import { Slug } from '@/vfx-studio/shared/slug'
+import { writeGLB } from '@/vfx-studio/shared/storage'
+import { FileInput } from '@/vfx-studio/UI/FileInput'
+import { MyFiles } from '@/vfx-studio/UI/MyFiles'
 
 export default function StudioHome() {
   let router = useRouter()

@@ -42,8 +42,8 @@ import { Core } from '@/vfx-core/Core.js'
 // import { PerspectiveCamera } from 'three'
 // import { OrthographicCamera } from 'three'
 // import { PlaneGeometry } from 'three'
-// import { GeoShader } from 'vfx-library/GeoShader/GeoShader.js'
-// import { TheVortex } from 'vfx-library/TheVortex/TheVortex.js'
+// import { GeoShader } from '@/vfx-library/GeoShader/GeoShader.js'
+// import { TheVortex } from '@/vfx-library/TheVortex/TheVortex.js'
 //
 
 export const ENTIRE_SCENE = 0

@@ -1,7 +1,7 @@
 import { RoundedBox } from '@react-three/drei'
 import { Vector3 } from 'three140'
-import { getID } from 'vfx-runtime/ENUtils'
-import { useENEditor } from 'vfx-studio/store/use-en-editor'
+import { getID } from '@/vfx-runtime/ENUtils'
+import { useENEditor } from '@/vfx-studio/store/use-en-editor'
 
 export function MyIO({ io, idx, node, socket, e, total }) {
   let draggingIOID = useENEditor((s) => s.draggingIOID)

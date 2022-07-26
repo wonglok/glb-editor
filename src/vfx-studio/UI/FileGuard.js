@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
-import { loadMetadataByFileID } from 'vfx-studio/shared/storage'
+import { loadMetadataByFileID } from '@/vfx-studio/shared/storage'
 
 export function FileGuard({ fileID, children }) {
   let [valid, setValid] = useState(null)

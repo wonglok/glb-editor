@@ -1,7 +1,7 @@
 import { Sphere } from '@react-three/drei'
 import { createPortal, useFrame } from '@react-three/fiber'
 import { useRef } from 'react'
-import { useENEditor } from 'vfx-studio/store/use-en-editor'
+import { useENEditor } from '@/vfx-studio/store/use-en-editor'
 
 export function AddItemCurosr() {
   let cursorMode = useENEditor((s) => s.cursorMode)

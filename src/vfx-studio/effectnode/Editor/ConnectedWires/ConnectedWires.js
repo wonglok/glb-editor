@@ -1,4 +1,4 @@
-import { useENEditor } from 'vfx-studio/store/use-en-editor'
+import { useENEditor } from '@/vfx-studio/store/use-en-editor'
 import { SingleWire } from './SingleWire'
 
 export function ConnectedWires() {

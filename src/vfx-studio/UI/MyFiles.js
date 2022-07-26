@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react'
-import { Core } from 'vfx-core/Core'
-import { getID } from 'vfx-runtime/ENUtils'
+import { Core } from '@/vfx-core/Core'
+import { getID } from '@/vfx-runtime/ENUtils'
 import {
   GLBMetadata,
   loadFilesMetadata,
   removeGLB,
   renameGLB,
-} from 'vfx-studio/shared/storage'
+} from '@/vfx-studio/shared/storage'
 
 export function MyFiles({ onOpen = () => {} }) {
   Core.react.reloadFileList
@@ -44,7 +44,7 @@ export function MyFiles({ onOpen = () => {} }) {
                     }}
                   ></textarea>
                   <button
-                    className='p-2 bg-blue-200 mr-1'
+                    className='p-2 mr-1 bg-blue-200'
                     onClick={() => {
                       //
                       onOpen(file)
@@ -54,7 +54,7 @@ export function MyFiles({ onOpen = () => {} }) {
                   </button>
 
                   <button
-                    className='p-2 bg-red-200 mr-1'
+                    className='p-2 mr-1 bg-red-200'
                     onClick={() => {
                       if (window.confirm('remove??')) {
                         removeGLB(file.fileID)

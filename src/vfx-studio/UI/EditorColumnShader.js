@@ -1,4 +1,4 @@
-import { useAccessor } from 'vfx-studio/store/use-accessor'
+import { useAccessor } from '@/vfx-studio/store/use-accessor'
 import { GLSLEditor } from './GLSLEditor'
 
 export function EditorColumnShader() {
@@ -11,13 +11,13 @@ export function EditorColumnShader() {
   return (
     <>
       {layout === 'shader' && (
-        <div className='w-1/2 h-full flex flex-col'>
+        <div className='flex flex-col w-1/2 h-full'>
           <div
-            className='w-full bg-blue-200 flex items-center'
+            className='flex items-center w-full bg-blue-200'
             style={{ height: '50px' }}
           >
             <button
-              className='m-1 ml-2 p-2 px-3 bg-white'
+              className='p-2 px-3 m-1 ml-2 bg-white'
               onClick={() => {
                 //
               }}
@@ -27,7 +27,7 @@ export function EditorColumnShader() {
             {/*  */}
             {/*  */}
             <button
-              className='m-1 p-2 px-3 bg-white'
+              className='p-2 px-3 m-1 bg-white'
               onClick={() => {
                 //
               }}

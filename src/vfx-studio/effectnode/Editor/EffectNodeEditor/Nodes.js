@@ -1,6 +1,6 @@
 import { Box, Select } from '@react-three/drei'
 import { ErrorBoundary } from '@react-three/fiber'
-import { useENEditor } from 'vfx-studio/store/use-en-editor'
+import { useENEditor } from '@/vfx-studio/store/use-en-editor'
 import { NodeSingle } from './NodeSingle'
 
 export function Nodes() {

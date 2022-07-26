@@ -1,4 +1,4 @@
-import { useAccessor } from 'vfx-studio/store/use-accessor'
+import { useAccessor } from '@/vfx-studio/store/use-accessor'
 
 export function TitleButton() {
   let glbMetadata = useAccessor((s) => s.glbMetadata)
@@ -10,7 +10,7 @@ export function TitleButton() {
     <div>
       {glbMetadata && (
         <textarea
-          className='block w-full text-center bg-blue-500 text-white text-xs p-2'
+          className='block w-full p-2 text-xs text-center text-white bg-blue-500'
           rows={1}
           key={glbMetadata.fileID}
           defaultValue={glbMetadata.name}

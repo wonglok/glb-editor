@@ -1,5 +1,5 @@
-import { useAccessor } from 'vfx-studio/store/use-accessor'
-import { Exporter } from 'vfx-studio/store/use-exporter'
+import { useAccessor } from '@/vfx-studio/store/use-accessor'
+import { Exporter } from '@/vfx-studio/store/use-exporter'
 
 export function DownloadButton() {
   let glb = useAccessor((s) => s.glbObject)
@@ -9,7 +9,7 @@ export function DownloadButton() {
   return (
     <div>
       <button
-        className='block w-full text-xs text-center py-2 bg-gray-100'
+        className='block w-full py-2 text-xs text-center bg-gray-100'
         onClick={(ev) => {
           ev.target.innerText = 'Optimising, Saving....'
           Exporter.download({
@@ -30,7 +30,7 @@ export function DownloadButton() {
       {/*  */}
       {/*  */}
       <button
-        className='block w-full text-xs text-center py-2 bg-gray-200'
+        className='block w-full py-2 text-xs text-center bg-gray-200'
         onClick={(ev) => {
           ev.target.innerText = 'Optimising, Exporting....'
           Exporter.download({

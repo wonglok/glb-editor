@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router'
-import { Slug } from 'vfx-studio/shared/slug'
-import { useAccessor } from 'vfx-studio/store/use-accessor'
-import { Exporter } from 'vfx-studio/store/use-exporter'
+import { Slug } from '@/vfx-studio/shared/slug'
+import { useAccessor } from '@/vfx-studio/store/use-accessor'
+import { Exporter } from '@/vfx-studio/store/use-exporter'
 
 export function BackButton() {
   let router = useRouter()
@@ -13,7 +13,7 @@ export function BackButton() {
   return (
     <div>
       <button
-        className='block w-full text-center py-2 text-xs bg-gray-200'
+        className='block w-full py-2 text-xs text-center bg-gray-200'
         onClick={(ev) => {
           //
           //

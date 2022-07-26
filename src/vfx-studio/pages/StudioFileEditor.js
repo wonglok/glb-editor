@@ -1,8 +1,8 @@
 import { useRouter } from 'next/router'
 import { useEffect } from 'react'
-import { useAccessor } from 'vfx-studio/store/use-accessor'
-import { FileGuard } from 'vfx-studio/UI/FileGuard'
-import { GLBEditor } from 'vfx-studio/UI/GLBEditor'
+import { useAccessor } from '@/vfx-studio/store/use-accessor'
+import { FileGuard } from '@/vfx-studio/UI/FileGuard'
+import { GLBEditor } from '@/vfx-studio/UI/GLBEditor'
 
 export default function StudioFileEditor() {
   let {

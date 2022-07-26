@@ -1,7 +1,7 @@
 import { Box, RoundedBox, Text } from '@react-three/drei'
 import { useFrame } from '@react-three/fiber'
 import { Suspense, useMemo, useRef } from 'react'
-import { useENEditor } from 'vfx-studio/store/use-en-editor'
+import { useENEditor } from '@/vfx-studio/store/use-en-editor'
 import { MyIO } from './MyIO'
 
 export function NodeSingle({ node, graph }) {

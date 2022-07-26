@@ -1,8 +1,5 @@
-//
-
+import { TheVortex } from '@/vfx-library/TheVortex/TheVortex'
 import { getID } from '@/vfx-runtime/ENUtils'
-import { StarSky } from '@/vfx-library/StarSky/StarSky'
-// import { getID } from '@/vfx-runtime/ENUtils'
 
 //
 
@@ -72,42 +69,40 @@ export async function nodeData({ defaultData, nodeID }) {
 }
 
 export function effect({ node, mini, data }) {
-  let myStarSky = new StarSky({})
+  let myItem = new TheVortex({ enableDetection: true })
 
-  data.uniforms.speed((v) => {
-    if (v && typeof v.value !== 'undefined') {
-      myStarSky.speed = v.value
-    }
+  myItem.scale.setScalar(0.015)
+  mini.now.mounter.add(myItem)
+  mini.onClean(() => {
+    myItem.removeFromParent()
   })
 
-  data.uniforms.colorA((v) => {
-    if (v && typeof v.value !== 'undefined') {
-      myStarSky.colorA = v.value
-    }
-  })
+  // data.uniforms.speed((v) => {
+  //   if (v && typeof v.value !== 'undefined') {
+  //     myItem.speed = v.value
+  //   }
+  // })
 
-  data.uniforms.colorB((v) => {
-    if (v && typeof v.value !== 'undefined') {
-      myStarSky.colorB = v.value
-    }
-  })
+  // data.uniforms.colorA((v) => {
+  //   if (v && typeof v.value !== 'undefined') {
+  //     myItem.colorA = v.value
+  //   }
+  // })
 
-  data.uniforms.colorC((v) => {
-    if (v && typeof v.value !== 'undefined') {
-      myStarSky.colorC = v.value
-    }
-  })
+  // data.uniforms.colorB((v) => {
+  //   if (v && typeof v.value !== 'undefined') {
+  //     myItem.colorB = v.value
+  //   }
+  // })
 
-  node.out0.pulse(myStarSky)
+  // data.uniforms.colorC((v) => {
+  //   if (v && typeof v.value !== 'undefined') {
+  //     myItem.colorC = v.value
+  //   }
+  // })
+
+  // node.out0.pulse(myItem)
 }
-
-//
-
-//
-
-//
-
-//
 
 //
 

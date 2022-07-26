@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { useENEditor } from 'vfx-studio/store/use-en-editor'
+import { useENEditor } from '@/vfx-studio/store/use-en-editor'
 
 export function NodeDetail() {
   let setOverlay = useENEditor((s) => s.setOverlay)
@@ -42,7 +42,7 @@ export function NodeDetail() {
               width: `100%`,
               height: `100%`,
             }}
-            className='  backdrop-blur-lg shadow-xl'
+            className='shadow-xl backdrop-blur-lg'
             onClick={() => {
               setOverlay(false)
             }}
@@ -62,9 +62,9 @@ export function NodeDetail() {
               overflow: 'scroll',
             }}
             //
-            className='bg-white border border-yellow-300 bg-opacity-40 rounded-xl shadow-xl'
+            className='bg-white border border-yellow-300 shadow-xl bg-opacity-40 rounded-xl'
           >
-            <div className='text-center py-2 bg-yellow-400'>
+            <div className='py-2 text-center bg-yellow-400'>
               {node.displayTitle}
             </div>
 
@@ -141,7 +141,7 @@ export function NodeDetail() {
               height: `50px`,
               borderRadius: '100%',
             }}
-            className='bg-red-500 text-white rounded-xl shadow-xl cursor-pointer'
+            className='text-white bg-red-500 shadow-xl cursor-pointer rounded-xl'
             onClick={() => {
               setOverlay(false)
             }}

@@ -1,5 +1,5 @@
 import localforage from 'localforage'
-import { getID } from 'vfx-runtime/ENUtils'
+import { getID } from '@/vfx-runtime/ENUtils'
 
 export const GLBMetadata = localforage.createInstance({
   name: 'GLBMetadata',
