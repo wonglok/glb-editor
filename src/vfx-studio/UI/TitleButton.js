@@ -1,0 +1,31 @@
+import { useAccessor } from 'vfx-studio/store/use-accessor'
+
+export function TitleButton() {
+  let glbMetadata = useAccessor((s) => s.glbMetadata)
+  let renameGLB = useAccessor((s) => s.renameGLB)
+
+  // {glbMetadata.name}
+
+  return (
+    <div>
+      {glbMetadata && (
+        <textarea
+          className='block w-full text-center bg-blue-500 text-white text-xs p-2'
+          rows={1}
+          key={glbMetadata.fileID}
+          defaultValue={glbMetadata.name}
+          onChange={(ev) => {
+            //
+
+            renameGLB({
+              fileID: glbMetadata.fileID,
+              name: (ev.target.value || '').trim(),
+            })
+
+            //
+          }}
+        ></textarea>
+      )}
+    </div>
+  )
+}
