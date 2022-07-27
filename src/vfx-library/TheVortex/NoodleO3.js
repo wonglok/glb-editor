@@ -439,6 +439,7 @@ export class LokLokWiggleDisplay {
 
     let matLine1 = new MeshBasicMaterial({
       ...matConfig,
+      transparent: true,
       // side: DoubleSide,
       // metalness: 0.1,
       // roughness: 0.2,
@@ -519,10 +520,13 @@ export class LokLokWiggleDisplay {
         pos.xyz = cur + B * volume.x * circX + N * volume.y * circY;
       }
 
+      varying float vT;
       vec3 makeGeo () {
         float t = (tubeInfo) + 0.5;
         // t *= 2.0;
-        float thickness = 0.03 * 100.0 * 1.5 * t * (1.0 - t);
+        float thickness = 0.03 * 100.0 * 1.5 * t * (1.0 - t) * 2.0;
+
+        vT = t;
 
         vec2 volume = vec2(thickness);
         vec3 transformedYo;
@@ -549,6 +553,8 @@ export class LokLokWiggleDisplay {
         return objectNormal;
       }
 
+
+
         `
 
       let transformV3 = `
@@ -556,6 +562,7 @@ export class LokLokWiggleDisplay {
 
             vec3 nPos = makeGeo();
             vec3 transformed = vec3( nPos );
+
 
             `
 
@@ -587,6 +594,28 @@ export class LokLokWiggleDisplay {
         `#include <beginnormal_vertex>`,
         `${transformV3Normal}`
       )
+
+      shader.fragmentShader = shader.fragmentShader.replace(
+        `void main() {`,
+        `${`
+  varying float vT;
+
+  `}\nvoid main() {`
+      )
+      shader.fragmentShader = shader.fragmentShader.replace(
+        `#include <output_fragment>`,
+        `
+      #ifdef OPAQUE
+        diffuseColor.a = 1.0;
+      #endif
+      #ifdef USE_TRANSMISSION
+        diffuseColor.a *= transmissionAlpha + 0.1;
+      #endif
+
+      gl_FragColor = vec4( outgoingLight, diffuseColor.a * (1.0 - vT) );
+      `
+      )
+      console.log(shader.fragmentShader)
     }
     let line1 = new Mesh(geometry, matLine1)
     line1.userData.enableBloom = true
