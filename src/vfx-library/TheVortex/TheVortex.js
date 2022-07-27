@@ -424,7 +424,7 @@ export class TheVortex extends Object3D {
       return matt
     }
 
-    let matt = getMat(this._shader)
+    let matt = getMat(this._shader || '')
 
     let renderable = new Mesh(geo, matt) // material
 
