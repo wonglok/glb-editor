@@ -1,10 +1,18 @@
 # EffectNode Portable VFX for Multiverses
-
-
 ![Extra Large@1x](https://user-images.githubusercontent.com/4082826/181139116-a8fc8b65-e9a5-4345-a979-6debb45875cb.png)
 
+In a multiverse (multiple metaverse) setting, it's important for GLB 3D model files to have portable VFX attached to it.
+
+1. Cross Multiverse / metaverse Fashion with VFX
+2. Cross multiverse Avatars with VFX
+3. build up more lower level simulation modules such as particle simulation and line simulation and etc so that artists can create different visuals 
+4. Setup a big community of VFX developers code share.
 
 ## Multiverse 3D Web Technology Powered By Effect Node
+
+User can wear their VFX virtual shoes / virtual fashion across the metaverse which uses the same open sourced engine that are free for commercial use with a standard open source MIT License.
+
+User can add more features of VFX to their engine and share the code easily with their friends.
 
 ## GLB + Effect Node = Interotability Oriented 3D Engine for multiple metaverses - Multiverse
 
