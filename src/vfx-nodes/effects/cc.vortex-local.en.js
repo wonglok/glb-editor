@@ -65,6 +65,8 @@ export async function nodeData({ defaultData, nodeID }) {
 
     //
     shaders: [],
+
+    //
   }
 }
 

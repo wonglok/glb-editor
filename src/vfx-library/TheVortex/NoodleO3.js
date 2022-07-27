@@ -330,7 +330,7 @@ export class LokLokWiggleSimulation {
           // positionChain.y += (cnoise(positionHead.rgb * 0.01 + 0.2)) * 0.4;
           // positionChain.z += (cnoise(positionHead.rgb * 0.01 + 0.3)) * 0.4;
 
-          positionChain.xyz *= 1.0 + 0.25 * 0.0135;
+          positionChain.xyz *= 1.0 - 0.25 * 0.0135;
 
           gl_FragColor = vec4(positionChain, 1.0);
         }
