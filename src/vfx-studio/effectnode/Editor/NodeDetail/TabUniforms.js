@@ -514,7 +514,7 @@ function GLSLInput({
   object = { value: 0 },
   name = 'value',
   label,
-  value = 0,
+  value = '',
   min,
   max,
   step = 0.01,
@@ -550,6 +550,8 @@ function GLSLInput({
   let tt = 0
 
   let [canEdit, setEdit] = useState(false)
+
+  //
   return (
     <div
       className=''
@@ -562,17 +564,19 @@ function GLSLInput({
         {label}
       </div>
       <GLSLEditor
-        key={''}
-        onSave={() => {
+        onSave={(ev) => {
+          object[name] = ev
           onSave()
         }}
-        onChange={() => {
+        onChange={(ev) => {
+          object[name] = ev
+
           clearTimeout(tt)
           tt = setTimeout(() => {
             onSaveLater()
           }, 100)
         }}
-        initValue={object[name]}
+        initValue={value}
         lang={'glsl'}
       >
         {!canEdit && (
