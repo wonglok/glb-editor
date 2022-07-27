@@ -37,8 +37,6 @@ class ENTJCore {
     })
 
     //
-
-    //
     this.makeKeyReactive = this.reactTo
     this.parent = parent
     this.name = name

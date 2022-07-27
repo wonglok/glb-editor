@@ -27,11 +27,3 @@ export function EffectNodeRuntime() {
     </>
   )
 }
-
-//
-
-//
-
-//
-
-//

@@ -1,6 +1,6 @@
 import { useFrame, useThree } from '@react-three/fiber'
 import { useEffect, useState } from 'react'
-import { Object3D, Vector3 } from 'three140'
+import { Object3D } from 'three140'
 import { Core } from '@/vfx-core/Core'
 import { EventEmitter } from '@/vfx-runtime/ENUtils'
 import { useENEditor } from '@/vfx-studio/store/use-en-editor'
@@ -26,20 +26,20 @@ export function EffectNodeObject({ group, item, effectNode }) {
     enRuntime.now.eventsBus = new EventEmitter()
     Core.now.canvas = enRuntime
 
-    let removeList = []
-    group.scene.traverse((it) => {
-      //
-      if (it.userData.effectNode) {
-        removeList.push(it)
-      }
-    })
+    // let removeList = []
+    // group.scene.traverse((it) => {
+    //   //
+    //   if (it.userData.effectNode) {
+    //     removeList.push(it)
+    //   }
+    // })
 
-    //
-    removeList.forEach((list) => {
-      list.children.forEach((it) => {
-        it.removeFromParent()
-      })
-    })
+    // //
+    // removeList.forEach((list) => {
+    //   list.children.forEach((it) => {
+    //     it.removeFromParent()
+    //   })
+    // })
 
     item.children.forEach((it) => {
       it.removeFromParent()
@@ -55,12 +55,11 @@ export function EffectNodeObject({ group, item, effectNode }) {
 
     enRuntime.now.group = group
 
-    // enRuntime.onLoop(() => {
-    //   item.getWorldPosition(mounter.position)
-    //   item.getWorldQuaternion(mounter.quaternion)
-    //   item.getWorldScale(mounter.scale)
-    // })
-    //
+    enRuntime.onLoop(() => {
+      item.getWorldPosition(mounter.position)
+      item.getWorldQuaternion(mounter.quaternion)
+      item.getWorldScale(mounter.scale)
+    })
 
     st.scene.add(mounter)
 
