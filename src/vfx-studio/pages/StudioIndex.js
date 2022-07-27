@@ -6,6 +6,7 @@ import { Slug } from '@/vfx-studio/shared/slug'
 import { writeGLB } from '@/vfx-studio/shared/storage'
 import { FileInput } from '@/vfx-studio/UI/FileInput'
 import { MyFiles } from '@/vfx-studio/UI/MyFiles'
+import { TryMe } from '../UI/TryMe'
 
 export default function StudioHome() {
   let router = useRouter()
@@ -21,6 +22,15 @@ export default function StudioHome() {
             Core.now.reloadFileList = getID()
           }}
         ></FileInput>
+
+        <TryMe
+          onFile={async ({ buffer, file, name }) => {
+            // file
+            // console.log(file)
+            writeGLB({ name, buffer })
+            Core.now.reloadFileList = getID()
+          }}
+        ></TryMe>
       </div>
 
       <MyFiles

@@ -31,6 +31,7 @@ export function FileInput({ onFile = () => {} }) {
         }
         input.click()
       }}
+      className='p-2 bg-gray-200'
     >
       Select File
     </button>
