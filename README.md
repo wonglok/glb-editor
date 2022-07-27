@@ -4,8 +4,7 @@
 
 GLB has alawys been a good standard for the 3D content on the internet. It also supports embeding JSON user data within the 3d Model. With Effect Node, different logic system json can be embended into the 3d mdoel. So that each part of the 3d model can be decorated with different visual effects.
 
-
-https://open.agape.games/render
+https://effectnode-multiverse-gui.vercel.app/render
 
 https://user-images.githubusercontent.com/4082826/181136392-4c1d61cd-f0f3-4bc3-adc7-4e02c993ffdf.mp4
 
