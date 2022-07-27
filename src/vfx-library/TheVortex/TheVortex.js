@@ -36,7 +36,7 @@ export class TheVortex extends Object3D {
   constructor({ enableDetection } = {}) {
     super()
     this._shader = ''
-    this.setSimShader = () => []
+    this.setSimShader = () => {}
 
     this.core = Core.makeDisposableNode({ name: 'vortex' }).sub
     let gl = Core.now.canvas.now.gl
@@ -424,7 +424,7 @@ export class TheVortex extends Object3D {
       return matt
     }
 
-    let matt = getMat('')
+    let matt = getMat(this._shader)
 
     let renderable = new Mesh(geo, matt) // material
 

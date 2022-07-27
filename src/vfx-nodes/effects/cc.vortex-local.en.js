@@ -93,11 +93,13 @@ el += cos(mytime + rand(time + pos.yz) + time);
 // pos.xyz = fromBall(350.0, az, el);
 
 pos.xyz = rotateQ(normalize(mpos.xyz * sin(mpos + mod(mytime, 1.0))), mod(mytime * 0.0065, 1.0)) * pos.xyz;
-pos.xyz = rotateQ(normalize(vec3(1.0)), mod(mytime * 0.0065, 1.0)) * pos.xyz;
+pos.xyz = rotateQ(normalize(vec3(1.0, sin(mytime), 1.0)), mod(mytime * 0.0065, 1.0)) * pos.xyz;
 
-pos.x += 1.0 * (rand(pos.xy + 0.1 + time) * 2.0 - 1.0);
-pos.y += 1.0 * (rand(pos.xy + 0.2 + time) * 2.0 - 1.0);
-pos.z += 1.0 * (rand(pos.xy + 0.3 + time) * 2.0 - 1.0);
+//
+// pos.x += 1.0 * (rand(pos.xy + 0.1 + time) * 2.0 - 1.0);
+// pos.y += 1.0 * (rand(pos.xy + 0.2 + time) * 2.0 - 1.0);
+// pos.z += 1.0 * (rand(pos.xy + 0.3 + time) * 2.0 - 1.0);
+//
 
 
 
