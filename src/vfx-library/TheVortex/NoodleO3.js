@@ -528,7 +528,7 @@ export class LokLokWiggleDisplay {
       vec3 makeGeo () {
         float t = (tubeInfo) + 0.5;
         // t *= 2.0;
-        float thickness = 0.03 * 100.0 * 1.5 * t * (1.0 - t) * 2.0;
+        float thickness = 3.0 * t * (1.0 - t);
 
         vT = t;
 
@@ -547,7 +547,7 @@ export class LokLokWiggleDisplay {
       vec3 makeGeoNormal () {
         float t = (tubeInfo) + 0.5;
         // t *= 2.0;
-        float thickness = 0.03 * 100.3;
+        float thickness = 3.0 * t * (1.0 - t);
 
         vec2 volume = vec2(thickness);
         vec3 transformedYo;
