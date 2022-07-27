@@ -77,6 +77,7 @@ export function NodeDetail() {
                   {/*  */}
 
                   <button
+                    className='p-2 bg-red-200'
                     onClick={() => {
                       //
                       removeNode(node)
@@ -97,7 +98,7 @@ export function NodeDetail() {
                       //
                     }}
                   >
-                    {node._id}
+                    Remove this node and it's connections.
                   </button>
                 </div>
               </div>
@@ -106,25 +107,56 @@ export function NodeDetail() {
             <div>
               <div className='p-2'>Connections</div>
               <div className='p-2'>
-                {effectNode.connections.map((conn) => {
-                  return (
-                    <div key={conn._id}>
-                      {/*  */}
-                      {/*  */}
-                      {/*  */}
+                {effectNode.connections
+                  .filter((e) => {
+                    return e.input.nodeID === node._id
+                  })
+                  .map((conn) => {
+                    return (
+                      <div key={conn._id}>
+                        {/*  */}
+                        {/*  */}
+                        {/*  */}
 
-                      <button
-                        onClick={() => {
-                          //
-                          removeLink(conn)
-                          //
-                        }}
-                      >
-                        {conn._id}
-                      </button>
-                    </div>
-                  )
-                })}
+                        <button
+                          className='p-2 bg-red-200'
+                          onClick={() => {
+                            //
+                            removeLink(conn)
+                            //
+                          }}
+                        >
+                          Remove this input connection. {` ` + conn._id}
+                        </button>
+                      </div>
+                    )
+                  })}
+              </div>
+              <div className='p-2'>
+                {effectNode.connections
+                  .filter((e) => {
+                    return e.output.nodeID === node._id
+                  })
+                  .map((conn) => {
+                    return (
+                      <div key={conn._id}>
+                        {/*  */}
+                        {/*  */}
+                        {/*  */}
+
+                        <button
+                          className='p-2 bg-red-200'
+                          onClick={() => {
+                            //
+                            removeLink(conn)
+                            //
+                          }}
+                        >
+                          Remove this output connection. {` ` + conn._id}
+                        </button>
+                      </div>
+                    )
+                  })}
               </div>
             </div>
           </div>
