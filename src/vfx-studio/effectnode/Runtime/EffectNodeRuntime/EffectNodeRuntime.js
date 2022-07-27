@@ -4,7 +4,6 @@ import { useFilterEffectNode } from '@/vfx-studio/store/use-filter-effectnode'
 import { EffectNodeObject } from '../EffectNodeObject/EffectNodeObject'
 
 export function EffectNodeRuntime({ glbObject }) {
-  // let glbObject = useAccessor((s) => s.glbObject)
   let reloadGraphID = useENEditor((s) => s.reloadGraphID)
   let ens = useFilterEffectNode({ glbObject })
 

@@ -15,31 +15,39 @@ export function EffectNodeObject({ glbObject, item, effectNode }) {
 
   let get = useThree((s) => s.get)
   useEffect(() => {
+    //
     // effectNode.connections.forEach((conn) => {
     //   on(conn.output._id, (data) => {
     //     emit(conn.input._id, data)
     //   })
     // })
+    //
 
-    let mounter = new Object3D()
-    let enRuntime = new ENTJCore({ name: item.name })
-    enRuntime.now.eventsBus = new EventEmitter()
-    Core.now.canvas = enRuntime
-
+    //
     // let removeList = []
+    //
     // group.scene.traverse((it) => {
     //   //
     //   if (it.userData.effectNode) {
     //     removeList.push(it)
     //   }
     // })
+    //
 
-    // //
+    //
+    //
     // removeList.forEach((list) => {
     //   list.children.forEach((it) => {
     //     it.removeFromParent()
     //   })
     // })
+    //
+    //
+
+    let mounter = new Object3D()
+    let enRuntime = new ENTJCore({ name: item.name })
+    enRuntime.now.eventsBus = new EventEmitter()
+    Core.now.canvas = enRuntime
 
     item.children.forEach((it) => {
       it.removeFromParent()

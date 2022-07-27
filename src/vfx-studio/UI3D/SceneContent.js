@@ -26,6 +26,8 @@ export function SceneContent({}) {
           // multiple={false}
           onChange={(v) => {
             updateSelected(v)
+
+            //
             if (v[0]) {
               v[0].geometry.computeBoundingSphere()
               let center = v[0].geometry.boundingSphere.center
