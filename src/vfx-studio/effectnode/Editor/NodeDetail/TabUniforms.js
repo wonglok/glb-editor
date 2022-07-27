@@ -49,6 +49,7 @@ export function TabUnifroms({ node }) {
           className='p-2 bg-gray-100'
         >
           <option value={'text'}>Text</option>
+          <option value={'glsl'}>GLSL</option>
           <option value={'float'}>Float</option>
           <option value={'vec2'}>Vector2</option>
           <option value={'vec3'}>Vector3</option>
@@ -118,6 +119,17 @@ export function TabUnifroms({ node }) {
                     onSaveLater={onSaveLater(mm)}
                     onRemove={onRemove(mm)}
                   ></TextInput>
+                )}
+
+                {mm.type === 'glsl' && (
+                  <GLSLInput
+                    object={mm}
+                    name={'value'}
+                    label={mm.name}
+                    value={mm.value}
+                    onSaveLater={onSaveLater(mm)}
+                    onRemove={onRemove(mm)}
+                  ></GLSLInput>
                 )}
 
                 {mm.type === 'float' && (
@@ -489,7 +501,7 @@ function FloatInput({
   )
 }
 
-function TextInput({
+function GLSLInput({
   object = { value: 0 },
   name = 'value',
   label,
@@ -551,7 +563,7 @@ function TextInput({
             onSaveLater()
           }, 100)
         }}
-        initValue={'aaa'}
+        initValue={object[name]}
         lang={'glsl'}
       >
         {!canEdit && (
@@ -565,6 +577,64 @@ function TextInput({
           </div>
         )}
       </GLSLEditor>
+      <div ref={ref}></div>
+    </div>
+  )
+}
+
+function TextInput({
+  object = { value: 0 },
+  name = 'value',
+  label,
+  value = 0,
+  min,
+  max,
+  step = 0.01,
+  onSave = () => {},
+  onSaveLater = () => {},
+  onRemove = () => {},
+}) {
+  let ref = useRef()
+  useEffect(() => {
+    const pane = new Pane({
+      container: ref.current,
+    })
+
+    //
+    let tt = 0
+    pane
+      .addInput(object, name, {
+        label,
+        value,
+        step,
+      })
+      .on('change', () => {
+        onSave()
+
+        clearTimeout(tt)
+        tt = setTimeout(() => {
+          onSaveLater()
+        }, 100)
+      })
+
+    const btn = pane.addButton({
+      title: 'Remove',
+      label: 'Remove', // optional
+    })
+
+    btn.on('click', () => {
+      if (window.confirm('remove?')) {
+        onRemove()
+      }
+    })
+
+    return () => {
+      //
+      pane.dispose()
+    }
+  }, [])
+  return (
+    <div>
       <div ref={ref}></div>
     </div>
   )
