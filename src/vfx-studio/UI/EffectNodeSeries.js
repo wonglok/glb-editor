@@ -10,6 +10,14 @@ export function EffectNodeSeries() {
   console.log(ens) // console.log(ens)
   return (
     <div>
+      <div>
+        {/*  */}
+        <div className='w-full p-2 text-xs text-center bg-yellow-400 border-b border-yellow-500'>
+          Existing 3D Mesh with VFX Effect Nodes
+        </div>
+        {/*  */}
+      </div>
+
       {ens.map((it) => {
         return (
           <div key={it.uuid}>
