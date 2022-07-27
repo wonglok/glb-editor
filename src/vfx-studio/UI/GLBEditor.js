@@ -11,14 +11,14 @@ export function GLBEditor() {
   let layout = useAccessor((s) => s.layout)
   return (
     <div className='flex items-start justify-between w-full h-full'>
-      <div className='h-full' style={{ width: `300px` }}>
+      <div className='h-full' style={{ width: `280px` }}>
         <BackButton></BackButton>
         <TitleButton></TitleButton>
         <DownloadButton></DownloadButton>
       </div>
       <div
         className='flex h-full'
-        style={{ width: `calc(100% - 300px - 300px)` }}
+        style={{ width: `calc(100% - 280px - 280px)` }}
       >
         <div
           className={`
@@ -33,7 +33,7 @@ export function GLBEditor() {
         </div>
         <EditorColumnEffectNode></EditorColumnEffectNode>
       </div>
-      <div className='h-full' style={{ width: `300px` }}>
+      <div className='h-full' style={{ width: `280px` }}>
         <MeshMaterialEditor></MeshMaterialEditor>
       </div>
     </div>

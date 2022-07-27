@@ -301,6 +301,8 @@ export class LokLokWiggleSimulation {
 
       #include <common>
 
+      varying vec3 pos;
+
 			void main()	{
         // const float width = resolution.x;
         // const float height = resolution.y;
@@ -319,8 +321,6 @@ export class LokLokWiggleSimulation {
           vec3 positionChain = texture2D( texturePosition,nextUV ).xyz;
           // positionChain.rgb = lerp(positionHead.rgb, positionChain.rgb, 0.3);
 
-
-
           // positionChain.x += (rand(vec2(currentLine + 0.1)) * 2.0 - 1.0) * 2.0;
           // positionChain.y += (rand(vec2(currentLine + 0.2)) * 2.0 - 1.0) * 2.0;
           // positionChain.z += (rand(vec2(currentLine + 0.3)) * 2.0 - 1.0) * 2.0;
@@ -329,10 +329,7 @@ export class LokLokWiggleSimulation {
           // positionChain.y += (cnoise(positionHead.rgb * 0.01 + 0.2)) * 1.5;
           // positionChain.z += (cnoise(positionHead.rgb * 0.01 + 0.3)) * 1.5;
 
-          positionChain.xyz *= 1.0 + 0.0135;
-
-
-
+          positionChain.xyz *= 1.0 - 0.5 * 0.0135;
 
           gl_FragColor = vec4(positionChain, 1.0);
         }

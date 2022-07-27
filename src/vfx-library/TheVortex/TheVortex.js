@@ -288,7 +288,7 @@ export class TheVortex extends Object3D {
       node: this.core,
       getHeadList: () => current.texture,
       howManyTrackers: 128,
-      tailLength: 64,
+      tailLength: 128,
     })
     noodleO3.o3d.scale.setScalar((1 / 350) * 50)
 
