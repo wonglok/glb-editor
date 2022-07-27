@@ -1,4 +1,4 @@
-# Multiverse Powered By Effect Node
+# Multiverse 3D Web Technology Powered By Effect Node
 
 ## GLB + Effect Node = Interotability Oriented 3D Engine for multiple metaverses - Multiverse
 
