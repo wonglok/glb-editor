@@ -38,9 +38,6 @@ export function EffectNodeObject({ glbObject, item, effectNode }) {
     //   }
     // })
     //
-
-    //
-    //
     // removeList.forEach((list) => {
     //   list.children.forEach((it) => {
     //     it.removeFromParent()
