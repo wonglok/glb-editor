@@ -15,6 +15,7 @@ export function TabUnifroms({ node }) {
     //   // reload((s) => s + 1)
     // })
 
+    window.dispatchEvent(new CustomEvent('reload-node', { detail: node }))
     reload((s) => s + 1)
   }
   let onRemove = (mm) => () => {
@@ -26,6 +27,7 @@ export function TabUnifroms({ node }) {
       1
     )
 
+    window.dispatchEvent(new CustomEvent('reload-node', { detail: node }))
     reload((s) => s + 1)
 
     // ENMethods.saveCodeBlock({ node }).then(() => {
