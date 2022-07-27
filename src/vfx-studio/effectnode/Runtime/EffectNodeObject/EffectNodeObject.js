@@ -1,6 +1,6 @@
 import { useFrame, useThree } from '@react-three/fiber'
 import { useEffect, useState } from 'react'
-import { Object3D } from 'three140'
+import { Object3D, Vector3 } from 'three140'
 import { Core } from '@/vfx-core/Core'
 import { EventEmitter } from '@/vfx-runtime/ENUtils'
 import { useENEditor } from '@/vfx-studio/store/use-en-editor'
@@ -11,9 +11,14 @@ import { EffectNodeObjectNode } from './EffectNodeObjectNode'
 export function EffectNodeObject({ glbObject, item, effectNode }) {
   //
   let [enRuntime, setEnRuntime] = useState()
+
+  //
   let reloadGraphID = useENEditor((s) => s.reloadGraphID)
 
+  //
   let get = useThree((s) => s.get)
+
+  //
   useEffect(() => {
     //
     // effectNode.connections.forEach((conn) => {
@@ -43,8 +48,18 @@ export function EffectNodeObject({ glbObject, item, effectNode }) {
     // })
     //
     //
+    item.geometry.computeBoundingSphere()
+    let center = item.geometry.boundingSphere.center
+    // let radius = item.geometry.boundingSphere.radius
+
+    //
+    let next = new Vector3()
+    next.copy(center)
+    item.updateMatrixWorld()
+    next.applyMatrix4(item.matrixWorld)
 
     let mounter = new Object3D()
+    mounter.position.copy(next)
     let enRuntime = new ENTJCore({ name: item.name })
     enRuntime.now.eventsBus = new EventEmitter()
     Core.now.canvas = enRuntime
@@ -63,11 +78,11 @@ export function EffectNodeObject({ glbObject, item, effectNode }) {
     enRuntime.now.group = glbObject
 
     //
-    enRuntime.onLoop(() => {
-      item.getWorldPosition(mounter.position)
-      item.getWorldQuaternion(mounter.quaternion)
-      item.getWorldScale(mounter.scale)
-    })
+    // enRuntime.onLoop(() => {
+    //   item.getWorldPosition(mounter.position)
+    //   item.getWorldQuaternion(mounter.quaternion)
+    //   item.getWorldScale(mounter.scale)
+    // })
 
     st.scene.add(mounter)
 
