@@ -43,11 +43,14 @@ export function GLSLEditor({
     }
   }, [])
 
+  let keyyy = useRef('yoooo')
+
   return (
     <div ref={ref} className='relative w-full h-full'>
       {/* <button onClick={showValue}>Show value</button> */}
 
       <Editor
+        key={keyyy.current}
         height='100%'
         defaultLanguage={lang}
         theme='vs-dark'

@@ -577,7 +577,7 @@ function GLSLInput({
           }, 100)
         }}
         initValue={value}
-        lang={'glsl'}
+        lang={'javascript'}
       >
         {!canEdit && (
           <div

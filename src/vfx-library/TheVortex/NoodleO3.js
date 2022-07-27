@@ -619,7 +619,7 @@ export class LokLokWiggleDisplay {
       gl_FragColor = vec4( outgoingLight, diffuseColor.a * (1.0 - vT) );
       `
       )
-      console.log(shader.fragmentShader)
+      // console.log(shader.fragmentShader)
     }
     let line1 = new Mesh(geometry, matLine1)
     line1.userData.enableBloom = true

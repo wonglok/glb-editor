@@ -61,6 +61,48 @@ export async function nodeData({ defaultData, nodeID }) {
         type: 'color',
         value: '#ffffff',
       },
+      {
+        id: getID(),
+        nodeID,
+        name: 'shader',
+        type: `glsl`,
+        value: `
+
+
+    //
+float scaler = 1.0 / 350.0 * 3.14159264 * 2.0;
+vec3 mpos = pos.xyz * scaler;
+
+vec3 reso = vec3(1.0, 1.0, 1.0);
+float radius = 20.0;
+float angle = 12.0;
+vec3 center = vec3(0.0);
+
+float az = uv.x;
+float el = uv.y;
+
+toBall(mpos.xyz, az, el);
+pos.xyz = fromBall(350.0, az, el);
+
+float mytime = abs(sin(pos.x + pos.z + pos.y + time * 5.0)) * 3.141592;
+
+az += sin(mytime + rand(time + pos.xy) + time);
+el += cos(mytime + rand(time + pos.yz) + time);
+
+// pos.xyz += fromBall(2.0, az, el);
+// pos.xyz = fromBall(350.0, az, el);
+
+pos.xyz = rotateQ(normalize(mpos.xyz * sin(mpos + mod(mytime, 1.0))), mod(mytime * 0.0065, 1.0)) * pos.xyz;
+pos.xyz = rotateQ(normalize(vec3(1.0)), mod(mytime * 0.0065, 1.0)) * pos.xyz;
+
+pos.x += 1.0 * (rand(pos.xy + 0.1 + time) * 2.0 - 1.0);
+pos.y += 1.0 * (rand(pos.xy + 0.2 + time) * 2.0 - 1.0);
+pos.z += 1.0 * (rand(pos.xy + 0.3 + time) * 2.0 - 1.0);
+
+
+
+`,
+      },
     ],
 
     //
@@ -81,11 +123,11 @@ export function effect({ node, mini, data }) {
 
   //
 
-  // data.uniforms.speed((v) => {
-  //   if (v && typeof v.value !== 'undefined') {
-  //     myItem.speed = v.value
-  //   }
-  // })
+  data.uniforms.shader((v) => {
+    if (v && typeof v.value !== 'undefined') {
+      myItem.shader = v.value
+    }
+  })
 
   // data.uniforms.colorA((v) => {
   //   if (v && typeof v.value !== 'undefined') {
