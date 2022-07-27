@@ -329,7 +329,7 @@ export class LokLokWiggleSimulation {
           // positionChain.y += (cnoise(positionHead.rgb * 0.01 + 0.2)) * 1.5;
           // positionChain.z += (cnoise(positionHead.rgb * 0.01 + 0.3)) * 1.5;
 
-          positionChain.xyz *= 1.0 + 0.0135;
+          // positionChain.xyz *= 1.0 + 0.0135;
 
 
 
@@ -456,6 +456,8 @@ export class LokLokWiggleDisplay {
       // emissive: new Color('#000000').offsetHSL(0, 0, 0.0),
       // reflectivity: 0.5,
     })
+
+    //
 
     matLine1.userData.uniforms = {
       posTexture: { value: 0 },

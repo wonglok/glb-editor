@@ -201,7 +201,7 @@ export class TheVortex extends Object3D {
       gl_FragColor = vec4(
         vec3(color.x + 0.2 * (v_tt.x),
         color.y + 0.2 * (v_tt.y),
-        color.z + 0.2 * (v_tt.z))  *3.0  + 0.3
+        color.z + 0.2 * (v_tt.z))  * 3.0  + 0.3
         ,
         0.35
       );
