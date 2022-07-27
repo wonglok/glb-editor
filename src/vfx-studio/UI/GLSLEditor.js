@@ -1,11 +1,12 @@
 import { useEffect, useRef } from 'react'
-import Editor, { DiffEditor, useMonaco, loader } from '@monaco-editor/react'
+import Editor from '@monaco-editor/react'
 
 export function GLSLEditor({
   initValue,
   lang = 'glsl',
   onSave = () => {},
   onChange = () => {},
+  children,
 }) {
   let ref = useRef()
 
@@ -43,7 +44,7 @@ export function GLSLEditor({
   }, [])
 
   return (
-    <div ref={ref} className='w-full h-full'>
+    <div ref={ref} className='relative w-full h-full'>
       {/* <button onClick={showValue}>Show value</button> */}
 
       <Editor
@@ -56,6 +57,8 @@ export function GLSLEditor({
         // beforeMount={handleEditorWillMount}
         // onValidate={handleEditorValidation}
       />
+
+      {children}
     </div>
   )
 }

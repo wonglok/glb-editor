@@ -528,6 +528,7 @@ function TextInput({
 
   let tt = 0
 
+  let [canEdit, setEdit] = useState(false)
   return (
     <div
       className=''
@@ -552,7 +553,18 @@ function TextInput({
         }}
         initValue={'aaa'}
         lang={'glsl'}
-      ></GLSLEditor>
+      >
+        {!canEdit && (
+          <div
+            onClick={() => {
+              setEdit(true)
+            }}
+            className='absolute top-0 left-0 flex items-center justify-center w-full h-full text-black bg-white cursor-pointer bg-opacity-70 '
+          >
+            Click to Edit
+          </div>
+        )}
+      </GLSLEditor>
       <div ref={ref}></div>
     </div>
   )
