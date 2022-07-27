@@ -106,6 +106,24 @@ function Details({ mesh }) {
         addColorPicker('color')
         addColorPicker('emissive')
 
+        //
+        const btnEffectNode = pane.addButton({
+          title: 'Launch Effect Node',
+          label: 'Tool', // optional
+        })
+
+        btnEffectNode.on('click', () => {
+          openEffectNode(mesh)
+        })
+
+        const btnGLSLClose = pane.addButton({
+          title: 'Close', // optional
+          label: 'Tool',
+        })
+        btnGLSLClose.on('click', () => {
+          setLayout('full')
+        })
+
         const btnEffectNodeRemove = pane.addButton({
           title: 'Remove Effect Node',
           label: 'Tool', // optional
@@ -120,23 +138,6 @@ function Details({ mesh }) {
             // setLayout('full')
             removeEffectNode(mesh)
           }
-        })
-        //
-        const btnEffectNode = pane.addButton({
-          title: 'Effect Node',
-          label: 'Tool', // optional
-        })
-
-        btnEffectNode.on('click', () => {
-          openEffectNode(mesh)
-        })
-
-        const btnGLSLClose = pane.addButton({
-          title: 'Close', // optional
-          label: 'Tool',
-        })
-        btnGLSLClose.on('click', () => {
-          setLayout('full')
         })
         //
       }
