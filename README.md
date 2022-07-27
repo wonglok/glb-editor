@@ -4,8 +4,6 @@
 
 GLB has alawys been a good standard for the 3D content on the internet. It also supports embeding JSON user data within the 3d Model. With Effect Node, different logic system json can be embended into the 3d mdoel. So that each part of the 3d model can be decorated with different visual effects.
 
-![glbeditor](https://user-images.githubusercontent.com/4082826/181136061-c7eeb572-0590-41b7-9418-a755042333f9.png)
-
 
 https://user-images.githubusercontent.com/4082826/181136392-4c1d61cd-f0f3-4bc3-adc7-4e02c993ffdf.mp4
 
@@ -19,3 +17,5 @@ https://user-images.githubusercontent.com/4082826/181136392-4c1d61cd-f0f3-4bc3-a
 5. enable guest and google login
 6. git clone, npm i, npm run dev, go to <http://localhost:3000/logic-cms>
 
+
+![glbeditor](https://user-images.githubusercontent.com/4082826/181136061-c7eeb572-0590-41b7-9418-a755042333f9.png)
