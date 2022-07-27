@@ -1,4 +1,3 @@
-import { Canvas } from '@react-three/fiber'
 import { EffectNodeEditor } from '@/vfx-studio/effectnode/Editor/EffectNodeEditor/EffectNodeEditor'
 import { useAccessor } from '@/vfx-studio/store/use-accessor'
 

@@ -6,9 +6,11 @@ import { MeshMaterialEditor } from './MeshMaterialEditor'
 import { BackButton } from './BackButton'
 import { TitleButton } from './TitleButton'
 import { RunnerEditor } from '@/vfx-studio/runner-editor/RunnerEditor'
+import { EffectNodeSeries } from './EffectNodeSeries'
 
 export function GLBEditor() {
   let layout = useAccessor((s) => s.layout)
+
   return (
     <div className='flex items-start justify-between w-full h-full'>
       <div className='h-full' style={{ width: `280px` }}>
@@ -34,6 +36,7 @@ export function GLBEditor() {
         <EditorColumnEffectNode></EditorColumnEffectNode>
       </div>
       <div className='h-full' style={{ width: `280px` }}>
+        <EffectNodeSeries></EffectNodeSeries>
         <MeshMaterialEditor></MeshMaterialEditor>
       </div>
     </div>

@@ -29,6 +29,34 @@ export const useAccessor = create((set, get) => {
     setLayout: (v) => {
       set({ layout: v })
     },
+
+    openEffectNode: (mesh) => {
+      mesh.userData.effectNode = mesh.userData.effectNode || {
+        nodes: [],
+        connections: [],
+      }
+
+      set({
+        selectedMeshes: [mesh],
+      })
+      setTimeout(() => {
+        set({
+          layout: 'effectnode',
+        })
+      })
+    },
+
+    removeEffectNode: (mesh) => {
+      delete mesh.userData.effectNode
+      set({
+        selectedMeshes: [],
+      })
+      setTimeout(() => {
+        set({
+          layout: 'full',
+        })
+      })
+    },
     ///
     updateSelected: (meshes) => {
       set({ selectedMeshes: meshes })

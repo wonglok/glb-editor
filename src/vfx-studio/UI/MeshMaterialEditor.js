@@ -24,6 +24,8 @@ export function MeshMaterialEditor() {
 //
 function Details({ mesh }) {
   let refDiv = useRef()
+  let removeEffectNode = useAccessor((s) => s.removeEffectNode) || []
+  let openEffectNode = useAccessor((s) => s.openEffectNode) || []
 
   let setLayout = useAccessor((s) => s.setLayout)
   useEffect(() => {
@@ -104,23 +106,21 @@ function Details({ mesh }) {
         addColorPicker('color')
         addColorPicker('emissive')
 
-        if (process.env.NODE_ENV === 'development') {
-          const btnEffectNodeRemove = pane.addButton({
-            title: 'Reset Effect Node',
-            label: 'Tool', // optional
-          })
+        const btnEffectNodeRemove = pane.addButton({
+          title: 'Remove Effect Node',
+          label: 'Tool', // optional
+        })
 
-          btnEffectNodeRemove.on('click', () => {
-            if (window.confirm('remove and reset this effect node?')) {
-              mesh.userData.effectNode = {
-                nodes: [],
-                connections: [],
-              }
-
-              setLayout('full')
-            }
-          })
-        }
+        btnEffectNodeRemove.on('click', () => {
+          if (window.confirm('remove and reset this effect node?')) {
+            // mesh.userData.effectNode = {
+            //   nodes: [],
+            //   connections: [],
+            // }
+            // setLayout('full')
+            removeEffectNode(mesh)
+          }
+        })
         //
         const btnEffectNode = pane.addButton({
           title: 'Effect Node',
@@ -128,12 +128,7 @@ function Details({ mesh }) {
         })
 
         btnEffectNode.on('click', () => {
-          mesh.userData.effectNode = mesh.userData.effectNode || {
-            nodes: [],
-            connections: [],
-          }
-
-          setLayout('effectnode')
+          openEffectNode(mesh)
         })
 
         const btnGLSLClose = pane.addButton({
