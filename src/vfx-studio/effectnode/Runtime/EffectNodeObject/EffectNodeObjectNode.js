@@ -159,9 +159,18 @@ export function EffectNodeObjectNode({
           }
         )
 
+        let hhhh = ({ detail }) => {
+          if (detail._id === node._id) {
+            enRuntime.now[detail._id] = detail
+          }
+        }
+        window.addEventListener('reload-node', hhhh)
+
         let mini = enRuntime.makeDisposableNode({ name: node.displayTitle })
 
         cleans.push(() => {
+          window.removeEventListener('reload-node', hhhh)
+
           mini.clean()
         })
 
