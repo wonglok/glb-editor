@@ -8,7 +8,7 @@ import { ENTJCore } from '../ENTJCore/ENTJCore'
 import { EffectNodeObjectLink } from './EffectNodeObjectLink'
 import { EffectNodeObjectNode } from './EffectNodeObjectNode'
 
-export function EffectNodeObject({ group, item, effectNode }) {
+export function EffectNodeObject({ glbObject, item, effectNode }) {
   //
   let [enRuntime, setEnRuntime] = useState()
   let reloadGraphID = useENEditor((s) => s.reloadGraphID)
@@ -52,9 +52,9 @@ export function EffectNodeObject({ group, item, effectNode }) {
     }
     enRuntime.now.mounter = mounter
     enRuntime.now.itself = item
+    enRuntime.now.group = glbObject
 
-    enRuntime.now.group = group
-
+    //
     enRuntime.onLoop(() => {
       item.getWorldPosition(mounter.position)
       item.getWorldQuaternion(mounter.quaternion)
@@ -103,7 +103,7 @@ export function EffectNodeObject({ group, item, effectNode }) {
                       effectNode.connections.map((e) => e._id)
                     }
                     node={node}
-                    group={group}
+                    glbObject={glbObject}
                     mounter={item}
                     on={on}
                     emit={emit}

@@ -1,7 +1,7 @@
 import { useAccessor } from './use-accessor'
 
-export function useFilterEffectNode() {
-  let glbObject = useAccessor((s) => s.glbObject)
+export function useFilterEffectNode({ glbObject }) {
+  // let glbObject = useAccessor((s) => s.glbObject)
 
   let array = []
 
@@ -14,6 +14,5 @@ export function useFilterEffectNode() {
     })
   }
 
-  //
   return array
 }

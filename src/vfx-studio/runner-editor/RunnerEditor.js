@@ -15,7 +15,6 @@ export function RunnerEditor() {
       >
         <RenderSwitch></RenderSwitch>
         <SceneContent></SceneContent>
-        <EffectNodeRuntime></EffectNodeRuntime>
       </Canvas>
     </div>
   )

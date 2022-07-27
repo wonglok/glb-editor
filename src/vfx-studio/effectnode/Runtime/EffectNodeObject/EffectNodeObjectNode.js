@@ -5,7 +5,7 @@ export function EffectNodeObjectNode({
   mini,
   effectNode,
   mounter,
-  group,
+  glbObject,
   on,
   emit,
   node,
