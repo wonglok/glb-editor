@@ -32,7 +32,7 @@ export class TheVortex extends Object3D {
     this.core = Core.makeDisposableNode({ name: 'vortex' }).sub
     let gl = Core.now.canvas.now.gl
 
-    let SIZE_X = 256
+    let SIZE_X = 128
     let SIZE_Y = 128
 
     let gpuCompute = new CustomGPU(SIZE_X, SIZE_Y, gl)
@@ -124,7 +124,7 @@ export class TheVortex extends Object3D {
     if (error !== null) {
       console.error(error)
     }
-    let boxGeo = new BoxBufferGeometry(0.5, 0.5, 0.5).toNonIndexed()
+    let boxGeo = new IcosahedronBufferGeometry(1.0, 0.0).toNonIndexed()
 
     let geo = new InstancedBufferGeometry()
     geo.setAttribute('position', boxGeo.attributes.position)
@@ -156,67 +156,67 @@ export class TheVortex extends Object3D {
 
     // enableDetection
 
-    let uniforms = {
-      color: { value: new Color('#58519B').offsetHSL(0, 0.0, 0.0) },
-      time: { value: 0 },
-      tPos: { value: null },
-    }
-    let material = new ShaderMaterial({
-      transparent: true,
-      uniforms,
-      defines: {
-        resolution: `vec2(${SIZE_X.toFixed(1)}, ${SIZE_Y.toFixed(1)})`,
-      },
-      vertexShader: /* glsl */ `
-    uniform  sampler2D tPos;
-    #include <common>
-    // uniform sampler2D tIdx;
+    // let uniforms = {
+    //   color: { value: new Color('#58519B').offsetHSL(0, 0.0, 0.0) },
+    //   time: { value: 0 },
+    //   tPos: { value: null },
+    // }
+    // let material = new ShaderMaterial({
+    //   transparent: true,
+    //   uniforms,
+    //   defines: {
+    //     resolution: `vec2(${SIZE_X.toFixed(1)}, ${SIZE_Y.toFixed(1)})`,
+    //   },
+    //   vertexShader: /* glsl */ `
+    // uniform  sampler2D tPos;
+    // #include <common>
+    // // uniform sampler2D tIdx;
 
-    varying vec3 v_tt;
+    // varying vec3 v_tt;
 
-    attribute vec3 uvinfo;
+    // attribute vec3 uvinfo;
 
-    void main() {
-      // vec3 newPos = vec3(1.0);
+    // void main() {
+    //   // vec3 newPos = vec3(1.0);
 
-      // position is changed to host uv vals
-      vec4 tt = texture2D(tPos, uvinfo.xy);
-      // vec4 idx = texture2D(tIdx, position.xy);
+    //   // position is changed to host uv vals
+    //   vec4 tt = texture2D(tPos, uvinfo.xy);
+    //   // vec4 idx = texture2D(tIdx, position.xy);
 
-      v_tt = normalize(tt.xyz);
+    //   v_tt = normalize(tt.xyz);
 
-      vec4 mvPosition = modelViewMatrix * (vec4(tt.rgb + position * 3.0, 1.0));
-      vec4 outputPos = projectionMatrix * mvPosition;
+    //   vec4 mvPosition = modelViewMatrix * (vec4(tt.rgb + position * 3.0, 1.0));
+    //   vec4 outputPos = projectionMatrix * mvPosition;
 
-      gl_Position = outputPos;
-    }
-    `,
-      fragmentShader: /* glsl */ `
-    #include <common>
+    //   gl_Position = outputPos;
+    // }
+    // `,
+    //   fragmentShader: /* glsl */ `
+    // #include <common>
 
-    varying vec3 v_tt;
+    // varying vec3 v_tt;
 
-    uniform vec3 color;
+    // uniform vec3 color;
 
-    void main () {
-      gl_FragColor = vec4(
-        vec3(color.x + 0.2 * (v_tt.x),
-        color.y + 0.2 * (v_tt.y),
-        color.z + 0.2 * (v_tt.z))  * 3.0  + 0.3
-        ,
-        0.35
-      );
+    // void main () {
+    //   gl_FragColor = vec4(
+    //     vec3(color.x + 0.2 * (v_tt.x),
+    //     color.y + 0.2 * (v_tt.y),
+    //     color.z + 0.2 * (v_tt.z))  * 3.0  + 0.3
+    //     ,
+    //     0.35
+    //   );
 
-      // if (length(gl_PointCoord.xy - 0.5) <= 0.5) {
+    //   // if (length(gl_PointCoord.xy - 0.5) <= 0.5) {
 
-      // } else {
-      //   discard;
-      // }
-    }
+    //   // } else {
+    //   //   discard;
+    //   // }
+    // }
 
-    `,
-      side: FrontSide,
-    })
+    // `,
+    //   side: FrontSide,
+    // })
 
     //uvinfo
 
@@ -230,18 +230,93 @@ export class TheVortex extends Object3D {
     })
     matt.onBeforeCompile = (shader, gl) => {
       //
+      shader.uniforms.time = { value: null }
+      this.core.onLoop((dt) => {
+        let time = window.performance.now() / 1000
+        shader.uniforms.time.value = time
+        // posVar.material.uniforms.iTime.value = time
+
+        // uniforms.tPos.value = gpuCompute.getCurrentRenderTarget(posVar).texture
+        // uniforms.time.value = time
+        // current.texture = uniforms.tPos.value
+      })
 
       shader.uniforms.tPos = { value: null }
+      shader.uniforms.tPos2 = { value: null }
       this.core.onLoop(() => {
         shader.uniforms.tPos.value =
           gpuCompute.getCurrentRenderTarget(posVar).texture
+
+        shader.uniforms.tPos2.value =
+          gpuCompute.getAlternateRenderTarget(posVar).texture
       })
 
       shader.vertexShader = shader.vertexShader.replace(
         `void main() {`,
         /* glsl */ `
       uniform sampler2D tPos;
+      uniform sampler2D tPos2;
       attribute vec3 uvinfo;
+
+      uniform float time;
+
+
+      mat3 rotateX(float rad) {
+          float c = cos(rad);
+          float s = sin(rad);
+          return mat3(
+              1.0, 0.0, 0.0,
+              0.0, c, s,
+              0.0, -s, c
+          );
+      }
+
+      mat3 rotateY(float rad) {
+          float c = cos(rad);
+          float s = sin(rad);
+          return mat3(
+              c, 0.0, -s,
+              0.0, 1.0, 0.0,
+              s, 0.0, c
+          );
+      }
+
+      mat3 rotateZ(float rad) {
+          float c = cos(rad);
+          float s = sin(rad);
+          return mat3(
+              c, s, 0.0,
+              -s, c, 0.0,
+              0.0, 0.0, 1.0
+          );
+      }
+
+      mat3 rotateQ (vec3 axis, float rad) {
+          float hr = rad / 2.0;
+          float s = sin( hr );
+          vec4 q = vec4(axis * s, cos( hr ));
+          vec3 q2 = q.xyz + q.xyz;
+          vec3 qq2 = q.xyz * q2;
+          vec2 qx = q.xx * q2.yz;
+          float qy = q.y * q2.z;
+          vec3 qw = q.w * q2.xyz;
+
+          return mat3(
+              1.0 - (qq2.y + qq2.z),  qx.x - qw.z,            qx.y + qw.y,
+              qx.x + qw.z,            1.0 - (qq2.x + qq2.z),  qy - qw.x,
+              qx.y - qw.y,            qy + qw.x,              1.0 - (qq2.x + qq2.y)
+          );
+      }
+
+      mat3 calcLookAtMatrix(vec3 origin, vec3 target, float roll) {
+        vec3 rr = vec3(sin(roll), cos(roll), 0.0);
+        vec3 ww = normalize(target - origin);
+        vec3 uu = normalize(cross(ww, rr));
+        vec3 vv = normalize(cross(uu, ww));
+
+        return mat3(uu, vv, ww);
+      }
+
       void main() {`
       )
 
@@ -249,20 +324,30 @@ export class TheVortex extends Object3D {
       shader.vertexShader = shader.vertexShader.replace(
         `#include <begin_vertex>`,
         /* glsl */ `
-        vec4 tt = texture2D(tPos, uvinfo.xy);
+        //
 
-        vec3 transformed = vec3( tt.rgb + position * 2.0);
+        vec4 tt = texture2D(tPos, uvinfo.xy);
+        vec4 tt2 = texture2D(tPos2, uvinfo.xy);
+
+        vec3 pos = position;
+
+        vec3 diff = normalize(tt2.rgb - tt.rgb);
+
+        pos = pos * calcLookAtMatrix(pos + tt2.rgb, pos + tt.rgb, 1.0);
+
+        // pos *= rotateX(length(tt.rgb - tt2.rgb) / 2.0);
+        // pos *= rotateY(length(tt.rgb - tt2.rgb) / 2.0);
+        // pos *= rotateZ(length(tt.rgb - tt2.rgb) / 2.0);
+
+
+        vec3 transformed = vec3( tt.rgb + pos );
       `
       )
 
-      let transformV3 = `
-
-
-            vec3 nPos = position;
-            vec3 transformed = vec3( nPos );
-
-
-            `
+      // let transformV3 = `
+      //       vec3 nPos = position;
+      //       vec3 transformed = vec3( nPos );
+      //       `
 
       let transformV3Normal = `
 
@@ -274,10 +359,11 @@ export class TheVortex extends Object3D {
             // #endif
             `
 
-      shader.vertexShader = shader.vertexShader.replace(
-        `#include <begin_vertex>`,
-        `${transformV3}`
-      )
+      // shader.vertexShader = shader.vertexShader.replace(
+      //   `#include <begin_vertex>`,
+      //   `${transformV3}`
+      // )
+
       shader.vertexShader = shader.vertexShader.replace(
         `#include <beginnormal_vertex>`,
         `${transformV3Normal}`
@@ -302,10 +388,11 @@ export class TheVortex extends Object3D {
       gl_FragColor = vec4( outgoingLight, diffuseColor.a );
       `
       )
-      console.log(shader.fragmentShader)
+
+      // console.log(shader.fragmentShader)
     }
 
-    let renderable = new Mesh(geo, matt || material)
+    let renderable = new Mesh(geo, matt) // material
     renderable.frustumCulled = false
     renderable.scale.setScalar((1 / 350) * 50)
     renderable.userData.enableBloom = true
@@ -325,11 +412,12 @@ export class TheVortex extends Object3D {
     }
     this.core.onLoop((dt) => {
       let time = window.performance.now() / 1000
-      posVar.material.uniforms.iTime.value = time
 
-      uniforms.tPos.value = gpuCompute.getCurrentRenderTarget(posVar).texture
-      uniforms.time.value = time
-      current.texture = uniforms.tPos.value
+      // posVar.material.uniforms.iTime.value = time
+
+      // uniforms.tPos.value = gpuCompute.getCurrentRenderTarget(posVar).texture
+      // uniforms.time.value = time
+      // current.texture = uniforms.tPos.value
       gpuCompute.compute()
     })
 
