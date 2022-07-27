@@ -1,11 +1,11 @@
-import {
-  prune,
-  dedup,
-  resample,
-  textureResize,
-} from '@gltf-transform/functions'
-import { VertexLayout, WebIO } from '@gltf-transform/core'
-import { DracoMeshCompression } from '@gltf-transform/extensions'
+// import {
+//   prune,
+//   dedup,
+//   resample,
+//   textureResize,
+// } from '@gltf-transform/functions'
+// import { VertexLayout, WebIO } from '@gltf-transform/core'
+// import { DracoMeshCompression } from '@gltf-transform/extensions'
 import { Object3D } from 'three'
 import { clone } from 'three140/examples/jsm/utils/SkeletonUtils'
 
@@ -71,48 +71,50 @@ export const Exporter = {
 
             // let rawUrl = URL.createObjectURL(rawBlob)
 
-            const io = new WebIO({
-              mode: 'cors',
-              cache: 'no-cache',
-            })
+            // const io = new WebIO({
+            //   mode: 'cors',
+            //   cache: 'no-cache',
+            // })
 
-            let glbDocument = await io.readBinary(new Uint8Array(gltf))
-            // let glbDocument = await io.read(rawUrl)
+            // let glbDocument = await io.readBinary(new Uint8Array(gltf))
+            // // let glbDocument = await io.read(rawUrl)
 
-            /**
-             * simple_pipeline.js
-             *
-             * Short example of an glTF optimization pipeline implemented with
-             * the glTF-Transform (https://gltf-transform.donmccurdy.com/) API.
-             * Other common problems — e.g. high vertex or draw counts — may
-             * require working in other tools, like gltfpack or Blender.
-             */
+            // /**
+            //  * simple_pipeline.js
+            //  *
+            //  * Short example of an glTF optimization pipeline implemented with
+            //  * the glTF-Transform (https://gltf-transform.donmccurdy.com/) API.
+            //  * Other common problems — e.g. high vertex or draw counts — may
+            //  * require working in other tools, like gltfpack or Blender.
+            //  */
 
-            await glbDocument.transform(
-              // Remove duplicate vertex or texture data, if any.
-              dedup(),
+            // await glbDocument.transform(
+            //   // Remove duplicate vertex or texture data, if any.
+            //   dedup(),
 
-              // Losslessly resample animation frames.
-              resample(),
+            //   // Losslessly resample animation frames.
+            //   resample(),
 
-              // Remove unused nodes, textures, or other data.
-              prune(),
+            //   // Remove unused nodes, textures, or other data.
+            //   prune(),
 
-              // Resize all textures to ≤1K.
-              textureResize({ size: optimize })
-            )
+            //   // Resize all textures to ≤1K.
+            //   textureResize({ size: optimize })
+            // )
 
-            glbDocument
-              .createExtension(DracoMeshCompression)
-              .setRequired(true)
-              .setEncoderOptions({
-                method: DracoMeshCompression.EncoderMethod.EDGEBREAKER,
-                encodeSpeed: 5,
-                decodeSpeed: 5,
-              })
+            // glbDocument
+            //   .createExtension(DracoMeshCompression)
+            //   .setRequired(true)
+            //   .setEncoderOptions({
+            //     method: DracoMeshCompression.EncoderMethod.EDGEBREAKER,
+            //     encodeSpeed: 5,
+            //     decodeSpeed: 5,
+            //   })
 
-            io.setVertexLayout(VertexLayout.SEPARATE)
-            let newBin = await io.writeBinary(glbDocument)
+            // io.setVertexLayout(VertexLayout.SEPARATE)
+            // let newBin = await io.writeBinary(glbDocument)
+
+            let newBin = gltf
 
             if (!onDoneOptimizeBuffer) {
               let newFile = new Blob([newBin], {
