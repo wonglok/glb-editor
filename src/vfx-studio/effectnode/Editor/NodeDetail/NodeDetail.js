@@ -1,5 +1,6 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useENEditor } from '@/vfx-studio/store/use-en-editor'
+import { TabUnifroms } from './TabUniforms'
 
 export function NodeDetail() {
   let setOverlay = useENEditor((s) => s.setOverlay)
@@ -13,6 +14,7 @@ export function NodeDetail() {
   let effectNode = getEffectNode()
   let node = getActiveNode()
 
+  let [tab, setTab] = useState('conns')
   useEffect(() => {
     let hh = (ev) => {
       if (ev.key === 'Escape') {
@@ -64,101 +66,137 @@ export function NodeDetail() {
             //
             className='bg-white border border-yellow-300 shadow-xl bg-opacity-40 rounded-xl'
           >
-            <div className='py-2 text-center bg-yellow-400'>
+            <div className='py-2 text-2xl text-center bg-yellow-400'>
               {node.displayTitle}
             </div>
 
-            <div>
-              <div className='p-2'>This node</div>
-              <div className='p-2'>
-                <div key={node._id}>
-                  {/*  */}
-                  {/*  */}
-                  {/*  */}
+            <div className='w-full bg-gray-200'>
+              <div
+                onClick={() => {
+                  //
+                  setTab('conns')
+                }}
+                className='inline-block p-3 my-1 mr-1 text-white bg-orange-500 rounded-lg cursor-pointer hover:bg-orange-600'
+              >
+                Connections
+              </div>
 
-                  <button
-                    className='p-2 bg-red-200'
-                    onClick={() => {
-                      //
-                      removeNode(node)
-                      // effectNode.connections
+              <div
+                onClick={() => {
+                  //
+                  setTab('uniforms')
+                }}
+                className='inline-block p-3 my-1 mr-1 text-white bg-orange-500 rounded-lg cursor-pointer hover:bg-orange-600'
+              >
+                Uniforms
+              </div>
+            </div>
 
-                      effectNode.connections
-                        .filter((it) => {
-                          return (
-                            it.input.nodeID === node._id ||
-                            it.output.nodeID === node._id
-                          )
-                        })
-                        .forEach((conn) => {
-                          removeLink(conn)
-                        })
-                      setActiveNodeID('')
-                      setOverlay('')
-                      //
-                    }}
-                  >
-                    Remove this node and it's connections.
-                  </button>
+            {tab === 'uniforms' && (
+              <>
+                {/*  */}
+                <TabUnifroms node={node}></TabUnifroms>
+                {/*  */}
+              </>
+            )}
+
+            {tab === 'conns' && (
+              <>
+                <div>
+                  <div className='p-2'>Node Title: {node.displayTitle}</div>
+                  <div className='p-2'>
+                    <div key={node._id}>
+                      {/*  */}
+                      {/*  */}
+
+                      <button
+                        className='p-2 bg-red-200'
+                        onClick={() => {
+                          //
+                          removeNode(node)
+                          // effectNode.connections
+
+                          effectNode.connections
+                            .filter((it) => {
+                              return (
+                                it.input.nodeID === node._id ||
+                                it.output.nodeID === node._id
+                              )
+                            })
+                            .forEach((conn) => {
+                              removeLink(conn)
+                            })
+                          setActiveNodeID('')
+                          setOverlay('')
+                          //
+                        }}
+                      >
+                        Remove this node and it's connections.
+                      </button>
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </div>
 
-            <div>
-              <div className='p-2'>Connections</div>
-              <div className='p-2'>
-                {effectNode.connections
-                  .filter((e) => {
-                    return e.input.nodeID === node._id
-                  })
-                  .map((conn) => {
-                    return (
-                      <div key={conn._id}>
-                        {/*  */}
-                        {/*  */}
-                        {/*  */}
+                <div>
+                  <div className='p-2'>Connections</div>
+                  {effectNode.connections.length === 0 && (
+                    <div className='p-2'>No Connections...</div>
+                  )}
+                  <div className='p-2'>
+                    {effectNode.connections
+                      .filter((e) => {
+                        return e.input.nodeID === node._id
+                      })
+                      .map((conn) => {
+                        return (
+                          <div key={conn._id}>
+                            {/*  */}
+                            {/*  */}
+                            {/*  */}
 
-                        <button
-                          className='p-2 bg-red-200'
-                          onClick={() => {
-                            //
-                            removeLink(conn)
-                            //
-                          }}
-                        >
-                          Remove this input connection. {` ` + conn._id}
-                        </button>
-                      </div>
-                    )
-                  })}
-              </div>
-              <div className='p-2'>
-                {effectNode.connections
-                  .filter((e) => {
-                    return e.output.nodeID === node._id
-                  })
-                  .map((conn) => {
-                    return (
-                      <div key={conn._id}>
-                        {/*  */}
-                        {/*  */}
-                        {/*  */}
+                            <button
+                              className='p-2 bg-red-200'
+                              onClick={() => {
+                                //
+                                removeLink(conn)
+                                //
+                              }}
+                            >
+                              Remove this input connection. {` ` + conn._id}
+                            </button>
+                          </div>
+                        )
+                      })}
+                  </div>
+                  <div className='p-2'>
+                    {effectNode.connections
+                      .filter((e) => {
+                        return e.output.nodeID === node._id
+                      })
+                      .map((conn) => {
+                        return (
+                          <div key={conn._id}>
+                            {/*  */}
+                            {/*  */}
+                            {/*  */}
 
-                        <button
-                          className='p-2 bg-red-200'
-                          onClick={() => {
-                            //
-                            removeLink(conn)
-                            //
-                          }}
-                        >
-                          Remove this output connection. {` ` + conn._id}
-                        </button>
-                      </div>
-                    )
-                  })}
-              </div>
-            </div>
+                            <button
+                              className='p-2 bg-red-200'
+                              onClick={() => {
+                                //
+                                removeLink(conn)
+                                //
+                              }}
+                            >
+                              Remove this output connection. {` ` + conn._id}
+                            </button>
+                          </div>
+                        )
+                      })}
+                  </div>
+                </div>
+              </>
+            )}
           </div>
 
           {/*  */}

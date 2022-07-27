@@ -26,6 +26,7 @@
     "@gltf-transform/core": "^2.2.0",
     "@gltf-transform/extensions": "^2.2.0",
     "@gltf-transform/functions": "^2.2.0",
+    "@monaco-editor/react": "^4.4.5",
     "@react-three/drei": "^9.14.3",
     "@react-three/fiber": "^8.0.27",
     "@react-three/postprocessing": "^2.4.6",
