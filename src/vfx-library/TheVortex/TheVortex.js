@@ -32,7 +32,7 @@ export class TheVortex extends Object3D {
     this.core = Core.makeDisposableNode({ name: 'vortex' }).sub
     let gl = Core.now.canvas.now.gl
 
-    let SIZE_X = 128
+    let SIZE_X = 256
     let SIZE_Y = 128
 
     let gpuCompute = new CustomGPU(SIZE_X, SIZE_Y, gl)
@@ -124,7 +124,7 @@ export class TheVortex extends Object3D {
     if (error !== null) {
       console.error(error)
     }
-    let boxGeo = new BoxBufferGeometry(2, 2, 2).toNonIndexed()
+    let boxGeo = new BoxBufferGeometry(0.5, 0.5, 0.5).toNonIndexed()
 
     let geo = new InstancedBufferGeometry()
     geo.setAttribute('position', boxGeo.attributes.position)
@@ -288,7 +288,7 @@ export class TheVortex extends Object3D {
       node: this.core,
       getHeadList: () => current.texture,
       howManyTrackers: 128,
-      tailLength: 32,
+      tailLength: 64,
     })
     noodleO3.o3d.scale.setScalar((1 / 350) * 50)
 

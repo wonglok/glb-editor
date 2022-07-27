@@ -329,7 +329,7 @@ export class LokLokWiggleSimulation {
           // positionChain.y += (cnoise(positionHead.rgb * 0.01 + 0.2)) * 1.5;
           // positionChain.z += (cnoise(positionHead.rgb * 0.01 + 0.3)) * 1.5;
 
-          // positionChain.xyz *= 1.0 + 0.0135;
+          positionChain.xyz *= 1.0 + 0.0135;
 
 
 
@@ -525,7 +525,7 @@ export class LokLokWiggleDisplay {
       vec3 makeGeo () {
         float t = (tubeInfo) + 0.5;
         // t *= 2.0;
-        float thickness = 0.03 * 100.0 * 0.5 * (1.0 - t);
+        float thickness = 0.03 * 100.0 * 1.5 * t * (1.0 - t);
 
         vec2 volume = vec2(thickness);
         vec3 transformedYo;
