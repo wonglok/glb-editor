@@ -30,6 +30,7 @@ import {
 import { Geometry } from 'three140/examples/jsm/deprecated/Geometry.js'
 import { MeshPhysicalMaterial } from 'three'
 import { Core } from '@/vfx-core/Core'
+import { MeshStandardMaterial } from 'three140'
 
 export class LokLokWiggleSimulation {
   constructor({ node, getHeadList, howManyTracker = 10, howLongTail = 32 }) {
@@ -325,9 +326,9 @@ export class LokLokWiggleSimulation {
           // positionChain.y += (rand(vec2(currentLine + 0.2)) * 2.0 - 1.0) * 2.0;
           // positionChain.z += (rand(vec2(currentLine + 0.3)) * 2.0 - 1.0) * 2.0;
 
-          // positionChain.x += (cnoise(positionHead.rgb * 0.01 + 0.1)) * 1.5;
-          // positionChain.y += (cnoise(positionHead.rgb * 0.01 + 0.2)) * 1.5;
-          // positionChain.z += (cnoise(positionHead.rgb * 0.01 + 0.3)) * 1.5;
+          positionChain.x += (cnoise(positionHead.rgb * 0.01 + 0.1)) * 0.4;
+          positionChain.y += (cnoise(positionHead.rgb * 0.01 + 0.2)) * 0.4;
+          positionChain.z += (cnoise(positionHead.rgb * 0.01 + 0.3)) * 0.4;
 
           positionChain.xyz *= 1.0 - 0.25 * 0.0135;
 
@@ -417,16 +418,20 @@ export class LokLokWiggleDisplay {
     geometry.instanceCount = count
 
     let matConfig = {
-      color: new Color('#58519B').offsetHSL(0, 0, 0.3),
+      // color: new Color('#58519B').offsetHSL(0, 0, 0.3),
+      color: new Color('#3333ff'),
       // emissive: new Color('#018888'),
       side: FrontSide,
+
       // transmission: 1,
       // reflectivity: 1.5,
-      // metalness: 0,
-      // roughness: 0,
-      // thickness: 4,
+      metalness: 1.0,
+      roughness: 0.0,
+      transparent: true,
+
+      // thickness: 1,
       // transmission: 1,
-      // ior: 1.3,
+      // ior: 1.0,
       // transparent: true,
       // opacity: 1,
       // // transmission: 1.0,
@@ -437,9 +442,8 @@ export class LokLokWiggleDisplay {
       // attenuationColor: new Color('#ffffff'),
     }
 
-    let matLine1 = new MeshBasicMaterial({
+    let matLine1 = new MeshStandardMaterial({
       ...matConfig,
-      transparent: true,
       // side: DoubleSide,
       // metalness: 0.1,
       // roughness: 0.2,
@@ -537,6 +541,8 @@ export class LokLokWiggleDisplay {
 
         return transformedYo;
       }
+
+      //
 
       vec3 makeGeoNormal () {
         float t = (tubeInfo) + 0.5;

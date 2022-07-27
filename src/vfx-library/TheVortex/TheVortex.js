@@ -39,7 +39,7 @@ export class TheVortex extends Object3D {
     //
     gpuCompute.setDataType(FloatType)
 
-    let ptLight = new PointLight(0x8490c6, 2.5, 25)
+    let ptLight = new PointLight(0xff00ff, 32.5, 25)
     this.add(ptLight)
 
     // pos IDX
@@ -128,6 +128,7 @@ export class TheVortex extends Object3D {
 
     let geo = new InstancedBufferGeometry()
     geo.setAttribute('position', boxGeo.attributes.position)
+    geo.setAttribute('normal', boxGeo.attributes.normal)
     geo.instanceCount = SIZE_X * SIZE_Y
 
     let getUVInfo = () => {
@@ -221,42 +222,90 @@ export class TheVortex extends Object3D {
 
     //
 
-    // let matt = new MeshPhysicalMaterial({
-    //   transparent: true,
-    //   color: new Color('#ffffff'),
-    //   roughness: 1.0,
-    //   metalness: 0.0,
-    //   emissive: new Color('#ffffff'),
-    // })
-    // matt.onBeforeCompile = (shader, gl) => {
-    //   //
+    let matt = new MeshPhysicalMaterial({
+      color: new Color('#ff00ff'),
+      transparent: true,
+      roughness: 0.0,
+      metalness: 1.0,
+    })
+    matt.onBeforeCompile = (shader, gl) => {
+      //
 
-    //   shader.uniforms.tPos = { value: null }
-    //   this.core.onLoop(() => {
-    //     shader.uniforms.tPos.value =
-    //       gpuCompute.getCurrentRenderTarget(posVar).texture
-    //   })
+      shader.uniforms.tPos = { value: null }
+      this.core.onLoop(() => {
+        shader.uniforms.tPos.value =
+          gpuCompute.getCurrentRenderTarget(posVar).texture
+      })
 
-    //   shader.vertexShader = shader.vertexShader.replace(
-    //     `void main() {`,
-    //     /* glsl */ `
-    //   uniform sampler2D tPos;
-    //   attribute vec3 uvinfo;
-    //   void main() {`
-    //   )
+      shader.vertexShader = shader.vertexShader.replace(
+        `void main() {`,
+        /* glsl */ `
+      uniform sampler2D tPos;
+      attribute vec3 uvinfo;
+      void main() {`
+      )
 
-    //   //
-    //   shader.vertexShader = shader.vertexShader.replace(
-    //     `#include <begin_vertex>`,
-    //     /* glsl */ `
-    //     vec4 tt = texture2D(tPos, uvinfo.xy);
+      //
+      shader.vertexShader = shader.vertexShader.replace(
+        `#include <begin_vertex>`,
+        /* glsl */ `
+        vec4 tt = texture2D(tPos, uvinfo.xy);
 
-    //     vec3 transformed = vec3( tt.rgb + position * 2.0);
-    //   `
-    //   )
-    // }
+        vec3 transformed = vec3( tt.rgb + position * 2.0);
+      `
+      )
 
-    let renderable = new Mesh(geo, material)
+      let transformV3 = `
+
+
+            vec3 nPos = position;
+            vec3 transformed = vec3( nPos );
+
+
+            `
+
+      let transformV3Normal = `
+
+            vec3 nPosNormal = normalize(normal);
+            vec3 objectNormal = vec3( nPosNormal );
+
+            // #ifdef USE_TANGENT
+            //   vec3 objectTangent = vec3( tangent.xyz );
+            // #endif
+            `
+
+      shader.vertexShader = shader.vertexShader.replace(
+        `#include <begin_vertex>`,
+        `${transformV3}`
+      )
+      shader.vertexShader = shader.vertexShader.replace(
+        `#include <beginnormal_vertex>`,
+        `${transformV3Normal}`
+      )
+
+      shader.fragmentShader = shader.fragmentShader.replace(
+        `void main() {`,
+        `${`
+
+  `}\nvoid main() {`
+      )
+      shader.fragmentShader = shader.fragmentShader.replace(
+        `#include <output_fragment>`,
+        `
+      #ifdef OPAQUE
+        diffuseColor.a = 1.0;
+      #endif
+      #ifdef USE_TRANSMISSION
+        diffuseColor.a *= transmissionAlpha + 0.1;
+      #endif
+
+      gl_FragColor = vec4( outgoingLight, diffuseColor.a );
+      `
+      )
+      console.log(shader.fragmentShader)
+    }
+
+    let renderable = new Mesh(geo, matt || material)
     renderable.frustumCulled = false
     renderable.scale.setScalar((1 / 350) * 50)
     renderable.userData.enableBloom = true
