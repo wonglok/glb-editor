@@ -17,6 +17,8 @@ export function SceneContent({}) {
   let clean = useRef(() => {
     return () => {}
   })
+
+  //
   return (
     <>
       {/*  */}
@@ -83,6 +85,7 @@ export function SceneContent({}) {
           }}
           filter={(items) => items}
         >
+          <primitive object={glbObject.scene}></primitive>
           <EffectNodeRuntime glbObject={glbObject}></EffectNodeRuntime>
         </Select>
       )}

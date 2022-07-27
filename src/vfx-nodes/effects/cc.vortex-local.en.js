@@ -69,13 +69,15 @@ export async function nodeData({ defaultData, nodeID }) {
 }
 
 export function effect({ node, mini, data }) {
-  let myItem = new TheVortex({ enableDetection: true })
+  let myItem = new TheVortex({ enableDetection: false })
 
   myItem.scale.setScalar(0.015)
   mini.now.mounter.add(myItem)
   mini.onClean(() => {
     myItem.removeFromParent()
   })
+
+  //
 
   // data.uniforms.speed((v) => {
   //   if (v && typeof v.value !== 'undefined') {

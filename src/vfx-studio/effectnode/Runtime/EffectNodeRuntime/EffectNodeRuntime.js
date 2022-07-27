@@ -10,8 +10,6 @@ export function EffectNodeRuntime({ glbObject }) {
   glbObject.scene.updateMatrixWorld()
   return (
     <>
-      <primitive object={glbObject.scene}></primitive>
-
       <group key={reloadGraphID}>
         {glbObject &&
           ens.length > 0 &&
