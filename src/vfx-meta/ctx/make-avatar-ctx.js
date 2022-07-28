@@ -1,3 +1,4 @@
+import { getID } from '@/vfx-runtime/ENUtils'
 import {
   Box3,
   Line3,
@@ -22,16 +23,16 @@ export const makeAvatarCTX = () => {
     segment: new Line3(new Vector3(), new Vector3(0, -1.0, 0.0)),
   }
 
-  player.position.y = 5
+  let self = {
+    setPositionByArray: (array) => {
+      self.playerVelocity.set(0, 0, 0)
+      self.player.position.fromArray(array)
+    },
 
-  return {
     playerIsOnGround: false,
     player,
 
-    // displayCollider: false,
-    // displayBVH: false,
-    // visualizeDepth: 10,
-
+    //
     gravity: -30,
     playerSpeed: 10,
     physicsSteps: 5,
@@ -57,4 +58,6 @@ export const makeAvatarCTX = () => {
     coord: new Vector3(),
     quaternion: new Quaternion(),
   }
+
+  return self
 }

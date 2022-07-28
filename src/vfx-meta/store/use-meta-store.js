@@ -8,6 +8,7 @@ export const useMetaStore = create((set, get) => {
 
   let myCTX = makeAvatarCTX()
   return {
+    otherAvatars: [],
     collider: false,
     setColliderFromScene: ({ scene }) => {
       sceneToCollider({ scene }).then((collider) => {
@@ -17,7 +18,12 @@ export const useMetaStore = create((set, get) => {
 
     controls: false,
     camera: false,
-    setControls: ({ camera, dom }) => {
+    setControls: ({
+      camera,
+      dom,
+      initPos = [0, 5, 0],
+      cameraOffset = [0, 0, 5],
+    }) => {
       let self = get()
 
       if (self.controls) {
@@ -26,6 +32,14 @@ export const useMetaStore = create((set, get) => {
 
       //
       let controls = new OrbitControls(camera, dom)
+
+      myCTX.setPositionByArray(initPos)
+      camera.position.copy(myCTX.player.position)
+      camera.position.x += cameraOffset[0]
+      camera.position.y += cameraOffset[1]
+      camera.position.z += cameraOffset[2]
+      controls.update()
+
       set({ controls, camera })
 
       return () => {
@@ -33,18 +47,9 @@ export const useMetaStore = create((set, get) => {
       }
     },
 
-    keyboardReady: false,
     setKeyboard: () => {
-      let keyboardReady = get().keyboardReady
-
-      if (keyboardReady) {
-        return
-      }
-      //
       let setAction = (v) => {
-        // if (this.parent.core.now.mainAvatarAction !== v) {
-        //   this.parent.core.now.mainAvatarAction = v
-        // }
+        myCTX.action = v
       }
 
       let onKeyDown = (e) => {
