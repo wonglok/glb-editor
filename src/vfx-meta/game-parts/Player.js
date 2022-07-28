@@ -17,9 +17,14 @@ export function Player() {
     updatePlayer(dt)
   })
   useEffect(() => {
-    setKeyboard()
-    setControls({ camera: camera, dom: dom })
+    return setKeyboard()
   }, [])
+
+  useEffect(() => {
+    return setControls({ camera: camera, dom: dom })
+  }, [])
+
+  //
   return (
     <group>
       <primitive object={myCTX.player}></primitive>

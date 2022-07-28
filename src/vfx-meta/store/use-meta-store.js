@@ -27,6 +27,10 @@ export const useMetaStore = create((set, get) => {
       //
       let controls = new OrbitControls(camera, dom)
       set({ controls, camera })
+
+      return () => {
+        controls.dispose()
+      }
     },
 
     keyboardReady: false,
@@ -167,6 +171,13 @@ export const useMetaStore = create((set, get) => {
       // this.parent.core.onClean(() => {
       //   window.removeEventListener('keyup', onKeyUp)
       // })
+
+      return () => {
+        window.removeEventListener('keydown', onKeyDown)
+        window.removeEventListener('focus', onKeyUp)
+        window.removeEventListener('blur', onKeyUp)
+        window.removeEventListener('keyup', onKeyUp)
+      }
     },
 
     myCTX,
