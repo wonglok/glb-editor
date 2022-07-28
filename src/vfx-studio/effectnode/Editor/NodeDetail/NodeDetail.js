@@ -112,6 +112,9 @@ export function NodeDetail() {
                       <button
                         className='p-2 bg-red-200'
                         onClick={() => {
+                          if (!window.confirm('remove?')) {
+                            return
+                          }
                           //
                           removeNode(node)
                           // effectNode.connections
