@@ -4,6 +4,7 @@ import {
   Matrix4,
   Mesh,
   MeshStandardMaterial,
+  Quaternion,
   Vector3,
 } from 'three'
 import { RoundedBoxGeometry } from 'three140/examples/jsm/geometries/RoundedBoxGeometry'
@@ -51,5 +52,9 @@ export const makeAvatarCTX = () => {
     tempMat: new Matrix4(),
     tempSegment: new Line3(),
     deltaTarget: new Vector3(0, 0, 0),
+
+    //
+    coord: new Vector3(),
+    quaternion: new Quaternion(),
   }
 }

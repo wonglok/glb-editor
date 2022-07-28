@@ -1,8 +1,5 @@
-import { EffectNodeRuntime } from '@/vfx-studio/effectnode/Runtime/EffectNodeRuntime/EffectNodeRuntime'
-import { Box, useGLTF } from '@react-three/drei'
 import { useFrame, useThree } from '@react-three/fiber'
 import { useEffect } from 'react'
-import { HDR } from '../game-parts/HDR'
 import { useMetaStore } from '../store/use-meta-store'
 
 export function Player() {

@@ -6,7 +6,7 @@ export function Gameinside() {
   return (
     <group>
       <Player></Player>
-      <Floor></Floor>
+      <Floor url={'/scene/dome/dome.glb'}></Floor>
       <HDR></HDR>
     </group>
   )
