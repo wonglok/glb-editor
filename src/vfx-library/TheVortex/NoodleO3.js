@@ -319,7 +319,7 @@ export class LokLokWiggleSimulation {
           vec4 texColor = texture2D(headList, uvv);
 
           // // yolines
-          vec3 xyz = lerp(positionHead.rgb, texColor.rgb, 0.55);
+          vec3 xyz = lerp(positionHead.rgb, texColor.rgb, 0.1);
 
 
           gl_FragColor = vec4(xyz.rgb, 1.0);
@@ -331,6 +331,7 @@ export class LokLokWiggleSimulation {
           vec3 positionChain = texture2D( texturePosition, nextUV ).xyz;
 
 
+          positionChain.xyz = positionChain.xyz - trackerPos;
 
           // positionChain.rgb = lerp(positionHead.rgb, positionChain.rgb, 0.3);
 
@@ -343,6 +344,8 @@ export class LokLokWiggleSimulation {
           // positionChain.z += (cnoise(positionHead.rgb * 0.01 + 0.3)) * 0.4;
 
           positionChain.xyz *= 1.0 - 0.25 * 0.0135;
+
+          positionChain.xyz = positionChain.xyz + trackerPos;
 
           gl_FragColor = vec4(positionChain, 1.0);
         }
