@@ -42,7 +42,7 @@ export class TheVortex extends Object3D {
     this.core = Core.makeDisposableNode({ name: 'vortex' }).sub
     let gl = Core.now.canvas.now.gl
 
-    let SIZE_X = 128
+    let SIZE_X = 64
     let SIZE_Y = 128
 
     let gpuCompute = new CustomGPU(SIZE_X, SIZE_Y, gl)
