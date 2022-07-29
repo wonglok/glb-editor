@@ -115,13 +115,21 @@ pos.xyz = rotateQ(normalize(vec3(1.0, sin(mytime), 1.0)), mod(mytime * 0.0065, 1
 }
 
 export function effect({ node, mini, data }) {
-  let myItem = new TheVortex({ enableDetection: true })
+  let myItem = new TheVortex({
+    enableDetection: true,
+    tracker: mini.now.mounter,
+  })
 
-  myItem.scale.setScalar(0.03)
-  mini.now.mounter.add(myItem)
+  //
+
+  //
+  mini.now.scene.add(myItem)
   mini.onClean(() => {
     myItem.removeFromParent()
   })
+  // mini.onLoop(() => {
+  //   mini.now.mounter.getWorldPosition(myItem.position)
+  // })
 
   //
 
@@ -131,6 +139,11 @@ export function effect({ node, mini, data }) {
     }
   })
 
+  mini.onLoop(() => {
+    myItem.traverse((it) => {
+      it.frustumCulled = false
+    })
+  })
   // data.uniforms.colorA((v) => {
   //   if (v && typeof v.value !== 'undefined') {
   //     myItem.colorA = v.value

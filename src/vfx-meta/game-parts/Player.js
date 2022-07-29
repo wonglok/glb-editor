@@ -1,6 +1,7 @@
-import { useFrame, useThree } from '@react-three/fiber'
-import { useEffect } from 'react'
+import { createPortal, useFrame, useThree } from '@react-three/fiber'
+import { useEffect, useRef } from 'react'
 import { useMetaStore } from '../store/use-meta-store'
+import { PlayerAvatar } from './PlayerAvatar'
 
 export function Player() {
   let myCTX = useMetaStore((s) => s.myCTX)
@@ -11,7 +12,7 @@ export function Player() {
   let camera = useThree((s) => s.camera)
   let dom = useThree((s) => s.gl.domElement)
   useFrame((st, dt) => {
-    updatePlayer(dt)
+    updatePlayer((dt / 3) * 3)
   })
   useEffect(() => {
     return setKeyboard()
@@ -21,10 +22,32 @@ export function Player() {
     return setControls({ camera: camera, dom: dom })
   }, [])
 
+  let ref = useRef(false)
+
+  useFrame(() => {
+    if (ref.current && myCTX?.player) {
+      ref.current.copy(myCTX.player)
+      //
+    }
+  })
+
   //
   return (
     <group>
-      <primitive object={myCTX.player}></primitive>
+      {/*  */}
+      {/*  */}
+      <group ref={ref}>
+        <group rotation-y={Math.PI} position={[0, -1.52, 0]}>
+          <PlayerAvatar></PlayerAvatar>
+        </group>
+      </group>
+
+      {/*  */}
+      {/*  */}
+      {/* <primitive object={myCTX.player}></primitive> */}
+
+      {/*  */}
+      {/*  */}
     </group>
   )
 }

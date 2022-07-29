@@ -4,6 +4,8 @@ export const vortexComputeShader = /* glsl */ `
 precision highp float;
 precision highp sampler2D;
 
+uniform vec3 trackerPos;
+
 uniform float iTime;
 uniform sampler2D tIdx;
 
@@ -175,283 +177,38 @@ vec3 spiral3 (vec3 uvv, vec3 reso, float radius, float angle, vec3 center) {
 uniform vec3 mousePos;
 uniform vec3 screen;
 uniform float enterCirlce;
+
+  vec3 lerp(vec3 a, vec3 b, float w)
+      {
+        return a + w*(b-a);
+      }
+
+
 void main ()	{
 
   float time = iTime;
   vec2 cellSize = 1.0 / resolution.xy;
   vec2 newCell = gl_FragCoord.xy;
   vec2 uv = newCell * cellSize;
-  vec4 pos = texture2D(tPos, uv);
+  vec4 pos = vec4(0.0);
+  vec3 pp  = pos.xyz;
 
+  pos.xyz = pos.xyz;
 
-  // vec4 vel = texture2D(tVel, uv);
+  float az = 0.0;
+  float el = 0.0;
+  vec3 noiser = vec3(
+    rand(uv.xy + 0.1) * 2.0 - 1.0,
+    rand(uv.xy + 0.2) * 2.0 - 1.0,
+    rand(uv.xy + 0.3) * 2.0 - 1.0
+  );
 
+  toBall(noiser, az, el);
+  pos.xyz = trackerPos + rotateY(time) * fromBall(5.0 + sin(time), az, el);
 
-  bool shouldSkipRendering = false;
-  float mode = 9.0;
 
-  float timer2 = mod(time * 0.1 , 3.0);
+  gl_FragColor.rgb = pos.rgb;
 
-  if (enterCirlce == 1.0) {
-    mode = 5.0;
-  } else {
-    if (timer2 >= 2.0) {
-      mode = 7.0;
-      time *= 0.3;
-    } else if (timer2 >= 1.0) {
-      mode = 6.0;
-      time *= 0.3;
-    } else {
-      time *= 0.3;
-    }
-  }
-
-  time = mod(time, M_PI * 4.0);
-
-
-
-
-  if (pos.x == 0.0 && pos.y == 0.0 && pos.z == 0.0) {
-//     vec4 idx = texture2D(tIdx, uv);
-
-
-//     float vertexID = idx.w;
-//     float squareVertexID = idx.x;
-//     float squareIDX = idx.y;
-//     float totalSquares = idx.z;
-
-//     vec2 plane = vec2(
-//       2.0, // width
-//       2.0 // height
-//     );
-
-//     float dimension = pow(totalSquares, 1.0 / 3.0);
-//     float cubeID = mod(squareIDX, dimension);
-
-//     float xx = mod(cubeID * pow(dimension, 0.0), dimension);
-//     float yy = mod(cubeID * pow(dimension, 1.0), dimension);
-//     float zz = mod(cubeID * pow(dimension, 2.0), dimension);
-
-//     vec3 finalXYZ = vec3(xx, yy, zz);
-
-//     float adjustToCenter = dimension * -0.5;
-//     finalXYZ += adjustToCenter;
-
-//     float changeTo = 1.0 / dimension;
-//     finalXYZ *= changeTo;
-
-//     vec4 offset = vec4(finalXYZ, 1.0) * 50.0;
-
-//     float az = 0.0;
-//     float el = 0.0;
-
-//     vec3 virtualBall = vec3(offset.xyz);
-//     toBall(virtualBall, az, el);
-
-//     toPlane(plane, pos, squareVertexID, shouldSkipRendering);
-// //
-//     // pos.xyz += fromBall(5.0, az, el);
-//     // pos.xyz += vec3(7.0 * offset);
-
-
-    float az = 0.0;
-    float el = 0.0;
-    vec3 noiser = vec3(uv.xy, rand(uv.xy));
-    toBall(noiser, az, el);
-
-    az += sin(time + rand(pos.xy) * cos(time));
-    el += cos(time + rand(pos.xy) * sin(time));
-
-    if (mode == 9.0) {
-      pos.xyz = fromBall(10.0, az, el);
-    } else {
-      pos.xyz = fromBall(350.0, az, el);
-    }
-
-    //
-  } else {
-    // ---------
-
-    // if (mod(time * 0.05, 1.0) < 0.3) {
-    //   mode = 1.0;
-    // }
-
-    if (mode == 1.0) {
-      vec3 mpos = pos.xyz / 350.0 * 3.14159264 * 2.0;
-
-      pos.xyz = rotateX(mpos.x) * pos.xyz;
-      pos.xyz = rotateY(mpos.y) * pos.xyz;
-      pos.xyz = rotateZ(mpos.z) * pos.xyz;
-    } else if (mode == 2.0) {
-      vec3 mpos = pos.xyz / 350.0 * 3.14159264 * 2.0;
-
-      pos.xyz = rotateX(mpos.x) * pos.xyz;
-      pos.xyz = rotateY(mpos.y) * pos.xyz;
-      pos.xyz = rotateZ(mpos.z) * pos.xyz;
-
-      pos.xyz = rotateQ(normalize(mpos.xyz), time) * pos.xyz;
-    } else if (mode == 3.0) {
-      vec3 mpos = pos.xyz / 350.0 * 3.14159264 * 2.0;
-
-      pos.xyz = rotateX(mpos.x) * pos.xyz;
-      pos.xyz = rotateY(mpos.y) * pos.xyz;
-      pos.xyz = rotateZ(mpos.z) * pos.xyz;
-
-      pos.xyz += rand(uv) * 1.0;
-
-      pos.xyz = rotateQ(normalize(mpos.xyz), time * 0.5) * pos.xyz;
-
-      // pos.xyz = rotateX(time) * pos.xyz;
-    } else if (mode == 4.0) {
-      vec3 mpos = pos.xyz / 350.0 * 3.14159264 * 2.0;
-
-      pos.xyz = rotateX(mpos.x) * pos.xyz;
-      pos.xyz = rotateY(mpos.y) * pos.xyz;
-      pos.xyz = rotateZ(mpos.z) * pos.xyz;
-
-      pos.xyz += rand(uv) * 0.8;
-
-      pos.xyz = rotateQ(normalize(mpos.zyx), time * 0.65) * pos.xyz;
-    } else if (mode == 5.0) {
-      float scaler = 1.0 / 350.0 * 3.14159264 * 2.0;
-      vec3 mpos = pos.xyz * scaler;
-
-      vec2 reso = vec2(1.0, 1.0);
-      float radius = 20.0;
-      float angle = 12.0;
-      vec2 center = vec2(0.0);
-
-      pos.xy += spiral(sin(tan(mpos.xy)), reso, radius, angle, center);
-    } else if (mode == 6.0) {
-      /** BACKUP */
-      /** BACKUP */
-      /** BACKUP */
-      /** BACKUP */
-      /** BACKUP */
-
-      // float scaler = 1.0 / 350.0 * 3.14159264 * 2.0;
-      // vec3 mpos = pos.xyz * scaler;
-
-
-      // vec3 reso = vec3(1.0, 1.0, 1.0);
-      // float radius = 20.0;
-      // float angle = 12.0;
-      // vec3 center = vec3(0.0);
-
-      // // pos.xyz += spiral3(sin(sin(mpos.xyz)), reso, radius, angle, center);
-
-      // pos.xyz = rotateQ(normalize(mpos.xyz * sin(mpos + time)), mod(time * 0.0065, 1.0)) * pos.xyz;
-      // pos.xyz = rotateQ(normalize(vec3(1.0)), mod(time * 0.0065, 1.0)) * pos.xyz;
-
-      /** BACKUP */
-      /** BACKUP */
-      /** BACKUP */
-      /** BACKUP */
-
-      float scaler = 1.0 / 350.0 * 3.14159264 * 2.0;
-      vec3 mpos = pos.xyz * scaler;
-
-      vec3 reso = vec3(1.0, 1.0, 1.0);
-      float radius = 20.0;
-      float angle = 12.0;
-      vec3 center = vec3(0.0);
-
-
-      pos.xyz = rotateQ(normalize(mpos.xyz * sin(mpos + time * 0.2) * vec3(1.0, 0.1, 0.5)), mod(time * 0.0065, 1.0)) * pos.xyz;
-      pos.xyz = rotateQ(normalize(vec3(-0.3, 0.0, 1.0)), mod(time * 0.0065, 1.0)) * pos.xyz;
-      pos.xyz = pos.xyz * rotateY(0.025);
-
-
-      //
-      // pos.xyz += spiral3(sin(sin(mpos.xyz)), reso, radius, angle, center);
-      // pos.xyz += spiral3(sin(sin(mpos.xyz * 30.0)), reso, radius, angle, center);
-
-    } else if (mode == 7.0) {
-      float scaler = 1.0 / 350.0 * 3.14159264 * 2.0;
-      vec3 mpos = pos.xyz * scaler;
-
-      vec3 reso = vec3(1.0, 1.0, 1.0);
-      float radius = 20.0;
-      float angle = 12.0;
-      vec3 center = vec3(0.0);
-
-      pos.xyz += spiral3(sin(sin(mpos.xyz)), reso, radius, angle, center);
-
-      pos.xyz = rotateQ(normalize(mpos.xyz * sin(mpos + time)), mod(time * 0.0065, 1.0)) * pos.xyz;
-      pos.xyz = rotateQ(normalize(vec3(1.0)), mod(time * 0.0065, 1.0)) * pos.xyz;
-    } else if (mode == 8.0) {
-      float scaler = 1.0 / 350.0 * 3.14159264 * 2.0;
-      vec3 mpos = pos.xyz * scaler;
-
-
-      vec3 reso = vec3(1.0, 1.0, 1.0);
-      float radius = 20.0;
-      float angle = 12.0;
-      vec3 center = vec3(0.0);
-
-      float az = 0.0;
-      float el = 0.0;
-      vec3 noiser = vec3(mpos.xyz);
-      toBall(noiser, az, el);
-
-      az += sin(time + rand(pos.xy) * cos(time));
-      el += cos(time + rand(pos.xy) * sin(time));
-
-      pos.xyz += fromBall(0.1, az, el);
-
-      pos.xyz = rotateQ(normalize(mpos.xyz * sin(mpos + time)), mod(time * 0.0065, 1.0)) * pos.xyz;
-      pos.xyz = rotateQ(normalize(vec3(1.0)), mod(time * 0.0065, 1.0)) * pos.xyz;
-    } else if (mode == 9.0) {
-
-      //
-      float scaler = 1.0 / 350.0 * 3.14159264 * 2.0;
-      vec3 mpos = pos.xyz * scaler;
-
-      vec3 reso = vec3(1.0, 1.0, 1.0);
-      float radius = 20.0;
-      float angle = 12.0;
-      vec3 center = vec3(0.0);
-
-      float az = uv.x;
-      float el = uv.y;
-
-      toBall(mpos.xyz, az, el);
-      pos.xyz = fromBall(350.0, az, el);
-
-      float mytime = abs(sin(pos.x + pos.z + pos.y + time * 5.0)) * 3.141592;
-
-      az += sin(mytime + rand(time + pos.xy) + time);
-      el += cos(mytime + rand(time + pos.yz) + time);
-
-      // pos.xyz += fromBall(2.0, az, el);
-      // pos.xyz = fromBall(350.0, az, el);
-
-      pos.xyz = rotateQ(normalize(mpos.xyz * sin(mpos + mod(mytime, 1.0))), mod(mytime * 0.0065, 1.0)) * pos.xyz;
-      pos.xyz = rotateQ(normalize(vec3(1.0)), mod(mytime * 0.0065, 1.0)) * pos.xyz;
-
-      // pos.xyz += fromBall(3.1, cos(az), sin(el));
-      // pos.xyz = rotateQ(normalize(vec3(1.0)), mod(time * 0.0065 * 0.1, 1.0)) * pos.xyz;
-
-      // pos.xyz = rotateQ(normalize(mpos.xyz * sin(mpos + time * 0.25)), mod(time * 0.0065 * 0.5, 1.0)) * pos.xyz;
-
-      // pos.xyz = pos.xyz;
-      // pos.xyz = vec3(uv.xy, 0.0);
-
-      //
-    }
-
-    /*insert_here*/
-
-
-  }
-
-
-  // pos.rgb += vec3(rotateQ(vec3(time * 50.0)), (vec3(pos.rgb)));
-
-  pos.rgb = rotateZ(0.05) * pos.rgb;
-
-  gl_FragColor = pos;
-  pos.w = 1.0;
-
+  gl_FragColor.w = 1.0;
 }
 `

@@ -33,10 +33,11 @@ export class TheVortex extends Object3D {
   get shader() {
     return this.a
   }
-  constructor({ enableDetection } = {}) {
+  constructor({ enableDetection, tracker } = {}) {
     super()
     this._shader = ''
     this.setSimShader = () => {}
+    this.tracker = tracker
 
     this.core = Core.makeDisposableNode({ name: 'vortex' }).sub
     let gl = Core.now.canvas.now.gl
@@ -49,7 +50,7 @@ export class TheVortex extends Object3D {
     gpuCompute.setDataType(FloatType)
 
     let ptLight = new PointLight(0xff00ff, 32.5, 25)
-    this.add(ptLight)
+    tracker.add(ptLight)
 
     // pos IDX
     let posIdx_data = new Float32Array(SIZE_X * SIZE_Y * 4)
@@ -102,6 +103,8 @@ export class TheVortex extends Object3D {
     //   ${tPos}
     // `
 
+    // tracker
+
     let posVar = gpuCompute.addVariable('tPos', tPos, posDynamic)
 
     posVar.material.uniforms.tIdx = { value: posIdx }
@@ -111,6 +114,7 @@ export class TheVortex extends Object3D {
       value: new Vector3(window.innerWidth, window.innerHeight, 0.0),
     }
     posVar.material.uniforms.enterCirlce = { value: 0 }
+    posVar.material.uniforms.trackerPos = { value: this.tracker.position }
 
     this.setSimShader = (code) => {
       let str =
@@ -133,7 +137,7 @@ export class TheVortex extends Object3D {
       //
     }
 
-    let vp = new Vector3()
+    // let vp = new Vector3()
 
     // if (enableDetection) {
     //   this.core.onLoop(() => {posVar.material.uniforms
@@ -155,7 +159,7 @@ export class TheVortex extends Object3D {
     if (error !== null) {
       console.error(error)
     }
-    let boxGeo = new IcosahedronBufferGeometry(1.0, 0.0).toNonIndexed()
+    let boxGeo = new IcosahedronBufferGeometry(0.02, 0.0).toNonIndexed()
 
     let geo = new InstancedBufferGeometry()
     geo.setAttribute('position', boxGeo.attributes.position)
@@ -266,7 +270,7 @@ export class TheVortex extends Object3D {
         this.core.onLoop((dt) => {
           let time = window.performance.now() / 1000
           shader.uniforms.time.value = time
-          // posVar.material.uniforms.iTime.value = time
+          posVar.material.uniforms.iTime.value = time
 
           // uniforms.tPos.value = gpuCompute.getCurrentRenderTarget(posVar).texture
           // uniforms.time.value = time
@@ -429,7 +433,7 @@ export class TheVortex extends Object3D {
     let renderable = new Mesh(geo, matt) // material
 
     renderable.frustumCulled = false
-    renderable.scale.setScalar((1 / 350) * 50)
+    // renderable.scale.setScalar((1 / 350) * 50)
     renderable.userData.enableBloom = true
 
     // let renderable2 = new Mesh(geo, material2)
@@ -461,8 +465,10 @@ export class TheVortex extends Object3D {
       getHeadList: () => current.texture,
       howManyTrackers: 128,
       tailLength: 128,
+      tracker: tracker,
     })
-    noodleO3.o3d.scale.setScalar((1 / 350) * 50)
+
+    // noodleO3.o3d.scale.setScalar((1 / 350) * 50)
 
     this.add(noodleO3.o3d)
     this.core.onClean(() => {

@@ -2,7 +2,7 @@ import { useFrame, useThree } from '@react-three/fiber'
 import { useEffect, useState } from 'react'
 import { Object3D, Vector3 } from 'three140'
 import { Core } from '@/vfx-core/Core'
-import { EventEmitter } from '@/vfx-runtime/ENUtils'
+import { EventEmitter, getID } from '@/vfx-runtime/ENUtils'
 import { useENEditor } from '@/vfx-studio/store/use-en-editor'
 import { ENTJCore } from '../ENTJCore/ENTJCore'
 import { EffectNodeObjectLink } from './EffectNodeObjectLink'
@@ -20,44 +20,16 @@ export function EffectNodeObject({ glbObject, item, effectNode }) {
 
   //
   useEffect(() => {
-    //
-    // effectNode.connections.forEach((conn) => {
-    //   on(conn.output._id, (data) => {
-    //     emit(conn.input._id, data)
-    //   })
-    // })
-    //
-
-    //
-    // let removeList = []
-    //
-    // group.scene.traverse((it) => {
-    //   //
-    //   if (it.userData.effectNode) {
-    //     removeList.push(it)
-    //   }
-    // })
-    //
-    // removeList.forEach((list) => {
-    //   list.children.forEach((it) => {
-    //     it.removeFromParent()
-    //   })
-    // })
-    //
-    //
     item.geometry.computeBoundingSphere()
     let center = item.geometry.boundingSphere.center
-    // let radius = item.geometry.boundingSphere.radius
+    // // let radius = item.geometry.boundingSphere.radius
 
-    //
+    // //
     let next = new Vector3()
-    next.copy(center)
-    item.updateMatrixWorld()
-    next.applyMatrix4(item.matrixWorld)
 
     let mounter = new Object3D()
-    mounter.position.copy(next)
-    let enRuntime = new ENTJCore({ name: item.name })
+    // mounter.position.copy(next)
+    let enRuntime = new ENTJCore({ name: item.name + getID() })
     enRuntime.now.eventsBus = new EventEmitter()
     Core.now.canvas = enRuntime
 
@@ -75,11 +47,17 @@ export function EffectNodeObject({ glbObject, item, effectNode }) {
     enRuntime.now.group = glbObject
 
     //
-    // enRuntime.onLoop(() => {
-    //   item.getWorldPosition(mounter.position)
-    //   item.getWorldQuaternion(mounter.quaternion)
-    //   item.getWorldScale(mounter.scale)
-    // })
+    enRuntime.onLoop(() => {
+      item.getWorldPosition(mounter.position)
+      item.getWorldQuaternion(mounter.quaternion)
+      item.getWorldScale(mounter.scale)
+
+      // glbObject.scene.updateMatrixWorld(true)
+      // item.getWorldPosition(mounter.position)
+
+      //
+      // console.log(item)
+    })
 
     st.scene.add(mounter)
 
@@ -90,7 +68,7 @@ export function EffectNodeObject({ glbObject, item, effectNode }) {
         enRuntime.clean()
       }
     }
-  }, [])
+  }, [get, glbObject, item])
 
   useFrame(() => {
     enRuntime?.work()
@@ -120,6 +98,7 @@ export function EffectNodeObject({ glbObject, item, effectNode }) {
                     key={
                       node._id +
                       reloadGraphID +
+                      enRuntime.name +
                       effectNode.connections.map((e) => e._id)
                     }
                     node={node}
@@ -137,7 +116,7 @@ export function EffectNodeObject({ glbObject, item, effectNode }) {
               effectNode.connections.map((conn) => {
                 return (
                   <EffectNodeObjectLink
-                    key={conn._id + reloadGraphID}
+                    key={conn._id + reloadGraphID + enRuntime.name}
                     link={conn}
                     allLinks={effectNode.connections}
                     on={on}

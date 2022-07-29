@@ -110,23 +110,23 @@ import {
  * @param {WebGLRenderer} renderer The renderer
  */
 
-var CustomGPU = function (sizeX, sizeY, renderer) {
+let CustomGPU = function (sizeX, sizeY, renderer) {
   this.variables = []
   this.currentTextureIndex = 0
-  var dataType = FloatType
-  var scene = new Scene()
-  var camera = new Camera()
+  let dataType = FloatType
+  let scene = new Scene()
+  let camera = new Camera()
   camera.position.z = 1
-  var passThruUniforms = {
+  let passThruUniforms = {
     passThruTexture: {
       value: null,
     },
   }
-  var passThruShader = createShaderMaterial(
+  let passThruShader = createShaderMaterial(
     getPassThroughFragmentShader(),
     passThruUniforms
   )
-  var mesh = new Mesh(new PlaneGeometry(2, 2), passThruShader)
+  let mesh = new Mesh(new PlaneGeometry(2, 2), passThruShader)
   scene.add(mesh)
 
   this.setDataType = function (type) {
@@ -139,8 +139,8 @@ var CustomGPU = function (sizeX, sizeY, renderer) {
     computeFragmentShader,
     initialValueTexture
   ) {
-    var material = this.createShaderMaterial(computeFragmentShader)
-    var variable = {
+    let material = this.createShaderMaterial(computeFragmentShader)
+    let variable = {
       name: variableName,
       initialValueTexture: initialValueTexture,
       material: material,
@@ -172,7 +172,7 @@ var CustomGPU = function (sizeX, sizeY, renderer) {
     }
 
     for (let i = 0; i < this.variables.length; i++) {
-      var variable = this.variables[i] // Creates rendertargets and initialize them with input texture
+      let variable = this.variables[i] // Creates rendertargets and initialize them with input texture
 
       variable.renderTargets[0] = this.createRenderTarget(
         sizeX,
@@ -199,16 +199,16 @@ var CustomGPU = function (sizeX, sizeY, renderer) {
         variable.renderTargets[1]
       ) // Adds dependencies uniforms to the ShaderMaterial
 
-      var material = variable.material
-      var uniforms = material.uniforms
+      let material = variable.material
+      let uniforms = material.uniforms
 
       if (variable.dependencies !== null) {
         for (let d = 0; d < variable.dependencies.length; d++) {
-          var depVar = variable.dependencies[d]
+          let depVar = variable.dependencies[d]
 
           if (depVar.name !== variable.name) {
             // Checks if variable exists
-            var found = false
+            let found = false
 
             for (let j = 0; j < this.variables.length; j++) {
               if (depVar.name === this.variables[j].name) {
@@ -244,17 +244,17 @@ var CustomGPU = function (sizeX, sizeY, renderer) {
   }
 
   this.compute = function () {
-    var currentTextureIndex = this.currentTextureIndex
-    var nextTextureIndex = this.currentTextureIndex === 0 ? 1 : 0
+    let currentTextureIndex = this.currentTextureIndex
+    let nextTextureIndex = this.currentTextureIndex === 0 ? 1 : 0
 
     for (let i = 0, il = this.variables.length; i < il; i++) {
-      var variable = this.variables[i] // Sets texture dependencies uniforms
+      let variable = this.variables[i] // Sets texture dependencies uniforms
 
       if (variable.dependencies !== null) {
-        var uniforms = variable.material.uniforms
+        let uniforms = variable.material.uniforms
 
         for (let d = 0, dl = variable.dependencies.length; d < dl; d++) {
-          var depVar = variable.dependencies[d]
+          let depVar = variable.dependencies[d]
           uniforms[depVar.name].value =
             depVar.renderTargets[currentTextureIndex].texture
         }
@@ -286,7 +286,7 @@ var CustomGPU = function (sizeX, sizeY, renderer) {
 
   function createShaderMaterial(computeFragmentShader, uniforms) {
     uniforms = uniforms || {}
-    var material = new RawShaderMaterial({
+    let material = new RawShaderMaterial({
       uniforms: uniforms,
       vertexShader: getPassThroughVertexShader(),
       fragmentShader: `precision highp float; \n` + computeFragmentShader,
@@ -311,7 +311,7 @@ var CustomGPU = function (sizeX, sizeY, renderer) {
     wrapT = wrapT || ClampToEdgeWrapping
     minFilter = minFilter || NearestFilter
     magFilter = magFilter || NearestFilter
-    var renderTarget = new WebGLRenderTarget(sizeXTexture, sizeYTexture, {
+    let renderTarget = new WebGLRenderTarget(sizeXTexture, sizeYTexture, {
       wrapS: wrapS,
       wrapT: wrapT,
       minFilter: minFilter,
@@ -324,7 +324,7 @@ var CustomGPU = function (sizeX, sizeY, renderer) {
   }
 
   this.createTexture = function () {
-    var data = new Float32Array(sizeX * sizeY * 4)
+    let data = new Float32Array(sizeX * sizeY * 4)
     return new DataTexture(data, sizeX, sizeY, RGBAFormat, FloatType)
   }
 
@@ -338,7 +338,7 @@ var CustomGPU = function (sizeX, sizeY, renderer) {
   }
 
   this.doRenderTarget = function (material, output) {
-    var currentRenderTarget = renderer.getRenderTarget()
+    let currentRenderTarget = renderer.getRenderTarget()
     mesh.material = material
     renderer.setRenderTarget(output)
     renderer.render(scene, camera)

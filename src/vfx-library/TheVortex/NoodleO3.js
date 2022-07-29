@@ -1,6 +1,5 @@
 import { GPUComputationRenderer } from 'three-stdlib'
 import {
-  HalfFloatType,
   Vector3,
   BufferAttribute,
   CylinderBufferGeometry,
@@ -8,22 +7,10 @@ import {
   InstancedBufferGeometry,
   Vector2,
   RepeatWrapping,
-  ShaderMaterial,
   Mesh,
-  DataTexture,
-  DataUtils,
-  RGBFormat,
-  PlaneBufferGeometry,
-  MeshBasicMaterial,
-  TextureLoader,
   Object3D,
-  AdditiveBlending,
-  MathUtils,
-  RGBAFormat,
-  DoubleSide,
   Color,
   IcosahedronBufferGeometry,
-  SubtractiveBlending,
   FrontSide,
   FloatType,
 } from 'three'
@@ -33,13 +20,20 @@ import { Core } from '@/vfx-core/Core'
 import { MeshStandardMaterial } from 'three140'
 
 export class LokLokWiggleSimulation {
-  constructor({ node, getHeadList, howManyTracker = 10, howLongTail = 32 }) {
+  constructor({
+    node,
+    tracker,
+    getHeadList,
+    howManyTracker = 10,
+    howLongTail = 32,
+  }) {
     this.node = node
     this.WIDTH = howLongTail
     this.HEIGHT = howManyTracker // number of trackers
     this.COUNT = this.WIDTH * this.HEIGHT
     this.getHeadList = getHeadList
     this.v3v000 = new Vector3(0, 0, 0)
+    this.tracker = tracker
     this.wait = this.setup({ node })
   }
   async setup({ node }) {
@@ -133,7 +127,14 @@ export class LokLokWiggleSimulation {
     this.positionUniforms['headList'] = {
       value: this.getHeadList() || this.headList.texture,
     }
+    this.positionUniforms['trackerPos'] = {
+      value: new Vector3(),
+    }
     this.node.onLoop(() => {
+      this.positionUniforms['trackerPos'].value.copy(this.tracker.position)
+
+      console.log(this.positionUniforms['trackerPos'].value)
+
       this.positionUniforms['headList'] = {
         value: this.getHeadList() || this.headList.texture,
       }
@@ -176,19 +177,7 @@ export class LokLokWiggleSimulation {
 
     let lookupRightLine = () => {
       let str = `
-      vec2 uvv = vec2(0.5, currentLine / ${this.HEIGHT.toFixed(1)});
 
-      float ee = uvv.y;
-      vec4 texColor = texture2D(headList, uvv);
-
-      // // yolines
-      vec3 xyz = lerp(positionHead.rgb, texColor.rgb, 0.35);
-
-      // xyz.z += sin(time * 13.0) * sin(3.141592 * 12.0 * ee) * 0.2;
-      // xyz.x += cos(time * 13.0) * cos(3.141592 * 12.0 * ee) * 0.2;
-      // xyz.y += cos(time * 13.0) * cos(3.141592 * 12.0 * ee) * 0.2;
-
-      gl_FragColor = vec4(xyz.rgb, 1.0);
 
       `
       // let h = this.HEIGHT
@@ -209,6 +198,9 @@ export class LokLokWiggleSimulation {
     }
 
     return /* glsl */ `
+      uniform vec3 trackerPos;
+
+
       uniform sampler2D headList;
       ${mouseUniforms()}
       uniform sampler2D lookup;
@@ -304,6 +296,7 @@ export class LokLokWiggleSimulation {
 
       varying vec3 pos;
 
+
 			void main()	{
         // const float width = resolution.x;
         // const float height = resolution.y;
@@ -313,13 +306,32 @@ export class LokLokWiggleSimulation {
         vec4 positionHead = texture2D( texturePosition, uvCursor );
         vec4 lookupData = texture2D(lookup, uvCursor);
         vec2 nextUV = lookupData.xy;
-        float currentIDX = floor(gl_FragCoord.x);
+        float currentSegment = floor(gl_FragCoord.x);
         float currentLine = floor(gl_FragCoord.y);
-        if (floor(currentIDX) == 0.0) {
-          // currentIDX
-          ${lookupRightLine()}
+        if (floor(currentSegment) == 0.0) {
+          // currentSegment
+          // ${lookupRightLine()}
+
+
+          vec2 uvv = vec2(0.5, currentLine / ${this.HEIGHT.toFixed(1)});
+
+          float ee = uvv.y;
+          vec4 texColor = texture2D(headList, uvv);
+
+          // // yolines
+          vec3 xyz = lerp(positionHead.rgb, texColor.rgb, 0.55);
+
+
+          gl_FragColor = vec4(xyz.rgb, 1.0);
+
+          ///
         } else {
-          vec3 positionChain = texture2D( texturePosition,nextUV ).xyz;
+
+          //
+          vec3 positionChain = texture2D( texturePosition, nextUV ).xyz;
+
+
+
           // positionChain.rgb = lerp(positionHead.rgb, positionChain.rgb, 0.3);
 
           // positionChain.x += (rand(vec2(currentLine + 0.1)) * 2.0 - 1.0) * 2.0;
@@ -528,7 +540,7 @@ export class LokLokWiggleDisplay {
       vec3 makeGeo () {
         float t = (tubeInfo) + 0.5;
         // t *= 2.0;
-        float thickness = 3.0 * t * (1.0 - t);
+        float thickness = 0.1 * t * (1.0 - t);
 
         vT = t;
 
@@ -545,7 +557,7 @@ export class LokLokWiggleDisplay {
       vec3 makeGeoNormal () {
         float t = (tubeInfo) + 0.5;
         // t *= 2.0;
-        float thickness = 3.0 * t * (1.0 - t);
+        float thickness = 0.1 * t * (1.0 - t);
 
         vec2 volume = vec2(thickness);
         vec3 transformedYo;
@@ -870,12 +882,14 @@ class NoodleGeo {
 export class NoodleO3 {
   constructor({
     node,
+    tracker,
     getHeadList = () => {},
     howManyTrackers = 8,
     tailLength = 64,
   }) {
     this.o3d = new Object3D()
     this.node = node
+    this.tracker = tracker
     this.howManyTrackers = howManyTrackers
     this.tailLength = tailLength
     this.getHeadList = getHeadList
@@ -886,6 +900,7 @@ export class NoodleO3 {
     let sim = new LokLokWiggleSimulation({
       getHeadList: this.getHeadList,
       node,
+      tracker: this.tracker,
       howManyTracker: this.howManyTrackers,
       howLongTail: this.tailLength,
     })

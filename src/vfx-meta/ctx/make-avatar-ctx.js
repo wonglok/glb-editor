@@ -29,6 +29,76 @@ export const makeAvatarCTX = () => {
       self.player.position.fromArray(array)
     },
 
+    //
+    avatarURL: `/scene/loklokdemo/loklok-demo.glb`,
+    avatarVendor: `rpm`,
+    avatarRPMActionURLSet: [
+      {
+        //
+        name: `stand`,
+        repeats: Infinity,
+        url: `/rpm/rpm-jog/standing.fbx`,
+      },
+      ///
+      /*
+      jump: Joy.loadAsync(`/rpm/rpm-jog/jump.fbx`),
+      front: Joy.loadAsync(`/rpm/rpm-jog/jog-forward.fbx`),
+      back: Joy.loadAsync(`/rpm/rpm-jog/jog-backward.fbx`),
+      left: Joy.loadAsync(`/rpm/rpm-jog/jog-strafe-left.fbx`),
+      right: Joy.loadAsync(`/rpm/rpm-jog/jog-strafe-right.fbx`),
+      */
+      {
+        //
+        repeats: Infinity,
+        name: `jump`,
+        url: `/rpm/rpm-jog/jump.fbx`,
+      },
+      {
+        inPlace: true,
+        //
+        repeats: Infinity,
+        name: `front`,
+        url: `/rpm/rpm-jog/jog-forward.fbx`,
+      },
+      {
+        inPlace: true,
+
+        repeats: Infinity,
+        //
+        name: `back`,
+        url: `/rpm/rpm-jog/jog-backward.fbx`,
+      },
+      {
+        inPlace: true,
+        repeats: Infinity,
+
+        //
+        name: `left`,
+        url: `/rpm/rpm-jog/jog-strafe-left.fbx`,
+      },
+      {
+        repeats: Infinity,
+        inPlace: true,
+
+        //
+        name: `right`,
+        url: `/rpm/rpm-jog/jog-strafe-right.fbx`,
+      },
+      {
+        repeats: 1,
+        name: 'backflip',
+        url: `/rpm/rpm-actions/back-flip.fbx`,
+      },
+      {
+        repeats: 1,
+        name: 'sidekick',
+        url: `/rpm/rpm-actions/side-kick.fbx`,
+      },
+    ],
+    avatarActionResumeOnKeyUp: 'stand',
+    avatarActionName: 'stand',
+    avatarActionRepeat: Infinity,
+
     playerIsOnGround: false,
     player,
 

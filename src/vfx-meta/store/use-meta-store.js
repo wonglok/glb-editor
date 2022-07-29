@@ -18,12 +18,7 @@ export const useMetaStore = create((set, get) => {
 
     controls: false,
     camera: false,
-    setControls: ({
-      camera,
-      dom,
-      initPos = [0, 5, 0],
-      cameraOffset = [0, 0, 5],
-    }) => {
+    setControls: ({ camera, dom }) => {
       let self = get()
 
       if (self.controls) {
@@ -33,55 +28,62 @@ export const useMetaStore = create((set, get) => {
       //
       let controls = new OrbitControls(camera, dom)
 
-      myCTX.setPositionByArray(initPos)
-      camera.position.copy(myCTX.player.position)
-      camera.position.x += cameraOffset[0]
-      camera.position.y += cameraOffset[1]
-      camera.position.z += cameraOffset[2]
-      controls.update()
-
       set({ controls, camera })
+
+      get().setPosition({})
 
       return () => {
         controls.dispose()
       }
     },
 
+    setPosition: ({ initPos = [0, 5, 0], cameraOffset = [0, 0, 5] }) => {
+      let controls = get().controls
+      let camera = get().camera
+      myCTX.setPositionByArray(initPos)
+      camera.position.copy(myCTX.player.position)
+      camera.position.x += cameraOffset[0]
+      camera.position.y += cameraOffset[1]
+      camera.position.z += cameraOffset[2]
+      controls.update()
+    },
+
+    setAction: (v, repeats = Infinity, restoreAction = 'stand') => {
+      myCTX.avatarActionName = v
+      myCTX.avatarActionRepeat = repeats
+      myCTX.avatarActionResumeOnKeyUp = restoreAction
+
+      set({ myCTX: myCTX })
+    },
+
     setKeyboard: () => {
-      let setAction = (v) => {
-        myCTX.action = v
-      }
+      let setAction = get().setAction
 
       let onKeyDown = (e) => {
         switch (e.code) {
+          case 'KeyR':
+            setAction('backflip', 1)
+            break
           case 'KeyW':
             myCTX.fwdPressed = true
-            setAction('running')
+            setAction('front')
             break
           case 'KeyX':
             myCTX.xPressed = true
-            // setAction('drink')
-            // clearTimeout(tt)
-            // tt = setTimeout(() => {
-            //   setAction('drunkIdle')
-            //   Core.now.drunkMode = true
-            //   tt = setTimeout(() => {
-            //     setAction('standing')
-            //     Core.now.drunkMode = false
-            //   }, 4000)
-            // }, 4000)
+            setAction('sidekick', 1)
             break
           case 'KeyS':
             myCTX.bkdPressed = true
-            setAction('running')
+            setAction('back')
             break
+
           case 'KeyD':
             myCTX.rgtPressed = true
-            setAction('running')
+            setAction('right')
             break
           case 'KeyA':
             myCTX.lftPressed = true
-            setAction('running')
+            setAction('left')
             break
           case 'KeyE':
             myCTX.rgtRotPressed = true
@@ -110,7 +112,6 @@ export const useMetaStore = create((set, get) => {
               myCTX.playerVelocity.y = 10.0
               setAction('jump')
             }
-
             break
         }
       }
@@ -122,10 +123,10 @@ export const useMetaStore = create((set, get) => {
       // })
 
       let onKeyUp = (e) => {
-        if (!myCTX.xPressed) {
-          // Core.now.drunkMode = false
-          setAction('standing')
-        }
+        // if (!myCTX.xPressed) {
+        //   // Core.now.drunkMode = false
+        //   setAction('stand')
+        // }
 
         switch (e.code) {
           case 'KeyW':
@@ -158,7 +159,13 @@ export const useMetaStore = create((set, get) => {
 
           case 'KeyX':
             myCTX.xPressed = false
-            break
+        }
+
+        if (
+          myCTX.avatarActionResumeOnKeyUp &&
+          myCTX.avatarActionRepeat === Infinity
+        ) {
+          setAction(myCTX.avatarActionResumeOnKeyUp)
         }
       }
 
@@ -188,8 +195,8 @@ export const useMetaStore = create((set, get) => {
     myCTX,
 
     updatePlayer: (delta) => {
-      if (delta > 1 / 24) {
-        delta = 1 / 24
+      if (delta > 1 / 60) {
+        delta = 1 / 60
       }
 
       let self = get()
@@ -227,7 +234,7 @@ export const useMetaStore = create((set, get) => {
           myCTX.tempVector,
           myCTX.playerSpeed * delta
         )
-        myCTX.player.rotation.y = self.controls.getAzimuthalAngle() + Math.PI
+        myCTX.player.rotation.y = self.controls.getAzimuthalAngle()
       }
 
       if (myCTX.lftPressed) {
@@ -236,8 +243,7 @@ export const useMetaStore = create((set, get) => {
           myCTX.tempVector,
           myCTX.playerSpeed * delta
         )
-        myCTX.player.rotation.y =
-          self.controls.getAzimuthalAngle() + Math.PI * 0.5
+        myCTX.player.rotation.y = self.controls.getAzimuthalAngle()
       }
       if (myCTX.rgtPressed) {
         myCTX.tempVector.set(1, 0, 0).applyAxisAngle(myCTX.upVector, angle)
@@ -245,8 +251,7 @@ export const useMetaStore = create((set, get) => {
           myCTX.tempVector,
           myCTX.playerSpeed * delta
         )
-        myCTX.player.rotation.y =
-          self.controls.getAzimuthalAngle() + Math.PI * -0.5
+        myCTX.player.rotation.y = self.controls.getAzimuthalAngle()
       }
 
       if (myCTX.lftRotPressed) {
@@ -375,10 +380,12 @@ export const useMetaStore = create((set, get) => {
 
       // if the player has fallen too far below the level reset their position to the start
       if (myCTX.player.position.y < -100) {
-        this.reset({
-          lookAtTarget: [3.3, 1.5, 32.1],
-          cameraPositionOffset: [0, 1, 4],
-        })
+        // self.myCTX.player.position.copy({
+        //   lookAtTarget: [3.3, 1.5, 32.1],
+        //   cameraPositionOffset: [0, 1, 4],
+        // })
+        self.myCTX.player.position.fromArray([0, 5, 0])
+        self.myCTX.playerVelocity.set(0, 0, 0)
 
         // this.reset({ position: [0, 3, 3], lookAtTarget: [0, 3, 3] })
       }
