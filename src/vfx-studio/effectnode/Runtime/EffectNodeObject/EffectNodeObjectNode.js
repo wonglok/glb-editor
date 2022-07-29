@@ -16,6 +16,15 @@ export function EffectNodeObjectNode({
     let cleans = []
     let featureModule = codes.find((e) => e.title === node.codeID)
 
+    // let url = new URL(
+    //   'http://localhost:3000/repo-libs/wonglok/happy.js'
+    // ).href.toLowerCase()
+    // let val = eval(`import(${JSON.stringify(url)});`)
+    // val.then((e) => {
+    //   console.log(e)
+    // })
+
+    //
     if (featureModule) {
       featureModule.loader().then(async (logic) => {
         enRuntime.set(node._id, node)

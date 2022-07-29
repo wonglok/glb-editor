@@ -35,6 +35,15 @@ export class TheVortex extends Object3D {
   }
   constructor({ enableDetection, tracker } = {}) {
     super()
+
+    // import('http://localhost:3000/manifest.json').then((s) => {
+    //   console.log(s)
+    // })
+
+    // Creates a dynamic import from a string
+
+    // can easy be rewritten for your own extensions
+
     this._shader = ''
     this.setSimShader = () => {}
     this.tracker = tracker

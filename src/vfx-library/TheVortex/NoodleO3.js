@@ -133,7 +133,7 @@ export class LokLokWiggleSimulation {
     this.node.onLoop(() => {
       this.positionUniforms['trackerPos'].value.copy(this.tracker.position)
 
-      console.log(this.positionUniforms['trackerPos'].value)
+      // console.log(this.positionUniforms['trackerPos'].value)
 
       this.positionUniforms['headList'] = {
         value: this.getHeadList() || this.headList.texture,
