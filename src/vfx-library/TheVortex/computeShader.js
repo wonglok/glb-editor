@@ -210,5 +210,8 @@ void main ()	{
   gl_FragColor.rgb = pos.rgb;
 
   gl_FragColor.w = 1.0;
+
+  /*insert_here*/
+
 }
 `
