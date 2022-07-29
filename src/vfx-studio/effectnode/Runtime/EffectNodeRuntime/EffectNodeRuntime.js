@@ -1,4 +1,3 @@
-import { useAccessor } from '@/vfx-studio/store/use-accessor'
 import { useENEditor } from '@/vfx-studio/store/use-en-editor'
 import { useFilterEffectNode } from '@/vfx-studio/store/use-filter-effectnode'
 import { EffectNodeObject } from '../EffectNodeObject/EffectNodeObject'

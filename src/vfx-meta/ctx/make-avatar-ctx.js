@@ -37,16 +37,8 @@ export const makeAvatarCTX = () => {
         //
         name: `stand`,
         repeats: Infinity,
-        url: `/rpm/rpm-jog/standing.fbx`,
+        url: `/rpm/rpm-pose/standing-waiting.fbx`,
       },
-      ///
-      /*
-      jump: Joy.loadAsync(`/rpm/rpm-jog/jump.fbx`),
-      front: Joy.loadAsync(`/rpm/rpm-jog/jog-forward.fbx`),
-      back: Joy.loadAsync(`/rpm/rpm-jog/jog-backward.fbx`),
-      left: Joy.loadAsync(`/rpm/rpm-jog/jog-strafe-left.fbx`),
-      right: Joy.loadAsync(`/rpm/rpm-jog/jog-strafe-right.fbx`),
-      */
       {
         //
         repeats: Infinity,
@@ -93,6 +85,16 @@ export const makeAvatarCTX = () => {
         repeats: 1,
         name: 'sidekick',
         url: `/rpm/rpm-actions/side-kick.fbx`,
+      },
+      {
+        repeats: 1,
+        name: `wramup`,
+        url: `/rpm/rpm-actions/mma-warmup.fbx`,
+      },
+      {
+        repeats: Infinity,
+        name: 'fightready',
+        url: `/rpm/rpm-actions/mma-idle.fbx`,
       },
     ],
     avatarActionResumeOnKeyUp: 'stand',

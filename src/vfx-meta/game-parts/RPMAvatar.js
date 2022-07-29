@@ -98,6 +98,8 @@ export function RPMAvatar({
               eachSet.action = action
               eachSet.duration = animationsList[0].duration
               eachSet.fbx = fbx
+
+              //
               resolve(eachSet)
             })
           })

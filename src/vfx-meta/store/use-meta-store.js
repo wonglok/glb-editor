@@ -61,6 +61,13 @@ export const useMetaStore = create((set, get) => {
 
       let onKeyDown = (e) => {
         switch (e.code) {
+          case 'KeyX':
+            myCTX.avatarActionResumeOnKeyUp = 'fightready'
+            setAction('fightReady', 1)
+            break
+          case 'KeyV':
+            setAction('wramup', 1)
+            break
           case 'KeyR':
             setAction('backflip', 1)
             break
@@ -68,7 +75,7 @@ export const useMetaStore = create((set, get) => {
             myCTX.fwdPressed = true
             setAction('front')
             break
-          case 'KeyX':
+          case 'KeyF':
             myCTX.xPressed = true
             setAction('sidekick', 1)
             break
@@ -76,7 +83,6 @@ export const useMetaStore = create((set, get) => {
             myCTX.bkdPressed = true
             setAction('back')
             break
-
           case 'KeyD':
             myCTX.rgtPressed = true
             setAction('right')
@@ -158,6 +164,7 @@ export const useMetaStore = create((set, get) => {
           case 'Space':
 
           case 'KeyX':
+            //myCTX.avatarActionResumeOnKeyUp
             myCTX.xPressed = false
         }
 
