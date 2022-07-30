@@ -32,71 +32,7 @@ export const makeAvatarCTX = () => {
     //
     avatarURL: `/scene/loklokdemo/loklok-demo.glb`,
     avatarVendor: `rpm`,
-    avatarRPMActionURLSet: [
-      {
-        //
-        name: `stand`,
-        repeats: Infinity,
-        url: `/rpm/rpm-pose/standing-waiting.fbx`,
-      },
-      {
-        //
-        repeats: Infinity,
-        name: `jump`,
-        url: `/rpm/rpm-jog/jump.fbx`,
-      },
-      {
-        inPlace: true,
-        //
-        repeats: Infinity,
-        name: `front`,
-        url: `/rpm/rpm-jog/jog-forward.fbx`,
-      },
-      {
-        inPlace: true,
 
-        repeats: Infinity,
-        //
-        name: `back`,
-        url: `/rpm/rpm-jog/jog-backward.fbx`,
-      },
-      {
-        inPlace: true,
-        repeats: Infinity,
-
-        //
-        name: `left`,
-        url: `/rpm/rpm-jog/jog-strafe-left.fbx`,
-      },
-      {
-        repeats: Infinity,
-        inPlace: true,
-
-        //
-        name: `right`,
-        url: `/rpm/rpm-jog/jog-strafe-right.fbx`,
-      },
-      {
-        repeats: 1,
-        name: 'backflip',
-        url: `/rpm/rpm-actions/back-flip.fbx`,
-      },
-      {
-        repeats: 1,
-        name: 'sidekick',
-        url: `/rpm/rpm-actions/side-kick.fbx`,
-      },
-      {
-        repeats: 1,
-        name: `wramup`,
-        url: `/rpm/rpm-actions/mma-warmup.fbx`,
-      },
-      {
-        repeats: Infinity,
-        name: 'fightready',
-        url: `/rpm/rpm-actions/mma-idle.fbx`,
-      },
-    ],
     avatarActionResumeOnKeyUp: 'stand',
     avatarActionName: 'stand',
     avatarActionRepeat: Infinity,

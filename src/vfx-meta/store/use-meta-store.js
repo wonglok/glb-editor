@@ -62,8 +62,11 @@ export const useMetaStore = create((set, get) => {
       let onKeyDown = (e) => {
         switch (e.code) {
           case 'KeyX':
-            myCTX.avatarActionResumeOnKeyUp = 'fightready'
-            setAction('fightReady', 1)
+            if (myCTX.avatarActionResumeOnKeyUp === 'fightready') {
+              setAction('stand', 1, 'stand')
+            } else {
+              setAction('fightready', 1, 'fightready')
+            }
             break
           case 'KeyV':
             setAction('wramup', 1)

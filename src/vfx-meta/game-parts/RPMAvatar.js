@@ -7,12 +7,78 @@ import { useFrame, useThree } from '@react-three/fiber'
 import { useMetaStore } from '../store/use-meta-store'
 import { EffectNodeRuntime } from '@/vfx-studio/effectnode/Runtime/EffectNodeRuntime/EffectNodeRuntime'
 
+let RPM = {
+  Motion: [
+    {
+      //
+      name: `stand`,
+      repeats: Infinity,
+      url: `/rpm/rpm-pose/standing-waiting.fbx`,
+    },
+    {
+      //
+      repeats: Infinity,
+      name: `jump`,
+      url: `/rpm/rpm-jog/jump.fbx`,
+    },
+    {
+      inPlace: true,
+      //
+      repeats: Infinity,
+      name: `front`,
+      url: `/rpm/rpm-jog/jog-forward.fbx`,
+    },
+    {
+      inPlace: true,
+
+      repeats: Infinity,
+      //
+      name: `back`,
+      url: `/rpm/rpm-jog/jog-backward.fbx`,
+    },
+    {
+      inPlace: true,
+      repeats: Infinity,
+
+      //
+      name: `left`,
+      url: `/rpm/rpm-jog/jog-strafe-left.fbx`,
+    },
+    {
+      repeats: Infinity,
+      inPlace: true,
+
+      //
+      name: `right`,
+      url: `/rpm/rpm-jog/jog-strafe-right.fbx`,
+    },
+    {
+      repeats: 1,
+      name: 'backflip',
+      url: `/rpm/rpm-actions/back-flip.fbx`,
+    },
+    {
+      repeats: 1,
+      name: 'sidekick',
+      url: `/rpm/rpm-actions/side-kick.fbx`,
+    },
+    {
+      repeats: 1,
+      name: `wramup`,
+      url: `/rpm/rpm-actions/mma-warmup.fbx`,
+    },
+    {
+      repeats: Infinity,
+      name: 'fightready',
+      url: `/rpm/rpm-actions/mma-idle.fbx`,
+    },
+  ],
+}
+
 export function RPMAvatar({
-  avatarActionRepeat = Infinity,
   avatarActionName = 'standing',
   // avatarVendor = 'rpm',
   avatarURL = `/rpm/rpm-avatar/loklok-christmas.glb`,
-  avatarRPMActionURLSet = [],
 }) {
   let [glb, setGLB] = useState(false)
 
@@ -74,13 +140,21 @@ export function RPMAvatar({
       }
 
       Promise.all(
-        avatarRPMActionURLSet.map((eachSet) => {
+        RPM.Motion.map((eachSet) => {
           // return new
 
           return new Promise((resolve) => {
             //
+            if (eachSet.loading) {
+              eachSet.loading.then(() => {
+                resolve(eachSet)
+              })
+
+              return
+            }
+
             let fbxLoader = new FBXLoader()
-            fbxLoader.load(eachSet.url, (fbx) => {
+            eachSet.loading = fbxLoader.loadAsync(eachSet.url).then((fbx) => {
               //
 
               let animationsList = fbx.animations
@@ -112,7 +186,7 @@ export function RPMAvatar({
 
       return () => {}
     }
-  }, [glb, avatarRPMActionURLSet])
+  }, [glb])
 
   let tt = useRef(0)
   useEffect(() => {
