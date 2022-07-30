@@ -60,6 +60,10 @@ export class TheVortex extends Object3D {
 
     let ptLight = new PointLight(0xff00ff, 32.5, 25)
     this.add(ptLight)
+    this.core.onLoop(() => {
+      // tracker.getWorldPosition()
+      ptLight.position.lerp(tracker.position, 0.1)
+    })
 
     // pos IDX
     let posIdx_data = new Float32Array(SIZE_X * SIZE_Y * 4)
