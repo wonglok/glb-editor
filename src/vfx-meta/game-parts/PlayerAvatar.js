@@ -35,6 +35,7 @@ export function PlayerAvatar() {
 
       {avatarVendor === 'closet' && (
         <ClosetAvatar
+          key={avatarPartUpper + avatarPartLower + avatarPartShoes}
           avatarPartUpper={avatarPartUpper}
           avatarPartLower={avatarPartLower}
           avatarPartShoes={avatarPartShoes}
