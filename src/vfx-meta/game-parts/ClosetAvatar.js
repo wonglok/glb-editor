@@ -49,6 +49,33 @@ export let Fashion = [
   },
 ]
 
+let get = (v, gl, cam) => {
+  const dracoLoader = new DRACOLoader()
+  dracoLoader.setDecoderPath('/draco/')
+
+  let loader = new GLTFLoader()
+  loader.setDRACOLoader(dracoLoader)
+  return loader
+    .loadAsync(v)
+    .then((glbNew) => {
+      // glbNew.scene.traverse((it) => {
+      //   if (it.geometry) {
+      //     it.frustumCulled = false
+      //   }
+      // })
+
+      if (cam && gl) {
+        gl.compile(glbNew.scene, cam)
+      }
+      return glbNew
+    })
+    .catch((e) => {
+      console.log(e)
+
+      return false
+    })
+}
+
 export function ClosetAvatar({
   //]
   avatarActionName = 'stand',
@@ -69,7 +96,7 @@ export function ClosetAvatar({
   let [hips, setHips] = useState(false)
   let [base, setBase] = useState(false)
 
-  let [mixer, setMixer] = useState(() => {
+  let [mixer] = useState(() => {
     return new AnimationMixer()
   })
 
@@ -79,35 +106,10 @@ export function ClosetAvatar({
 
   //
   useEffect(() => {
-    const dracoLoader = new DRACOLoader()
-    dracoLoader.setDecoderPath('/draco/')
-
     let fbxLoader = new FBXLoader()
 
-    let get = (v) => {
-      let loader = new GLTFLoader()
-      loader.setDRACOLoader(dracoLoader)
-      return loader
-        .loadAsync(v)
-        .then((glbNew) => {
-          glbNew.scene.traverse((it) => {
-            if (it.geometry) {
-              it.frustumCulled = false
-            }
-          })
-
-          gl.compile(glbNew.scene, new Camera())
-          return glbNew
-        })
-        .catch((e) => {
-          console.log(e)
-
-          return false
-        })
-    }
-
     Promise.all([
-      get(avatarPartUpper),
+      get(avatarPartUpper, gl, camera),
       Promise.all([
         //
 
@@ -144,7 +146,6 @@ export function ClosetAvatar({
 
   return (
     <group position={[0, 0, 0]}>
-      {/*  */} {/*  */}
       {/*  */}
       {/*  */}
       {/*  */}
@@ -189,26 +190,21 @@ export function ClosetAvatar({
 }
 
 function Generic({ skeleton, url }) {
-  const { nodes } = useGLTF(url)
+  let [skinnedMeshes, setSkinMeshes] = useState([])
+  let gl = useThree((s) => s.gl)
+  let camera = useThree((s) => s.camera)
+  useEffect(() => {
+    get(url, gl, camera).then((glb) => {
+      let arr = []
+      glb.scene.traverse((it) => {
+        if (it.isSkinnedMesh) {
+          it.skeleton = skeleton
+          arr.push(it)
+        }
+      })
+      setSkinMeshes(<primitive object={glb.scene}></primitive>)
+    })
+  }, [url, gl, skeleton, camera])
 
-  let skinnedMeshes = []
-  for (let obj of Object.values(nodes)) {
-    if (obj.isSkinnedMesh) {
-      obj.skeleton = skeleton
-      skinnedMeshes.push(obj)
-    }
-  }
-  return (
-    <group>
-      {skinnedMeshes.map((it) => {
-        return (
-          <primitive
-            frustumCulled={false}
-            object={it}
-            key={it.uuid}
-          ></primitive>
-        )
-      })}
-    </group>
-  )
+  return <group>{skinnedMeshes}</group>
 }

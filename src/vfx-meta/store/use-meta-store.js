@@ -216,17 +216,11 @@ export const useMetaStore = create((set, get) => {
       if (vendor === 'closet') {
         myCTX.avatarVendor = 'closet'
 
-        if (typeof myCTX.avatarPartUpper !== 'undefined') {
-          myCTX.avatarPartUpper = avatarPartUpper
-        }
-        if (typeof myCTX.avatarPartLower !== 'undefined') {
-          myCTX.avatarPartLower = avatarPartLower
-        }
-        if (typeof myCTX.avatarPartShoes !== 'undefined') {
-          myCTX.avatarPartShoes = avatarPartShoes
-        }
+        myCTX.avatarPartUpper = avatarPartUpper || myCTX.avatarPartUpper
+        myCTX.avatarPartLower = avatarPartLower || myCTX.avatarPartLower
+        myCTX.avatarPartShoes = avatarPartShoes || myCTX.avatarPartShoes
 
-        set({ myCTX: { ...myCTX } })
+        set({ myCTX: myCTX })
       }
     },
 
