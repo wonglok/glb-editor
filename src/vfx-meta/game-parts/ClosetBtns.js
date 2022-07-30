@@ -22,6 +22,7 @@ export function ClosetBtns() {
           Ready Player Me (Lok)
         </Text>
       </group>
+
       <group position={[10, 0, 0]}>
         <Text
           rotation-x={Math.PI * -0.25}
@@ -31,7 +32,7 @@ export function ClosetBtns() {
           }}
           fontSize={1}
         >
-          Export Avatar
+          Download Avatar
         </Text>
 
         <group position={[-2.5, 0, 0]}>

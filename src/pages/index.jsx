@@ -10,6 +10,10 @@ export default function Game() {
         onCreated={(st) => {
           st.gl.outputEncoding = sRGBEncoding
           st.gl.physicallyCorrectLights = true
+          //
+
+          st.camera.near = 0.05
+          st.camera.updateProjectionMatrix()
         }}
       >
         <Suspense fallback={null}>

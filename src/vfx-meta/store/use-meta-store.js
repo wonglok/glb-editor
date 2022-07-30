@@ -30,6 +30,10 @@ export const useMetaStore = create((set, get) => {
       //
       let controls = new OrbitControls(camera, dom)
 
+      camera.near = 0.05
+      camera.far = 500
+      camera.updateProjectionMatrix()
+
       set({ controls, camera })
 
       get().setPosition({})
