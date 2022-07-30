@@ -1,3 +1,4 @@
+import { EffectNodeRuntime } from '@/vfx-studio/effectnode/Runtime/EffectNodeRuntime/EffectNodeRuntime'
 import { useAnimations, useFBX, useGLTF } from '@react-three/drei'
 import { useFrame, useThree } from '@react-three/fiber'
 import { Suspense, useEffect, useRef, useState } from 'react'
@@ -237,6 +238,7 @@ export function ClosetAvatar({
       {/*  */}
       {/* {base && <primitive object={base.scene}></primitive>} */}
       {/*  */}
+
       <group ref={avatarGroup}>
         {skeleton && hips && base && mixer && (
           <>
@@ -300,9 +302,16 @@ function Generic({ skeleton, url, mixer }) {
           it.skeleton = skeleton
         }
       })
-
       mixer.update(1 / 60)
-      setSkinMeshes(<primitive object={glb.scene}></primitive>)
+      setSkinMeshes(
+        <>
+          <EffectNodeRuntime
+            key={glb.scene.uuid}
+            glbObject={glb}
+          ></EffectNodeRuntime>
+          <primitive object={glb.scene}></primitive>
+        </>
+      )
     })
 
     return () => {

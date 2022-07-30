@@ -59,7 +59,7 @@ export class TheVortex extends Object3D {
     gpuCompute.setDataType(FloatType)
 
     let ptLight = new PointLight(0xff00ff, 32.5, 25)
-    tracker.add(ptLight)
+    this.add(ptLight)
 
     // pos IDX
     let posIdx_data = new Float32Array(SIZE_X * SIZE_Y * 4)
