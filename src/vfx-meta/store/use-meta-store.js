@@ -25,7 +25,6 @@ export const useMetaStore = create((set, get) => {
       if (self.controls) {
         self.controls.dispose()
       }
-
       //
       let controls = new OrbitControls(camera, dom)
 
@@ -78,6 +77,7 @@ export const useMetaStore = create((set, get) => {
             break
           case 'KeyF':
             setAction('sidekick', 1)
+            break
           case 'KeyV':
             setAction('wramup', 1)
             break
@@ -199,6 +199,36 @@ export const useMetaStore = create((set, get) => {
     },
 
     myCTX,
+
+    setAvatar: ({
+      vendor,
+      avatarURL,
+      avatarPartUpper,
+      avatarPartLower,
+      avatarPartShoes,
+    }) => {
+      //
+      if (vendor === 'rpm') {
+        myCTX.avatarVendor = 'rpm'
+        myCTX.avatarURL = avatarURL
+        set({ myCTX })
+      }
+      if (vendor === 'closet') {
+        myCTX.avatarVendor = 'closet'
+
+        if (typeof myCTX.avatarPartUpper !== 'undefined') {
+          myCTX.avatarPartUpper = avatarPartUpper
+        }
+        if (typeof myCTX.avatarPartLower !== 'undefined') {
+          myCTX.avatarPartLower = avatarPartLower
+        }
+        if (typeof myCTX.avatarPartShoes !== 'undefined') {
+          myCTX.avatarPartShoes = avatarPartShoes
+        }
+
+        set({ myCTX: { ...myCTX } })
+      }
+    },
 
     updatePlayer: (delta) => {
       if (delta > 1 / 60) {

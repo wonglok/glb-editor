@@ -140,7 +140,7 @@ export function ClosetAvatar({
         })
       }
     })
-  }, [avatarPartUpper, gl, camera])
+  }, [avatarPartUpper, mixer, gl, camera])
 
   return (
     <group position={[0, 0, 0]}>
@@ -159,13 +159,25 @@ export function ClosetAvatar({
                 <primitive object={hips} />
 
                 <Suspense fallback={null}>
-                  <Generic skeleton={skeleton} url={avatarPartUpper}></Generic>
+                  <Generic
+                    skeleton={skeleton}
+                    key={avatarPartUpper}
+                    url={avatarPartUpper}
+                  ></Generic>
                 </Suspense>
                 <Suspense fallback={null}>
-                  <Generic skeleton={skeleton} url={avatarPartLower}></Generic>
+                  <Generic
+                    skeleton={skeleton}
+                    key={avatarPartLower}
+                    url={avatarPartLower}
+                  ></Generic>
                 </Suspense>
                 <Suspense fallback={null}>
-                  <Generic skeleton={skeleton} url={avatarPartShoes}></Generic>
+                  <Generic
+                    skeleton={skeleton}
+                    key={avatarPartShoes}
+                    url={avatarPartShoes}
+                  ></Generic>
                 </Suspense>
               </group>
             </group>
@@ -177,7 +189,7 @@ export function ClosetAvatar({
 }
 
 function Generic({ skeleton, url }) {
-  const { nodes, materials } = useGLTF(url)
+  const { nodes } = useGLTF(url)
 
   let skinnedMeshes = []
   for (let obj of Object.values(nodes)) {
