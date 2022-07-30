@@ -33,6 +33,7 @@ export function PlayerAvatar() {
           avatarActionIdleName={avatarActionIdleName}
           avatarActionRepeat={avatarActionRepeat}
           avatarURL={avatarURL}
+          frustumCulled={false}
         ></RPMAvatar>
       )}
 
@@ -49,6 +50,7 @@ export function PlayerAvatar() {
           avatarActionRepeat={avatarActionRepeat}
           //
           exportAvatar={true}
+          frustumCulled={false}
         ></ClosetAvatar>
       )}
     </Suspense>

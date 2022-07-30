@@ -130,6 +130,7 @@ let get = (v, gl, cam) => {
 
 export function ClosetAvatar({
   //]
+  frustumCulled = true,
   avatarActionName = 'stand',
   avatarActionResumeOnKeyUp = 'stand',
   avatarActionRepeat = Infinity,
@@ -250,6 +251,7 @@ export function ClosetAvatar({
 
                     <Suspense fallback={null}>
                       <Generic
+                        frustumCulled={frustumCulled}
                         mixer={mixer}
                         skeleton={skeleton}
                         url={avatarPartUpper}
@@ -257,6 +259,7 @@ export function ClosetAvatar({
                     </Suspense>
                     <Suspense fallback={null}>
                       <Generic
+                        frustumCulled={frustumCulled}
                         mixer={mixer}
                         skeleton={skeleton}
                         url={avatarPartLower}
@@ -264,6 +267,7 @@ export function ClosetAvatar({
                     </Suspense>
                     <Suspense fallback={null}>
                       <Generic
+                        frustumCulled={frustumCulled}
                         mixer={mixer}
                         skeleton={skeleton}
                         url={avatarPartShoes}
@@ -291,12 +295,20 @@ function Exporter({ group }) {
   return null
 }
 
-function Generic({ skeleton, url, mixer }) {
+function Generic({ frustumCulled, skeleton, url, mixer }) {
   let [skinnedMeshes, setSkinMeshes] = useState([])
   let gl = useThree((s) => s.gl)
   let camera = useThree((s) => s.camera)
   useEffect(() => {
     get(url, gl, camera).then((glb) => {
+      if (frustumCulled === false) {
+        glb.scene.traverse((it) => {
+          if (it.geometry) {
+            it.frustumCulled = false
+          }
+        })
+      }
+
       glb.scene.traverse((it) => {
         if (it.isSkinnedMesh) {
           it.skeleton = skeleton

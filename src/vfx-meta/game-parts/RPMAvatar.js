@@ -11,6 +11,7 @@ import { inPlace } from '../store/in-place'
 import { useActions } from '../store/use-actions'
 
 export function RPMAvatar({
+  frustumCulled = true,
   setAction,
   avatarActionName = 'stand',
   avatarActionResumeOnKeyUp = 'stand',
@@ -33,11 +34,13 @@ export function RPMAvatar({
     loader
       .loadAsync(avatarURL)
       .then((glbNew) => {
-        glbNew.scene.traverse((it) => {
-          if (it.geometry) {
-            it.frustumCulled = false
-          }
-        })
+        if (frustumCulled === false) {
+          glbNew.scene.traverse((it) => {
+            if (it.geometry) {
+              it.frustumCulled = false
+            }
+          })
+        }
 
         gl.compile(glbNew.scene, new Camera())
         setGLB(glbNew)
