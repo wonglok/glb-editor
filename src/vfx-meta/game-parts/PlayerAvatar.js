@@ -1,14 +1,21 @@
 import { Sphere } from '@react-three/drei'
 import { Suspense } from 'react'
 import { useMetaStore } from '../store/use-meta-store'
+import { ClosetAvatar } from './ClosetAvatar'
 import { RPMAvatar } from './RPMAvatar'
 
 export function PlayerAvatar() {
-  let avatarURL = useMetaStore((s) => s.myCTX.avatarURL)
   let avatarVendor = useMetaStore((s) => s.myCTX.avatarVendor)
+
+  let avatarURL = useMetaStore((s) => s.myCTX.avatarURL)
   let avatarActionName = useMetaStore((s) => s.myCTX.avatarActionName)
+  let avatarActionIdleName = useMetaStore((s) => s.myCTX.avatarActionIdleName)
   let avatarActionRepeat = useMetaStore((s) => s.myCTX.avatarActionRepeat)
-  let avatarRPMActionURLSet = useMetaStore((s) => s.myCTX.avatarRPMActionURLSet)
+
+  let avatarPartUpper = useMetaStore((s) => s.myCTX.avatarPartUpper)
+  let avatarPartLower = useMetaStore((s) => s.myCTX.avatarPartLower)
+  let avatarPartShoes = useMetaStore((s) => s.myCTX.avatarPartShoes)
+
   return (
     <Suspense
       fallback={
@@ -19,22 +26,24 @@ export function PlayerAvatar() {
     >
       {avatarVendor === 'rpm' && (
         <RPMAvatar
-          avatarRPMActionURLSet={avatarRPMActionURLSet}
-          avatarActionRepeat={avatarActionRepeat}
           avatarActionName={avatarActionName}
-          avatarVendor={avatarVendor}
+          avatarActionIdleName={avatarActionIdleName}
+          avatarActionRepeat={avatarActionRepeat}
           avatarURL={avatarURL}
         ></RPMAvatar>
       )}
 
-      {/*  */}
-      {/* <UniversalAvatar
-        avatarActionURLSet={avatarActionURLSet}
-        avatarActionRepeat={avatarActionRepeat}
-        avatarActionName={avatarActionName}
-        avatarVendor={avatarVendor}
-        avatarURL={avatarURL}
-      ></UniversalAvatar> */}
+      {avatarVendor === 'closet' && (
+        <ClosetAvatar
+          avatarPartUpper={avatarPartUpper}
+          avatarPartLower={avatarPartLower}
+          avatarPartShoes={avatarPartShoes}
+          //
+          avatarActionName={avatarActionName}
+          avatarActionIdleName={avatarActionIdleName}
+          avatarActionRepeat={avatarActionRepeat}
+        ></ClosetAvatar>
+      )}
     </Suspense>
   )
 }

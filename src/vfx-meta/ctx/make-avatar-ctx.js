@@ -9,6 +9,7 @@ import {
   Vector3,
 } from 'three'
 import { RoundedBoxGeometry } from 'three140/examples/jsm/geometries/RoundedBoxGeometry'
+import { Fashion } from '../game-parts/ClosetAvatar'
 
 export const makeAvatarCTX = () => {
   // characters
@@ -23,6 +24,10 @@ export const makeAvatarCTX = () => {
     segment: new Line3(new Vector3(), new Vector3(0, -1.0, 0.0)),
   }
 
+  let avatarPartUpper = Fashion[0].uppers[0].url
+  let avatarPartLower = Fashion[0].lowers[0].url
+  let avatarPartShoes = Fashion[0].shoes[0].url
+
   let self = {
     setPositionByArray: (array) => {
       self.playerVelocity.set(0, 0, 0)
@@ -31,11 +36,16 @@ export const makeAvatarCTX = () => {
 
     //
     avatarURL: `/scene/loklokdemo/loklok-demo.glb`,
-    avatarVendor: `rpm`,
+    avatarVendor: `closet`,
 
     avatarActionResumeOnKeyUp: 'stand',
     avatarActionName: 'stand',
+    avatarActionIdleName: 'stand',
     avatarActionRepeat: Infinity,
+    //
+    avatarPartUpper,
+    avatarPartLower,
+    avatarPartShoes,
 
     playerIsOnGround: false,
     player,

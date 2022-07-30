@@ -1,6 +1,7 @@
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
 import create from 'zustand'
 import { makeAvatarCTX } from '../ctx/make-avatar-ctx'
+import { RPM } from '../game-parts/RPMAvatar'
 import { sceneToCollider } from './scene-to-bvh'
 
 export const useMetaStore = create((set, get) => {
@@ -48,11 +49,18 @@ export const useMetaStore = create((set, get) => {
       controls.update()
     },
 
-    setAction: (v, repeats = Infinity, restoreAction = 'stand') => {
+    setAction: (v, repeats = Infinity, restoreAction) => {
       myCTX.avatarActionName = v
-      myCTX.avatarActionRepeat = repeats
-      myCTX.avatarActionResumeOnKeyUp = restoreAction
 
+      if (restoreAction) {
+        myCTX.avatarActionResumeOnKeyUp = restoreAction
+      }
+
+      if (typeof repeats !== undefined) {
+        myCTX.avatarActionRepeat = repeats
+      }
+
+      //
       set({ myCTX: myCTX })
     },
 
@@ -68,6 +76,8 @@ export const useMetaStore = create((set, get) => {
               setAction('fightready', 1, 'fightready')
             }
             break
+          case 'KeyF':
+            setAction('sidekick', 1)
           case 'KeyV':
             setAction('wramup', 1)
             break
@@ -76,23 +86,19 @@ export const useMetaStore = create((set, get) => {
             break
           case 'KeyW':
             myCTX.fwdPressed = true
-            setAction('front')
-            break
-          case 'KeyF':
-            myCTX.xPressed = true
-            setAction('sidekick', 1)
+            setAction('front', Infinity)
             break
           case 'KeyS':
             myCTX.bkdPressed = true
-            setAction('back')
+            setAction('back', Infinity)
             break
           case 'KeyD':
             myCTX.rgtPressed = true
-            setAction('right')
+            setAction('right', Infinity)
             break
           case 'KeyA':
             myCTX.lftPressed = true
-            setAction('left')
+            setAction('left', Infinity)
             break
           case 'KeyE':
             myCTX.rgtRotPressed = true
@@ -102,24 +108,24 @@ export const useMetaStore = create((set, get) => {
             break
           case 'ArrowUp':
             myCTX.fwdPressed = true
-            setAction('running')
+            setAction('running', Infinity)
             break
           case 'ArrowDown':
             myCTX.bkdPressed = true
-            setAction('running')
+            setAction('running', Infinity)
             break
           case 'ArrowRight':
             myCTX.rgtPressed = true
-            setAction('running')
+            setAction('running', Infinity)
             break
           case 'ArrowLeft':
             myCTX.lftPressed = true
-            setAction('running')
+            setAction('running', Infinity)
             break
           case 'Space':
             if (myCTX.playerIsOnGround) {
               myCTX.playerVelocity.y = 10.0
-              setAction('jump')
+              setAction('jump', Infinity)
             }
             break
         }
@@ -148,34 +154,24 @@ export const useMetaStore = create((set, get) => {
             myCTX.lftPressed = false
           case 'KeyE':
             myCTX.rgtRotPressed = false
-
           case 'KeyQ':
             myCTX.lftRotPressed = false
-
           case 'ArrowUp':
             myCTX.fwdPressed = false
-
           case 'ArrowDown':
             myCTX.bkdPressed = false
-
           case 'ArrowRight':
             myCTX.rgtPressed = false
-
           case 'ArrowLeft':
             myCTX.lftPressed = false
-
           case 'Space':
 
           case 'KeyX':
-            //myCTX.avatarActionResumeOnKeyUp
             myCTX.xPressed = false
         }
 
-        if (
-          myCTX.avatarActionResumeOnKeyUp &&
-          myCTX.avatarActionRepeat === Infinity
-        ) {
-          setAction(myCTX.avatarActionResumeOnKeyUp)
+        if (myCTX.avatarActionRepeat === Infinity) {
+          setAction(myCTX.avatarActionResumeOnKeyUp, Infinity)
         }
       }
 
