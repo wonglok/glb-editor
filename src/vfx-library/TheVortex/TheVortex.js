@@ -472,8 +472,8 @@ export class TheVortex extends Object3D {
     let noodleO3 = new NoodleO3({
       node: this.core,
       getHeadList: () => current.texture,
-      howManyTrackers: 128,
-      tailLength: 128,
+      howManyTrackers: 256,
+      tailLength: 32,
       tracker: tracker,
     })
 
