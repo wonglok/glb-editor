@@ -4,6 +4,7 @@ import { Fashion } from './ClosetAvatar'
 
 export function ClosetBtns() {
   let setAvatar = useMetaStore((s) => s.setAvatar)
+  let exportAvatar = useMetaStore((s) => s.exportAvatar)
   return (
     <group>
       <group position={[-10, 0, 0]}>
@@ -26,21 +27,11 @@ export function ClosetBtns() {
           rotation-x={Math.PI * -0.25}
           onClick={() => {
             //
-
-            let avatarPartUpper = Fashion[0].uppers[0].url
-            let avatarPartLower = Fashion[0].lowers[0].url
-            let avatarPartShoes = Fashion[0].shoes[0].url
-
-            setAvatar({
-              vendor: 'closet',
-              avatarPartUpper,
-              avatarPartLower,
-              avatarPartShoes,
-            })
+            exportAvatar()
           }}
           fontSize={1}
         >
-          Closet
+          Export Avatar
         </Text>
 
         <group position={[-2.5, 0, 0]}>

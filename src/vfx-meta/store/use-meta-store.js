@@ -1,7 +1,9 @@
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
+import { Group, Object3D } from 'three140'
 import create from 'zustand'
 import { makeAvatarCTX } from '../ctx/make-avatar-ctx'
 import { RPM } from '../game-parts/RPMAvatar'
+import { exportGLB } from './export-glb'
 import { sceneToCollider } from './scene-to-bvh'
 
 export const useMetaStore = create((set, get) => {
@@ -199,6 +201,19 @@ export const useMetaStore = create((set, get) => {
     },
 
     myCTX,
+
+    clips: [],
+    group: new Object3D(),
+    setExporter: (v) => {
+      set({ group: v.group, clips: v.clips })
+    },
+    exportAvatar: () => {
+      let { clips, group } = get()
+
+      group.traverse(console.log)
+
+      exportGLB({ clips, group })
+    },
 
     setAvatar: ({
       vendor,

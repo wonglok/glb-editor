@@ -6,6 +6,10 @@ import { FBXLoader } from 'three/examples/jsm/loaders/FBXLoader'
 import { AnimationMixer } from 'three140'
 import { DRACOLoader } from 'three140/examples/jsm/loaders/DRACOLoader'
 import { GLTFLoader } from 'three140/examples/jsm/loaders/GLTFLoader'
+import { exportGLB } from '../store/export-glb'
+import { inPlace } from '../store/in-place'
+import { useActions } from '../store/use-actions'
+import { useMetaStore } from '../store/use-meta-store'
 
 export let Fashion = [
   {
@@ -41,9 +45,56 @@ export let Fashion = [
       },
     ],
     motions: [
+      //
+      { name: 'stand', repeats: Infinity, url: '/skinning/motions/stand.fbx' },
       {
-        name: 'sillydance',
-        url: `/skinning/female3-00/motion/silly-dance.fbx`,
+        name: 'backflip',
+        repeats: 1,
+        url: '/skinning/motions/backflip.fbx',
+      },
+      {
+        inPlace: true,
+        name: 'back',
+        repeats: Infinity,
+        url: '/skinning/motions/backward.fbx',
+      },
+      {
+        inPlace: true,
+        name: 'front',
+        repeats: Infinity,
+        url: '/skinning/motions/forward.fbx',
+      },
+      { name: 'jump', repeats: Infinity, url: '/skinning/motions/jump.fbx' },
+      {
+        name: 'right',
+        inPlace: true,
+        repeats: Infinity,
+        url: '/skinning/motions/right-strafe.fbx',
+      },
+      {
+        name: 'left',
+        repeats: Infinity,
+        url: '/skinning/motions/left-strafe.fbx',
+      },
+      {
+        name: 'right',
+        repeats: Infinity,
+        url: '/skinning/motions/right-strafe.fbx',
+      },
+      {
+        name: 'mmaidle',
+        repeats: 1,
+        url: '/skinning/motions/mma-idle.fbx',
+      },
+      {
+        name: 'sidekick',
+        repeats: 1,
+        url: '/skinning/motions/side-kick.fbx',
+      },
+      {
+        name: 'warmup',
+        repeats: 1,
+        url: '/skinning/motions/warming-up.fbx',
       },
     ],
   },
@@ -81,10 +132,14 @@ export function ClosetAvatar({
   avatarActionName = 'stand',
   avatarActionResumeOnKeyUp = 'stand',
   avatarActionRepeat = Infinity,
+  avatarActionIdleName = 'stand',
 
   avatarPartUpper = Fashion[0].uppers[0].url,
   avatarPartLower = Fashion[0].lowers[0].url,
   avatarPartShoes = Fashion[0].shoes[0].url,
+
+  setAction,
+  exportAvatar = false,
 
   //
 }) {
@@ -95,6 +150,7 @@ export function ClosetAvatar({
   let [skeleton, setSkeleton] = useState(false)
   let [hips, setHips] = useState(false)
   let [base, setBase] = useState(false)
+  let [acts, setActs] = useState([])
 
   let [mixer] = useState(() => {
     return new AnimationMixer()
@@ -116,15 +172,32 @@ export function ClosetAvatar({
         ...Fashion[0].motions.map((mo) => {
           return fbxLoader.loadAsync(mo.url).then((fbx) => {
             mo.fbx = fbx
+
             return mo
           })
         }),
       ]),
     ]).then(([base, actions]) => {
       //
-      actions.forEach((mo) => {
-        mixer.clipAction(mo.fbx.animations[0], base.scene)?.play()
+      //
+      //
+      let acts = actions.slice().map((mo) => {
+        mo = {
+          ...mo,
+        }
+
+        let animationsList = mo.fbx.animations
+
+        animationsList = animationsList.map((e) => {
+          return inPlace(e)
+        })
+
+        mo.action = mixer.clipAction(animationsList[0], base.scene)
+        mo.duration = animationsList[0].duration
+        return mo
       })
+
+      setActs(acts)
 
       if (base) {
         setBase(base)
@@ -144,6 +217,18 @@ export function ClosetAvatar({
     })
   }, [avatarPartUpper, mixer, gl, camera])
 
+  //
+
+  useActions({
+    acts,
+    avatarActionName,
+    activeMixer: mixer,
+    setAction,
+    avatarActionIdleName,
+    avatarActionResumeOnKeyUp,
+    avatarActionRepeat,
+  })
+
   return (
     <group position={[0, 0, 0]}>
       {/*  */}
@@ -152,59 +237,78 @@ export function ClosetAvatar({
       {/*  */}
       {/* {base && <primitive object={base.scene}></primitive>} */}
       {/*  */}
-      {skeleton && hips && base && (
-        <group ref={avatarGroup}>
-          <group>
+      <group ref={avatarGroup}>
+        {skeleton && hips && base && mixer && (
+          <>
             <group>
-              <group name={'Armature'} rotation={[-Math.PI * 0.5, 0, 0]}>
-                <primitive object={hips} />
+              <group>
+                <group>
+                  <group name={'Armature'} rotation={[-Math.PI * 0.5, 0, 0]}>
+                    <primitive object={hips} />
 
-                <Suspense fallback={null}>
-                  <Generic
-                    skeleton={skeleton}
-                    key={avatarPartUpper}
-                    url={avatarPartUpper}
-                  ></Generic>
-                </Suspense>
-                <Suspense fallback={null}>
-                  <Generic
-                    skeleton={skeleton}
-                    key={avatarPartLower}
-                    url={avatarPartLower}
-                  ></Generic>
-                </Suspense>
-                <Suspense fallback={null}>
-                  <Generic
-                    skeleton={skeleton}
-                    key={avatarPartShoes}
-                    url={avatarPartShoes}
-                  ></Generic>
-                </Suspense>
+                    <Suspense fallback={null}>
+                      <Generic
+                        mixer={mixer}
+                        skeleton={skeleton}
+                        url={avatarPartUpper}
+                      ></Generic>
+                    </Suspense>
+                    <Suspense fallback={null}>
+                      <Generic
+                        mixer={mixer}
+                        skeleton={skeleton}
+                        url={avatarPartLower}
+                      ></Generic>
+                    </Suspense>
+                    <Suspense fallback={null}>
+                      <Generic
+                        mixer={mixer}
+                        skeleton={skeleton}
+                        url={avatarPartShoes}
+                      ></Generic>
+                    </Suspense>
+
+                    {exportAvatar && <Exporter group={avatarGroup}></Exporter>}
+                  </group>
+                </group>
               </group>
             </group>
-          </group>
-        </group>
-      )}
+          </>
+        )}
+      </group>
     </group>
   )
 }
 
-function Generic({ skeleton, url }) {
+function Exporter({ group }) {
+  let setExporter = useMetaStore((s) => s.setExporter)
+  useEffect(() => {
+    setExporter({ clips: [], group: group.current })
+  }, [group, setExporter])
+
+  return null
+}
+
+function Generic({ skeleton, url, mixer }) {
   let [skinnedMeshes, setSkinMeshes] = useState([])
   let gl = useThree((s) => s.gl)
   let camera = useThree((s) => s.camera)
   useEffect(() => {
     get(url, gl, camera).then((glb) => {
-      let arr = []
       glb.scene.traverse((it) => {
         if (it.isSkinnedMesh) {
           it.skeleton = skeleton
-          arr.push(it)
         }
       })
+
+      mixer.update(1 / 60)
       setSkinMeshes(<primitive object={glb.scene}></primitive>)
     })
-  }, [url, gl, skeleton, camera])
+
+    return () => {
+      //
+    }
+  }, [url, gl, skeleton, camera, mixer])
 
   return <group>{skinnedMeshes}</group>
 }

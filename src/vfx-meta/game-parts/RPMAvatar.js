@@ -7,18 +7,21 @@ import { useFrame, useThree } from '@react-three/fiber'
 import { useMetaStore } from '../store/use-meta-store'
 import { EffectNodeRuntime } from '@/vfx-studio/effectnode/Runtime/EffectNodeRuntime/EffectNodeRuntime'
 import { Camera } from 'three'
+import { inPlace } from '../store/in-place'
+import { useActions } from '../store/use-actions'
 
 export function RPMAvatar({
+  setAction,
   avatarActionName = 'stand',
   avatarActionResumeOnKeyUp = 'stand',
   avatarActionRepeat = Infinity,
+  avatarActionIdleName = 'stand',
   avatarURL = `/rpm/rpm-avatar/loklok-christmas.glb`,
 }) {
   let [glb, setGLB] = useState(false)
   let [acts, setActs] = useState(false)
   let [activeMixer, setMixer] = useState(false)
 
-  let setAction = useMetaStore((s) => s.setAction)
   let gl = useThree((s) => s.gl)
   let camera = useThree((s) => s.camera)
 
@@ -48,26 +51,6 @@ export function RPMAvatar({
     if (glb) {
       let mixer = new AnimationMixer(glb.scene)
       setMixer(mixer)
-
-      let inPlace = (animation) => {
-        let item = animation?.tracks?.find(
-          (e) => e.name === 'Hips.position'
-        )?.values
-
-        if (item) {
-          item.map((v, i) => {
-            if (i % 3 === 0) {
-              item[i] = 0
-            } else if (i % 3 === 1) {
-              item[i] = 0
-            } else {
-              item[i] = v
-            }
-          })
-        }
-
-        return animation
-      }
 
       Promise.all(
         JSON.parse(JSON.stringify(RPM.Motion)).map((eachSet) => {
@@ -118,44 +101,55 @@ export function RPMAvatar({
     }
   }, [glb])
 
-  let tt = useRef(0)
-  useEffect(() => {
-    //
-    if (acts && avatarActionName && activeMixer) {
-      //
+  // let tt = useRef(0)
+  // useEffect(() => {
+  //   //
+  //   if (acts && avatarActionName && activeMixer) {
+  //     //
 
-      let act = acts.find((a) => a.name === avatarActionName)
+  //     let act = acts.find((a) => a.name === avatarActionName)
 
-      if (act) {
-        act.action.reset()
-        act.action.repeats = act.repeats
-        act.action.fadeIn(260 / 1000)
-        act.action.play()
-        activeMixer.update(1 / 60)
+  //     if (act) {
+  //       act.action.reset()
+  //       act.action.repeats = act.repeats
+  //       act.action.fadeIn(260 / 1000)
+  //       act.action.play()
+  //       activeMixer.update(1 / 60)
 
-        if (avatarActionRepeat === 1) {
-          clearInterval(tt.current)
-          tt.current = setTimeout(() => {
-            setAction(avatarActionResumeOnKeyUp, Infinity)
-          }, act.duration * 1000 - 260)
-        }
+  //       if (avatarActionRepeat === 1) {
+  //         clearInterval(tt.current)
+  //         tt.current = setTimeout(() => {
+  //           setAction(avatarActionResumeOnKeyUp, Infinity)
+  //         }, act.duration * 1000 - 260)
+  //       }
 
-        //
-        return () => {
-          act.action.fadeOut(260 / 1000)
-        }
-      } else {
-        setAction(avatarActionResumeOnKeyUp, Infinity)
-      }
-    }
-  }, [
+  //       //
+  //       return () => {
+  //         act.action.fadeOut(260 / 1000)
+  //       }
+  //     } else {
+  //       setAction(avatarActionIdleName, Infinity)
+  //     }
+  //   }
+  // }, [
+  //   acts,
+  //   avatarActionName,
+  //   activeMixer,
+  //   setAction,
+  //   avatarActionResumeOnKeyUp,
+  //   avatarActionIdleName,
+  //   avatarActionRepeat,
+  // ])
+
+  useActions({
     acts,
     avatarActionName,
-    activeMixer,
+    activeMixer: activeMixer,
     setAction,
+    avatarActionIdleName,
     avatarActionResumeOnKeyUp,
     avatarActionRepeat,
-  ])
+  })
 
   useFrame((st, dt) => {
     if (activeMixer) {
@@ -234,6 +228,8 @@ export const RPM = {
       name: `right`,
       url: `/rpm/rpm-jog/jog-strafe-right.fbx`,
     },
+
+    //
     {
       repeats: 1,
       name: 'backflip',

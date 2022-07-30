@@ -15,6 +15,8 @@ export function PlayerAvatar() {
   let avatarPartUpper = useMetaStore((s) => s.myCTX.avatarPartUpper)
   let avatarPartLower = useMetaStore((s) => s.myCTX.avatarPartLower)
   let avatarPartShoes = useMetaStore((s) => s.myCTX.avatarPartShoes)
+  let setExporter = useMetaStore((s) => s.myCTX.setExporter)
+  let setAction = useMetaStore((s) => s.setAction)
 
   return (
     <Suspense
@@ -26,6 +28,7 @@ export function PlayerAvatar() {
     >
       {avatarVendor === 'rpm' && (
         <RPMAvatar
+          setAction={setAction}
           avatarActionName={avatarActionName}
           avatarActionIdleName={avatarActionIdleName}
           avatarActionRepeat={avatarActionRepeat}
@@ -35,13 +38,17 @@ export function PlayerAvatar() {
 
       {avatarVendor === 'closet' && (
         <ClosetAvatar
+          setAction={setAction}
           avatarPartUpper={avatarPartUpper}
           avatarPartLower={avatarPartLower}
           avatarPartShoes={avatarPartShoes}
+          setExporter={setExporter}
           //
           avatarActionName={avatarActionName}
           avatarActionIdleName={avatarActionIdleName}
           avatarActionRepeat={avatarActionRepeat}
+          //
+          exportAvatar={true}
         ></ClosetAvatar>
       )}
     </Suspense>
