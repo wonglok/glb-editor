@@ -51,6 +51,10 @@ export function CompanionWrap({ targetO3D, children }) {
       )}
 
       {/*  */}
+
+      {/*  */}
     </group>
   )
 }
+
+//
