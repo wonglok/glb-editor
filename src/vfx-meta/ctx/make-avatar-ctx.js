@@ -28,6 +28,8 @@ export const makeAvatarCTX = () => {
   let avatarPartLower = Fashion[0].lowers[0].url
   let avatarPartShoes = Fashion[0].shoes[0].url
 
+  let avatarPartSkeleton = Fashion[0].uppers[0].url
+
   let self = {
     setPositionByArray: (array) => {
       self.playerVelocity.set(0, 0, 0)
@@ -46,6 +48,7 @@ export const makeAvatarCTX = () => {
     avatarPartUpper,
     avatarPartLower,
     avatarPartShoes,
+    avatarPartSkeleton,
 
     playerIsOnGround: false,
     player,

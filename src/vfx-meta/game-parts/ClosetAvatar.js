@@ -83,7 +83,7 @@ export let Fashion = [
         url: '/skinning/motions/right-strafe.fbx',
       },
       {
-        name: 'mmaidle',
+        name: 'fightready',
         repeats: 1,
         url: '/skinning/motions/mma-idle.fbx',
       },
@@ -136,6 +136,7 @@ export function ClosetAvatar({
   avatarActionRepeat = Infinity,
   avatarActionIdleName = 'stand',
 
+  avatarPartSkeleton = Fashion[0].uppers[0].url,
   avatarPartUpper = Fashion[0].uppers[0].url,
   avatarPartLower = Fashion[0].lowers[0].url,
   avatarPartShoes = Fashion[0].shoes[0].url,
@@ -167,7 +168,7 @@ export function ClosetAvatar({
     let fbxLoader = new FBXLoader()
 
     Promise.all([
-      get(avatarPartUpper, gl, camera),
+      get(avatarPartSkeleton, gl, camera),
       Promise.all([
         //
 
@@ -217,7 +218,7 @@ export function ClosetAvatar({
         })
       }
     })
-  }, [avatarPartUpper, mixer, gl, camera])
+  }, [avatarPartSkeleton, mixer, gl, camera])
 
   //
 

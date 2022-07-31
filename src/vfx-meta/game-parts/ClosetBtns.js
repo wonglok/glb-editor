@@ -260,6 +260,7 @@ export function PreviewClosetAvaTester() {
   let avatarPartUpper = useMetaStore((s) => s.myCTX.avatarPartUpper)
   let avatarPartLower = useMetaStore((s) => s.myCTX.avatarPartLower)
   let avatarPartShoes = useMetaStore((s) => s.myCTX.avatarPartShoes)
+  let avatarPartSkeleton = useMetaStore((s) => s.myCTX.avatarPartSkeleton)
   let setExporter = useMetaStore((s) => s.myCTX.setExporter)
   let setAction = useMetaStore((s) => s.setAction)
 
@@ -284,6 +285,7 @@ export function PreviewClosetAvaTester() {
       {/* {avatarVendor === 'closet' && ( */}
       <ClosetAvatar
         setAction={setAction}
+        avatarPartSkeleton={avatarPartSkeleton}
         avatarPartUpper={avatarPartUpper}
         avatarPartLower={avatarPartLower}
         avatarPartShoes={avatarPartShoes}
