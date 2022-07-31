@@ -12,7 +12,7 @@ export function ClosetBtns() {
   return (
     <group>
       <group position={[-10, 0, 0]}>
-        <group position={[0, -0.55, -2]}>
+        <group position={[0, -0.55, -3]}>
           <PreviewRPMAvaTester></PreviewRPMAvaTester>
         </group>
         <Text
@@ -28,7 +28,6 @@ export function ClosetBtns() {
         >
           Ready Player Me (Lok)
         </Text>
-
         <Text
           rotation-x={Math.PI * -0.25}
           onClick={() => {
@@ -41,7 +40,21 @@ export function ClosetBtns() {
           fontSize={0.5}
           position={[0, 0, 1]}
         >
-          Ready Player Me (VFX)
+          Ready Player Me (VFX - 1)
+        </Text>
+        <Text
+          rotation-x={Math.PI * -0.25}
+          onClick={() => {
+            //
+            setAvatar({
+              vendor: 'rpm',
+              avatarURL: `/scene/loklokdemo/shader-3.glb`,
+            })
+          }}
+          fontSize={0.5}
+          position={[0, 0, 2]}
+        >
+          Ready Player Me (VFX - 2)
         </Text>
       </group>
 

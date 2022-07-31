@@ -31,6 +31,7 @@ export function PlayerAvatar() {
       }
     }
   })
+
   return (
     <group ref={ref}>
       <Suspense
