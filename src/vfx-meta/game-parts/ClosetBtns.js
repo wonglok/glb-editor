@@ -28,7 +28,7 @@ export function ClosetBtns() {
           speed={7.6}
           targetO3D={myCTX.player}
         >
-          <NPCAvatar status={status}></NPCAvatar>
+          <NPCAvatar targetO3D={myCTX.player} status={status}></NPCAvatar>
         </CompanionWrap>
       )}
 

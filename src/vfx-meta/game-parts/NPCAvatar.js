@@ -1,11 +1,12 @@
 import { Sphere } from '@react-three/drei'
 import { useFrame } from '@react-three/fiber'
-import { Suspense, useRef } from 'react'
+import { Suspense, useRef, useState } from 'react'
+import { Vector3 } from 'three'
 import { useMetaStore } from '../store/use-meta-store'
 import { ClosetAvatar } from './ClosetAvatar'
 import { RPMAvatar } from './RPMAvatar'
 
-export function NPCAvatar({ status }) {
+export function NPCAvatar({ status, targetO3D }) {
   let player = useMetaStore((s) => s.myCTX.player)
   let avatarVendor = useMetaStore((s) => s.myCTX.avatarVendor)
 
@@ -33,18 +34,34 @@ export function NPCAvatar({ status }) {
     }
   })
 
-  // if (avatarActionName === 'left') {
-  //   avatarActionName = 'front'
-  // }
-  // if (avatarActionName === 'right') {
-  //   avatarActionName = 'front'
-  // }
+  let [v3] = useState(() => {
+    return new Vector3()
+  })
 
-  if (status === 'running') {
+  if (avatarActionName === 'left') {
     avatarActionName = 'front'
-  } else {
-    avatarActionName = avatarActionIdleName
   }
+  if (avatarActionName === 'right') {
+    avatarActionName = 'front'
+  }
+  if (avatarActionName === 'back') {
+    avatarActionName = 'front'
+  }
+
+  if (ref.current) {
+    ref.current.getWorldPosition(v3)
+    if (targetO3D.position.distanceTo(v3) <= 4) {
+      avatarActionName = avatarActionIdleName
+    }
+  }
+
+  // if (avatarActionName === 'front') {
+  //   if (status === 'running') {
+  //     avatarActionName = 'front'
+  //   } else {
+  //     avatarActionName = avatarActionIdleName
+  //   }
+  // }
 
   return (
     <group ref={ref}>
