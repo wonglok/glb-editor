@@ -23,7 +23,7 @@ export function CompanionWrap({ targetO3D, children }) {
           targetO3D.position.z
         )
       } else if (diff >= 2 && diff <= 25) {
-        ref.current.position.addScaledVector(unit, dt * 10.0)
+        ref.current.position.addScaledVector(unit, dt * 9.0)
         ref.current.lookAt(
           targetO3D.position.x,
           ref.current.position.y,
