@@ -1,6 +1,8 @@
 import { createPortal, useFrame, useThree } from '@react-three/fiber'
 import { useEffect, useRef } from 'react'
 import { useMetaStore } from '../store/use-meta-store'
+import { CompanionWrap } from './CompanionWrap'
+import { NPCAvatar } from './NPCAvatar'
 import { PlayerAvatar } from './PlayerAvatar'
 
 export function Player() {
@@ -41,6 +43,12 @@ export function Player() {
           <PlayerAvatar></PlayerAvatar>
         </group>
       </group>
+
+      {myCTX?.player && (
+        <CompanionWrap targetO3D={myCTX.player}>
+          <NPCAvatar></NPCAvatar>
+        </CompanionWrap>
+      )}
 
       {/*  */}
       {/*  */}
