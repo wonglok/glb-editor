@@ -54,7 +54,7 @@ export function RPMAvatar({
         console.log(e)
         onDoneLoading()
       })
-  }, [avatarURL, gl, camera])
+  }, [avatarURL, gl, camera, frustumCulled])
 
   useEffect(() => {
     if (glb) {

@@ -20,6 +20,8 @@ export function PlayerAvatar() {
   let avatarPartSkeleton = useMetaStore((s) => s.myCTX.avatarPartSkeleton)
   let setExporter = useMetaStore((s) => s.myCTX.setExporter)
   let setAction = useMetaStore((s) => s.setAction)
+
+  //
   let setStartLoading = useMetaStore((s) => s.setStartLoading)
   let setDoneLoading = useMetaStore((s) => s.setDoneLoading)
 
@@ -32,7 +34,6 @@ export function PlayerAvatar() {
   }
 
   let ref = useRef()
-
   useFrame(({ camera }) => {
     if (ref.current) {
       if (camera.position.distanceTo(player.position) < 0.2) {

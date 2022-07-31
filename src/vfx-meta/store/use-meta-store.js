@@ -78,6 +78,16 @@ export const useMetaStore = create((set, get) => {
       set({ myCTX: myCTX })
     },
 
+    goFowradDown: () => {
+      myCTX.fwdPressed = true
+      get().setAction('front', Infinity)
+    },
+    goFowradUp: () => {
+      myCTX.fwdPressed = false
+      if (myCTX.avatarActionRepeat === Infinity) {
+        get().setAction(myCTX.avatarActionResumeOnKeyUp, Infinity)
+      }
+    },
     setKeyboard: () => {
       let setAction = get().setAction
 

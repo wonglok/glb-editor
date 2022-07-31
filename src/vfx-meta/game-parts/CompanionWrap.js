@@ -3,13 +3,18 @@ import { useFrame } from '@react-three/fiber'
 import { useEffect, useRef, useState } from 'react'
 import { Object3D } from 'three140'
 
-export function CompanionWrap({ targetO3D, children }) {
+export function CompanionWrap({
+  speed = 9,
+  onChangeStatus = () => {},
+  targetO3D,
+  children = () => {},
+}) {
   let ref = useRef()
-
   let [dist] = useState(() => {
     let o3 = new Object3D()
     return o3
   })
+
   useEffect(() => {
     if (ref.current.position.length() === 0) {
       ref.current.position.x = 5
@@ -30,14 +35,26 @@ export function CompanionWrap({ targetO3D, children }) {
           ref.current.position.y,
           targetO3D.position.z
         )
-      } else if (diff >= 2 && diff <= 25) {
-        ref.current.position.addScaledVector(unit, dt * 9.0)
+
+        //
+        if (status !== 'running') {
+          onChangeStatus('running')
+        }
+      } else if (diff >= 4 && diff <= 25) {
+        ref.current.position.addScaledVector(unit, dt * speed)
         ref.current.lookAt(
           targetO3D.position.x,
           ref.current.position.y,
           targetO3D.position.z
         )
+        if (status !== 'running') {
+          onChangeStatus('running')
+        }
       } else {
+        //
+        if (status !== 'stand') {
+          onChangeStatus('stand')
+        }
         ref.current.position.y = targetO3D.position.y
       }
     }

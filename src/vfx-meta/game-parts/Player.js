@@ -1,7 +1,9 @@
+import { UIContent } from '@/vfx-core/UIContent'
 import { createPortal, useFrame, useThree } from '@react-three/fiber'
 import { useEffect, useRef } from 'react'
 import { useMetaStore } from '../store/use-meta-store'
 import { CompanionWrap } from './CompanionWrap'
+import { JoyStick } from './JoyStick'
 import { NPCAvatar } from './NPCAvatar'
 import { PlayerAvatar } from './PlayerAvatar'
 
@@ -10,6 +12,8 @@ export function Player() {
   let updatePlayer = useMetaStore((s) => s.updatePlayer)
   let setControls = useMetaStore((s) => s.setControls)
   let setKeyboard = useMetaStore((s) => s.setKeyboard)
+  // let goFowradDown = useMetaStore((s) => s.goFowradDown)
+  // let goFowradUp = useMetaStore((s) => s.goFowradUp)
 
   let camera = useThree((s) => s.camera)
   let dom = useThree((s) => s.gl.domElement)
@@ -44,16 +48,10 @@ export function Player() {
         </group>
       </group>
 
-      {myCTX?.player && (
-        <CompanionWrap targetO3D={myCTX.player}>
-          <NPCAvatar></NPCAvatar>
-        </CompanionWrap>
-      )}
-
+      <JoyStick></JoyStick>
       {/*  */}
       {/*  */}
       {/* <primitive object={myCTX.player}></primitive> */}
-
       {/*  */}
       {/*  */}
     </group>

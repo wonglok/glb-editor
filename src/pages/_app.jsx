@@ -25,6 +25,15 @@ function App({ Component, pageProps = { title: 'index' } }) {
       </Dom>
 
       {Component?.r3f && <>{Component.r3f(pageProps)}</>}
+
+      <span
+        style={{
+          display: 'inline-block',
+          position: 'absolute',
+          zIndex: 10,
+        }}
+        id='myroot'
+      ></span>
     </>
   )
 }

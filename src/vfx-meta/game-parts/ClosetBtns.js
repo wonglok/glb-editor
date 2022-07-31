@@ -2,15 +2,36 @@ import { Text } from '@react-three/drei'
 import { useMetaStore } from '../store/use-meta-store'
 import { Fashion } from './ClosetAvatar'
 import { Sphere } from '@react-three/drei'
-import { Suspense } from 'react'
+import { Suspense, useState } from 'react'
 import { ClosetAvatar } from './ClosetAvatar'
 import { RPMAvatar } from './RPMAvatar'
+import { CompanionWrap } from './CompanionWrap'
+import { NPCAvatar } from './NPCAvatar'
 
 export function ClosetBtns() {
   let setAvatar = useMetaStore((s) => s.setAvatar)
   let exportAvatar = useMetaStore((s) => s.exportAvatar)
+  let myCTX = useMetaStore((s) => s.myCTX)
+
+  let [status, setStatus] = useState('stand')
   return (
     <group>
+      {myCTX?.player && (
+        <CompanionWrap
+          onChangeStatus={(v) => {
+            //
+
+            if (status !== v) {
+              setStatus(v)
+            }
+          }}
+          speed={7.6}
+          targetO3D={myCTX.player}
+        >
+          <NPCAvatar status={status}></NPCAvatar>
+        </CompanionWrap>
+      )}
+
       <group position={[-10, 0, 0]}>
         <group position={[0, -0.55, -3]}>
           <PreviewRPMAvaTester></PreviewRPMAvaTester>
@@ -57,7 +78,6 @@ export function ClosetBtns() {
           Ready Player Me (VFX - 2)
         </Text>
       </group>
-
       <group position={[10, 0, 0]}>
         <Text
           rotation-x={Math.PI * -0.25}

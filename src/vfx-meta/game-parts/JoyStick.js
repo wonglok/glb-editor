@@ -14,6 +14,9 @@ export function JoyStick() {
 
   let doWork = useRef(() => {})
   useEffect(() => {
+    if (!controls) {
+      return
+    }
     //leftjoystick
     let clean = () => {}
     import('nipplejs').then(async (nipplejs) => {
@@ -72,7 +75,7 @@ export function JoyStick() {
         })
 
       doWork.current = (dt) => {
-        if (active === 'on') {
+        if (active === 'on' && controls) {
           // console.log(nippleAngle, controls.getAzimuthalAngle());
 
           forward.set(0, 0, -60.3 * dt)
@@ -93,7 +96,7 @@ export function JoyStick() {
     return () => {
       clean()
     }
-  }, [])
+  }, [controls])
 
   //s
   useFrame((st, dt) => {

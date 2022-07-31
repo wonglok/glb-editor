@@ -5,7 +5,7 @@ import { useMetaStore } from '../store/use-meta-store'
 import { ClosetAvatar } from './ClosetAvatar'
 import { RPMAvatar } from './RPMAvatar'
 
-export function NPCAvatar() {
+export function NPCAvatar({ status }) {
   let player = useMetaStore((s) => s.myCTX.player)
   let avatarVendor = useMetaStore((s) => s.myCTX.avatarVendor)
 
@@ -33,11 +33,17 @@ export function NPCAvatar() {
     }
   })
 
-  if (avatarActionName === 'left') {
+  // if (avatarActionName === 'left') {
+  //   avatarActionName = 'front'
+  // }
+  // if (avatarActionName === 'right') {
+  //   avatarActionName = 'front'
+  // }
+
+  if (status === 'running') {
     avatarActionName = 'front'
-  }
-  if (avatarActionName === 'right') {
-    avatarActionName = 'front'
+  } else {
+    avatarActionName = avatarActionIdleName
   }
 
   return (
