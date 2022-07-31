@@ -245,7 +245,7 @@ export const RPM = {
     },
     {
       repeats: 1,
-      name: `wramup`,
+      name: `warmup`,
       url: `/rpm/rpm-actions/mma-warmup.fbx`,
     },
   ],

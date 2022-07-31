@@ -85,7 +85,7 @@ export const useMetaStore = create((set, get) => {
             setAction('sidekick', 1)
             break
           case 'KeyV':
-            setAction('wramup', 1)
+            setAction('warmup', 1)
             break
           case 'KeyR':
             setAction('backflip', 1)
