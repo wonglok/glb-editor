@@ -1,8 +1,7 @@
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
-import { Group, Object3D } from 'three140'
+import { Object3D } from 'three140'
 import create from 'zustand'
 import { makeAvatarCTX } from '../ctx/make-avatar-ctx'
-import { RPM } from '../game-parts/RPMAvatar'
 import { exportGLB } from './export-glb'
 import { sceneToCollider } from './scene-to-bvh'
 
@@ -11,6 +10,15 @@ export const useMetaStore = create((set, get) => {
 
   let myCTX = makeAvatarCTX()
   return {
+    //
+    loader: 'ready',
+    setStartLoading: () => {
+      set({ loader: 'loading' })
+    },
+    setDoneLoading: () => {
+      set({ loader: 'ready' })
+    },
+    //
     otherAvatars: [],
     collider: false,
     setColliderFromScene: ({ scene }) => {
@@ -21,13 +29,14 @@ export const useMetaStore = create((set, get) => {
 
     controls: false,
     camera: false,
+
     setControls: ({ camera, dom }) => {
       let self = get()
 
       if (self.controls) {
         self.controls.dispose()
       }
-      //
+
       let controls = new OrbitControls(camera, dom)
 
       camera.near = 0.05

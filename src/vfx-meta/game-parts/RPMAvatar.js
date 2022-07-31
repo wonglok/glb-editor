@@ -18,6 +18,8 @@ export function RPMAvatar({
   avatarActionRepeat = Infinity,
   avatarActionIdleName = 'stand',
   avatarURL = `/rpm/rpm-avatar/loklok-christmas.glb`,
+  onBeginLoading = () => {},
+  onDoneLoading = () => {},
 }) {
   let [glb, setGLB] = useState(false)
   let [acts, setActs] = useState(false)
@@ -27,6 +29,7 @@ export function RPMAvatar({
   let camera = useThree((s) => s.camera)
 
   useEffect(() => {
+    onBeginLoading()
     let loader = new GLTFLoader()
     const dracoLoader = new DRACOLoader()
     dracoLoader.setDecoderPath('/draco/')
@@ -42,11 +45,14 @@ export function RPMAvatar({
           })
         }
 
+        onDoneLoading()
+
         gl.compile(glbNew.scene, new Camera())
         setGLB(glbNew)
       })
       .catch((e) => {
         console.log(e)
+        onDoneLoading()
       })
   }, [avatarURL, gl, camera])
 
@@ -54,7 +60,7 @@ export function RPMAvatar({
     if (glb) {
       let mixer = new AnimationMixer(glb.scene)
       setMixer(mixer)
-
+      onBeginLoading()
       Promise.all(
         JSON.parse(JSON.stringify(RPM.Motion)).map((eachSet) => {
           // return new
@@ -94,9 +100,15 @@ export function RPMAvatar({
             })
           })
         })
-      ).then((acts) => {
-        setActs(acts)
-      })
+      ).then(
+        (acts) => {
+          setActs(acts)
+          onDoneLoading()
+        },
+        () => {
+          onDoneLoading()
+        }
+      )
 
       //
 

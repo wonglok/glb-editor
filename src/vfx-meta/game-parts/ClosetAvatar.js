@@ -104,7 +104,7 @@ export let Fashion = [
 let get = (v, gl, cam) => {
   const dracoLoader = new DRACOLoader()
   dracoLoader.setDecoderPath('/draco/')
-
+  useMetaStore.getState().setStartLoading()
   let loader = new GLTFLoader()
   loader.setDRACOLoader(dracoLoader)
   return loader
@@ -119,10 +119,14 @@ let get = (v, gl, cam) => {
       if (cam && gl) {
         gl.compile(glbNew.scene, cam)
       }
+      useMetaStore.getState().setDoneLoading()
+
       return glbNew
     })
     .catch((e) => {
       console.log(e)
+
+      useMetaStore.getState().setDoneLoading()
 
       return false
     })
@@ -143,6 +147,9 @@ export function ClosetAvatar({
 
   setAction,
   exportAvatar = false,
+
+  onBeginLoading = () => {},
+  onDoneLoading = () => {},
 
   //
 }) {

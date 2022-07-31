@@ -1,4 +1,4 @@
-import { Sphere } from '@react-three/drei'
+import { Sphere, Text } from '@react-three/drei'
 import { useFrame } from '@react-three/fiber'
 import { Suspense, useRef } from 'react'
 import { useMetaStore } from '../store/use-meta-store'
@@ -20,6 +20,16 @@ export function PlayerAvatar() {
   let avatarPartSkeleton = useMetaStore((s) => s.myCTX.avatarPartSkeleton)
   let setExporter = useMetaStore((s) => s.myCTX.setExporter)
   let setAction = useMetaStore((s) => s.setAction)
+  let setStartLoading = useMetaStore((s) => s.setStartLoading)
+  let setDoneLoading = useMetaStore((s) => s.setDoneLoading)
+
+  //  useMetaStore.getState().setStartLoading
+  let onBeginLoading = () => {
+    setStartLoading()
+  }
+  let onDoneLoading = () => {
+    setDoneLoading()
+  }
 
   let ref = useRef()
 
@@ -35,6 +45,8 @@ export function PlayerAvatar() {
 
   return (
     <group ref={ref}>
+      <Loader></Loader>
+
       <Suspense
         fallback={
           <>
@@ -50,6 +62,8 @@ export function PlayerAvatar() {
             avatarActionRepeat={avatarActionRepeat}
             avatarURL={avatarURL}
             frustumCulled={false}
+            onBeginLoading={onBeginLoading}
+            onDoneLoading={onDoneLoading}
           ></RPMAvatar>
         )}
 
@@ -68,9 +82,20 @@ export function PlayerAvatar() {
             //
             exportAvatar={true}
             frustumCulled={false}
+            onBeginLoading={onBeginLoading}
+            onDoneLoading={onDoneLoading}
           ></ClosetAvatar>
         )}
       </Suspense>
+    </group>
+  )
+}
+
+function Loader() {
+  let loader = useMetaStore((s) => s.loader)
+  return (
+    <group position={[0, 4, 0]} rotation={[0, Math.PI, 0]}>
+      <Text fontSize={1}>{(loader === 'loading' && 'Loading') || ''}</Text>
     </group>
   )
 }

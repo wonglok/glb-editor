@@ -1,18 +1,26 @@
 import { Box as TestObject } from '@react-three/drei'
 import { useFrame } from '@react-three/fiber'
-import { useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Object3D } from 'three140'
 
 export function CompanionWrap({ targetO3D, children }) {
   let ref = useRef()
 
-  let dist = useRef(new Object3D())
+  let [dist] = useState(() => {
+    let o3 = new Object3D()
+    return o3
+  })
+  useEffect(() => {
+    if (ref.current.position.length() === 0) {
+      ref.current.position.x = 5
+    }
+  }, [])
   useFrame((st, dt) => {
     if (ref.current && targetO3D) {
       //ref.current
-      dist.current.copy(targetO3D)
+      dist.copy(targetO3D)
 
-      let unit = dist.current.position.sub(ref.current.position).normalize()
+      let unit = dist.position.sub(ref.current.position).normalize()
 
       let diff = targetO3D.position.distanceTo(ref.current.position)
       if (diff > 25) {
@@ -30,7 +38,6 @@ export function CompanionWrap({ targetO3D, children }) {
           targetO3D.position.z
         )
       } else {
-        //
         ref.current.position.y = targetO3D.position.y
       }
     }
