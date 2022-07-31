@@ -33,6 +33,7 @@ export function PlayerAvatar() {
     setDoneLoading()
   }
 
+  //
   let ref = useRef()
   useFrame(({ camera }) => {
     if (ref.current) {
@@ -46,6 +47,8 @@ export function PlayerAvatar() {
 
   return (
     <group ref={ref}>
+      {/*  */}
+
       <Loader></Loader>
 
       <Suspense
@@ -92,6 +95,7 @@ export function PlayerAvatar() {
   )
 }
 
+//
 function Loader() {
   let loader = useMetaStore((s) => s.loader)
 
