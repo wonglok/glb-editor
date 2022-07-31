@@ -94,9 +94,16 @@ export function PlayerAvatar() {
 
 function Loader() {
   let loader = useMetaStore((s) => s.loader)
+
+  let jstck = useRef()
+  useFrame(({ camera }) => {
+    jstck.current?.lookAt(camera.position)
+  })
   return (
-    <group position={[0, 4, 0]} rotation={[0, Math.PI, 0]}>
-      <Text fontSize={1}>{(loader === 'loading' && 'Loading') || ''}</Text>
+    <group ref={jstck}>
+      <group position={[0, 4, 0]} rotation={[0, 0, 0]}>
+        <Text fontSize={1}>{(loader === 'loading' && 'Loading') || ''}</Text>
+      </group>
     </group>
   )
 }

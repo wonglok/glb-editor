@@ -21,7 +21,7 @@ export function JoyStick() {
     let clean = () => {}
     //leftjoystick
     import('nipplejs').then(async (nipplejs) => {
-      await new Promise((resolve) => {
+      let found = await new Promise((resolve) => {
         //
 
         let t1 = setInterval(() => {
@@ -35,7 +35,7 @@ export function JoyStick() {
         //
       })
       let manager = nipplejs.create({
-        zone: ref.current,
+        zone: found,
         color: 'white',
       })
 
@@ -97,7 +97,14 @@ export function JoyStick() {
     return () => {
       clean()
     }
-  }, [controls])
+  }, [
+    controls,
+    myCTX.avatarActionRepeat,
+    myCTX.avatarActionResumeOnKeyUp,
+    myCTX.player.position,
+    myCTX.player.rotation,
+    setAction,
+  ])
 
   //s
   useFrame((st, dt) => {
