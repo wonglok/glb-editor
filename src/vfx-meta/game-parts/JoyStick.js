@@ -23,10 +23,10 @@ export function JoyStick() {
       await new Promise((resolve) => {
         //
 
-        let ttttt = setInterval(() => {
+        let t1 = setInterval(() => {
           let found = ref.current
           if (found) {
-            clearInterval(ttttt)
+            clearInterval(t1)
             resolve(found)
           }
         })
