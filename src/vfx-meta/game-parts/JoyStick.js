@@ -17,8 +17,9 @@ export function JoyStick() {
     if (!controls) {
       return
     }
-    //leftjoystick
+
     let clean = () => {}
+    //leftjoystick
     import('nipplejs').then(async (nipplejs) => {
       await new Promise((resolve) => {
         //
@@ -78,7 +79,7 @@ export function JoyStick() {
         if (active === 'on' && controls) {
           // console.log(nippleAngle, controls.getAzimuthalAngle());
 
-          forward.set(0, 0, -60.3 * dt)
+          forward.set(0, 0, -90.3 * dt)
           forward.applyAxisAngle(up, nippleAngle + controls.getAzimuthalAngle())
 
           forward.multiplyScalar(0.1)
