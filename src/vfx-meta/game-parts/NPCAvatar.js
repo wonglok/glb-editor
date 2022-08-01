@@ -38,25 +38,34 @@ export function NPCAvatar({ status, targetO3D }) {
     return new Vector3()
   })
 
-  if (avatarActionName === 'left') {
-    avatarActionName = 'front'
-  }
-  if (avatarActionName === 'right') {
-    avatarActionName = 'front'
-  }
-  if (avatarActionName === 'back') {
-    avatarActionName = 'front'
-  }
-
-  if (ref.current) {
-    ref.current.getWorldPosition(v3)
-    if (targetO3D.position.distanceTo(v3) >= 4) {
-      if (status === 'front') {
+  let change = () => {
+    if (ref.current) {
+      ref.current.getWorldPosition(v3)
+      if (targetO3D.position.distanceTo(v3) >= 4.2) {
         avatarActionName = 'front'
+      } else {
+        avatarActionName = avatarActionIdleName
       }
     } else {
+      avatarActionName = status
     }
   }
+
+  useFrame(() => {
+    //
+    if (avatarActionName === 'front') {
+      change()
+    }
+    if (avatarActionName === 'left') {
+      change()
+    }
+    if (avatarActionName === 'right') {
+      change()
+    }
+    if (avatarActionName === 'back') {
+      change()
+    }
+  })
 
   // if (avatarActionName === 'front') {
   //   if (status === 'running') {
