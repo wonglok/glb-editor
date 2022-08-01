@@ -1,6 +1,7 @@
 import { Box as TestObject } from '@react-three/drei'
 import { useFrame } from '@react-three/fiber'
 import { Suspense, useEffect, useRef, useState } from 'react'
+import { MathUtils } from 'three'
 import { Object3D, Sphere } from 'three140'
 import { useMetaStore } from '../store/use-meta-store'
 import { ClosetAvatar } from './ClosetAvatar'
@@ -69,7 +70,11 @@ export function CompanionWrap({
         }
 
         if (ref.current.position.y > targetO3D.position.y) {
-          ref.current.position.y = targetO3D.position.y
+          ref.current.position.y = MathUtils.lerp(
+            ref.current.position.y,
+            targetO3D.position.y,
+            0.1
+          )
         }
       }
     }
