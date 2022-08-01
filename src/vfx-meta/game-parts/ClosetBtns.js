@@ -71,7 +71,7 @@ export function ClosetBtns() {
         fontSize={1}
         position={[0, 6, -3]}
       >
-        Download Avatar
+        Download Current Avatar
       </Text>
 
       {/*  */}

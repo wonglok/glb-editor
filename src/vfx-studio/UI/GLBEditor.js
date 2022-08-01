@@ -7,6 +7,7 @@ import { BackButton } from './BackButton'
 import { TitleButton } from './TitleButton'
 import { RunnerEditor } from '@/vfx-studio/runner-editor/RunnerEditor'
 import { EffectNodeSeries } from './EffectNodeSeries'
+import { GLBTree } from './GLBTree'
 
 export function GLBEditor() {
   let layout = useAccessor((s) => s.layout)
@@ -17,6 +18,7 @@ export function GLBEditor() {
         <BackButton></BackButton>
         <TitleButton></TitleButton>
         <DownloadButton></DownloadButton>
+        <GLBTree></GLBTree>
       </div>
       <div
         className='flex h-full'
