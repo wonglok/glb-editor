@@ -77,48 +77,47 @@ export default function FBX() {
 
               exporter.parseAsync(o3, options).then(async (arrayBuffer) => {
                 //
-                // let newFile = new Blob([arrayBuffer], {
-                //   type: 'application/octet-stream',
-                // })
-                //
-
-                let { WebIO } = await import('@gltf-transform/core')
-                let { resample } = await import('@gltf-transform/functions')
-
-                // let rawBlob = new Blob([gltf], {
-                //   type: 'application/octet-stream',
-                // })
-
-                // let rawUrl = URL.createObjectURL(rawBlob)
-
-                const io = new WebIO({
-                  mode: 'cors',
-                  cache: 'no-cache',
+                let newFile = new Blob([arrayBuffer], {
+                  type: 'application/octet-stream',
                 })
 
-                let glbDocument = await io.readBinary(
-                  new Uint8Array(arrayBuffer)
-                )
-                // // let glbDocument = await io.read(rawUrl)
+                // let { WebIO } = await import('@gltf-transform/core')
+                // let { resample } = await import('@gltf-transform/functions')
 
-                // /**
-                //  * simple_pipeline.js
-                //  *
-                //  * Short example of an glTF optimization pipeline implemented with
-                //  * the glTF-Transform (https://gltf-transform.donmccurdy.com/) API.
-                //  * Other common problems — e.g. high vertex or draw counts — may
-                //  * require working in other tools, like gltfpack or Blender.
-                //  */
+                // // let rawBlob = new Blob([gltf], {
+                // //   type: 'application/octet-stream',
+                // // })
 
-                await glbDocument.transform(
-                  // Losslessly resample animation frames.
-                  resample()
-                )
+                // // let rawUrl = URL.createObjectURL(rawBlob)
 
-                let newBin = await io.writeBinary(glbDocument)
-                // let newBin = gltf
+                // const io = new WebIO({
+                //   mode: 'cors',
+                //   cache: 'no-cache',
+                // })
 
-                fileSave(newBin, {
+                // let glbDocument = await io.readBinary(
+                //   new Uint8Array(arrayBuffer)
+                // )
+                // // // let glbDocument = await io.read(rawUrl)
+
+                // // /**
+                // //  * simple_pipeline.js
+                // //  *
+                // //  * Short example of an glTF optimization pipeline implemented with
+                // //  * the glTF-Transform (https://gltf-transform.donmccurdy.com/) API.
+                // //  * Other common problems — e.g. high vertex or draw counts — may
+                // //  * require working in other tools, like gltfpack or Blender.
+                // //  */
+
+                // await glbDocument.transform(
+                //   // Losslessly resample animation frames.
+                //   resample()
+                // )
+
+                // let newBin = await io.writeBinary(glbDocument)
+                // // let newBin = gltf
+
+                fileSave(newFile, {
                   fileName: 'combined-motion.glb',
                   extensions: ['.glb'],
                 })
