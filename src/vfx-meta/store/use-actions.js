@@ -4,7 +4,7 @@ export const useActions = ({
   acts,
   avatarActionName,
   activeMixer,
-  setAction,
+  setAction = () => {},
   avatarActionResumeOnKeyUp,
   avatarActionRepeat,
 }) => {

@@ -95,6 +95,7 @@ export function CompanionWrap({
               avatarActionName={action}
               avatarActionRepeat={Infinity}
               avatarURL={avatarURL}
+              setAction={setNPCAction}
               frustumCulled={false}
             ></RPMAvatar>
           )}
@@ -107,6 +108,7 @@ export function CompanionWrap({
               avatarPartSkeleton={avatarPartSkeleton}
               setExporter={setExporter}
               //
+              setAction={setNPCAction}
               avatarActionName={action}
               avatarActionRepeat={Infinity}
               //
