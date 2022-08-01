@@ -47,8 +47,8 @@ export function CompanionWrap({
           ref.current.position.y,
           targetO3D.position.z
         )
-        ref.current.position.cpoy(targetO3D.position)
-
+        ref.current.position.copy(targetO3D.position)
+        ref.current.position.x += 1
         if (action !== 'front') {
           setNPCAction('front')
         }
