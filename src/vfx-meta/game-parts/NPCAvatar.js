@@ -50,22 +50,18 @@ export function NPCAvatar({ status, targetO3D }) {
       avatarActionName = status
     }
   }
-
-  useFrame(() => {
-    //
-    if (avatarActionName === 'front') {
-      change()
-    }
-    if (avatarActionName === 'left') {
-      change()
-    }
-    if (avatarActionName === 'right') {
-      change()
-    }
-    if (avatarActionName === 'back') {
-      change()
-    }
-  })
+  if (avatarActionName === 'front') {
+    change()
+  }
+  if (avatarActionName === 'left') {
+    change()
+  }
+  if (avatarActionName === 'right') {
+    change()
+  }
+  if (avatarActionName === 'back') {
+    change()
+  }
 
   // if (avatarActionName === 'front') {
   //   if (status === 'running') {
