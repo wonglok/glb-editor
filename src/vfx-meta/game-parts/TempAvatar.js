@@ -4,14 +4,14 @@ import { DRACOLoader } from 'three140/examples/jsm/loaders/DRACOLoader'
 import { GLTFLoader } from 'three140/examples/jsm/loaders/GLTFLoader'
 import { FBXLoader } from 'three/examples/jsm/loaders/FBXLoader'
 import { useFrame, useThree } from '@react-three/fiber'
-import { useMetaStore } from '../store/use-meta-store'
 import { EffectNodeRuntime } from '@/vfx-studio/effectnode/Runtime/EffectNodeRuntime/EffectNodeRuntime'
 import { Camera } from 'three'
 import { inPlace } from '../store/in-place'
 import { useActions } from '../store/use-actions'
 
 const PromisesMap = new Map()
-export function RPMAvatar({
+
+export function TempAvatar({
   frustumCulled = true,
   setAction,
   avatarActionName = 'stand',
@@ -19,7 +19,6 @@ export function RPMAvatar({
   avatarActionRepeat = Infinity,
   avatarActionIdleName = 'stand',
   avatarURL = `/rpm/rpm-avatar/loklok-christmas.glb`,
-  setExporter = () => {},
   onBeginLoading = () => {},
   onDoneLoading = () => {},
 }) {
@@ -33,16 +32,16 @@ export function RPMAvatar({
   useEffect(() => {
     onBeginLoading()
 
-    Promise.all(
-      JSON.parse(JSON.stringify(RPM.Motion)).map(async (eachSet) => {
-        let fbxLoader = new FBXLoader()
-        eachSet.loading = fbxLoader.loadAsync(eachSet.url)
+    // Promise.all(
+    //   JSON.parse(JSON.stringify(RPM.Motion)).map(async (eachSet) => {
+    //     let fbxLoader = new FBXLoader()
+    //     eachSet.loading = fbxLoader.loadAsync(eachSet.url)
 
-        PromisesMap.set(eachSet.url, eachSet.loading)
+    //     PromisesMap.set(eachSet.url, eachSet.loading)
 
-        return eachSet.loading
-      })
-    )
+    //     return eachSet.loading
+    //   })
+    // )
 
     let loader = new GLTFLoader()
     const dracoLoader = new DRACOLoader()
@@ -51,6 +50,7 @@ export function RPMAvatar({
     loader
       .loadAsync(avatarURL)
       .then(async (glbNew) => {
+        //
         if (frustumCulled === false) {
           glbNew.scene.traverse((it) => {
             if (it.geometry) {
@@ -61,7 +61,7 @@ export function RPMAvatar({
 
         onDoneLoading()
 
-        gl.compile(glbNew.scene, new Camera())
+        gl.compile(glbNew.scene, camera)
 
         setGLB(glbNew)
       })
@@ -77,42 +77,17 @@ export function RPMAvatar({
       let mixer = new AnimationMixer(glb.scene)
       setMixer(mixer)
       onBeginLoading()
+
       Promise.all(
-        JSON.parse(JSON.stringify(RPM.Motion)).map((eachSet) => {
-          // return new
+        glb.animations.map(async (e) => {
+          let output = {}
 
-          return new Promise((resolve) => {
-            //
-            let hh = (fbx) => {
-              let animationsList = fbx.animations
-
-              if (eachSet.inPlace) {
-                animationsList = fbx.animations.map((e) => {
-                  return inPlace(e)
-                })
-              }
-
-              //
-              let action = mixer.clipAction(animationsList[0])
-              eachSet.clip = animationsList[0]
-              eachSet.clips = animationsList
-              eachSet.action = action
-              eachSet.duration = animationsList[0].duration
-              eachSet.fbx = fbx
-
-              // avatarURLTemp
-              resolve(eachSet)
-            }
-            if (PromisesMap.has(eachSet.url)) {
-              let prom = PromisesMap.get(eachSet.url)
-
-              prom.then(hh)
-              return
-            } else {
-              let fbxLoader = new FBXLoader()
-              fbxLoader.loadAsync(eachSet.url).then(hh)
-            }
-          })
+          let clip = inPlace(e)
+          output.name = e.name
+          output.clip = clip
+          output.action = mixer.clipAction(clip, glb.scene)
+          output.duration = e.duration
+          return output
         })
       ).then(
         (acts) => {
@@ -129,18 +104,6 @@ export function RPMAvatar({
       return () => {}
     }
   }, [glb])
-
-  useEffect(() => {
-    if (acts && glb) {
-      setExporter({
-        group: glb.scene,
-        clips: acts.map((e) => {
-          e.clip.name = e.name
-          return e.clip
-        }),
-      })
-    }
-  }, [acts, glb])
 
   // let tt = useRef(0)
   // useEffect(() => {

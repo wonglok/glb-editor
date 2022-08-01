@@ -55,6 +55,25 @@ export function ClosetBtns() {
   return (
     <group>
       <UploadAvatar></UploadAvatar>
+
+      <Text
+        rotation-x={Math.PI * -0.25}
+        onClick={() => {
+          //
+          //
+
+          setTimeout(() => {
+            exportAvatar()
+          }, 1)
+          //
+          //
+        }}
+        fontSize={1}
+        position={[0, 6, -3]}
+      >
+        Download Avatar
+      </Text>
+
       {/*  */}
       {myCTX?.player && (
         <CompanionWrap
@@ -118,26 +137,6 @@ export function ClosetBtns() {
         </Text>
       </group>
       <group position={[10, 0, 0]}>
-        <Text
-          rotation-x={Math.PI * -0.25}
-          onClick={() => {
-            //
-            //
-            setAvatar({
-              vendor: 'closet',
-            })
-            setTimeout(() => {
-              exportAvatar()
-            }, 1)
-            //
-            //
-          }}
-          fontSize={1}
-          position={[0, 2, -4]}
-        >
-          Download Avatar
-        </Text>
-
         <group position={[0, -0.55, -2]}>
           <PreviewClosetAvaTester></PreviewClosetAvaTester>
         </group>
@@ -259,7 +258,7 @@ export function ClosetBtns() {
 }
 
 export function PreviewRPMAvaTester() {
-  // let avatarVendor = useMetaStore((s) => s.myCTX.avatarVendor)
+  let avatarVendor = useMetaStore((s) => s.myCTX.avatarVendor)
 
   let avatarURL = useMetaStore((s) => s.myCTX.avatarURL)
   let avatarActionName = useMetaStore((s) => s.myCTX.avatarActionName)
@@ -318,7 +317,7 @@ export function PreviewRPMAvaTester() {
 }
 
 export function PreviewClosetAvaTester() {
-  // let avatarVendor = useMetaStore((s) => s.myCTX.avatarVendor)
+  let avatarVendor = useMetaStore((s) => s.myCTX.avatarVendor)
 
   // let avatarURL = useMetaStore((s) => s.myCTX.avatarURL)
   let avatarActionName = useMetaStore((s) => s.myCTX.avatarActionName)
@@ -350,22 +349,22 @@ export function PreviewClosetAvaTester() {
         ></RPMAvatar>
       )} */}
 
-      {/* {avatarVendor === 'closet' && ( */}
-      <ClosetAvatar
-        setAction={setAction}
-        avatarPartSkeleton={avatarPartSkeleton}
-        avatarPartUpper={avatarPartUpper}
-        avatarPartLower={avatarPartLower}
-        avatarPartShoes={avatarPartShoes}
-        setExporter={setExporter}
-        //
-        avatarActionName={avatarActionName}
-        avatarActionIdleName={avatarActionIdleName}
-        avatarActionRepeat={avatarActionRepeat}
-        //
-        exportAvatar={false}
-      ></ClosetAvatar>
-      {/* )} */}
+      {
+        <ClosetAvatar
+          setAction={setAction}
+          avatarPartSkeleton={avatarPartSkeleton}
+          avatarPartUpper={avatarPartUpper}
+          avatarPartLower={avatarPartLower}
+          avatarPartShoes={avatarPartShoes}
+          setExporter={setExporter}
+          //
+          avatarActionName={avatarActionName}
+          avatarActionIdleName={avatarActionIdleName}
+          avatarActionRepeat={avatarActionRepeat}
+          //
+          exportAvatar={false}
+        ></ClosetAvatar>
+      }
     </Suspense>
   )
 }

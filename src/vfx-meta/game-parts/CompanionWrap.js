@@ -6,6 +6,7 @@ import { Object3D, Sphere } from 'three140'
 import { useMetaStore } from '../store/use-meta-store'
 import { ClosetAvatar } from './ClosetAvatar'
 import { RPMAvatar } from './RPMAvatar'
+import { TempAvatar } from './TempAvatar'
 
 export function CompanionWrap({
   speed = 9,
@@ -19,6 +20,7 @@ export function CompanionWrap({
   let setExporter = useMetaStore((s) => s.myCTX.setExporter)
   let avatarVendor = useMetaStore((s) => s.myCTX.avatarVendor)
   let avatarURL = useMetaStore((s) => s.myCTX.avatarURL)
+  let avatarURLTemp = useMetaStore((s) => s.myCTX.avatarURLTemp)
 
   let ref = useRef()
   let [dist] = useState(() => {
@@ -90,6 +92,16 @@ export function CompanionWrap({
             </>
           }
         >
+          {avatarVendor === 'temp' && (
+            <TempAvatar
+              setAction={setNPCAction}
+              avatarActionName={action}
+              avatarActionRepeat={Infinity}
+              frustumCulled={false}
+              avatarURL={avatarURLTemp}
+            ></TempAvatar>
+          )}
+
           {avatarVendor === 'rpm' && (
             <RPMAvatar
               avatarActionName={action}

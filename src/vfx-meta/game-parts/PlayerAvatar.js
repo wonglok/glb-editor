@@ -4,6 +4,7 @@ import { Suspense, useRef } from 'react'
 import { useMetaStore } from '../store/use-meta-store'
 import { ClosetAvatar } from './ClosetAvatar'
 import { RPMAvatar } from './RPMAvatar'
+import { TempAvatar } from './TempAvatar'
 
 export function PlayerAvatar() {
   let player = useMetaStore((s) => s.myCTX.player)
@@ -18,7 +19,10 @@ export function PlayerAvatar() {
   let avatarPartLower = useMetaStore((s) => s.myCTX.avatarPartLower)
   let avatarPartShoes = useMetaStore((s) => s.myCTX.avatarPartShoes)
   let avatarPartSkeleton = useMetaStore((s) => s.myCTX.avatarPartSkeleton)
-  let setExporter = useMetaStore((s) => s.myCTX.setExporter)
+  let avatarURLTemp = useMetaStore((s) => s.myCTX.avatarURLTemp)
+
+  //
+  let setExporter = useMetaStore((s) => s.setExporter)
   let setAction = useMetaStore((s) => s.setAction)
 
   //
@@ -58,14 +62,26 @@ export function PlayerAvatar() {
           </>
         }
       >
+        {avatarVendor === 'temp' && (
+          <TempAvatar
+            setAction={setAction}
+            avatarActionName={avatarActionName}
+            // avatarActionIdleName={avatarActionIdleName}
+            avatarActionRepeat={avatarActionRepeat}
+            frustumCulled={false}
+            avatarURL={avatarURLTemp}
+          ></TempAvatar>
+        )}
+
         {avatarVendor === 'rpm' && (
           <RPMAvatar
             setAction={setAction}
             avatarActionName={avatarActionName}
-            avatarActionIdleName={avatarActionIdleName}
+            // avatarActionIdleName={avatarActionIdleName}
             avatarActionRepeat={avatarActionRepeat}
             avatarURL={avatarURL}
             frustumCulled={false}
+            setExporter={setExporter}
             onBeginLoading={onBeginLoading}
             onDoneLoading={onDoneLoading}
           ></RPMAvatar>
@@ -81,7 +97,7 @@ export function PlayerAvatar() {
             setExporter={setExporter}
             //
             avatarActionName={avatarActionName}
-            avatarActionIdleName={avatarActionIdleName}
+            // avatarActionIdleName={avatarActionIdleName}
             avatarActionRepeat={avatarActionRepeat}
             //
             exportAvatar={true}

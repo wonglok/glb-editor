@@ -40,6 +40,9 @@ export const makeAvatarCTX = () => {
     avatarURL: `/scene/loklokdemo/loklok-demo.glb`,
     avatarVendor: `rpm`,
 
+    //
+    avatarURLTemp: `/scene/loklokdemo/loklok-demo.glb`,
+
     avatarActionResumeOnKeyUp: 'stand',
     avatarActionName: 'stand',
     avatarActionIdleName: 'stand',

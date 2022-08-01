@@ -266,9 +266,9 @@ export const useMetaStore = create((set, get) => {
         set({ myCTX: myCTX })
       }
       //
-      if (vendor === 'upload') {
-        myCTX.avatarVendor = 'upload'
-        myCTX.avatarURL = avatarURL || myCTX.avatarURL
+      if (vendor === 'temp') {
+        myCTX.avatarVendor = 'temp'
+        myCTX.avatarURLTemp = avatarURL
 
         set({ myCTX: myCTX })
       }

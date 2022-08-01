@@ -314,13 +314,6 @@ export function ClosetAvatar({
                         url={avatarPartShoes}
                       ></Generic>
                     </Suspense>
-
-                    {exportAvatar && (
-                      <Exporter
-                        clips={acts.map((e) => e.clip)}
-                        group={avatarGroup}
-                      ></Exporter>
-                    )}
                   </group>
                 </group>
               </group>
@@ -328,6 +321,12 @@ export function ClosetAvatar({
           </>
         )}
       </group>
+      {exportAvatar && (
+        <Exporter
+          clips={acts.map((e) => e.clip)}
+          group={avatarGroup}
+        ></Exporter>
+      )}
     </group>
   )
 }

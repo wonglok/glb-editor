@@ -7,7 +7,7 @@ import { GLTFLoader } from 'three140/examples/jsm/loaders/GLTFLoader'
 import { useMetaStore } from '../store/use-meta-store'
 
 export function UploadAvatar() {
-  let [glb, setGLB] = useState()
+  let setAvatar = useMetaStore((s) => s.setAvatar)
   return (
     <group>
       <Text
@@ -21,16 +21,9 @@ export function UploadAvatar() {
           input.onchange = async ({ target: { files } }) => {
             let file = files[0]
             if (file) {
-              let ab = await file.arrayBuffer()
-
-              const dracoLoader = new DRACOLoader()
-              dracoLoader.setDecoderPath('/draco/')
-              useMetaStore.getState().setStartLoading()
-              let loader = new GLTFLoader()
-              loader.parseAsync(ab, '/').then((glb) => {
-                // setGLB(glb)
-                setGLB(glb)
-                useMetaStore.getState().setDoneLoading()
+              setAvatar({
+                vendor: 'temp',
+                avatarURL: URL.createObjectURL(file),
               })
             }
           }
@@ -44,14 +37,14 @@ export function UploadAvatar() {
         Upload Avatar File
       </Text>
 
-      <group position={[0, -0.62, 0]}>
+      {/* <group position={[0, -0.62, 0]}>
         {glb && (
           <>
             <primitive object={glb.scene}></primitive>
             <EffectNodeRuntime glbObject={glb}></EffectNodeRuntime>
           </>
         )}
-      </group>
+      </group> */}
     </group>
   )
 }
