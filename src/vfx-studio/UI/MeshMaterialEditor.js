@@ -107,7 +107,7 @@ function Details({ mesh }) {
         addColorPicker('emissive')
 
         const btnEffectNode = pane.addButton({
-          title: 'Launch Effect Node',
+          title: 'Embed Effect Node',
           label: 'Tool', // optional
         })
 
