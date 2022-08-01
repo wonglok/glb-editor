@@ -17,10 +17,7 @@ export function CompanionWrap({
   let avatarPartSkeleton = useMetaStore((s) => s.myCTX.avatarPartSkeleton)
   let setExporter = useMetaStore((s) => s.myCTX.setExporter)
   let avatarVendor = useMetaStore((s) => s.myCTX.avatarVendor)
-  let avatarActionIdleName = useMetaStore((s) => s.myCTX.avatarActionIdleName)
-  let avatarActionName = useMetaStore((s) => s.myCTX.avatarActionName)
   let avatarURL = useMetaStore((s) => s.myCTX.avatarURL)
-  let avatarActionRepeat = useMetaStore((s) => s.myCTX.avatarActionRepeat)
 
   let ref = useRef()
   let [dist] = useState(() => {
@@ -52,10 +49,10 @@ export function CompanionWrap({
         )
         ref.current.position.cpoy(targetO3D.position)
 
-        //
-        if (avatarActionName !== 'front') {
+        if (action !== 'front') {
           setNPCAction('front')
         }
+        //
       } else if (diff >= 5 && diff < 25) {
         ref.current.position.addScaledVector(unit, dt * speed)
         ref.current.lookAt(
@@ -63,11 +60,13 @@ export function CompanionWrap({
           ref.current.position.y,
           targetO3D.position.z
         )
-        if (avatarActionName !== 'front') {
+        if (action !== 'front') {
           setNPCAction('front')
         }
       } else {
-        setNPCAction('stand', Infinity)
+        if (action !== 'fightready') {
+          setNPCAction('fightready')
+        }
       }
     }
   })
@@ -84,9 +83,7 @@ export function CompanionWrap({
         >
           {avatarVendor === 'rpm' && (
             <RPMAvatar
-              setAction={() => {}}
               avatarActionName={action}
-              avatarActionIdleName={'fightready'}
               avatarActionRepeat={Infinity}
               avatarURL={avatarURL}
               frustumCulled={false}
@@ -95,7 +92,6 @@ export function CompanionWrap({
 
           {avatarVendor === 'closet' && (
             <ClosetAvatar
-              setAction={() => {}}
               avatarPartUpper={avatarPartUpper}
               avatarPartLower={avatarPartLower}
               avatarPartShoes={avatarPartShoes}
@@ -103,7 +99,6 @@ export function CompanionWrap({
               setExporter={setExporter}
               //
               avatarActionName={action}
-              avatarActionIdleName={'stand'}
               avatarActionRepeat={Infinity}
               //
               exportAvatar={false}

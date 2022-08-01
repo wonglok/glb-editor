@@ -28,6 +28,7 @@ export const useActions = ({
           tt.current = setTimeout(() => {
             setAction(avatarActionResumeOnKeyUp, Infinity)
           }, act.duration * 1000 - 260)
+        } else {
         }
 
         //
