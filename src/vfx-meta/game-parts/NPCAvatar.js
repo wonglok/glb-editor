@@ -50,8 +50,11 @@ export function NPCAvatar({ status, targetO3D }) {
 
   if (ref.current) {
     ref.current.getWorldPosition(v3)
-    if (targetO3D.position.distanceTo(v3) <= 4) {
-      avatarActionName = avatarActionIdleName
+    if (targetO3D.position.distanceTo(v3) >= 4) {
+      if (status === 'front') {
+        avatarActionName = 'front'
+      }
+    } else {
     }
   }
 

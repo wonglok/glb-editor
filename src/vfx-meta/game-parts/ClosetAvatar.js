@@ -144,6 +144,7 @@ export function ClosetAvatar({
   avatarActionRepeat = Infinity,
   avatarActionIdleName = 'stand',
 
+  avatarFashionSeries = Fashion[0],
   avatarPartSkeleton = Fashion[0].uppers[0].url,
   avatarPartUpper = Fashion[0].uppers[0].url,
   avatarPartLower = Fashion[0].lowers[0].url,
@@ -154,8 +155,6 @@ export function ClosetAvatar({
 
   onBeginLoading = () => {},
   onDoneLoading = () => {},
-
-  //
 }) {
   let gl = useThree((s) => s.gl)
   let camera = useThree((s) => s.camera)
@@ -179,9 +178,8 @@ export function ClosetAvatar({
     let fbxLoader = new FBXLoader()
     // let = Fashion.combinedMotion.url
 
-    let useCombined = true
-
-    let comebinedURL = Fashion[0].combinedMotion.url
+    let comebinedURL = avatarFashionSeries.combinedMotion.url
+    let useCombined = comebinedURL
     Promise.all([
       get(avatarPartSkeleton, gl, camera),
       useCombined
@@ -189,7 +187,7 @@ export function ClosetAvatar({
         : Promise.all([
             //
 
-            ...Fashion[0].motions.map((mo) => {
+            ...avatarFashionSeries.motions.map((mo) => {
               return fbxLoader.loadAsync(mo.url).then((fbx) => {
                 mo.fbx = fbx
 
