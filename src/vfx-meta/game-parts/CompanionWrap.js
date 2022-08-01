@@ -67,6 +67,10 @@ export function CompanionWrap({
         if (action !== 'stand') {
           setNPCAction('stand')
         }
+
+        if (ref.current.position.y > targetO3D.position.y) {
+          ref.current.position.y = targetO3D.position.y
+        }
       }
     }
   })
