@@ -10,6 +10,7 @@ import { Camera } from 'three'
 import { inPlace } from '../store/in-place'
 import { useActions } from '../store/use-actions'
 
+const PromisesMap = new Map()
 export function RPMAvatar({
   frustumCulled = true,
   setAction,
@@ -30,13 +31,25 @@ export function RPMAvatar({
 
   useEffect(() => {
     onBeginLoading()
+
+    Promise.all(
+      JSON.parse(JSON.stringify(RPM.Motion)).map(async (eachSet) => {
+        let fbxLoader = new FBXLoader()
+        eachSet.loading = fbxLoader.loadAsync(eachSet.url)
+
+        PromisesMap.set(eachSet.url, eachSet.loading)
+
+        return eachSet.loading
+      })
+    )
+
     let loader = new GLTFLoader()
     const dracoLoader = new DRACOLoader()
     dracoLoader.setDecoderPath('/draco/')
     loader.setDRACOLoader(dracoLoader)
     loader
       .loadAsync(avatarURL)
-      .then((glbNew) => {
+      .then(async (glbNew) => {
         if (frustumCulled === false) {
           glbNew.scene.traverse((it) => {
             if (it.geometry) {
@@ -48,6 +61,7 @@ export function RPMAvatar({
         onDoneLoading()
 
         gl.compile(glbNew.scene, new Camera())
+
         setGLB(glbNew)
       })
       .catch((e) => {
@@ -56,6 +70,7 @@ export function RPMAvatar({
       })
   }, [avatarURL, gl, camera, frustumCulled])
 
+  //
   useEffect(() => {
     if (glb) {
       let mixer = new AnimationMixer(glb.scene)
@@ -67,18 +82,7 @@ export function RPMAvatar({
 
           return new Promise((resolve) => {
             //
-            if (eachSet.loading) {
-              eachSet.loading.then(() => {
-                resolve(eachSet)
-              })
-
-              return
-            }
-
-            let fbxLoader = new FBXLoader()
-            eachSet.loading = fbxLoader.loadAsync(eachSet.url).then((fbx) => {
-              //
-
+            let hh = (fbx) => {
               let animationsList = fbx.animations
 
               if (eachSet.inPlace) {
@@ -95,9 +99,17 @@ export function RPMAvatar({
               eachSet.duration = animationsList[0].duration
               eachSet.fbx = fbx
 
-              //
               resolve(eachSet)
-            })
+            }
+            if (PromisesMap.has(eachSet.url)) {
+              let prom = PromisesMap.get(eachSet.url)
+
+              prom.then(hh)
+              return
+            } else {
+              let fbxLoader = new FBXLoader()
+              fbxLoader.loadAsync(eachSet.url).then(hh)
+            }
           })
         })
       ).then(
