@@ -64,8 +64,8 @@ export function CompanionWrap({
           setNPCAction('front')
         }
       } else {
-        if (action !== 'fightready') {
-          setNPCAction('fightready')
+        if (action !== 'stand') {
+          setNPCAction('stand')
         }
       }
     }
