@@ -34,34 +34,34 @@ export function NPCAvatar({ status, targetO3D }) {
     }
   })
 
-  let [v3] = useState(() => {
-    return new Vector3()
-  })
+  // let [v3] = useState(() => {
+  //   return new Vector3()
+  // })
 
-  let change = () => {
-    if (ref.current) {
-      ref.current.getWorldPosition(v3)
-      if (targetO3D.position.distanceTo(v3) >= 4.2) {
-        avatarActionName = 'front'
-      } else {
-        avatarActionName = avatarActionIdleName
-      }
-    } else {
-      avatarActionName = status
-    }
-  }
-  if (avatarActionName === 'front') {
-    change()
-  }
-  if (avatarActionName === 'left') {
-    change()
-  }
-  if (avatarActionName === 'right') {
-    change()
-  }
-  if (avatarActionName === 'back') {
-    change()
-  }
+  // let change = () => {
+  //   if (ref.current) {
+  //     ref.current.getWorldPosition(v3)
+  //     if (targetO3D.position.distanceTo(v3) >= 4.2) {
+  //       avatarActionName = 'front'
+  //     } else {
+  //       avatarActionName = avatarActionIdleName
+  //     }
+  //   } else {
+  //     avatarActionName = status
+  //   }
+  // }
+  // if (avatarActionName === 'front') {
+  //   change()
+  // }
+  // if (avatarActionName === 'left') {
+  //   change()
+  // }
+  // if (avatarActionName === 'right') {
+  //   change()
+  // }
+  // if (avatarActionName === 'back') {
+  //   change()
+  // }
 
   // if (avatarActionName === 'front') {
   //   if (status === 'running') {
@@ -82,8 +82,8 @@ export function NPCAvatar({ status, targetO3D }) {
       >
         {avatarVendor === 'rpm' && (
           <RPMAvatar
-            setAction={setAction}
-            avatarActionName={avatarActionName}
+            setAction={() => {}} //setAction
+            avatarActionName={status}
             avatarActionIdleName={avatarActionIdleName}
             avatarActionRepeat={avatarActionRepeat}
             avatarURL={avatarURL}
@@ -93,14 +93,14 @@ export function NPCAvatar({ status, targetO3D }) {
 
         {avatarVendor === 'closet' && (
           <ClosetAvatar
-            setAction={setAction}
+            setAction={() => {}} //setAction
             avatarPartUpper={avatarPartUpper}
             avatarPartLower={avatarPartLower}
             avatarPartShoes={avatarPartShoes}
             avatarPartSkeleton={avatarPartSkeleton}
             setExporter={setExporter}
             //
-            avatarActionName={avatarActionName}
+            avatarActionName={status}
             avatarActionIdleName={avatarActionIdleName}
             avatarActionRepeat={avatarActionRepeat}
             //

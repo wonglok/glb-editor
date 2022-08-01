@@ -66,11 +66,9 @@ export function ClosetBtns() {
               setStatus(v)
             }
           }}
-          speed={7.6}
+          speed={6.5}
           targetO3D={myCTX.player}
-        >
-          <NPCAvatar targetO3D={myCTX.player} status={status}></NPCAvatar>
-        </CompanionWrap>
+        ></CompanionWrap>
       )}
 
       <group position={[-10, 0, 0]}>

@@ -7,7 +7,6 @@ export const useActions = ({
   setAction,
   avatarActionResumeOnKeyUp,
   avatarActionRepeat,
-  avatarActionIdleName,
 }) => {
   let tt = useRef(0)
   useEffect(() => {
@@ -36,8 +35,8 @@ export const useActions = ({
           act.action.fadeOut(260 / 1000)
         }
       } else {
-        if (avatarActionName !== avatarActionIdleName) {
-          setAction(avatarActionIdleName, Infinity)
+        if (avatarActionName !== avatarActionResumeOnKeyUp) {
+          setAction(avatarActionResumeOnKeyUp, Infinity)
         }
       }
     }
@@ -46,8 +45,7 @@ export const useActions = ({
     avatarActionName,
     activeMixer,
     setAction,
-    avatarActionResumeOnKeyUp,
     avatarActionRepeat,
-    avatarActionIdleName,
+    avatarActionResumeOnKeyUp,
   ])
 }

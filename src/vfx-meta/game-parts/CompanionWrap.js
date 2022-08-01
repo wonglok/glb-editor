@@ -1,25 +1,41 @@
 import { Box as TestObject } from '@react-three/drei'
 import { useFrame } from '@react-three/fiber'
-import { useEffect, useRef, useState } from 'react'
-import { Object3D } from 'three140'
+import { Suspense, useEffect, useRef, useState } from 'react'
+import { Object3D, Sphere } from 'three140'
+import { useMetaStore } from '../store/use-meta-store'
+import { ClosetAvatar } from './ClosetAvatar'
+import { RPMAvatar } from './RPMAvatar'
 
 export function CompanionWrap({
   speed = 9,
-  onChangeStatus = () => {},
+
   targetO3D,
-  children = () => {},
 }) {
+  let avatarPartUpper = useMetaStore((s) => s.myCTX.avatarPartUpper)
+  let avatarPartLower = useMetaStore((s) => s.myCTX.avatarPartLower)
+  let avatarPartShoes = useMetaStore((s) => s.myCTX.avatarPartShoes)
+  let avatarPartSkeleton = useMetaStore((s) => s.myCTX.avatarPartSkeleton)
+  let setExporter = useMetaStore((s) => s.myCTX.setExporter)
+  let avatarVendor = useMetaStore((s) => s.myCTX.avatarVendor)
+  let avatarActionIdleName = useMetaStore((s) => s.myCTX.avatarActionIdleName)
+  let avatarActionName = useMetaStore((s) => s.myCTX.avatarActionName)
+  let avatarURL = useMetaStore((s) => s.myCTX.avatarURL)
+  let avatarActionRepeat = useMetaStore((s) => s.myCTX.avatarActionRepeat)
+
   let ref = useRef()
   let [dist] = useState(() => {
     let o3 = new Object3D()
     return o3
   })
 
+  let [action, setNPCAction] = useState('stand')
   useEffect(() => {
     if (ref.current.position.length() === 0) {
       ref.current.position.x = 5
     }
   }, [])
+
+  //
   useFrame((st, dt) => {
     if (ref.current && targetO3D) {
       //ref.current
@@ -28,47 +44,74 @@ export function CompanionWrap({
       let unit = dist.position.sub(ref.current.position).normalize()
 
       let diff = targetO3D.position.distanceTo(ref.current.position)
-      if (diff > 25) {
-        ref.current.position.lerp(targetO3D.position, 0.5)
+      if (diff >= 25) {
         ref.current.lookAt(
           targetO3D.position.x,
           ref.current.position.y,
           targetO3D.position.z
         )
+        ref.current.position.cpoy(targetO3D.position)
 
         //
-        onChangeStatus('front')
-      } else if (diff >= 4.5 && diff <= 25) {
+        if (avatarActionName !== 'front') {
+          setNPCAction('front')
+        }
+      } else if (diff >= 5 && diff < 25) {
         ref.current.position.addScaledVector(unit, dt * speed)
         ref.current.lookAt(
           targetO3D.position.x,
           ref.current.position.y,
           targetO3D.position.z
         )
-        onChangeStatus('front')
+        if (avatarActionName !== 'front') {
+          setNPCAction('front')
+        }
       } else {
-        //
-        onChangeStatus('stand')
-        ref.current.position.y = targetO3D.position.y
+        setNPCAction('stand', Infinity)
       }
     }
   })
 
   return (
     <group ref={ref}>
-      {children ? (
-        <group position={[0, -1.52, 0]}>{children}</group>
-      ) : (
-        <group
-          rotation-x={Math.PI * 0.25}
-          position={[0, 0.5, 0]}
-          scale={[0.5, 2, 0.1]}
+      <group position={[0, -1.52, 0]}>
+        <Suspense
+          fallback={
+            <>
+              <Sphere args={[3, 32, 32]}></Sphere>
+            </>
+          }
         >
-          {<TestObject></TestObject>}
-        </group>
-      )}
+          {avatarVendor === 'rpm' && (
+            <RPMAvatar
+              setAction={() => {}}
+              avatarActionName={action}
+              avatarActionIdleName={'fightready'}
+              avatarActionRepeat={Infinity}
+              avatarURL={avatarURL}
+              frustumCulled={false}
+            ></RPMAvatar>
+          )}
 
-      {/*  */}
+          {avatarVendor === 'closet' && (
+            <ClosetAvatar
+              setAction={() => {}}
+              avatarPartUpper={avatarPartUpper}
+              avatarPartLower={avatarPartLower}
+              avatarPartShoes={avatarPartShoes}
+              avatarPartSkeleton={avatarPartSkeleton}
+              setExporter={setExporter}
+              //
+              avatarActionName={action}
+              avatarActionIdleName={'stand'}
+              avatarActionRepeat={Infinity}
+              //
+              exportAvatar={false}
+              frustumCulled={false}
+            ></ClosetAvatar>
+          )}
+        </Suspense>
+      </group>
 
       {/*  */}
     </group>
