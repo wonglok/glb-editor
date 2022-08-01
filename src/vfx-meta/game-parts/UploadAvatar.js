@@ -30,6 +30,7 @@ export function UploadAvatar() {
               loader.parseAsync(ab, '/').then((glb) => {
                 // setGLB(glb)
                 setGLB(glb)
+                useMetaStore.getState().setDoneLoading()
               })
             }
           }
