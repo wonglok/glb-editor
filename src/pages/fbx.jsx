@@ -83,10 +83,7 @@ export default function FBX() {
                 //
 
                 let { WebIO } = await import('@gltf-transform/core')
-
-                let { prune, dedup, resample, textureResize } = await import(
-                  '@gltf-transform/functions'
-                )
+                let { resample } = await import('@gltf-transform/functions')
 
                 // let rawBlob = new Blob([gltf], {
                 //   type: 'application/octet-stream',
@@ -114,17 +111,8 @@ export default function FBX() {
                 //  */
 
                 await glbDocument.transform(
-                  // Remove duplicate vertex or texture data, if any.
-                  dedup(),
-
                   // Losslessly resample animation frames.
-                  resample(),
-
-                  // Remove unused nodes, textures, or other data.
-                  prune(),
-
-                  // Resize all textures to ≤1K.
-                  textureResize({ size: [512, 512] })
+                  resample()
                 )
 
                 let newBin = await io.writeBinary(glbDocument)
