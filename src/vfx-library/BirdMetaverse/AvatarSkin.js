@@ -9,8 +9,6 @@ import { Core } from '@/vfx-core/Core'
 
 export const loadGLTF = (url) => {
   return new Promise((resolve) => {
-    //
-
     // const IS_IOS =
     //   /^(iPad|iPhone|iPod)/.test(window.navigator.platform) ||
     //   (/^Mac/.test(window.navigator.platform) &&

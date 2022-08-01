@@ -45,6 +45,10 @@ export let Fashion = [
         url: '/skinning/female3-01/shoes/shoes.glb',
       },
     ],
+    combinedMotion: {
+      //
+      url: `/skinning/motions_glb/fbx/combined-motion.glb`,
+    },
     motions: [
       //
       { name: 'stand', repeats: Infinity, url: '/skinning/motions/stand.fbx' },
@@ -173,41 +177,70 @@ export function ClosetAvatar({
   //
   useEffect(() => {
     let fbxLoader = new FBXLoader()
+    // let = Fashion.combinedMotion.url
 
+    let useCombined = true
+
+    let comebinedURL = Fashion[0].combinedMotion.url
     Promise.all([
       get(avatarPartSkeleton, gl, camera),
-      Promise.all([
-        //
+      useCombined
+        ? get(comebinedURL, gl, camera)
+        : Promise.all([
+            //
 
-        ...Fashion[0].motions.map((mo) => {
-          return fbxLoader.loadAsync(mo.url).then((fbx) => {
-            mo.fbx = fbx
+            ...Fashion[0].motions.map((mo) => {
+              return fbxLoader.loadAsync(mo.url).then((fbx) => {
+                mo.fbx = fbx
 
-            return mo
-          })
-        }),
-      ]),
+                return mo
+              })
+            }),
+          ]),
     ]).then(([base, actions]) => {
       //
       //
-      //
-      let acts = actions.slice().map((mo) => {
-        mo = {
-          ...mo,
-        }
+      if (useCombined) {
+        let acts = []
 
-        let animationsList = mo.fbx.animations
+        actions.animations
+          .map((e) => {
+            return inPlace(e)
+          })
+          .forEach((it) => {
+            //
 
-        animationsList = animationsList.map((e) => {
-          return inPlace(e)
+            let newEntry = {
+              name: it.name,
+              action: mixer.clipAction(it, base.scene),
+              duration: it.duration,
+            }
+
+            acts.push(newEntry)
+          })
+
+        setActs(acts)
+        //
+      } else {
+        //
+        let acts = actions.slice().map((mo) => {
+          mo = {
+            ...mo,
+          }
+
+          let animationsList = mo.fbx.animations
+
+          animationsList = animationsList.map((e) => {
+            return inPlace(e)
+          })
+
+          mo.action = mixer.clipAction(animationsList[0], base.scene)
+          mo.duration = animationsList[0].duration
+          return mo
         })
 
-        mo.action = mixer.clipAction(animationsList[0], base.scene)
-        mo.duration = animationsList[0].duration
-        return mo
-      })
-
-      setActs(acts)
+        setActs(acts)
+      }
 
       if (base) {
         setBase(base)

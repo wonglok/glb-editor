@@ -2799,6 +2799,11 @@ braces@^3.0.2, braces@~3.0.2:
   dependencies:
     fill-range "^7.0.1"
 
+browser-fs-access@^0.31.0:
+  version "0.31.0"
+  resolved "https://registry.yarnpkg.com/browser-fs-access/-/browser-fs-access-0.31.0.tgz#b2ac17322b81f3c89eaddcfc871b5fdbac174734"
+  integrity sha512-OndIM5LkmHfx01D3YuVvPpW3fochBeXFS3yhDzcD/Yk7S3lx5RZGltnf7xwbr5V0B8XuN2becZmtceOQFZgQPw==
+
 browserslist@^4.20.2, browserslist@^4.20.3:
   version "4.20.3"
   resolved "https://registry.npmjs.org/browserslist/-/browserslist-4.20.3.tgz"
