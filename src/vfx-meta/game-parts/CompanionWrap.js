@@ -37,24 +37,18 @@ export function CompanionWrap({
         )
 
         //
-        if (status !== 'running') {
-          onChangeStatus('running')
-        }
-      } else if (diff >= 4 && diff <= 25) {
+        onChangeStatus('front')
+      } else if (diff >= 4.5 && diff <= 25) {
         ref.current.position.addScaledVector(unit, dt * speed)
         ref.current.lookAt(
           targetO3D.position.x,
           ref.current.position.y,
           targetO3D.position.z
         )
-        if (status !== 'running') {
-          onChangeStatus('running')
-        }
+        onChangeStatus('front')
       } else {
         //
-        if (status !== 'stand') {
-          onChangeStatus('stand')
-        }
+        onChangeStatus('stand')
         ref.current.position.y = targetO3D.position.y
       }
     }

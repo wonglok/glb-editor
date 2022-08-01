@@ -226,16 +226,21 @@ export const useMetaStore = create((set, get) => {
     myCTX,
 
     clips: [],
-    group: new Object3D(),
+    group: false,
     setExporter: (v) => {
       set({ group: v.group, clips: v.clips })
     },
     exportAvatar: () => {
-      let { clips, group } = get()
+      let ttt = setInterval(() => {
+        let { clips, group } = get()
 
-      group.traverse(console.log)
+        if (group) {
+          clearInterval(ttt)
+          group.traverse(console.log)
 
-      exportGLB({ clips, group })
+          exportGLB({ clips, group })
+        }
+      })
     },
 
     setAvatar: ({
@@ -257,6 +262,13 @@ export const useMetaStore = create((set, get) => {
         myCTX.avatarPartUpper = avatarPartUpper || myCTX.avatarPartUpper
         myCTX.avatarPartLower = avatarPartLower || myCTX.avatarPartLower
         myCTX.avatarPartShoes = avatarPartShoes || myCTX.avatarPartShoes
+
+        set({ myCTX: myCTX })
+      }
+      //
+      if (vendor === 'upload') {
+        myCTX.avatarVendor = 'upload'
+        myCTX.avatarURL = avatarURL || myCTX.avatarURL
 
         set({ myCTX: myCTX })
       }

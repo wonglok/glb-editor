@@ -105,7 +105,7 @@ export let Fashion = [
   },
 ]
 
-let get = (v, gl, cam) => {
+export let get = (v, gl, cam) => {
   const dracoLoader = new DRACOLoader()
   dracoLoader.setDecoderPath('/draco/')
   useMetaStore.getState().setStartLoading()
@@ -210,6 +210,7 @@ export function ClosetAvatar({
 
             let newEntry = {
               name: it.name,
+              clip: it,
               action: mixer.clipAction(it, base.scene),
               duration: it.duration,
             }
@@ -232,6 +233,7 @@ export function ClosetAvatar({
             return inPlace(e)
           })
 
+          mo.clip = animationsList[0]
           mo.action = mixer.clipAction(animationsList[0], base.scene)
           mo.duration = animationsList[0].duration
           return mo
@@ -313,7 +315,12 @@ export function ClosetAvatar({
                       ></Generic>
                     </Suspense>
 
-                    {exportAvatar && <Exporter group={avatarGroup}></Exporter>}
+                    {exportAvatar && (
+                      <Exporter
+                        clips={acts.map((e) => e.clip)}
+                        group={avatarGroup}
+                      ></Exporter>
+                    )}
                   </group>
                 </group>
               </group>
@@ -325,11 +332,13 @@ export function ClosetAvatar({
   )
 }
 
-function Exporter({ group }) {
+function Exporter({ clips, group }) {
   let setExporter = useMetaStore((s) => s.setExporter)
   useEffect(() => {
-    setExporter({ clips: [], group: group.current })
-  }, [group, setExporter])
+    if (group.current && clips) {
+      setExporter({ clips, group: group.current })
+    }
+  }, [group, setExporter, clips])
 
   return null
 }

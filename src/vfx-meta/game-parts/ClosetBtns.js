@@ -7,20 +7,61 @@ import { ClosetAvatar } from './ClosetAvatar'
 import { RPMAvatar } from './RPMAvatar'
 import { CompanionWrap } from './CompanionWrap'
 import { NPCAvatar } from './NPCAvatar'
+import { UploadAvatar } from './UploadAvatar'
 
+//
+// import { GLTFExporter } from 'three/examples/jsm/exporters/GLTFExporter'
+// import { Object3D } from 'three140'
+// import { fileSave } from 'browser-fs-access'
+
+// let exportGLB = ({ object = new Object3D(), clips }) => {
+//   const exporter = new GLTFExporter()
+//   const options = {
+//     binary: true,
+//     trs: false,
+
+//     onlyVisible: false,
+//     truncateDrawRange: false,
+//     binary: true,
+//     maxTextureSize: Infinity,
+//     animations: clips,
+//     forceIndice: true,
+//     includeCustomExtensions: true,
+//   }
+
+//   exporter.parseAsync(object, options).then(async (arrayBuffer) => {
+//     //
+//     let newFile = new Blob([arrayBuffer], {
+//       type: 'application/octet-stream',
+//     })
+
+//     fileSave(newFile, {
+//       fileName: 'combined-motion.glb',
+//       extensions: ['.glb'],
+//     })
+//     //
+//   })
+
+//   //
+// }
+//
 export function ClosetBtns() {
   let setAvatar = useMetaStore((s) => s.setAvatar)
   let exportAvatar = useMetaStore((s) => s.exportAvatar)
   let myCTX = useMetaStore((s) => s.myCTX)
 
+  // UploadAvatar
   let [status, setStatus] = useState('stand')
   return (
     <group>
+      <UploadAvatar></UploadAvatar>
+      {/*  */}
       {myCTX?.player && (
         <CompanionWrap
           onChangeStatus={(v) => {
             //
-
+            // onChangeStatus
+            //
             if (status !== v) {
               setStatus(v)
             }
@@ -83,7 +124,15 @@ export function ClosetBtns() {
           rotation-x={Math.PI * -0.25}
           onClick={() => {
             //
-            exportAvatar()
+            //
+            setAvatar({
+              vendor: 'closet',
+            })
+            setTimeout(() => {
+              exportAvatar()
+            }, 1)
+            //
+            //
           }}
           fontSize={1}
           position={[0, 2, -4]}
