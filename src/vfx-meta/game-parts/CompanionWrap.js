@@ -56,7 +56,7 @@ export function CompanionWrap({
           setNPCAction('front')
         }
         //
-      } else if (diff >= 5 && diff < 25) {
+      } else if (diff >= 3 && diff < 25) {
         ref.current.position.addScaledVector(unit, dt * speed)
         ref.current.lookAt(
           targetO3D.position.x,
@@ -71,13 +71,11 @@ export function CompanionWrap({
           setNPCAction('stand')
         }
 
-        if (ref.current.position.y > targetO3D.position.y) {
-          ref.current.position.y = MathUtils.lerp(
-            ref.current.position.y,
-            targetO3D.position.y,
-            0.1
-          )
-        }
+        ref.current.position.y = MathUtils.lerp(
+          ref.current.position.y,
+          targetO3D.position.y,
+          0.1
+        )
       }
     }
   })
