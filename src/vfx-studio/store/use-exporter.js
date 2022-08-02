@@ -21,17 +21,24 @@ export const Exporter = {
     return import('three140/examples/jsm/exporters/GLTFExporter.js').then(
       ({ GLTFExporter }) => {
         let cloned = clone(group)
+
         let removeList = []
         cloned.traverse((it) => {
           //
           if (it.userData.effectNode) {
-            removeList.push(it)
+            removeList.push({
+              type: 'remove',
+              it,
+            })
           }
         })
-        removeList.forEach((list) => {
-          list.children.forEach((it) => {
-            it.removeFromParent()
-          })
+
+        removeList.forEach((item) => {
+          if (item.type === 'remove') {
+            item.it.children.forEach((k) => {
+              k.removeFromParent()
+            })
+          }
         })
 
         const exporter = new GLTFExporter()
@@ -60,7 +67,7 @@ export const Exporter = {
 
         // Parse the input and generate the glTF output
         exporter.parse(
-          [cloned],
+          [cloned.getObjectByName('Scene') || cloned],
           // called when the gltf has been generated
           async function (gltf) {
             //

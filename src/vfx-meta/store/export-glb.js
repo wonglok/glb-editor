@@ -27,6 +27,9 @@ export const exportGLB = ({ clips, group, mixer, onDone = () => {} }) => {
 
         //   return a
         // }),
+
+        //
+
         forceIndice: true,
         includeCustomExtensions: true,
       }
@@ -40,8 +43,6 @@ export const exportGLB = ({ clips, group, mixer, onDone = () => {} }) => {
         [clone(group)],
         // called when the gltf has been generated
         async function (gltf) {
-          //
-
           // let { WebIO } = await import('@gltf-transform/core')
 
           // let { prune, dedup, resample, textureResize } = await import(
