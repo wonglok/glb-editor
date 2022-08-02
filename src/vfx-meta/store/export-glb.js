@@ -1,4 +1,6 @@
-export const exportGLB = ({ clips, group }) => {
+import { AnimationMixer } from 'three140'
+
+export const exportGLB = ({ clips, group, mixer, onDone = () => {} }) => {
   //
   //
 
@@ -28,7 +30,11 @@ export const exportGLB = ({ clips, group }) => {
         forceIndice: true,
         includeCustomExtensions: true,
       }
+      /** @type {AnimationMixer} */
+      let mymixer = mixer
 
+      mymixer.stopAllAction()
+      mymixer.update(1 / 60)
       // Parse the input and generate the glTF output
       exporter.parse(
         [clone(group)],
@@ -108,6 +114,8 @@ export const exportGLB = ({ clips, group }) => {
           //
 
           //
+
+          onDone()
         },
         // called when there is an error in the generation
         function (error) {

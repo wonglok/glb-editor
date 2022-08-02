@@ -226,19 +226,32 @@ export const useMetaStore = create((set, get) => {
     myCTX,
 
     clips: [],
+    mixer: false,
     group: false,
     setExporter: (v) => {
-      set({ group: v.group, clips: v.clips })
+      set({
+        //
+        group: v.group,
+        clips: v.clips,
+        mixer: v.mixer,
+      })
     },
     exportAvatar: () => {
       let ttt = setInterval(() => {
-        let { clips, group } = get()
+        let { clips, group, mixer, setAction } = get()
 
         if (group) {
           clearInterval(ttt)
           group.traverse(console.log)
 
-          exportGLB({ clips, group })
+          exportGLB({
+            clips,
+            group,
+            mixer,
+            onDone: () => {
+              setAction('backflip', 1)
+            },
+          })
         }
       })
     },

@@ -281,43 +281,41 @@ export function ClosetAvatar({
       {/* {base && <primitive object={base.scene}></primitive>} */}
       {/*  */}
 
-      <group ref={avatarGroup}>
+      <group
+        ref={avatarGroup}
+        name={'Armature'}
+        rotation={[-Math.PI * 0.5, 0, 0]}
+      >
         {skeleton && hips && base && mixer && (
           <>
-            <group>
-              <group>
-                <group>
-                  <group name={'Armature'} rotation={[-Math.PI * 0.5, 0, 0]}>
-                    <primitive object={hips} />
+            <>
+              <primitive object={hips} />
 
-                    <Suspense fallback={null}>
-                      <Generic
-                        frustumCulled={frustumCulled}
-                        mixer={mixer}
-                        skeleton={skeleton}
-                        url={avatarPartUpper}
-                      ></Generic>
-                    </Suspense>
-                    <Suspense fallback={null}>
-                      <Generic
-                        frustumCulled={frustumCulled}
-                        mixer={mixer}
-                        skeleton={skeleton}
-                        url={avatarPartLower}
-                      ></Generic>
-                    </Suspense>
-                    <Suspense fallback={null}>
-                      <Generic
-                        frustumCulled={frustumCulled}
-                        mixer={mixer}
-                        skeleton={skeleton}
-                        url={avatarPartShoes}
-                      ></Generic>
-                    </Suspense>
-                  </group>
-                </group>
-              </group>
-            </group>
+              <Suspense fallback={null}>
+                <Generic
+                  frustumCulled={frustumCulled}
+                  mixer={mixer}
+                  skeleton={skeleton}
+                  url={avatarPartUpper}
+                ></Generic>
+              </Suspense>
+              <Suspense fallback={null}>
+                <Generic
+                  frustumCulled={frustumCulled}
+                  mixer={mixer}
+                  skeleton={skeleton}
+                  url={avatarPartLower}
+                ></Generic>
+              </Suspense>
+              <Suspense fallback={null}>
+                <Generic
+                  frustumCulled={frustumCulled}
+                  mixer={mixer}
+                  skeleton={skeleton}
+                  url={avatarPartShoes}
+                ></Generic>
+              </Suspense>
+            </>
           </>
         )}
       </group>
@@ -325,19 +323,20 @@ export function ClosetAvatar({
         <Exporter
           clips={acts.map((e) => e.clip)}
           group={avatarGroup}
+          mixer={mixer}
         ></Exporter>
       )}
     </group>
   )
 }
 
-function Exporter({ clips, group }) {
+function Exporter({ clips, group, mixer }) {
   let setExporter = useMetaStore((s) => s.setExporter)
   useEffect(() => {
-    if (group.current && clips) {
-      setExporter({ clips, group: group.current })
+    if (group.current && clips && mixer) {
+      setExporter({ clips, group: group.current, mixer })
     }
-  }, [group, setExporter, clips])
+  }, [group, setExporter, clips, mixer])
 
   return null
 }

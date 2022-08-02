@@ -130,17 +130,20 @@ export function RPMAvatar({
     }
   }, [glb])
 
+  // activeMixer
+
   useEffect(() => {
-    if (acts && glb) {
+    if (acts && glb && activeMixer) {
       setExporter({
         group: glb.scene,
         clips: acts.map((e) => {
           e.clip.name = e.name
           return e.clip
         }),
+        mixer: activeMixer,
       })
     }
-  }, [acts, glb])
+  }, [acts, glb, activeMixer])
 
   // let tt = useRef(0)
   // useEffect(() => {
