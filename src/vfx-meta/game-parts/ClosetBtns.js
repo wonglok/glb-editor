@@ -135,21 +135,6 @@ export function ClosetBtns() {
         >
           Ready Player Me (VFX - 2)
         </Text>
-
-        <Text
-          rotation-x={Math.PI * -0.25}
-          onClick={() => {
-            //
-            setAvatar({
-              vendor: 'rpm',
-              avatarURL: `/scene/loklokdemo/shader-4.glb`,
-            })
-          }}
-          fontSize={0.5}
-          position={[0, 0, 3]}
-        >
-          Ready Player Me (VFX - 3)
-        </Text>
       </group>
       <group position={[10, 0, 0]}>
         <group position={[0, -0.55, -2]}>
