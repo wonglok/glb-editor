@@ -37,11 +37,11 @@ export const makeAvatarCTX = () => {
     },
 
     //
-    avatarURL: `/scene/loklokdemo/loklok-demo.glb`,
+    avatarURL: `/scene/loklokdemo/shader-3.glb`,
     avatarVendor: `rpm`,
 
     //
-    avatarURLTemp: `/scene/loklokdemo/loklok-demo.glb`,
+    avatarURLTemp: `/scene/loklokdemo/shader-3.glb`,
 
     avatarActionResumeOnKeyUp: 'stand',
     avatarActionName: 'stand',

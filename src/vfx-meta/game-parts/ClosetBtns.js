@@ -62,9 +62,7 @@ export function ClosetBtns() {
           //
           //
 
-          setTimeout(() => {
-            exportAvatar()
-          }, 1)
+          exportAvatar()
           //
           //
         }}
@@ -135,6 +133,20 @@ export function ClosetBtns() {
           position={[0, 0, 2]}
         >
           Ready Player Me (VFX - 2)
+        </Text>
+        <Text
+          rotation-x={Math.PI * -0.25}
+          onClick={() => {
+            //
+            setAvatar({
+              vendor: 'rpm',
+              avatarURL: `/scene/loklokdemo/lok-green-wear.glb`,
+            })
+          }}
+          fontSize={0.5}
+          position={[0, 0, 3]}
+        >
+          Ready Player Me Green
         </Text>
       </group>
       <group position={[10, 0, 0]}>
