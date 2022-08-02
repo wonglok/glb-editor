@@ -75,6 +75,7 @@ export function ClosetBtns() {
       </Text>
 
       {/*  */}
+
       {myCTX?.player && (
         <CompanionWrap
           onChangeStatus={(v) => {
