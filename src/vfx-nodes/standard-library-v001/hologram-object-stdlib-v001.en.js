@@ -1,6 +1,6 @@
 import { Core } from '@/vfx-core/Core'
 import { getID } from '@/vfx-runtime/ENUtils'
-import { SphereBufferGeometry } from 'three'
+import { DoubleSide, SphereBufferGeometry } from 'three'
 import { Color, Mesh, MeshPhysicalMaterial, Object3D } from 'three140'
 
 class MyObject3D extends Object3D {
@@ -86,6 +86,7 @@ diffuseColor.a = ratioA;
 
     let geo = new SphereBufferGeometry(1.3, 128, 128)
     let mat = new MeshPhysicalMaterial({
+      side: DoubleSide,
       name: itself.material.name,
       // map: itself.material.map,
       // roughnessMap: itself.material.roughnessMap,
