@@ -88,6 +88,11 @@ diffuseColor.a = ratioA;
 
     let geo = new SphereBufferGeometry(1.3, 128, 128)
     let mat = new MeshPhysicalMaterial({
+      name: itself.material.name,
+      // map: itself.material.map,
+      // roughnessMap: itself.material.roughnessMap,
+      // metalnessMap: itself.material.metalnessMap,
+
       wireframe: false,
       color: this._tintColor,
       emissive: this._emissiveColor,
@@ -99,6 +104,7 @@ diffuseColor.a = ratioA;
       thickness: 4,
       transparent: true,
     })
+
     this.mat = mat
 
     this.makeShader = () => {
