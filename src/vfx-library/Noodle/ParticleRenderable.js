@@ -1,31 +1,27 @@
 import {
   Color,
-  DataTexture,
-  FloatType,
   Object3D,
-  RGBAFormat,
-  Vector3,
   Mesh,
   InstancedBufferAttribute,
   InstancedBufferGeometry,
-  IcosahedronBufferGeometry,
   MeshPhysicalMaterial,
-  PointLight,
-  BoxBufferGeometry,
+  DoubleSide,
+  IcosahedronBufferGeometry,
 } from 'three'
 
 export class ParticleRenderable extends Object3D {
   constructor({ core, getTextureAlpha = () => {}, getTextureBeta = () => {} }) {
     super()
     this.core = core
-    let SIZE_X = 128
-    let SIZE_Y = 64
-    let boxGeo = new BoxBufferGeometry(0.03, 1.0, 0.03)
-    boxGeo.translate(0, -1 / 2, 0)
+    let SIZE_X = 12
+    let SIZE_Y = 12
+    let boxGeo = new IcosahedronBufferGeometry(0.2, 2).toNonIndexed()
 
     let geo = new InstancedBufferGeometry()
-    geo.setAttribute('position', boxGeo.attributes.position)
-    geo.setAttribute('normal', boxGeo.attributes.normal)
+    geo.copy(boxGeo)
+
+    // geo.setAttribute('position', boxGeo.attributes.position)
+    // geo.setAttribute('normal', boxGeo.attributes.normal)
     geo.instanceCount = SIZE_X * SIZE_Y
     let getUVInfo = () => {
       let newArr = []
@@ -49,11 +45,14 @@ export class ParticleRenderable extends Object3D {
 
     let getMat = () => {
       let matt = new MeshPhysicalMaterial({
-        color: new Color('#000000'),
+        color: new Color('#ff0000'),
         transparent: true,
-        roughness: 0.6,
-        metalness: 1.0,
-        // transmission: 1.0,
+        roughness: 0.0,
+        metalness: 0.0,
+        side: DoubleSide,
+        reflectivity: 0.5,
+        transmission: 1.0,
+        ior: 1.25,
       })
       matt.onBeforeCompile = (shader, gl) => {
         //
@@ -135,42 +134,42 @@ export class ParticleRenderable extends Object3D {
           /* glsl */ `
           //
           vec4 tt = texture2D(tPos, uvinfo.xy);
-          // vec4 tt2 = texture2D(tPos2, uvinfo.xy);
+          vec3 tn = normalize(tt.rgb);
           vec3 pos = position;
-
-          // vec3 diff = normalize(tt2.rgb - tt.rgb);
-          // pos = pos * calcLookAtMatrix(tt2.rgb, tt.rgb, 0.0);
-          pos = rotateX(tt.r) * pos;
-          pos = rotateY(tt.g) * pos;
-          pos = rotateZ(tt.b) * pos;
+          pos *= rotateX(tn.r);
+          pos *= rotateY(tn.g);
+          pos *= rotateZ(tn.b);
 
           //
           vec3 transformed = vec3( tt.rgb + pos );
         `
         )
-        // let transformV3 = `
-        //       vec3 nPos = position;
-        //       vec3 transformed = vec3( nPos );
-        //       `
-        let transformV3Normal = `
-              vec3 nPosNormal = normalize(normal);
-              vec3 objectNormal = vec3( nPosNormal );
-              // #ifdef USE_TANGENT
-              //   vec3 objectTangent = vec3( tangent.xyz );
-              // #endif
-              `
-        // shader.vertexShader = shader.vertexShader.replace(
-        //   `#include <begin_vertex>`,
-        //   `${transformV3}`
-        // )
+
         shader.vertexShader = shader.vertexShader.replace(
           `#include <beginnormal_vertex>`,
-          `${transformV3Normal}`
+          /* glsl */ `
+          vec3 nPosNormal = normalize(normal);
+
+          vec4 tt2 = texture2D(tPos, uvinfo.xy);
+          vec3 tn2 = normalize(tt2.rgb);
+
+          nPosNormal = rotateX(tn2.r) * nPosNormal;
+          nPosNormal = rotateY(tn2.g) * nPosNormal;
+          nPosNormal = rotateZ(tn2.b) * nPosNormal;
+
+          vec3 objectNormal = vec3( nPosNormal );
+
+          // #ifdef USE_TANGENT
+          //   vec3 objectTangent = vec3( tangent.xyz );
+          // #endif
+          `
         )
         shader.fragmentShader = shader.fragmentShader.replace(
           `void main() {`,
           `${`
-    `}\nvoid main() {`
+
+          // headers //
+        `}\nvoid main() {`
         )
         shader.fragmentShader = shader.fragmentShader.replace(
           `#include <output_fragment>`,
@@ -191,11 +190,6 @@ export class ParticleRenderable extends Object3D {
     let renderable = new Mesh(geo, matt) // material
     renderable.frustumCulled = false
     renderable.userData.enableBloom = true
-
-    // let renderable2 = new Mesh(geo, material2)
-    // renderable2.frustumCulled = false
-    // renderable2.userData.enableBloom = true
-    // Core.now.canvas.now.scene.add(renderable2)
 
     this.add(renderable)
     this.core.onClean(() => {
