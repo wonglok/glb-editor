@@ -78,8 +78,12 @@ diffuseColor.a = ratioA;
       wireframe: false,
       color: this._tintColor,
       emissive: this._emissiveColor,
-      metalness: 1.0,
+      metalness: 0.3,
+      transmission: 1.0,
+      ior: 1.4,
+      reflection: 1.5,
       roughness: 0.0,
+      thickness: 0.1,
       transparent: true,
     })
     this.mat = mat
@@ -108,10 +112,10 @@ diffuseColor.a = ratioA;
           `${this._bodyVertexShaderPosition}`
         )
 
-        shader.vertexShader = shader.vertexShader.replace(
-          `#include <begin_vertex>`,
-          `${this._bodyVertexShaderNormal}`
-        )
+        // shader.vertexShader = shader.vertexShader.replace(
+        //   `#include <begin_vertex>`,
+        //   `${this._bodyVertexShaderNormal}`
+        // )
 
         shader.fragmentShader = `${this._headerFragmentShader.trim()}\n${
           shader.fragmentShader
@@ -301,60 +305,61 @@ export async function nodeData({ defaultData, nodeID }) {
 }
 
 export function effect({ node, mini, data }) {
-  let myItem = new MyObject3D({
+  let myObject = new MyObject3D({
     tracker: mini.now.mounter,
     mini,
     itself: mini.now.itself,
   })
 
   //
-  mini.now.scene.add(myItem)
+  mini.now.scene.add(myObject)
   mini.onClean(() => {
-    myItem.removeFromParent()
+    myObject.removeFromParent()
   })
 
+  //
   data.uniforms.headerVertexShader((v) => {
     if (v && typeof v.value !== 'undefined') {
-      myItem.headerVertexShader = v.value
+      myObject.headerVertexShader = v.value
     }
   })
   data.uniforms.bodyVertexShaderPosition((v) => {
     if (v && typeof v.value !== 'undefined') {
-      myItem.bodyVertexShaderPosition = v.value
+      myObject.bodyVertexShaderPosition = v.value
     }
   })
 
   data.uniforms.bodyVertexShaderNormal((v) => {
     if (v && typeof v.value !== 'undefined') {
-      myItem.bodyVertexShaderNormal = v.value
+      myObject.bodyVertexShaderNormal = v.value
     }
   })
 
   data.uniforms.headerFragmentShader((v) => {
     if (v && typeof v.value !== 'undefined') {
-      myItem.headerFragmentShader = v.value
+      myObject.headerFragmentShader = v.value
     }
   })
 
   data.uniforms.bodyFragmentShader((v) => {
     if (v && typeof v.value !== 'undefined') {
-      myItem.bodyFragmentShader = v.value
+      myObject.bodyFragmentShader = v.value
     }
   })
 
   data.uniforms.tintColor((v) => {
     if (v && typeof v.value !== 'undefined') {
-      myItem.tintColor = v.value
+      myObject.tintColor = v.value
     }
   })
 
   data.uniforms.emissiveColor((v) => {
     if (v && typeof v.value !== 'undefined') {
-      myItem.emissiveColor = v.value
+      myObject.emissiveColor = v.value
     }
   })
 
-  // node.out0.pulse(myItem)
+  // node.out0.pulse(myObject)
 }
 
 //
