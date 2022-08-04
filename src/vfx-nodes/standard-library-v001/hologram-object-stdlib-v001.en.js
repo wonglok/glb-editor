@@ -10,17 +10,22 @@ uniform float time;
 
 `
 
-  static bodyVertexShader = `
+  static bodyVertexShaderPosition = `
 
 float sizer = (0.5 + 0.5 * sin(position.z * 6.0 +  5.0 * time)) * 1.0 + 0.1;
 vec3 transformed = vec3( position );
 transformed.xy *= sizer;
 vH = sizer;
 
-vec3 objectNormal = vec3( normal );
-#ifdef USE_TANGENT
-	vec3 objectTangent = vec3( tangent.xyz );
-#endif
+`
+
+  static bodyVertexShaderNormal = `
+
+float sizer = (0.5 + 0.5 * sin(position.z * 6.0 +  5.0 * time)) * 1.0 + 0.1;
+vec3 transformed = vec3( position );
+transformed.xy *= sizer;
+vH = sizer;
+
 `
 
   static headerFragmentShader = `
@@ -31,15 +36,22 @@ uniform float time;
 `
   static bodyFragmentShader = `
 
+
 float ratioA = abs(sin(vH * 56.0 + time * -10.0));
 float ratioB = abs(sin(vH * 56.0 + time * 10.0));
 float ratioC = abs(sin(vH * 56.0 + time * -20.0));
-gl_FragColor.rgb *= ratioB * ratioA * vec3(1.0, 1.0, 1.0);
 
-gl_FragColor.rgb *= ratioC;
+vec4 yoColor;
+yoColor.rgb = ratioB * ratioA * vec3(1.0, 1.0, 1.0);
 
-gl_FragColor.rgb *= rand(vec2(time)) * 30.0;
-gl_FragColor.a = ratioA * 0.5;
+#if defined( USE_COLOR_ALPHA )
+	diffuseColor *= vColor * yoColor;
+#elif defined( USE_COLOR )
+	diffuseColor.rgb *= vColor * yoColor.rgb;
+#endif
+
+
+diffuseColor.a = ratioA;
 
 `
 
@@ -47,28 +59,28 @@ gl_FragColor.a = ratioA * 0.5;
     super()
     //
     // this._headerVertexShader = ''
-    // this._bodyVertexShader = ''
+    // this._bodyVertexShaderPosition = ''
     // this._headerFragmentShader = ''
     // this._bodyFragmentShader = ''
 
     this._headerVertexShader = '' + MyObject3D.headerVertexShader
-    this._bodyVertexShader = '' + MyObject3D.bodyVertexShader
+    this._bodyVertexShaderPosition = '' + MyObject3D.bodyVertexShaderPosition
+    this._bodyVertexShaderNormal = '' + MyObject3D.bodyVertexShaderNormal
     this._headerFragmentShader = '' + MyObject3D.headerFragmentShader
     this._bodyFragmentShader = '' + MyObject3D.bodyFragmentShader
 
     //
     this._tintColor = new Color('#ffffff')
-    this._emissiveColor = new Color('#ffffff')
+    this._emissiveColor = new Color('#000000')
 
-    let geo = new SphereBufferGeometry(1, 128, 128)
+    let geo = new SphereBufferGeometry(1.3, 128, 128)
     let mat = new MeshPhysicalMaterial({
       wireframe: false,
       color: this._tintColor,
       emissive: this._emissiveColor,
-      transmission: 0,
-      ior: 1.4,
+      metalness: 1.0,
+      roughness: 0.0,
       transparent: true,
-      wireframe: false,
     })
     this.mat = mat
 
@@ -93,18 +105,20 @@ gl_FragColor.a = ratioA * 0.5;
         )
         shader.vertexShader = shader.vertexShader.replace(
           `#include <begin_vertex>`,
-          `${this._bodyVertexShader}`
+          `${this._bodyVertexShaderPosition}`
         )
+
         shader.vertexShader = shader.vertexShader.replace(
-          `#include <beginnormal_vertex>`,
-          ``
+          `#include <begin_vertex>`,
+          `${this._bodyVertexShaderNormal}`
         )
+
         shader.fragmentShader = `${this._headerFragmentShader.trim()}\n${
           shader.fragmentShader
         }`
         shader.fragmentShader = shader.fragmentShader.replace(
-          `#include <dithering_fragment>`,
-          `#include <dithering_fragment>\n${this._bodyFragmentShader.trim()}`
+          `#include <color_fragment>`,
+          `${this._bodyFragmentShader.trim()}`
         )
       }
 
@@ -127,8 +141,9 @@ gl_FragColor.a = ratioA * 0.5;
       mat.needsUpdate = true
     }
 
-    this.box = new Mesh(geo, mat)
-    this.add(this.box)
+    this.renderable = new Mesh(geo, mat)
+
+    this.add(this.renderable)
   }
   //
 
@@ -139,12 +154,19 @@ gl_FragColor.a = ratioA * 0.5;
   get headerVertexShader() {
     return this._headerVertexShader
   }
-  set bodyVertexShader(v) {
-    this._bodyVertexShader = v
+  set bodyVertexShaderPosition(v) {
+    this._bodyVertexShaderPosition = v
     this.sync()
   }
-  get bodyVertexShader() {
-    return this._bodyVertexShader
+  get bodyVertexShaderPosition() {
+    return this._bodyVertexShaderPosition
+  }
+  set bodyVertexShaderNormal(v) {
+    this._bodyVertexShaderNormal = v
+    this.sync()
+  }
+  get bodyVertexShaderNormal() {
+    return this._bodyVertexShaderNormal
   }
   //
 
@@ -242,9 +264,16 @@ export async function nodeData({ defaultData, nodeID }) {
       {
         id: getID(),
         nodeID,
-        name: 'bodyVertexShader',
+        name: 'bodyVertexShaderPosition',
         type: `glsl`,
-        value: MyObject3D.bodyVertexShader,
+        value: MyObject3D.bodyVertexShaderPosition,
+      },
+      {
+        id: getID(),
+        nodeID,
+        name: 'bodyVertexShaderNormal',
+        type: `glsl`,
+        value: MyObject3D.bodyVertexShaderNormal,
       },
       {
         id: getID(),
@@ -289,9 +318,15 @@ export function effect({ node, mini, data }) {
       myItem.headerVertexShader = v.value
     }
   })
-  data.uniforms.bodyVertexShader((v) => {
+  data.uniforms.bodyVertexShaderPosition((v) => {
     if (v && typeof v.value !== 'undefined') {
-      myItem.bodyVertexShader = v.value
+      myItem.bodyVertexShaderPosition = v.value
+    }
+  })
+
+  data.uniforms.bodyVertexShaderNormal((v) => {
+    if (v && typeof v.value !== 'undefined') {
+      myItem.bodyVertexShaderNormal = v.value
     }
   })
 
