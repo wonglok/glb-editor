@@ -116,8 +116,9 @@ export function TabUnifroms({ node }) {
 
       <div className='flex flex-wrap'>
         {node[DataKey].map((mm) => {
+          mm._id = mm._id || getID()
           return (
-            <div key={mm._id} className='mb-3 mr-3'>
+            <div key={mm._id + mm.nodeID + node._id} className='mb-3 mr-3'>
               <div className='inline-block'>
                 {mm.type === 'text' && (
                   <TextInput

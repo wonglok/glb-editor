@@ -103,6 +103,8 @@ export function effect({ node, mini, data }) {
 
   if (it.material) {
     it.material = new MeshStandardMaterial({
+      name: it.material.name,
+      uuid: it.material.uuid,
       color: new Color('#ffffff'),
       transparent: true,
     })
