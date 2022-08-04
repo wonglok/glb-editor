@@ -36,7 +36,6 @@ uniform float time;
 `
   static bodyFragmentShader = `
 
-
 float ratioA = abs(sin(vH * 56.0 + time * -10.0));
 float ratioB = abs(sin(vH * 56.0 + time * 10.0));
 float ratioC = abs(sin(vH * 56.0 + time * -20.0));
