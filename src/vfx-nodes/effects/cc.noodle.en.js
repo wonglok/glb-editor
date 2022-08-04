@@ -81,6 +81,8 @@ export async function effect({ node, mini, data }) {
   //
 
   let howManyTracker = 128
+  let howLongTail = 64
+
   let physics = new PhysicsCompute({
     sizeX: 1,
     sizeY: howManyTracker,
@@ -94,14 +96,14 @@ export async function effect({ node, mini, data }) {
       return physics.getHeadList()
     },
     howManyTracker: howManyTracker,
-    howLongTail: 64,
+    howLongTail: howLongTail,
   })
 
   let noodle = new NoodleRenderable({
     node: mini,
     sim,
     howManyTracker: howManyTracker,
-    howLongTail: 64,
+    howLongTail: howLongTail,
   })
 
   mini.onLoop(() => {
