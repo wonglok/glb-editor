@@ -13,6 +13,7 @@ import {
   IcosahedronBufferGeometry,
   FrontSide,
   FloatType,
+  DoubleSide,
 } from 'three'
 import { Geometry } from 'three140/examples/jsm/deprecated/Geometry.js'
 import { MeshPhysicalMaterial } from 'three'
@@ -22,7 +23,9 @@ import { NoodleGeo } from './NoodleGeo'
 
 //tunnelThickness
 export class NoodleRenderable {
-  constructor({ node, sim }) {
+  constructor({ node, sim, howManyTracker, howLongTail }) {
+    this.howManyTracker = howManyTracker
+    this.howLongTail = howLongTail
     this.o3d = new Object3D()
     this.node = node
     this.sim = sim
@@ -31,44 +34,27 @@ export class NoodleRenderable {
   async setup({ node }) {
     let self = this
 
-    // let camera = await node.ready.camera;
-    // let renderer = await node.ready.gl;
-
     let { geometry, ballGeo, subdivisions, count } = new NoodleGeo({
-      count: this.sim.HEIGHT,
-      numSides: 4,
-      subdivisions: this.sim.WIDTH,
+      count: this.howManyTracker,
+      numSides: 8,
+      subdivisions: this.howLongTail,
       openEnded: false,
     })
 
     geometry.instanceCount = count
 
     let matConfig = {
-      // color: new Color('#58519B').offsetHSL(0, 0, 0.3),
-      color: new Color('#3333ff'),
-      // emissive: new Color('#018888'),
-      side: FrontSide,
-
-      // transmission: 1,
-      // reflectivity: 1.5,
-      metalness: 1.0,
-      roughness: 0.0,
+      color: new Color('#ff0000'),
       transparent: true,
-
-      // thickness: 1,
-      // transmission: 1,
-      // ior: 1.0,
-      // transparent: true,
-      // opacity: 1,
-      // // transmission: 1.0,
-      // color: new Color('#01ffff'),
-      // // vertexColors: false,
-      // emissive: new Color('#017777'),
-      // reflectivity: 0.5,
-      // attenuationColor: new Color('#ffffff'),
+      roughness: 0.0,
+      metalness: 0.0,
+      side: DoubleSide,
+      reflectivity: 0.5,
+      transmission: 1.0,
+      ior: 1.25,
     }
 
-    let matLine1 = new MeshStandardMaterial({
+    let matLine1 = new MeshPhysicalMaterial({
       ...matConfig,
       // side: DoubleSide,
       // metalness: 0.1,

@@ -23,15 +23,16 @@ export class NoodleSegmentCompute {
   constructor({
     node,
     tracker,
-    getHeadList,
+    getTextureAlpha,
     howManyTracker = 10,
     howLongTail = 32,
   }) {
     this.node = node
+    this.howLongTail = howLongTail
+    this.howManyTracker = howManyTracker
     this.WIDTH = howLongTail
     this.HEIGHT = howManyTracker // number of trackers
-    this.COUNT = this.WIDTH * this.HEIGHT
-    this.getHeadList = getHeadList
+    this.getTextureAlpha = getTextureAlpha
     this.v3v000 = new Vector3(0, 0, 0)
     this.tracker = tracker
     this.wait = this.setup({ node })
@@ -39,7 +40,11 @@ export class NoodleSegmentCompute {
   async setup({ node }) {
     let renderer = Core.now.canvas.now.gl
 
-    let gpu = (this.gpu = new CustomGPU(this.WIDTH, this.HEIGHT, renderer))
+    let gpu = (this.gpu = new CustomGPU(
+      this.howLongTail,
+      this.howManyTracker,
+      renderer
+    ))
 
     gpu.setDataType(FloatType)
 
@@ -61,7 +66,7 @@ export class NoodleSegmentCompute {
     this.positionUniforms = this.positionVariable.material.uniforms
     this.positionUniforms['lookup'] = { value: lookUpTexture }
     this.positionUniforms['headList'] = {
-      value: this.getHeadList(),
+      value: this.getTextureAlpha(),
     }
     this.positionUniforms['trackerPos'] = {
       value: new Vector3(),
@@ -70,13 +75,12 @@ export class NoodleSegmentCompute {
       this.positionUniforms['trackerPos'].value.copy(this.tracker.position)
 
       // console.log(this.positionUniforms['trackerPos'].value)
-
       this.positionUniforms['headList'] = {
-        value: this.getHeadList(),
+        value: this.getTextureAlpha(),
       }
     })
 
-    let h = this.HEIGHT
+    // let h = this.HEIGHT
     // for (let ii = 0; ii < h; ii++) {
     //   this.positionUniforms["mouse" + ii] = { value: new Vector3(0, 0, 0) };
     // }
@@ -162,13 +166,13 @@ export class NoodleSegmentCompute {
         float currentLine = floor(gl_FragCoord.y);
         if (floor(currentSegment) == 0.0) {
 
-          vec2 uvv = vec2(0.5, currentLine / ${this.HEIGHT.toFixed(1)});
+          vec2 uvv = vec2(0.0, currentLine  / ${this.HEIGHT.toFixed(1)});
 
           float ee = uvv.y;
           vec4 texColor = texture2D(headList, uvv);
 
           // // yolines
-          vec3 xyz = lerp(positionHead.rgb, texColor.rgb, 0.1);
+          vec3 xyz = lerp(positionHead.rgb, texColor.rgb, 0.5);
 
 
           gl_FragColor = vec4(xyz.rgb, 1.0);
@@ -192,7 +196,7 @@ export class NoodleSegmentCompute {
           // positionChain.y += (cnoise(positionHead.rgb * 0.01 + 0.2)) * 0.4;
           // positionChain.z += (cnoise(positionHead.rgb * 0.01 + 0.3)) * 0.4;
 
-          positionChain.xyz *= 1.0 + sin(time) * 0.25 * 0.0135;
+          // positionChain.xyz *= 1.0 + sin(time) * 0.25 * 0.0135;
 
           positionChain.xyz = positionChain.xyz + trackerPos;
 

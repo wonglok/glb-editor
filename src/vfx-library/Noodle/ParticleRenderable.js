@@ -10,11 +10,17 @@ import {
 } from 'three'
 
 export class ParticleRenderable extends Object3D {
-  constructor({ core, getTextureAlpha = () => {}, getTextureBeta = () => {} }) {
+  constructor({
+    core,
+    sizeX,
+    sizeY,
+    getTextureAlpha = () => {},
+    getTextureBeta = () => {},
+  }) {
     super()
     this.core = core
-    let SIZE_X = 12
-    let SIZE_Y = 12
+    let SIZE_X = sizeX
+    let SIZE_Y = sizeY
     let boxGeo = new IcosahedronBufferGeometry(0.2, 2).toNonIndexed()
 
     let geo = new InstancedBufferGeometry()
@@ -23,6 +29,7 @@ export class ParticleRenderable extends Object3D {
     // geo.setAttribute('position', boxGeo.attributes.position)
     // geo.setAttribute('normal', boxGeo.attributes.normal)
     geo.instanceCount = SIZE_X * SIZE_Y
+
     let getUVInfo = () => {
       let newArr = []
       let na = 0
@@ -54,6 +61,9 @@ export class ParticleRenderable extends Object3D {
         transmission: 1.0,
         ior: 1.25,
       })
+
+      //
+
       matt.onBeforeCompile = (shader, gl) => {
         //
         shader.uniforms.time = { value: null }

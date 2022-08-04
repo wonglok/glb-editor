@@ -23,7 +23,11 @@ export class PhysicsCompute {
   get shader() {
     return this.a
   }
-  constructor({ tracker } = {}) {
+  constructor({ tracker, sizeX, sizeY } = {}) {
+    this.sizeX = sizeX
+    this.sizeY = sizeY
+
+    //
     this._shader = ''
     this.setSimShader = () => {}
     this.tracker = tracker
@@ -31,8 +35,8 @@ export class PhysicsCompute {
     this.core = Core.makeDisposableNode({ name: 'vortex' }).sub
     let gl = Core.now.canvas.now.gl
 
-    let SIZE_X = 64
-    let SIZE_Y = 128
+    let SIZE_X = this.sizeX
+    let SIZE_Y = this.sizeY
 
     let gpuCompute = new CustomGPU(SIZE_X, SIZE_Y, gl)
     //

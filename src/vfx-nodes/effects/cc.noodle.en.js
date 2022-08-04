@@ -80,20 +80,29 @@ export async function nodeData({ defaultData, nodeID }) {
 export async function effect({ node, mini, data }) {
   //
 
+  let howManyTracker = 128
   let physics = new PhysicsCompute({
+    sizeX: 1,
+    sizeY: howManyTracker,
     tracker: mini.now.mounter,
   })
-  //
+
   let sim = new NoodleSegmentCompute({
     node: mini,
     tracker: mini.now.mounter,
-    getHeadList: () => {
+    getTextureAlpha: () => {
       return physics.getHeadList()
     },
-    howManyTracker: 128,
-    howLongTail: 32,
+    howManyTracker: howManyTracker,
+    howLongTail: 64,
   })
-  let noodle = new NoodleRenderable({ node: mini, sim })
+
+  let noodle = new NoodleRenderable({
+    node: mini,
+    sim,
+    howManyTracker: howManyTracker,
+    howLongTail: 64,
+  })
 
   mini.onLoop(() => {
     sim.render()
@@ -103,6 +112,8 @@ export async function effect({ node, mini, data }) {
   scene.add(noodle.o3d)
 
   let pars = new ParticleRenderable({
+    sizeX: 1,
+    sizeY: howManyTracker,
     core: mini,
     getTextureAlpha: () => {
       return physics.getHeadList()
