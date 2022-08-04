@@ -5,10 +5,10 @@ import { Color, Mesh, MeshPhysicalMaterial, Object3D } from 'three140'
 class MyObject3D extends Object3D {
   static headerV = `
 
-
 varying float vH;
 uniform float time;
-      `
+
+`
 
   static bodyV = `
 
@@ -17,31 +17,27 @@ vec3 transformed = vec3( position );
 transformed.xy *= sizer;
 vH = sizer;
 
-
-
-
-
-      `
+`
 
   static headerF = `
 
+varying float vH;
+uniform float time;
 
-          varying float vH;
-          uniform float time;
-
-      `
+`
   static bodyF = `
 
-    float ratioA = abs(sin(vH * 56.0 + time * -10.0));
-    float ratioB = abs(sin(vH * 56.0 + time * 10.0));
-    float ratioC = abs(sin(vH * 56.0 + time * -20.0));
-    gl_FragColor.rgb *= ratioB * ratioA * vec3(1.0, 1.0, 1.0);
+float ratioA = abs(sin(vH * 56.0 + time * -10.0));
+float ratioB = abs(sin(vH * 56.0 + time * 10.0));
+float ratioC = abs(sin(vH * 56.0 + time * -20.0));
+gl_FragColor.rgb *= ratioB * ratioA * vec3(1.0, 1.0, 1.0);
 
-    gl_FragColor.rgb *= ratioC;
+gl_FragColor.rgb *= ratioC;
 
-    gl_FragColor.rgb *= rand(vec2(time)) * 30.0;
-    gl_FragColor.a = ratioA * 0.5;
-  `
+gl_FragColor.rgb *= rand(vec2(time)) * 30.0;
+gl_FragColor.a = ratioA * 0.5;
+
+`
 
   constructor({ mini, tracker, itself }) {
     super()
