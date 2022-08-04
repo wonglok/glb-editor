@@ -7,6 +7,7 @@ import {
   MeshPhysicalMaterial,
   DoubleSide,
   IcosahedronBufferGeometry,
+  FrontSide,
 } from 'three'
 
 export class ParticleRenderable extends Object3D {
@@ -14,6 +15,7 @@ export class ParticleRenderable extends Object3D {
     core,
     sizeX,
     sizeY,
+    renderConfig = {},
     getTextureAlpha = () => {},
     getTextureBeta = () => {},
   }) {
@@ -21,7 +23,7 @@ export class ParticleRenderable extends Object3D {
     this.core = core
     let SIZE_X = sizeX
     let SIZE_Y = sizeY
-    let boxGeo = new IcosahedronBufferGeometry(0.2, 2).toNonIndexed()
+    let boxGeo = new IcosahedronBufferGeometry(0.04, 2).toNonIndexed()
 
     let geo = new InstancedBufferGeometry()
     geo.copy(boxGeo)
@@ -52,14 +54,15 @@ export class ParticleRenderable extends Object3D {
 
     let getMat = () => {
       let matt = new MeshPhysicalMaterial({
-        color: new Color('#ff0000'),
+        color: new Color('#ffffff'),
         transparent: true,
         roughness: 0.0,
         metalness: 0.0,
-        side: DoubleSide,
-        reflectivity: 0.5,
+        side: FrontSide,
+        reflectivity: 0.0,
         transmission: 1.0,
         ior: 1.25,
+        ...renderConfig,
       })
 
       //

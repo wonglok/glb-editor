@@ -96,12 +96,6 @@ export class NoodleSegmentCompute {
     }
   }
 
-  track({ trackers = [], lerp = 0.3, dt }) {
-    if (this.headList) {
-      this.headList.update({ trackers, lerp, dt })
-    }
-  }
-
   positionShader() {
     let mouseUniforms = () => {
       let str = ``
@@ -146,7 +140,7 @@ export class NoodleSegmentCompute {
                     0,				0,		0,	1);
       }
 
-
+      ${cNoise()}
 
       #include <common>
 
@@ -172,7 +166,7 @@ export class NoodleSegmentCompute {
           vec4 texColor = texture2D(headList, uvv);
 
           // // yolines
-          vec3 xyz = lerp(positionHead.rgb, texColor.rgb, 0.5);
+          vec3 xyz = lerp(positionHead.rgb, texColor.rgb, 0.75);
 
 
           gl_FragColor = vec4(xyz.rgb, 1.0);
@@ -192,9 +186,9 @@ export class NoodleSegmentCompute {
           // positionChain.y += (rand(vec2(currentLine + 0.2)) * 2.0 - 1.0) * 2.0;
           // positionChain.z += (rand(vec2(currentLine + 0.3)) * 2.0 - 1.0) * 2.0;
 
-          // positionChain.x += (cnoise(positionHead.rgb * 0.01 + 0.1)) * 0.4;
-          // positionChain.y += (cnoise(positionHead.rgb * 0.01 + 0.2)) * 0.4;
-          // positionChain.z += (cnoise(positionHead.rgb * 0.01 + 0.3)) * 0.4;
+          // positionChain.x += (cnoise(currentLine + positionHead.rrr * 0.1 + time +  0.1)) * 0.1;
+          // positionChain.y += (cnoise(currentLine + positionHead.ggg * 0.1 + time +  0.2)) * 0.1;
+          // positionChain.z += (cnoise(currentLine + positionHead.bbb * 0.1 + time +  0.3)) * 0.1;
 
           // positionChain.xyz *= 1.0 + sin(time) * 0.25 * 0.0135;
 

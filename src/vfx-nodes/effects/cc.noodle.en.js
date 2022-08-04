@@ -3,6 +3,8 @@ import { NoodleSegmentCompute } from '@/vfx-library/Noodle/NoodleSegmentCompute'
 import { ParticleRenderable } from '@/vfx-library/Noodle/ParticleRenderable'
 import { PhysicsCompute } from '@/vfx-library/Noodle/PhysicsCompute'
 import { getID } from '@/vfx-runtime/ENUtils'
+import { FrontSide } from 'three'
+import { Color } from 'three140'
 
 //
 
@@ -83,6 +85,17 @@ export async function effect({ node, mini, data }) {
   let howManyTracker = 128
   let howLongTail = 64
 
+  let renderConfig = {
+    color: new Color('#ffffff'),
+    transparent: true,
+    roughness: 0.5,
+    metalness: 0.0,
+    side: FrontSide,
+    reflectivity: 0.0,
+    transmission: 0.0,
+    ior: 1.0,
+  }
+
   let physics = new PhysicsCompute({
     sizeX: 1,
     sizeY: howManyTracker,
@@ -100,6 +113,7 @@ export async function effect({ node, mini, data }) {
   })
 
   let noodle = new NoodleRenderable({
+    renderConfig,
     node: mini,
     sim,
     howManyTracker: howManyTracker,
@@ -114,6 +128,7 @@ export async function effect({ node, mini, data }) {
   scene.add(noodle.o3d)
 
   let pars = new ParticleRenderable({
+    renderConfig,
     sizeX: 1,
     sizeY: howManyTracker,
     core: mini,

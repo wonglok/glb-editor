@@ -15,15 +15,14 @@ import {
   FloatType,
   DoubleSide,
 } from 'three'
-import { Geometry } from 'three140/examples/jsm/deprecated/Geometry.js'
 import { MeshPhysicalMaterial } from 'three'
 import { Core } from '@/vfx-core/Core'
-import { MeshStandardMaterial } from 'three140'
 import { NoodleGeo } from './NoodleGeo'
 
 //tunnelThickness
 export class NoodleRenderable {
-  constructor({ node, sim, howManyTracker, howLongTail }) {
+  constructor({ node, sim, howManyTracker, howLongTail, renderConfig = {} }) {
+    this.renderConfig = renderConfig
     this.howManyTracker = howManyTracker
     this.howLongTail = howLongTail
     this.o3d = new Object3D()
@@ -52,6 +51,7 @@ export class NoodleRenderable {
       reflectivity: 0.5,
       transmission: 1.0,
       ior: 1.25,
+      ...this.renderConfig,
     }
 
     let matLine1 = new MeshPhysicalMaterial({
@@ -137,10 +137,11 @@ export class NoodleRenderable {
       }
 
       varying float vT;
+
       vec3 makeGeo () {
         float t = (tubeInfo) + 0.5;
         // t *= 2.0;
-        float thickness = 0.1 * t * (1.0 - t);
+        float thickness = 0.01 * (1.0 - t);
 
         vT = t;
 
@@ -157,7 +158,7 @@ export class NoodleRenderable {
       vec3 makeGeoNormal () {
         float t = (tubeInfo) + 0.5;
         // t *= 2.0;
-        float thickness = 0.1 * t * (1.0 - t);
+        float thickness = 0.01 * (1.0 - t);
 
         vec2 volume = vec2(thickness);
         vec3 transformedYo;
