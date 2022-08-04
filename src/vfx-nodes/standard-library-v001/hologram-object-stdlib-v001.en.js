@@ -5,26 +5,40 @@ import { Color, Mesh, MeshPhysicalMaterial, Object3D } from 'three140'
 class MyObject3D extends Object3D {
   static headerVertexShader = `
 
+
 varying float vH;
 uniform float time;
+
 
 `
 
   static bodyVertexShaderPosition = `
 
+
 float sizer = (0.5 + 0.5 * sin(position.z * 6.0 +  5.0 * time)) * 1.0 + 0.1;
 vec3 transformed = vec3( position );
 transformed.xy *= sizer;
 vH = sizer;
+
+
 
 `
 
   static bodyVertexShaderNormal = `
 
-float sizer = (0.5 + 0.5 * sin(position.z * 6.0 +  5.0 * time)) * 1.0 + 0.1;
-vec3 transformed = vec3( position );
-transformed.xy *= sizer;
-vH = sizer;
+
+vec3 objectNormal = vec3( normal );
+#ifdef USE_TANGENT
+	vec3 objectTangent = vec3( tangent.xyz );
+#endif
+
+
+float sizer2 = (0.5 + 0.5 * sin(position.z * 6.0 +  5.0 * time)) * 1.0 + 0.1;
+vec3 transformed2 = vec3( position );
+transformed2.xy *= sizer2;
+
+objectNormal = normalize(transformed2);
+
 
 `
 
@@ -82,7 +96,7 @@ diffuseColor.a = ratioA;
       ior: 1.4,
       reflection: 1.5,
       roughness: 0.0,
-      thickness: 0.1,
+      thickness: 4,
       transparent: true,
     })
     this.mat = mat
@@ -111,10 +125,10 @@ diffuseColor.a = ratioA;
           `${this._bodyVertexShaderPosition}`
         )
 
-        // shader.vertexShader = shader.vertexShader.replace(
-        //   `#include <begin_vertex>`,
-        //   `${this._bodyVertexShaderNormal}`
-        // )
+        shader.vertexShader = shader.vertexShader.replace(
+          `#include <beginnormal_vertex>`,
+          `${this._bodyVertexShaderNormal}`
+        )
 
         shader.fragmentShader = `${this._headerFragmentShader.trim()}\n${
           shader.fragmentShader
