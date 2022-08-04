@@ -146,9 +146,9 @@ export class ParticleRenderable extends Object3D {
           vec4 tt = texture2D(tPos, uvinfo.xy);
           vec3 tn = normalize(tt.rgb);
           vec3 pos = position;
-          pos *= rotateX(tn.r);
-          pos *= rotateY(tn.g);
-          pos *= rotateZ(tn.b);
+          pos *= rotateX(tn.r * 3.1415);
+          pos *= rotateY(tn.g * 3.1415);
+          pos *= rotateZ(tn.b * 3.1415);
 
           //
           vec3 transformed = vec3( tt.rgb + pos );
@@ -163,9 +163,9 @@ export class ParticleRenderable extends Object3D {
           vec4 tt2 = texture2D(tPos, uvinfo.xy);
           vec3 tn2 = normalize(tt2.rgb);
 
-          nPosNormal = rotateX(tn2.r) * nPosNormal;
-          nPosNormal = rotateY(tn2.g) * nPosNormal;
-          nPosNormal = rotateZ(tn2.b) * nPosNormal;
+          nPosNormal = rotateX(tn2.r * 3.1415) * nPosNormal;
+          nPosNormal = rotateY(tn2.g * 3.1415) * nPosNormal;
+          nPosNormal = rotateZ(tn2.b * 3.1415) * nPosNormal;
 
           vec3 objectNormal = vec3( nPosNormal );
 
