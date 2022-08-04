@@ -23,7 +23,7 @@ export class ParticleRenderable extends Object3D {
     this.core = core
     let SIZE_X = sizeX
     let SIZE_Y = sizeY
-    let boxGeo = new IcosahedronBufferGeometry(0.04, 2).toNonIndexed()
+    let boxGeo = new IcosahedronBufferGeometry(0.04, 2)
 
     let geo = new InstancedBufferGeometry()
     geo.copy(boxGeo)

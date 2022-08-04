@@ -246,74 +246,74 @@ export class NoodleRenderable {
 
     ///
 
-    class BallMataterial extends MeshPhysicalMaterial {
-      constructor({ ...props }) {
-        super({
-          ...props,
-        })
-        //
-        //
+    // class BallMataterial extends MeshPhysicalMaterial {
+    //   constructor({ ...props }) {
+    //     super({
+    //       ...props,
+    //     })
+    //     //
+    //     //
 
-        this.onBeforeCompile = (shader, gl) => {
-          //
-          shader.uniforms.time = { value: 0 }
-          shader.uniforms.posTexture = { value: null }
+    //     this.onBeforeCompile = (shader, gl) => {
+    //       //
+    //       shader.uniforms.time = { value: 0 }
+    //       shader.uniforms.posTexture = { value: null }
 
-          //
-          self.sim.wait.then(() => {
-            node.onLoop(() => {
-              let result = self.sim.getTextureAfterCompute()
-              shader.uniforms.posTexture.value = result.posTexture
-              shader.uniforms.time.value = window.performance.now() / 1000
-            })
-          })
+    //       //
+    //       self.sim.wait.then(() => {
+    //         node.onLoop(() => {
+    //           let result = self.sim.getTextureAfterCompute()
+    //           shader.uniforms.posTexture.value = result.posTexture
+    //           shader.uniforms.time.value = window.performance.now() / 1000
+    //         })
+    //       })
 
-          shader.vertexShader = shader.vertexShader.replace(
-            `#include <common>`,
-            `#include <common>
+    //       shader.vertexShader = shader.vertexShader.replace(
+    //         `#include <common>`,
+    //         `#include <common>
 
-            attribute vec4 offset;
-            uniform sampler2D posTexture;
-            uniform float time;
+    //         attribute vec4 offset;
+    //         uniform sampler2D posTexture;
+    //         uniform float time;
 
-          `
-          )
-          shader.vertexShader = shader.vertexShader.replace(
-            '#include <begin_vertex>',
-            /* glsl */ `
+    //       `
+    //       )
+    //       shader.vertexShader = shader.vertexShader.replace(
+    //         '#include <begin_vertex>',
+    //         /* glsl */ `
 
-            float lineIDXER = offset.w;
-            float fling = time + lineIDXER  / ${self.sim.HEIGHT.toFixed(1)};
-            vec4 coord = texture2D(posTexture, vec2(0.5, lineIDXER / ${self.sim.HEIGHT.toFixed(
-              1
-            )}));
+    //         float lineIDXER = offset.w;
+    //         float fling = time + lineIDXER  / ${self.sim.HEIGHT.toFixed(1)};
+    //         vec4 coord = texture2D(posTexture, vec2(0.5, lineIDXER / ${self.sim.HEIGHT.toFixed(
+    //           1
+    //         )}));
 
-            vec3 transformed = position.rgb * 0.1 + coord.rgb;
-            `
-          )
-        }
-        //
-        //
-      }
-    }
+    //         vec3 transformed = position.rgb * 0.1 + coord.rgb;
+    //         `
+    //       )
+    //     }
+    //     //
+    //     //
+    //   }
+    // }
 
-    let matBall0 = new BallMataterial({
-      // side: DoubleSide,
-      // metalness: 0.2,
-      // roughness: 0.2,
-      // thickness: 4,
-      // transmission: 1,
-      // ior: 1.3,
-      // transparent: true,
-      // opacity: 1,
-      // // transmission: 1.0,
-      // color: new Color('#ffffff'),
-      // // vertexColors: false,
-      // emissive: new Color('#007777').offsetHSL(0, 0, 0.0),
-      // reflectivity: 0.5,
+    // let matBall0 = new BallMataterial({
+    //   // side: DoubleSide,
+    //   // metalness: 0.2,
+    //   // roughness: 0.2,
+    //   // thickness: 4,
+    //   // transmission: 1,
+    //   // ior: 1.3,
+    //   // transparent: true,
+    //   // opacity: 1,
+    //   // // transmission: 1.0,
+    //   // color: new Color('#ffffff'),
+    //   // // vertexColors: false,
+    //   // emissive: new Color('#007777').offsetHSL(0, 0, 0.0),
+    //   // reflectivity: 0.5,
 
-      ...matConfig,
-    })
+    //   ...matConfig,
+    // })
 
     // let ball0 = new Mesh(ballGeo, matBall0)
     // ball0.userData.enableBloom = true

@@ -89,11 +89,11 @@ export async function effect({ node, mini, data }) {
     color: new Color('#ffffff'),
     transparent: true,
     roughness: 0.5,
-    metalness: 0.0,
+    metalness: 0.5,
     side: FrontSide,
-    reflectivity: 0.0,
-    transmission: 0.0,
-    ior: 1.0,
+    reflectivity: 1.5,
+    transmission: 0.5,
+    ior: 1.5,
   }
 
   let physics = new PhysicsCompute({
