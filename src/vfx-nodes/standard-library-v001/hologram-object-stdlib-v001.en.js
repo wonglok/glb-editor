@@ -3,29 +3,33 @@ import { BoxBufferGeometry, SphereBufferGeometry } from 'three'
 import { Color, Mesh, MeshPhysicalMaterial, Object3D } from 'three140'
 
 class MyObject3D extends Object3D {
-  static headerV = `
+  static headerVertexShader = `
 
 varying float vH;
 uniform float time;
 
 `
 
-  static bodyV = `
+  static bodyVertexShader = `
 
 float sizer = (0.5 + 0.5 * sin(position.z * 6.0 +  5.0 * time)) * 1.0 + 0.1;
 vec3 transformed = vec3( position );
 transformed.xy *= sizer;
 vH = sizer;
 
+vec3 objectNormal = vec3( normal );
+#ifdef USE_TANGENT
+	vec3 objectTangent = vec3( tangent.xyz );
+#endif
 `
 
-  static headerF = `
+  static headerFragmentShader = `
 
 varying float vH;
 uniform float time;
 
 `
-  static bodyF = `
+  static bodyFragmentShader = `
 
 float ratioA = abs(sin(vH * 56.0 + time * -10.0));
 float ratioB = abs(sin(vH * 56.0 + time * 10.0));
@@ -42,20 +46,21 @@ gl_FragColor.a = ratioA * 0.5;
   constructor({ mini, tracker, itself }) {
     super()
     //
-    // this._headerV = ''
-    // this._bodyV = ''
-    // this._headerF = ''
-    // this._bodyF = ''
+    // this._headerVertexShader = ''
+    // this._bodyVertexShader = ''
+    // this._headerFragmentShader = ''
+    // this._bodyFragmentShader = ''
 
-    this._headerV = '' + MyObject3D.headerV
-    this._bodyV = '' + MyObject3D.bodyV
-    this._headerF = '' + MyObject3D.headerF
-    this._bodyF = '' + MyObject3D.bodyF
+    this._headerVertexShader = '' + MyObject3D.headerVertexShader
+    this._bodyVertexShader = '' + MyObject3D.bodyVertexShader
+    this._headerFragmentShader = '' + MyObject3D.headerFragmentShader
+    this._bodyFragmentShader = '' + MyObject3D.bodyFragmentShader
 
+    //
     this._tintColor = new Color('#ffffff')
     this._emissiveColor = new Color('#ffffff')
 
-    let geo = new SphereBufferGeometry(1, 32, 32)
+    let geo = new SphereBufferGeometry(1, 128, 128)
     let mat = new MeshPhysicalMaterial({
       wireframe: false,
       color: this._tintColor,
@@ -83,19 +88,23 @@ gl_FragColor.a = ratioA * 0.5;
 
         shader.vertexShader = shader.vertexShader.replace(
           `void main() {`,
-          `${this._headerV.trim()}
+          `${this._headerVertexShader.trim()}
           void main() {`
         )
         shader.vertexShader = shader.vertexShader.replace(
           `#include <begin_vertex>`,
-          `${this._bodyV}`
+          `${this._bodyVertexShader}`
         )
-        shader.fragmentShader = `${this._headerF.trim()}\n${
+        shader.vertexShader = shader.vertexShader.replace(
+          `#include <beginnormal_vertex>`,
+          ``
+        )
+        shader.fragmentShader = `${this._headerFragmentShader.trim()}\n${
           shader.fragmentShader
         }`
         shader.fragmentShader = shader.fragmentShader.replace(
           `#include <dithering_fragment>`,
-          `#include <dithering_fragment>\n${this._bodyF.trim()}`
+          `#include <dithering_fragment>\n${this._bodyFragmentShader.trim()}`
         )
       }
 
@@ -123,35 +132,35 @@ gl_FragColor.a = ratioA * 0.5;
   }
   //
 
-  set headerV(v) {
-    this._headerV = v
+  set headerVertexShader(v) {
+    this._headerVertexShader = v
     this.sync()
   }
-  get headerV() {
-    return this._headerV
+  get headerVertexShader() {
+    return this._headerVertexShader
   }
-  set bodyV(v) {
-    this._bodyV = v
+  set bodyVertexShader(v) {
+    this._bodyVertexShader = v
     this.sync()
   }
-  get bodyV() {
-    return this._bodyV
+  get bodyVertexShader() {
+    return this._bodyVertexShader
   }
   //
 
-  set headerF(v) {
-    this._headerF = v
+  set headerFragmentShader(v) {
+    this._headerFragmentShader = v
     this.sync()
   }
-  get headerF() {
-    return this._headerF
+  get headerFragmentShader() {
+    return this._headerFragmentShader
   }
-  set bodyF(v) {
-    this._bodyF = v
+  set bodyFragmentShader(v) {
+    this._bodyFragmentShader = v
     this.sync()
   }
-  get bodyF() {
-    return this._bodyF
+  get bodyFragmentShader() {
+    return this._bodyFragmentShader
   }
 
   //
@@ -226,30 +235,30 @@ export async function nodeData({ defaultData, nodeID }) {
       {
         id: getID(),
         nodeID,
-        name: 'headerV',
+        name: 'headerVertexShader',
         type: `glsl`,
-        value: MyObject3D.headerV,
+        value: MyObject3D.headerVertexShader,
       },
       {
         id: getID(),
         nodeID,
-        name: 'bodyV',
+        name: 'bodyVertexShader',
         type: `glsl`,
-        value: MyObject3D.bodyV,
+        value: MyObject3D.bodyVertexShader,
       },
       {
         id: getID(),
         nodeID,
-        name: 'headerF',
+        name: 'headerFragmentShader',
         type: `glsl`,
-        value: MyObject3D.headerF,
+        value: MyObject3D.headerFragmentShader,
       },
       {
         id: getID(),
         nodeID,
-        name: 'bodyF',
+        name: 'bodyFragmentShader',
         type: `glsl`,
-        value: MyObject3D.bodyF,
+        value: MyObject3D.bodyFragmentShader,
       },
     ],
 
@@ -275,26 +284,26 @@ export function effect({ node, mini, data }) {
     myItem.removeFromParent()
   })
 
-  data.uniforms.headerV((v) => {
+  data.uniforms.headerVertexShader((v) => {
     if (v && typeof v.value !== 'undefined') {
-      myItem.headerV = v.value
+      myItem.headerVertexShader = v.value
     }
   })
-  data.uniforms.bodyV((v) => {
+  data.uniforms.bodyVertexShader((v) => {
     if (v && typeof v.value !== 'undefined') {
-      myItem.bodyV = v.value
-    }
-  })
-
-  data.uniforms.headerF((v) => {
-    if (v && typeof v.value !== 'undefined') {
-      myItem.headerF = v.value
+      myItem.bodyVertexShader = v.value
     }
   })
 
-  data.uniforms.bodyF((v) => {
+  data.uniforms.headerFragmentShader((v) => {
     if (v && typeof v.value !== 'undefined') {
-      myItem.bodyF = v.value
+      myItem.headerFragmentShader = v.value
+    }
+  })
+
+  data.uniforms.bodyFragmentShader((v) => {
+    if (v && typeof v.value !== 'undefined') {
+      myItem.bodyFragmentShader = v.value
     }
   })
 
