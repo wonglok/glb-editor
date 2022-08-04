@@ -86,7 +86,7 @@ export async function effect({ node, mini, data }) {
   let howLongTail = 64
 
   let renderConfig = {
-    color: new Color('#ffffff'),
+    color: new Color('#00ffff'),
     transparent: true,
     roughness: 0.5,
     metalness: 0.5,
