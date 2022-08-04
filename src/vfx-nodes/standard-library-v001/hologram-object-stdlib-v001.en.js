@@ -1,5 +1,5 @@
 import { getID } from '@/vfx-runtime/ENUtils'
-import { BoxBufferGeometry, SphereBufferGeometry } from 'three'
+import { SphereBufferGeometry } from 'three'
 import { Color, Mesh, MeshPhysicalMaterial, Object3D } from 'three140'
 
 class MyObject3D extends Object3D {

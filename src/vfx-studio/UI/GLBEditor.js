@@ -38,7 +38,7 @@ export function GLBEditor() {
         <EditorColumnEffectNode></EditorColumnEffectNode>
       </div>
       <div className='h-full' style={{ width: `280px` }}>
-        <EffectNodeSeries></EffectNodeSeries>
+        {/* <EffectNodeSeries></EffectNodeSeries> */}
         <MeshMaterialEditor></MeshMaterialEditor>
       </div>
     </div>

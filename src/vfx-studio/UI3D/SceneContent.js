@@ -12,6 +12,7 @@ export function SceneContent({}) {
   let updateSelected = useAccessor((s) => s.updateSelected)
   let scene = useThree((s) => s.scene)
   let setContorl = useAccessor((s) => s.setContorl)
+  let setLayout = useAccessor((s) => s.setLayout)
   let control = useAccessor((s) => s.control)
 
   let clean = useRef(() => {
@@ -28,6 +29,10 @@ export function SceneContent({}) {
           // multiple={false}
           onChange={(v) => {
             updateSelected(v)
+
+            setTimeout(() => {
+              setLayout((s) => 'full')
+            }, 100)
 
             //
             if (v[0]) {
