@@ -1,23 +1,15 @@
 import {
-  BoxBufferGeometry,
-  BufferAttribute,
-  BufferGeometry,
   Color,
   DataTexture,
-  DoubleSide,
   FloatType,
   Object3D,
-  Points,
   RGBAFormat,
-  ShaderMaterial,
   Vector3,
   Mesh,
-  InstancedMesh,
   InstancedBufferAttribute,
   InstancedBufferGeometry,
   IcosahedronBufferGeometry,
   MeshPhysicalMaterial,
-  FrontSide,
   PointLight,
 } from 'three'
 import { CustomGPU } from './CustomGPU'

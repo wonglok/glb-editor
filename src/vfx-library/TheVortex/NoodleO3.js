@@ -104,6 +104,7 @@ export class LokLokWiggleSimulation {
     //       handTexture.needsUpdate = true
     //     },
     //   }
+    //
     // }
     // this.headList = makeHeadListTex()
 
