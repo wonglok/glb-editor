@@ -1,5 +1,5 @@
 import { getID } from '@/vfx-runtime/ENUtils'
-import { BoxBufferGeometry } from 'three'
+import { BoxBufferGeometry, SphereBufferGeometry } from 'three'
 import { Color, Mesh, MeshPhysicalMaterial, Object3D } from 'three140'
 
 class MyObject3D extends Object3D {
@@ -11,9 +11,13 @@ uniform float time;
       `
 
   static bodyV = `
-  vec3 transformed = vec3( position );
-  transformed.x += 0.5 * sin(position.z * 3.0 +  5.0 * time);
-  vH = transformed.y + transformed.z;
+
+float sizer = (0.5 + 0.5 * sin(position.z * 6.0 +  5.0 * time)) * 1.0 + 0.1;
+vec3 transformed = vec3( position );
+transformed.xy *= sizer;
+vH = sizer;
+
+
 
 
 
@@ -55,7 +59,7 @@ uniform float time;
     this._tintColor = new Color('#ffffff')
     this._emissiveColor = new Color('#ffffff')
 
-    let geo = new BoxBufferGeometry(3, 3, 3, 8, 8, 8)
+    let geo = new SphereBufferGeometry(1, 32, 32)
     let mat = new MeshPhysicalMaterial({
       wireframe: false,
       color: this._tintColor,
