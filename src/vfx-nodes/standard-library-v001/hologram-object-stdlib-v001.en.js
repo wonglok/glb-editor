@@ -6,26 +6,20 @@ import { Color, Mesh, MeshPhysicalMaterial, Object3D } from 'three140'
 class MyObject3D extends Object3D {
   static headerVertexShader = `
 
+
 varying float vH;
 uniform float time;
 
 `
 
   static bodyVertexShaderPosition = `
-
-
 float sizer = (0.5 + 0.5 * sin(position.y * 3.14 * 5.0 +  5.0 * time)) * 0.1 + 0.9;
 vec3 transformed = vec3( position );
 transformed.xz *= sizer;
 vH = sizer;
-
-
-
-
 `
 
   static bodyVertexShaderNormal = `
-
 
 vec3 objectNormal = vec3( normal );
 #ifdef USE_TANGENT
@@ -37,7 +31,6 @@ vec3 transformed2 = vec3( position );
 transformed2.xy *= sizer2;
 
 objectNormal = normalize(transformed2);
-
 
 `
 
@@ -53,6 +46,7 @@ float ratioB = abs(sin(vH * 50.0 * 3.141582));
 float ratioC = abs(sin(vH * 50.0 * 3.141582));
 
 vec4 yoColor;
+
 yoColor.rgb = ratioB * ratioA * vec3(1.0, 1.0, 1.0);
 
 #if defined( USE_COLOR_ALPHA )
@@ -61,10 +55,7 @@ yoColor.rgb = ratioB * ratioA * vec3(1.0, 1.0, 1.0);
 	diffuseColor.rgb *= vColor * yoColor.rgb;
 #endif
 
-
 diffuseColor.a = ratioA;
-
-
 `
 
   constructor({ mini, tracker, itself }) {
@@ -106,7 +97,6 @@ diffuseColor.a = ratioA;
       metalness: 0.3,
       transmission: 1.0,
       ior: 1.4,
-      reflection: 1.5,
       roughness: 0.0,
       thickness: 4,
       transparent: true,
@@ -271,6 +261,46 @@ export async function nodeData({ defaultData, nodeID }) {
         _id: getID(),
         nodeID,
 
+        name: 'metalness',
+        type: 'float',
+        value: 0,
+      },
+      {
+        _id: getID(),
+        nodeID,
+
+        name: 'roughness',
+        type: 'float',
+        value: 0,
+      },
+      {
+        _id: getID(),
+        nodeID,
+
+        name: 'transmission',
+        type: 'float',
+        value: 0,
+      },
+      {
+        _id: getID(),
+        nodeID,
+
+        name: 'thickness',
+        type: 'float',
+        value: 1,
+      },
+      {
+        _id: getID(),
+        nodeID,
+
+        name: 'ior',
+        type: 'float',
+        value: 1,
+      },
+      {
+        _id: getID(),
+        nodeID,
+
         name: 'tintColor',
         type: 'color',
         value: '#72ff00',
@@ -376,6 +406,30 @@ export function effect({ node, mini, data }) {
   data.uniforms.tintColor((v) => {
     if (v && typeof v.value !== 'undefined') {
       myObject.tintColor = v.value
+    }
+  })
+
+  data.uniforms.metalness((v) => {
+    if (v && typeof v.value !== 'undefined') {
+      myObject.mat.metalness = v.value
+    }
+  })
+
+  data.uniforms.roughness((v) => {
+    if (v && typeof v.value !== 'undefined') {
+      myObject.mat.roughness = v.value
+    }
+  })
+
+  data.uniforms.transmission((v) => {
+    if (v && typeof v.value !== 'undefined') {
+      myObject.mat.transmission = v.value
+    }
+  })
+
+  data.uniforms.ior((v) => {
+    if (v && typeof v.value !== 'undefined') {
+      myObject.mat.ior = v.value
     }
   })
 
