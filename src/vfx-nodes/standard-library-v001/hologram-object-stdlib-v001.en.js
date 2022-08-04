@@ -84,6 +84,7 @@ diffuseColor.a = ratioA;
     this._tintColor = new Color('#ffffff')
     this._emissiveColor = new Color('#000000')
 
+    //
     let geo = new SphereBufferGeometry(1.3, 128, 128)
     let mat = new MeshPhysicalMaterial({
       side: DoubleSide,
@@ -129,7 +130,7 @@ diffuseColor.a = ratioA;
           `#include <begin_vertex>`,
           `${this._bodyVertexShaderPosition}`
         )
-
+        //
         shader.vertexShader = shader.vertexShader.replace(
           `#include <beginnormal_vertex>`,
           `${this._bodyVertexShaderNormal}`
