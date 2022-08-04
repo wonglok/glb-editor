@@ -29,18 +29,14 @@ export function SceneContent({}) {
           box
           // multiple={false}
           onChange={(v) => {
-            setTimeout(() => {
-              if (v[0]) {
-                updateSelected(v)
-                openEffectNode(v[0])
-                setLayout((s) => 'effectnode')
-              } else {
-                setLayout((s) => 'full')
-              }
-            }, 100)
-
-            //
             if (v[0]) {
+              updateSelected(v)
+              openEffectNode(v[0])
+
+              setTimeout(() => {
+                setLayout((s) => 'effectnode')
+              }, 100)
+
               v[0].geometry.computeBoundingSphere()
               let center = v[0].geometry.boundingSphere.center
               let radius = v[0].geometry.boundingSphere.radius

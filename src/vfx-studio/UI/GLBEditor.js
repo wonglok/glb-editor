@@ -21,23 +21,29 @@ export function GLBEditor() {
         <GLBTree></GLBTree>
       </div>
       <div
-        className='flex h-full'
-        style={{ width: `calc(100% - 280px - 280px)` }}
+        className='flex w-full h-full'
+        style={{
+          width:
+            layout === 'effectnode '
+              ? `calc(100% - 280px - 280px)`
+              : `calc(100%)`,
+        }}
       >
         <div
           className={`
-            h-full
             relative
-            ${layout === 'full' && 'w-full'}
-            ${layout === 'effectnode' && 'w-1/2'}
+            h-full
+            w-1/2
           `}
         >
           <RunnerEditor></RunnerEditor>
           <Overlay></Overlay>
         </div>
-        <div className='w-2/3 h-full'>
-          <EditorColumnEffectNode></EditorColumnEffectNode>
-        </div>
+        {
+          <div className='w-1/2 h-full bg-gray-100'>
+            <EditorColumnEffectNode></EditorColumnEffectNode>
+          </div>
+        }
       </div>
       <div className='h-full' style={{ width: `280px` }}>
         {/* <EffectNodeSeries></EffectNodeSeries> */}
