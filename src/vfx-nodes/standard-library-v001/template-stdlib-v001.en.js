@@ -28,21 +28,16 @@ uniform float time;
       `
   static bodyF = `
 
+    float ratioA = abs(sin(vH * 56.0 + time * -10.0));
+    float ratioB = abs(sin(vH * 56.0 + time * 10.0));
+    float ratioC = abs(sin(vH * 56.0 + time * -20.0));
+    gl_FragColor.rgb *= ratioB * ratioA * vec3(1.0, 1.0, 1.0);
 
+    gl_FragColor.rgb *= ratioC;
 
-            float ratioA = abs(sin(vH * 56.0 + time * -10.0));
-            float ratioB = abs(sin(vH * 56.0 + time * 10.0));
-            float ratioC = abs(sin(vH * 56.0 + time * -20.0));
-            gl_FragColor.rgb *= ratioB * ratioA * vec3(1.0, 1.0, 1.0);
-
-            gl_FragColor.rgb *= ratioC;
-
-            gl_FragColor.rgb *= rand(vec2(time)) * 30.0;
-            gl_FragColor.a = ratioA * 0.5;
-
-
-
-      `
+    gl_FragColor.rgb *= rand(vec2(time)) * 30.0;
+    gl_FragColor.a = ratioA * 0.5;
+  `
 
   constructor({ mini, tracker, itself }) {
     super()
