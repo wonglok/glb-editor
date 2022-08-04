@@ -3,6 +3,7 @@ import { useENEditor } from '../store/use-en-editor'
 
 export function GLBTree() {
   let glbObject = useAccessor((s) => s.glbObject)
+  let openEffectNode = useAccessor((s) => s.openEffectNode)
   let updateSelected = useAccessor((s) => s.updateSelected)
   let overlay = useENEditor((s) => s.overlay)
   let list = []
@@ -28,6 +29,7 @@ export function GLBTree() {
             onClick={() => {
               //
               updateSelected([li])
+              openEffectNode(li)
             }}
           >
             {li.name} {`${li.userData.effectNode ? '[EN]' : ''}`}
@@ -37,5 +39,7 @@ export function GLBTree() {
     </div>
   )
 }
+
+//
 
 //

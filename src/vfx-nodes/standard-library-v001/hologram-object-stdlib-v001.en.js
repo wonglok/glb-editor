@@ -1,3 +1,4 @@
+import { Core } from '@/vfx-core/Core'
 import { getID } from '@/vfx-runtime/ENUtils'
 import { SphereBufferGeometry } from 'three'
 import { Color, Mesh, MeshPhysicalMaterial, Object3D } from 'three140'
@@ -5,20 +6,19 @@ import { Color, Mesh, MeshPhysicalMaterial, Object3D } from 'three140'
 class MyObject3D extends Object3D {
   static headerVertexShader = `
 
-
 varying float vH;
 uniform float time;
-
 
 `
 
   static bodyVertexShaderPosition = `
 
 
-float sizer = (0.5 + 0.5 * sin(position.z * 6.0 +  5.0 * time)) * 1.0 + 0.1;
+float sizer = (0.5 + 0.5 * sin(position.y * 3.14 * 5.0 +  5.0 * time)) * 0.1 + 0.9;
 vec3 transformed = vec3( position );
-transformed.xy *= sizer;
+transformed.xz *= sizer;
 vH = sizer;
+
 
 
 
@@ -32,8 +32,7 @@ vec3 objectNormal = vec3( normal );
 	vec3 objectTangent = vec3( tangent.xyz );
 #endif
 
-
-float sizer2 = (0.5 + 0.5 * sin(position.z * 6.0 +  5.0 * time)) * 1.0 + 0.1;
+float sizer2 = (0.5 + 0.5 * sin(position.y * 3.1415 * 5.0 +  5.0 * time)) * 0.1 + 0.9;
 vec3 transformed2 = vec3( position );
 transformed2.xy *= sizer2;
 
@@ -49,10 +48,9 @@ uniform float time;
 
 `
   static bodyFragmentShader = `
-
-float ratioA = abs(sin(vH * 56.0 + time * -10.0));
-float ratioB = abs(sin(vH * 56.0 + time * 10.0));
-float ratioC = abs(sin(vH * 56.0 + time * -20.0));
+float ratioA = abs(sin(vH * 50.0 * 3.141582));
+float ratioB = abs(sin(vH * 50.0 * 3.141582));
+float ratioC = abs(sin(vH * 50.0 * 3.141582));
 
 vec4 yoColor;
 yoColor.rgb = ratioB * ratioA * vec3(1.0, 1.0, 1.0);
@@ -66,6 +64,7 @@ yoColor.rgb = ratioB * ratioA * vec3(1.0, 1.0, 1.0);
 
 diffuseColor.a = ratioA;
 
+
 `
 
   constructor({ mini, tracker, itself }) {
@@ -75,6 +74,14 @@ diffuseColor.a = ratioA;
     // this._bodyVertexShaderPosition = ''
     // this._headerFragmentShader = ''
     // this._bodyFragmentShader = ''
+
+    this.core = Core.makeDisposableNode({ name: 'hologram' }).sub
+    this.core.onLoop(() => {
+      this.position.set(0, 0, 0)
+      tracker.updateMatrixWorld(true)
+      this.position.applyMatrix4(tracker.matrixWorld)
+      this.position.y += 1
+    })
 
     this._headerVertexShader = '' + MyObject3D.headerVertexShader
     this._bodyVertexShaderPosition = '' + MyObject3D.bodyVertexShaderPosition

@@ -35,7 +35,9 @@ export function GLBEditor() {
           <RunnerEditor></RunnerEditor>
           <Overlay></Overlay>
         </div>
-        <EditorColumnEffectNode></EditorColumnEffectNode>
+        <div className='w-2/3 h-full'>
+          <EditorColumnEffectNode></EditorColumnEffectNode>
+        </div>
       </div>
       <div className='h-full' style={{ width: `280px` }}>
         {/* <EffectNodeSeries></EffectNodeSeries> */}

@@ -12,6 +12,7 @@ export function SceneContent({}) {
   let updateSelected = useAccessor((s) => s.updateSelected)
   let scene = useThree((s) => s.scene)
   let setContorl = useAccessor((s) => s.setContorl)
+  let openEffectNode = useAccessor((s) => s.openEffectNode)
   let setLayout = useAccessor((s) => s.setLayout)
   let control = useAccessor((s) => s.control)
 
@@ -28,10 +29,14 @@ export function SceneContent({}) {
           box
           // multiple={false}
           onChange={(v) => {
-            updateSelected(v)
-
             setTimeout(() => {
-              setLayout((s) => 'full')
+              if (v[0]) {
+                updateSelected(v)
+                openEffectNode(v[0])
+                setLayout((s) => 'effectnode')
+              } else {
+                setLayout((s) => 'full')
+              }
             }, 100)
 
             //
