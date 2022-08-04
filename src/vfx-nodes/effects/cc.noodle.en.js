@@ -82,7 +82,7 @@ export async function nodeData({ defaultData, nodeID }) {
 export async function effect({ node, mini, data }) {
   //
 
-  let howManyTracker = 128
+  let howManyTracker = 256
   let howLongTail = 64
 
   let renderConfig = {
