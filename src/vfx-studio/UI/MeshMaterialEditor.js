@@ -28,9 +28,9 @@ function Details({ mesh }) {
   let openEffectNode = useAccessor((s) => s.openEffectNode) || []
 
   let setLayout = useAccessor((s) => s.setLayout)
-  useEffect(() => {
-    setLayout('full')
-  }, [mesh])
+  // useEffect(() => {
+  //   setLayout('full')
+  // }, [mesh])
 
   //
   useEffect(() => {

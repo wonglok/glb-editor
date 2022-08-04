@@ -12,7 +12,7 @@ export function SceneContent({}) {
   let updateSelected = useAccessor((s) => s.updateSelected)
   let scene = useThree((s) => s.scene)
   let setContorl = useAccessor((s) => s.setContorl)
-  let openEffectNode = useAccessor((s) => s.openEffectNode)
+  // let openEffectNode = useAccessor((s) => s.openEffectNode)
   let setLayout = useAccessor((s) => s.setLayout)
   let control = useAccessor((s) => s.control)
 
@@ -29,13 +29,11 @@ export function SceneContent({}) {
           box
           // multiple={false}
           onChange={(v) => {
-            if (v[0]) {
-              updateSelected(v)
-              openEffectNode(v[0])
+            updateSelected(v)
 
-              setTimeout(() => {
-                setLayout((s) => 'effectnode')
-              }, 100)
+            //
+            if (v[0]) {
+              setLayout('effectnode')
 
               v[0].geometry.computeBoundingSphere()
               let center = v[0].geometry.boundingSphere.center
