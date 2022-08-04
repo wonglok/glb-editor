@@ -243,7 +243,7 @@ export async function nodeData({ defaultData, nodeID }) {
 
         name: 'tintColor',
         type: 'color',
-        value: '#ef05ba',
+        value: '#72ff00',
       },
       {
         _id: getID(),
@@ -251,7 +251,7 @@ export async function nodeData({ defaultData, nodeID }) {
 
         name: 'emissiveColor',
         type: 'color',
-        value: '#02ffe0',
+        value: '#000000',
       },
 
       {
