@@ -60,7 +60,7 @@ uniform float time;
       wireframe: false,
       color: this._tintColor,
       emissive: this._emissiveColor,
-      transmission: 1,
+      transmission: 0,
       ior: 1.4,
       transparent: true,
       wireframe: false,
