@@ -26,7 +26,7 @@ export function GLBEditor() {
           width:
             layout === 'effectnode '
               ? `calc(100% - 280px - 280px)`
-              : `calc(100%)`,
+              : `calc(100% - 280px - 280px)`,
         }}
       >
         <div
