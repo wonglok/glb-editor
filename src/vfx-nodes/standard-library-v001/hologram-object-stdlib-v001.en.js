@@ -98,6 +98,7 @@ diffuseColor.a = ratioA;
       metalness: 0.3,
       transmission: 1.0,
       ior: 1.4,
+      reflectiveness: 1.5,
       roughness: 0.0,
       thickness: 4,
       transparent: true,
