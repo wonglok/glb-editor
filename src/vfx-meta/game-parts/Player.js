@@ -48,6 +48,7 @@ export function Player() {
       </group>
 
       <JoyStick></JoyStick>
+
       {/*  */}
       {/*  */}
       {/* <primitive object={myCTX.player}></primitive> */}

@@ -13,56 +13,21 @@ export default function S3BtnTester() {
 
             if (file) {
               try {
-                let firebase = await import('firebase-v8').then((e) => {
-                  return e.default
-                })
-
                 //
-                await onReady()
-                let userIDTokenForUpload = await firebase
-                  .auth()
-                  .currentUser.getIdToken(/* forceRefresh */ true)
-                  .then(function (idToken) {
-                    // Send token to your backend via HTTPS
-                    // ...
-
-                    return idToken
-                  })
-                  .catch(function (error) {
-                    // Handle error
-
-                    return ''
-                  })
-
                 let result = await uploadS3({
                   file,
-                  idToken: userIDTokenForUpload,
+                  idToken: '',
                   folderPath: 'tester-folder',
                 })
 
-                await onReady()
-                let userIDTokenForRemoveObject = await firebase
-                  .auth()
-                  .currentUser.getIdToken(/* forceRefresh */ true)
-                  .then(function (idToken) {
-                    // Send token to your backend via HTTPS
-                    // ...
+                //
 
-                    return idToken
-                  })
-                  .catch(function (error) {
-                    // Handle error
-
-                    return ''
-                  })
-
-                console.log(result)
                 let result2 = await removeS3({
-                  idToken: userIDTokenForRemoveObject,
+                  idToken: '',
                   fileS3: result.fileInfo,
                 })
+
                 console.log(result2)
-                //
                 //
               } catch (e) {
                 console.log(e)

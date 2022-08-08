@@ -74,7 +74,7 @@ export function ClosetBtns() {
 
       {/*  */}
 
-      {myCTX?.player && (
+      {/* {myCTX?.player && (
         <CompanionWrap
           onChangeStatus={(v) => {
             //
@@ -87,7 +87,7 @@ export function ClosetBtns() {
           speed={6.5}
           targetO3D={myCTX.player}
         ></CompanionWrap>
-      )}
+      )} */}
 
       <group position={[-10, 0, 0]}>
         <group position={[0, -0.55, -3]}>

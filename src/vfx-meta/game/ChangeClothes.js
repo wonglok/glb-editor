@@ -15,11 +15,11 @@ export function ChangeClothes() {
       <OnlineSystem mapID='closet'>
         <>
           <Player></Player>
+          <ClosetBtns></ClosetBtns>
         </>
       </OnlineSystem>
 
       {/*  */}
-      <ClosetBtns></ClosetBtns>
     </group>
   )
 }
