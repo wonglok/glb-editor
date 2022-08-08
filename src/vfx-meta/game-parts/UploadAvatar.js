@@ -11,11 +11,12 @@ export function UploadAvatar() {
 
   let setAvatar = useMetaStore((s) => s.setAvatar)
 
+  let [phase, setPhase] = useState('')
   return (
     <group>
       <Text
-        fontSize={1}
-        position={[0, 4, -1]}
+        fontSize={0.5}
+        position={[0, 0.5, 0]}
         onClick={() => {
           //
 
@@ -26,13 +27,20 @@ export function UploadAvatar() {
             if (file) {
               //
               //
+              setPhase('loading')
 
-              uploadAvatar(file)
+              uploadAvatar(file).then(({ url }) => {
+                //
+                //
+
+                setPhase('')
+
+                setAvatar({
+                  vendor: 'temp',
+                  avatarURLWrap: url, //URL.createObjectURL(file),
+                })
+              })
               //
-              // setAvatar({
-              //   vendor: 'temp',
-              //   avatarURL: URL.createObjectURL(file),
-              // })
             }
           }
 
@@ -42,7 +50,7 @@ export function UploadAvatar() {
         }}
         rotation-x={Math.PI * -0.25}
       >
-        Upload Avatar File
+        Upload Avatar File {(phase === 'loading' && 'Up-Loading....') || ''}
       </Text>
 
       {/* <group position={[0, -0.62, 0]}>

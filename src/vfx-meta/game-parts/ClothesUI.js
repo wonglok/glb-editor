@@ -31,24 +31,26 @@ function UseAvatar() {
   let exportAvatar = useMetaStore((s) => s.exportAvatar)
   let myself = useMetaStore((s) => s.myself)
 
+  let avatars = useMetaStore((s) => s.avatars)
+
+  console.log(avatars)
+
   return (
     <>
       {myself && myself.uid && !myself.isAnonymous && (
         <>
-          <group>
+          <group position={[10.2, 0, 4]}>
             <UploadAvatar></UploadAvatar>
 
             <Text
               rotation-x={Math.PI * -0.25}
               onClick={() => {
                 //
-
                 exportAvatar()
                 //
-                //
               }}
-              fontSize={1}
-              position={[0, 6, -3]}
+              fontSize={0.5}
+              position={[0, 0.5, 1]}
             >
               Download Current Avatar
             </Text>
@@ -63,7 +65,7 @@ function AvatarMixMatch() {
   let setAvatar = useMetaStore((s) => s.setAvatar)
   return (
     <>
-      <group position={[10, 0, 0]}>
+      <group position={[0, 0, 0]}>
         <group position={[0, -0.55, -2]}>
           <PreviewClosetAvaTester></PreviewClosetAvaTester>
         </group>
@@ -181,7 +183,7 @@ function AvatarRPMARea() {
   let setAvatar = useMetaStore((s) => s.setAvatar)
   return (
     <>
-      <group position={[-10, 0, 0]}>
+      <group position={[-12.5, 0, 0]}>
         <group position={[0, -0.55, -4]}>
           <PreviewRPMAvaTester></PreviewRPMAvaTester>
         </group>

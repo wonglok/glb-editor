@@ -57,6 +57,9 @@ export const useMetaStore = create((set, get) => {
         url: path.join(avatarCDN_A, result.fileKey),
       })
 
+      return {
+        url: path.join(avatarCDN_A, result.fileKey),
+      }
       //
       //
       // //
@@ -67,6 +70,10 @@ export const useMetaStore = create((set, get) => {
 
       //
     },
+
+    //
+    avatars: [],
+    //
     playerInfoIsReady: false,
     goOnline: (cloneSelf, myself, seed) => {
       set({ cloneSelf })
@@ -76,6 +83,36 @@ export const useMetaStore = create((set, get) => {
       let entireMapData = db.ref(`/meta/mapOnline/${mapID}`)
       let userData = db.ref(`/meta/mapOnline/${mapID}/${cloneSelf.uid}`)
       let activeData = db.ref(`/meta/activeData/${myself.uid}`)
+      let avatars = db.ref(`/meta/avatars/${myself.uid}`)
+
+      // console.log(avatars)
+
+      let hhAvatars = (snap) => {
+        //
+        let val = snap && snap.val()
+        let arr = []
+
+        if (val) {
+          for (let kn in val) {
+            let value = val[kn]
+            let key = kn
+
+            //
+            arr.push({
+              uid: key,
+              ...(value || {}),
+            })
+          }
+        }
+
+        set({ avatars: arr })
+        //
+      }
+      avatars.on('value', hhAvatars)
+
+      let offAvatarsSync = () => {
+        avatars.off('value', hhAvatars)
+      }
 
       let hhSync = (snap) => {
         let val = snap && snap.val()
@@ -136,7 +173,8 @@ export const useMetaStore = create((set, get) => {
         if (avatarActionRepeat === Infinity) {
           avatarActionRepeat = 'Infinity'
         }
-        return {
+
+        let output = {
           uid: cloneSelf.uid,
 
           //
@@ -161,6 +199,13 @@ export const useMetaStore = create((set, get) => {
           [mapID]: get().myCTX.player.position.toArray(),
           playerPosition: get().myCTX.player.position.toArray(),
         }
+
+        for (let kn in output) {
+          if (typeof output[kn] === 'undefined') {
+            delete output[kn]
+          }
+        }
+        return output
       }
 
       let offInternval = () => {}
@@ -215,6 +260,7 @@ export const useMetaStore = create((set, get) => {
 
       return () => {
         //
+        offAvatarsSync()
         offInternval()
         userData.remove()
         offSnyc()
