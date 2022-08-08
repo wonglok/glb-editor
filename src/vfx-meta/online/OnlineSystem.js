@@ -46,6 +46,8 @@ export function OnlineSystem({ children, mapID = 'yoyo' }) {
     }
   }, [mapID, myself, goOnline])
 
+  // let playerInfoIsReady = useMetaStore((s) => s.playerInfoIsReady)
+
   if (mode === 'login') {
     return (
       <>
@@ -63,7 +65,9 @@ export function OnlineSystem({ children, mapID = 'yoyo' }) {
             <AvatarButton></AvatarButton>
             <HomeButton></HomeButton>
           </TopRightButtons>
+
           <OtherPlayers></OtherPlayers>
+
           {children}
         </>
       )}
