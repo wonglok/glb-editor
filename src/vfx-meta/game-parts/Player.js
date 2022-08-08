@@ -33,7 +33,6 @@ export function Player() {
   useFrame(() => {
     if (ref.current && myCTX?.player) {
       ref.current.copy(myCTX.player)
-      //
     }
   })
 
