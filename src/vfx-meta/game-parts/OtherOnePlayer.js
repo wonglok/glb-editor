@@ -47,6 +47,7 @@ export function OtherOnePlayer({ speed = 9, otherPlayer }) {
     avatarActionRepeat = Infinity
   }
 
+  //
   // let avatarPartUpper = useMetaStore((s) => s.myCTX.avatarPartUpper)
   // let avatarPartLower = useMetaStore((s) => s.myCTX.avatarPartLower)
   // let avatarPartShoes = useMetaStore((s) => s.myCTX.avatarPartShoes)
