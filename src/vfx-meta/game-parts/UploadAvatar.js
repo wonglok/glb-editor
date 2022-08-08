@@ -50,7 +50,7 @@ export function UploadAvatar() {
         }}
         rotation-x={Math.PI * -0.25}
       >
-        Upload Avatar File {(phase === 'loading' && 'Up-Loading....') || ''}
+        Upload Avatar File {(phase === 'loading' && 'Uploading....') || ''}
       </Text>
 
       {/* <group position={[0, -0.62, 0]}>

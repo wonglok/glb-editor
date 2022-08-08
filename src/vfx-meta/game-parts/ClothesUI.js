@@ -41,7 +41,7 @@ function UseAvatar() {
     <>
       {myself && myself.uid && !myself.isAnonymous && (
         <>
-          <group position={[10.2, 0, 0]}>
+          <group position={[12, 0, 0]}>
             <Text
               fontSize={1}
               rotation={[Math.PI * -0.25, 0, 0]}
