@@ -21,6 +21,8 @@ export function UploadAvatar() {
           input.onchange = async ({ target: { files } }) => {
             let file = files[0]
             if (file) {
+              //
+              //
               setAvatar({
                 vendor: 'temp',
                 avatarURL: URL.createObjectURL(file),
