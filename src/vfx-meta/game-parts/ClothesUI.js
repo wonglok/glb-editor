@@ -6,6 +6,7 @@ import { Suspense } from 'react'
 import { ClosetAvatar } from './ClosetAvatar'
 import { RPMAvatar } from './RPMAvatar'
 import { UploadAvatar } from './UploadAvatar'
+import { GLTFLoader } from 'three140/examples/jsm/loaders/GLTFLoader'
 // import { CompanionWrap } from './CompanionWrap'
 // import { NPCAvatar } from './NPCAvatar'
 //useState
@@ -45,7 +46,7 @@ function UseAvatar() {
             <Text
               fontSize={1}
               rotation={[Math.PI * -0.25, 0, 0]}
-              position={[0, 0, -2]}
+              position={[0, 0.5, -2]}
             >
               Saved Avatars
             </Text>
@@ -72,8 +73,19 @@ function UseAvatar() {
                       rotation-x={Math.PI * -0.25}
                       onClick={() => {
                         //
+                        let foundRPM = false
+                        new GLTFLoader().loadAsync(a.url).then((glb) => {
+                          glb.scene.traverse((it) => {
+                            if (it.name.indexOf('Wolf3D_') !== -1) {
+                              foundRPM = true
+                            }
+                          })
+                        })
+
+                        console.log(foundRPM)
+
                         setAvatar({
-                          vendor: 'temp',
+                          vendor: foundRPM ? 'rpm' : 'temp',
                           avatarURL: a.url,
                         })
                       }}

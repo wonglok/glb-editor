@@ -35,9 +35,21 @@ export function UploadAvatar() {
 
                 setPhase('')
 
+                let foundRPM = false
+                new GLTFLoader()
+                  .loadAsync(URL.createObjectURL(file))
+                  .then((glb) => {
+                    glb.scene.traverse((it) => {
+                      if (it.name.indexOf('Wolf3D_') !== -1) {
+                        foundRPM = true
+                        console.log(it.name)
+                      }
+                    })
+                  })
+
                 setAvatar({
-                  vendor: 'temp',
-                  avatarURLWrap: url, //URL.createObjectURL(file),
+                  vendor: foundRPM ? 'rpm' : 'temp',
+                  avatarURL: url, //URL.createObjectURL(file),
                 })
               })
               //
