@@ -13,6 +13,7 @@ export function Player() {
   let updatePlayer = useMetaStore((s) => s.updatePlayer)
   let setControls = useMetaStore((s) => s.setControls)
   let setKeyboard = useMetaStore((s) => s.setKeyboard)
+  let playerInfoIsReady = useMetaStore((s) => s.playerInfoIsReady)
   // let goFowradDown = useMetaStore((s) => s.goFowradDown)
   // let goFowradUp = useMetaStore((s) => s.goFowradUp)
 
@@ -43,14 +44,16 @@ export function Player() {
       {/*  */}
       {/*  */}
       <group ref={ref}>
-        <group rotation-y={Math.PI} position={[0, -1.52, 0]}>
-          <PlayerAvatar></PlayerAvatar>
-        </group>
+        {playerInfoIsReady && (
+          <group rotation-y={Math.PI} position={[0, -1.52, 0]}>
+            <PlayerAvatar></PlayerAvatar>
+          </group>
+        )}
       </group>
 
       {/*  */}
       {/*  */}
-      <JoyStick></JoyStick>
+      {playerInfoIsReady && <JoyStick></JoyStick>}
 
       {/*  */}
       {/*  */}

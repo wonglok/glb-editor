@@ -67,7 +67,7 @@ export const useMetaStore = create((set, get) => {
 
       //
     },
-
+    playerInfoIsReady: false,
     goOnline: (cloneSelf, myself, seed) => {
       set({ cloneSelf })
       let mapID = md5(seed)
@@ -172,6 +172,8 @@ export const useMetaStore = create((set, get) => {
           //
           let myCTX = get().myCTX
 
+          myCTX.player.position.fromArray(value.playerPosition)
+
           for (let kn in value) {
             myCTX[kn] = value[kn]
           }
@@ -182,6 +184,8 @@ export const useMetaStore = create((set, get) => {
             ...prepare(),
           })
         }
+
+        set({ playerInfoIsReady: true })
 
         let last = ''
         let tt = setInterval(() => {
