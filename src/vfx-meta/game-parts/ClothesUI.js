@@ -11,7 +11,6 @@ import { UploadAvatar } from './UploadAvatar'
 //useState
 
 export function ClothesUI() {
-  let setAvatar = useMetaStore((s) => s.setAvatar)
   let exportAvatar = useMetaStore((s) => s.exportAvatar)
   // let myCTX = useMetaStore((s) => s.myCTX)
 
@@ -66,6 +65,7 @@ export function ClothesUI() {
 }
 
 function AvatarCloset() {
+  let setAvatar = useMetaStore((s) => s.setAvatar)
   return (
     <>
       <group position={[10, 0, 0]}>
@@ -185,6 +185,7 @@ function AvatarCloset() {
   )
 }
 function AvatarRPMARea() {
+  let setAvatar = useMetaStore((s) => s.setAvatar)
   return (
     <>
       <group position={[-10, 0, 0]}>
