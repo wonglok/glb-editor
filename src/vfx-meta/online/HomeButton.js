@@ -11,7 +11,7 @@ export function HomeButton({}) {
       onClick={() => {
         Router.push(`/`)
       }}
-      className='inline-block w-full px-10 py-2 mb-4 text-center text-white bg-blue-500 cursor-pointer rounded-xl'
+      className='inline-block w-full px-3 py-2 mb-4 text-center text-white bg-blue-500 cursor-pointer rounded-xl'
     >
       Home
     </div>
