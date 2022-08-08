@@ -35,10 +35,8 @@ export function OnlineSystem({ children, mapID = 'yoyo' }) {
     let myself = {
       uid: getID(),
     }
-    if (myself) {
-      return goOnline(myself, mapID)
-    }
-  }, [mapID])
+    return goOnline(myself, mapID)
+  }, [mapID, goOnline])
 
   if (mode === 'login') {
     return (
