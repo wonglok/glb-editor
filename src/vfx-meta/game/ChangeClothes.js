@@ -1,19 +1,22 @@
-import { UIContent } from '@/vfx-core/UIContent'
+// import { UIContent } from '@/vfx-core/UIContent'
 import { ClosetBtns } from '../game-parts/ClosetBtns'
 import { Floor } from '../game-parts/Floor'
 import { HDR } from '../game-parts/HDR'
 import { Player } from '../game-parts/Player'
-import { LoginDetect } from '../online/LoginDetect'
+import { OnlineSystem } from '../online/OnlineSystem'
 
 export function ChangeClothes() {
   return (
     <group>
-      <Player></Player>
       <Floor url={'/scene/dome/dome.glb'}></Floor>
       <HDR></HDR>
       {/*  */}
 
-      <LoginDetect></LoginDetect>
+      <OnlineSystem mapID='dome-map'>
+        <>
+          <Player></Player>
+        </>
+      </OnlineSystem>
 
       {/*  */}
       <ClosetBtns></ClosetBtns>

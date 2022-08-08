@@ -12,9 +12,7 @@ export function OtherPlayers() {
           </group>
         )
       })}
-      {/*  */}
 
-      {/*  */}
       {/*  */}
       {/*  */}
     </>

@@ -35,6 +35,8 @@ export function OnlineSystem({ children, mapID = 'yoyo' }) {
     let myself = {
       uid: getID(),
     }
+
+    //
     return goOnline(myself, mapID)
   }, [mapID, goOnline])
 

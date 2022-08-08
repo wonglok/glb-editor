@@ -69,7 +69,10 @@ export const useMetaStore = create((set, get) => {
         entireMapData.off('value', hhSync)
       }
 
-      let check = () => get().myCTX.player.position.toArray().join('-')
+      let check = () => {
+        return JSON.stringify(get().myCTX)
+      }
+
       let prepare = () => {
         let {
           avatarURL,

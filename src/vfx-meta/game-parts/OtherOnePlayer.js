@@ -16,6 +16,30 @@ export function OtherOnePlayer({ speed = 9, otherPlayer }) {
 
   targetO3D.position.fromArray(otherPlayer.playerPosition)
 
+  let avatarActionName = otherPlayer.avatarActionName
+
+  let avatarActionRepeat = 1
+
+  if (avatarActionName === 'front') {
+    avatarActionRepeat = Infinity
+  }
+
+  if (avatarActionName === 'back') {
+    avatarActionRepeat = Infinity
+  }
+
+  if (avatarActionName === 'left') {
+    avatarActionRepeat = Infinity
+  }
+
+  if (avatarActionName === 'right') {
+    avatarActionRepeat = Infinity
+  }
+
+  if (avatarActionName === 'jump') {
+    avatarActionRepeat = Infinity
+  }
+
   // let avatarPartUpper = useMetaStore((s) => s.myCTX.avatarPartUpper)
   // let avatarPartLower = useMetaStore((s) => s.myCTX.avatarPartLower)
   // let avatarPartShoes = useMetaStore((s) => s.myCTX.avatarPartShoes)
@@ -99,8 +123,8 @@ export function OtherOnePlayer({ speed = 9, otherPlayer }) {
           {avatarVendor === 'temp' && (
             <TempAvatar
               setAction={setNPCAction}
-              avatarActionName={action}
-              avatarActionRepeat={Infinity}
+              avatarActionName={avatarActionName}
+              avatarActionRepeat={avatarActionRepeat}
               frustumCulled={false}
               avatarURL={avatarURLWrap}
             ></TempAvatar>
@@ -108,8 +132,8 @@ export function OtherOnePlayer({ speed = 9, otherPlayer }) {
 
           {avatarVendor === 'rpm' && (
             <RPMAvatar
-              avatarActionName={action}
-              avatarActionRepeat={Infinity}
+              avatarActionName={avatarActionName}
+              avatarActionRepeat={avatarActionRepeat}
               avatarURL={avatarURL}
               setAction={setNPCAction}
               frustumCulled={false}
