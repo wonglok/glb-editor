@@ -230,7 +230,9 @@ export const useMetaStore = create((set, get) => {
           myCTX.player.position.fromArray(value[mapID] || [0, 10, 0])
 
           for (let kn in value) {
-            myCTX[kn] = value[kn]
+            if (typeof value[kn] !== 'undefined') {
+              myCTX[kn] = value[kn]
+            }
           }
 
           set({ myCTX })
