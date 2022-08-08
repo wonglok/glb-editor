@@ -126,6 +126,11 @@ export const useMetaStore = create((set, get) => {
           avatarActionName,
           avatarActionIdleName,
           avatarActionRepeat,
+
+          avatarPartUpper,
+          avatarPartLower,
+          avatarPartShoes,
+          avatarPartSkeleton,
         } = get().myCTX
 
         if (avatarActionRepeat === Infinity) {
@@ -145,8 +150,14 @@ export const useMetaStore = create((set, get) => {
           avatarActionName,
           avatarActionIdleName,
           avatarActionRepeat,
-          //
 
+          //
+          avatarPartUpper,
+          avatarPartLower,
+          avatarPartShoes,
+          avatarPartSkeleton,
+
+          //
           playerPosition: get().myCTX.player.position.toArray(),
         }
       }

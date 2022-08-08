@@ -7,6 +7,8 @@ import { Object3D, Sphere } from 'three140'
 // import { ClosetAvatar } from './ClosetAvatar'
 import { RPMAvatar } from '../game-parts/RPMAvatar'
 import { TempAvatar } from '../game-parts/TempAvatar'
+import { useMetaStore } from '../store/use-meta-store'
+import { ClosetAvatar } from './ClosetAvatar'
 
 export function OtherOnePlayer({ speed = 9, otherPlayer }) {
   let targetO3D = useMemo(() => {
@@ -15,6 +17,11 @@ export function OtherOnePlayer({ speed = 9, otherPlayer }) {
   }, [])
 
   targetO3D.position.fromArray(otherPlayer.playerPosition)
+
+  let avatarPartUpper = otherPlayer.avatarPartUpper
+  let avatarPartLower = otherPlayer.avatarPartLower
+  let avatarPartShoes = otherPlayer.avatarPartShoes
+  let avatarPartSkeleton = otherPlayer.avatarPartSkeleton
 
   let avatarActionName = otherPlayer.avatarActionName
 
@@ -44,7 +51,7 @@ export function OtherOnePlayer({ speed = 9, otherPlayer }) {
   // let avatarPartLower = useMetaStore((s) => s.myCTX.avatarPartLower)
   // let avatarPartShoes = useMetaStore((s) => s.myCTX.avatarPartShoes)
   // let avatarPartSkeleton = useMetaStore((s) => s.myCTX.avatarPartSkeleton)
-  // let setExporter = useMetaStore((s) => s.myCTX.setExporter)
+  let setExporter = useMetaStore((s) => s.myCTX.setExporter)
 
   let avatarVendor = otherPlayer.avatarVendor
   let avatarURL = otherPlayer.avatarURL
@@ -140,7 +147,7 @@ export function OtherOnePlayer({ speed = 9, otherPlayer }) {
             ></RPMAvatar>
           )}
 
-          {/* {avatarVendor === 'closet' && (
+          {avatarVendor === 'closet' && (
             <ClosetAvatar
               avatarPartUpper={avatarPartUpper}
               avatarPartLower={avatarPartLower}
@@ -155,7 +162,7 @@ export function OtherOnePlayer({ speed = 9, otherPlayer }) {
               exportAvatar={false}
               frustumCulled={false}
             ></ClosetAvatar>
-          )} */}
+          )}
         </Suspense>
       </group>
 

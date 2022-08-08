@@ -37,7 +37,7 @@ export function setupFirebase() {
     //   .auth()
     //   .signInAnonymously()
     //   .then((singin) => {
-    //     // Signed in..
+    //     // Signed in..\
     //     FireCache.set("user", singin.user);
     //   })
     //   .catch((error) => {
