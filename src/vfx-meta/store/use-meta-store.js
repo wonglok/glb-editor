@@ -99,7 +99,7 @@ export const useMetaStore = create((set, get) => {
 
             //
             arr.push({
-              uid: key,
+              _id: key,
               ...(value || {}),
             })
           }

@@ -30,6 +30,7 @@ export function ClothesUI() {
 function UseAvatar() {
   let exportAvatar = useMetaStore((s) => s.exportAvatar)
   let myself = useMetaStore((s) => s.myself)
+  let setAvatar = useMetaStore((s) => s.setAvatar)
 
   let avatars = useMetaStore((s) => s.avatars)
 
@@ -39,7 +40,14 @@ function UseAvatar() {
     <>
       {myself && myself.uid && !myself.isAnonymous && (
         <>
-          <group position={[10.2, 0, 4]}>
+          <group position={[10.2, 0, 0]}>
+            <Text
+              fontSize={1}
+              rotation={[Math.PI * -0.25, 0, 0]}
+              position={[0, 0, -2]}
+            >
+              Saved Avatars
+            </Text>
             <UploadAvatar></UploadAvatar>
 
             <Text
@@ -54,6 +62,30 @@ function UseAvatar() {
             >
               Download Current Avatar
             </Text>
+
+            <group position={[0, 0, 1.5]}>
+              {avatars.map((a, idx) => {
+                return (
+                  <Text
+                    key={a._id}
+                    rotation-x={Math.PI * -0.25}
+                    onClick={() => {
+                      //
+                      //
+
+                      setAvatar({
+                        vendor: 'temp',
+                        avatarURL: a.url,
+                      })
+                    }}
+                    fontSize={0.5}
+                    position={[0, 0.5, 1 + idx]}
+                  >
+                    {idx}
+                  </Text>
+                )
+              })}
+            </group>
           </group>
         </>
       )}
