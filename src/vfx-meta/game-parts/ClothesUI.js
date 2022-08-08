@@ -11,35 +11,11 @@ import { UploadAvatar } from './UploadAvatar'
 //useState
 
 export function ClothesUI() {
-  let exportAvatar = useMetaStore((s) => s.exportAvatar)
-
-  let myself = useMetaStore((s) => s.myself)
-
   // UploadAvatar
   // let [status, setStatus] = useState('stand')
   return (
     <group>
-      {myself && myself.uid && !myself.isAnonymous && (
-        <>
-          <UploadAvatar></UploadAvatar>
-
-          <Text
-            rotation-x={Math.PI * -0.25}
-            onClick={() => {
-              //
-
-              exportAvatar()
-              //
-              //
-            }}
-            fontSize={1}
-            position={[0, 6, -3]}
-          >
-            Download Current Avatar
-          </Text>
-        </>
-      )}
-
+      <UseAvatar></UseAvatar>
       <AvatarRPMARea></AvatarRPMARea>
       <AvatarMixMatch></AvatarMixMatch>
 
@@ -48,6 +24,38 @@ export function ClothesUI() {
       {/*  */}
       {/*  */}
     </group>
+  )
+}
+
+function UseAvatar() {
+  let exportAvatar = useMetaStore((s) => s.exportAvatar)
+  let myself = useMetaStore((s) => s.myself)
+
+  return (
+    <>
+      {myself && myself.uid && !myself.isAnonymous && (
+        <>
+          <group>
+            <UploadAvatar></UploadAvatar>
+
+            <Text
+              rotation-x={Math.PI * -0.25}
+              onClick={() => {
+                //
+
+                exportAvatar()
+                //
+                //
+              }}
+              fontSize={1}
+              position={[0, 6, -3]}
+            >
+              Download Current Avatar
+            </Text>
+          </group>
+        </>
+      )}
+    </>
   )
 }
 
@@ -252,7 +260,7 @@ function AvatarRPMARea() {
 }
 
 export function PreviewRPMAvaTester() {
-  let avatarVendor = useMetaStore((s) => s.myCTX.avatarVendor)
+  // let avatarVendor = useMetaStore((s) => s.myCTX.avatarVendor)
 
   let avatarURL = useMetaStore((s) => s.myCTX.avatarURL)
   let avatarActionName = useMetaStore((s) => s.myCTX.avatarActionName)

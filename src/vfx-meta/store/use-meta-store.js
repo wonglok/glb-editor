@@ -68,16 +68,14 @@ export const useMetaStore = create((set, get) => {
       //
     },
 
-    goOnline: (cloneSelf, seed) => {
-      //
-
+    goOnline: (cloneSelf, myself, seed) => {
       set({ cloneSelf })
       let mapID = md5(seed)
 
       let db = firebase.database()
       let entireMapData = db.ref(`/meta/mapOnline/${mapID}`)
       let userData = db.ref(`/meta/mapOnline/${mapID}/${cloneSelf.uid}`)
-      let activeData = db.ref(`/meta/activeData/${mapID}/${cloneSelf.uid}`)
+      let activeData = db.ref(`/meta/activeData/${myself.uid}`)
 
       let hhSync = (snap) => {
         let val = snap && snap.val()
@@ -165,22 +163,39 @@ export const useMetaStore = create((set, get) => {
       }
 
       let offInternval = () => {}
-      activeData.once('value', (snap) => {
+      activeData.get().then((snap) => {
         //
         //
         if (snap && snap.val()) {
           let value = snap.val() || {}
 
-          console.log(value)
           //
-        } //
+          let myCTX = get().myCTX
+
+          for (let kn in value) {
+            myCTX[kn] = value[kn]
+          }
+
+          set({ myCTX })
+        } else {
+          activeData.set({
+            ...prepare(),
+          })
+        }
 
         let last = ''
         let tt = setInterval(() => {
           let latest = check()
           if (latest !== last) {
             last = latest
+
+            //
             userData.set({
+              ...prepare(),
+            })
+
+            //
+            activeData.set({
               ...prepare(),
             })
           }

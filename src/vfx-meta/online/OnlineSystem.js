@@ -37,13 +37,14 @@ export function OnlineSystem({ children, mapID = 'yoyo' }) {
   }, [children, setMode, setMyself])
 
   useEffect(() => {
-    let myself = {
+    let cloneSelf = {
       uid: getID(),
     }
 
-    //
-    return goOnline(myself, mapID)
-  }, [mapID, goOnline])
+    if (myself) {
+      return goOnline(cloneSelf, myself, mapID)
+    }
+  }, [mapID, myself, goOnline])
 
   if (mode === 'login') {
     return (
