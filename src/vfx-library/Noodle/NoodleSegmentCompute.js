@@ -160,7 +160,7 @@ export class NoodleSegmentCompute {
         float currentLine = floor(gl_FragCoord.y);
         if (floor(currentSegment) == 0.0) {
 
-          vec2 uvv = vec2(0.0, currentLine  / ${this.HEIGHT.toFixed(1)});
+          vec2 uvv = vec2(0.0, currentLine / ${this.howManyTracker.toFixed(1)});
 
           float ee = uvv.y;
           vec4 texColor = texture2D(headList, uvv);

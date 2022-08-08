@@ -29,5 +29,5 @@ const AdminEmail = [
   'yellowhappy831@gmail.com',
 ]
 
-const avatarCDN_A = `https://dhjz4fdyjzwki.cloudfront.net`
+const avatarCDN_A = `https://dhjz4fdyjzwki.cloudfront.net/`
 export { firebaseConfig, HomePageGraphID, AdminEmail, avatarCDN_A }

@@ -54,11 +54,11 @@ export const useMetaStore = create((set, get) => {
       newitem.set({
         cdn: avatarCDN_A,
         result,
-        url: path.join(avatarCDN_A, result.fileKey),
+        url: avatarCDN_A + result.fileKey,
       })
 
       return {
-        url: path.join(avatarCDN_A, result.fileKey),
+        url: avatarCDN_A + result.fileKey,
       }
       //
       //

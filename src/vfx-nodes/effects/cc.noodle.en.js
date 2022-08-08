@@ -63,7 +63,7 @@ export async function nodeData({ defaultData, nodeID }) {
       //       {
       //         id: getID(),
       //         nodeID,
-      //         name: 'shader',
+      //         name: 'shader',T
       //         type: `glsl`,
       //         value: `
       // `,
@@ -83,18 +83,7 @@ export async function effect({ node, mini, data }) {
   //
 
   let howManyTracker = 256
-  let howLongTail = 64
-
-  let renderConfig = {
-    color: new Color('#00ffff'),
-    transparent: true,
-    roughness: 0.5,
-    metalness: 0.5,
-    side: FrontSide,
-    reflectivity: 1.5,
-    transmission: 0.5,
-    ior: 1.5,
-  }
+  let howLongTail = 32
 
   let physics = new PhysicsCompute({
     sizeX: 1,
@@ -112,6 +101,23 @@ export async function effect({ node, mini, data }) {
     howLongTail: howLongTail,
   })
 
+  mini.onLoop(() => {
+    sim.render()
+  })
+
+  let renderConfig = {
+    color: new Color('#00ffff'),
+    transparent: true,
+    roughness: 0.5,
+    metalness: 0.5,
+    side: FrontSide,
+    reflectivity: 1.5,
+    transmission: 0.5,
+    ior: 1.5,
+  }
+
+  let scene = mini.now.scene
+
   let noodle = new NoodleRenderable({
     renderConfig,
     node: mini,
@@ -120,11 +126,6 @@ export async function effect({ node, mini, data }) {
     howLongTail: howLongTail,
   })
 
-  mini.onLoop(() => {
-    sim.render()
-  })
-
-  let scene = mini.now.scene
   scene.add(noodle.o3d)
 
   let pars = new ParticleRenderable({
@@ -141,48 +142,6 @@ export async function effect({ node, mini, data }) {
   })
 
   scene.add(pars)
-
-  //
-  // let myItem = new TheVortex({
-  //   enableDetection: true,
-  //   tracker: mini.now.mounter,
-  // })
-  // //
-  // //
-  // mini.now.scene.add(myItem)
-  // mini.onClean(() => {
-  //   myItem.removeFromParent()
-  // })
-  // // mini.onLoop(() => {
-  // //   mini.now.mounter.getWorldPosition(myItem.position)
-  // // })
-  // //
-  // data.uniforms.shader((v) => {
-  //   if (v && typeof v.value !== 'undefined') {
-  //     myItem.shader = v.value
-  //   }
-  // })
-  // mini.onLoop(() => {
-  //   myItem.traverse((it) => {
-  //     it.frustumCulled = false
-  //   })
-  // })
-  // // data.uniforms.colorA((v) => {
-  // //   if (v && typeof v.value !== 'undefined') {
-  // //     myItem.colorA = v.value
-  // //   }
-  // // })
-  // // data.uniforms.colorB((v) => {
-  // //   if (v && typeof v.value !== 'undefined') {
-  // //     myItem.colorB = v.value
-  // //   }
-  // // })
-  // // data.uniforms.colorC((v) => {
-  // //   if (v && typeof v.value !== 'undefined') {
-  // //     myItem.colorC = v.value
-  // //   }
-  // // })
-  // // node.out0.pulse(myItem)
 }
 
 //
