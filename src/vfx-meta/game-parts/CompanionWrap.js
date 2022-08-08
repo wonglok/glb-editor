@@ -16,7 +16,7 @@ export function CompanionWrap({ speed = 9, targetO3D }) {
   let setExporter = useMetaStore((s) => s.myCTX.setExporter)
   let avatarVendor = useMetaStore((s) => s.myCTX.avatarVendor)
   let avatarURL = useMetaStore((s) => s.myCTX.avatarURL)
-  let avatarURLTemp = useMetaStore((s) => s.myCTX.avatarURLTemp)
+  let avatarURLWrap = useMetaStore((s) => s.myCTX.avatarURLWrap)
 
   let ref = useRef()
   let [dist] = useState(() => {
@@ -92,7 +92,7 @@ export function CompanionWrap({ speed = 9, targetO3D }) {
               avatarActionName={action}
               avatarActionRepeat={Infinity}
               frustumCulled={false}
-              avatarURL={avatarURLTemp}
+              avatarURL={avatarURLWrap}
             ></TempAvatar>
           )}
 

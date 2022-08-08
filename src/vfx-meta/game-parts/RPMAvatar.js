@@ -100,7 +100,7 @@ export function RPMAvatar({
               eachSet.duration = animationsList[0].duration
               eachSet.fbx = fbx
 
-              // avatarURLTemp
+              // avatarURLWrap
               resolve(eachSet)
             }
             if (PromisesMap.has(eachSet.url)) {

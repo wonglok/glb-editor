@@ -76,7 +76,7 @@ export const useMetaStore = create((set, get) => {
           avatarVendor,
 
           //
-          avatarURLTemp,
+          avatarURLWrap,
 
           avatarActionResumeOnKeyUp,
           avatarActionName,
@@ -95,7 +95,7 @@ export const useMetaStore = create((set, get) => {
           avatarVendor,
 
           //
-          avatarURLTemp,
+          avatarURLWrap,
 
           avatarActionResumeOnKeyUp,
           avatarActionName,
@@ -426,7 +426,7 @@ export const useMetaStore = create((set, get) => {
       //
       if (vendor === 'temp') {
         myCTX.avatarVendor = 'temp'
-        myCTX.avatarURLTemp = avatarURL
+        myCTX.avatarURLWrap = avatarURL
 
         set({ myCTX: myCTX })
       }

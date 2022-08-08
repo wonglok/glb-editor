@@ -19,7 +19,7 @@ export function PlayerAvatar() {
   let avatarPartLower = useMetaStore((s) => s.myCTX.avatarPartLower)
   let avatarPartShoes = useMetaStore((s) => s.myCTX.avatarPartShoes)
   let avatarPartSkeleton = useMetaStore((s) => s.myCTX.avatarPartSkeleton)
-  let avatarURLTemp = useMetaStore((s) => s.myCTX.avatarURLTemp)
+  let avatarURLWrap = useMetaStore((s) => s.myCTX.avatarURLWrap)
 
   //
   let setExporter = useMetaStore((s) => s.setExporter)
@@ -69,7 +69,7 @@ export function PlayerAvatar() {
             // avatarActionIdleName={avatarActionIdleName}
             avatarActionRepeat={avatarActionRepeat}
             frustumCulled={false}
-            avatarURL={avatarURLTemp}
+            avatarURL={avatarURLWrap}
           ></TempAvatar>
         )}
 

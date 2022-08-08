@@ -1,10 +1,10 @@
-import { Box as TestObject } from '@react-three/drei'
+// import { Box as TestObject } from '@react-three/drei'
 import { useFrame } from '@react-three/fiber'
 import { Suspense, useEffect, useRef, useState } from 'react'
 import { MathUtils } from 'three'
 import { Object3D, Sphere } from 'three140'
-import { useMetaStore } from '../store/use-meta-store'
-import { ClosetAvatar } from './ClosetAvatar'
+// import { useMetaStore } from '../store/use-meta-store'
+// import { ClosetAvatar } from './ClosetAvatar'
 import { RPMAvatar } from './RPMAvatar'
 import { TempAvatar } from './TempAvatar'
 
@@ -16,7 +16,7 @@ export function OtherPlayerAvatarWrap({ speed = 9, targetO3D, otherPlayer }) {
   // let setExporter = useMetaStore((s) => s.myCTX.setExporter)
   let avatarVendor = otherPlayer.avatarVendor
   let avatarURL = otherPlayer.avatarURL
-  let avatarURLTemp = otherPlayer.avatarURLTemp
+  let avatarURLWrap = otherPlayer.avatarURLWrap
 
   let ref = useRef()
   let [dist] = useState(() => {
@@ -92,7 +92,7 @@ export function OtherPlayerAvatarWrap({ speed = 9, targetO3D, otherPlayer }) {
               avatarActionName={action}
               avatarActionRepeat={Infinity}
               frustumCulled={false}
-              avatarURL={avatarURLTemp}
+              avatarURL={avatarURLWrap}
             ></TempAvatar>
           )}
 
