@@ -27,12 +27,14 @@ export function OtherOnePlayer({ speed = 9, otherPlayer }) {
   let avatarURLWrap = otherPlayer.avatarURLWrap
 
   let ref = useRef()
+
   let [dist] = useState(() => {
     let o3 = new Object3D()
     return o3
   })
 
   let [action, setNPCAction] = useState('stand')
+
   useEffect(() => {
     if (ref.current.position.length() === 0) {
       ref.current.position.x = 5

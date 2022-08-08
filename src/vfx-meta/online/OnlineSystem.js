@@ -6,6 +6,7 @@ import { auth } from '../store/firebase'
 import { LoginButton } from './LoginButtons'
 import { LogoutButtons } from './LogoutButtons'
 import { OtherPlayers } from './OtherPlayers'
+import { getID } from '@/vfx-runtime/ENUtils'
 // import { SetupOnlineID } from './SetupOnlineID'
 
 export function OnlineSystem({ children, mapID = 'yoyo' }) {
@@ -33,11 +34,13 @@ export function OnlineSystem({ children, mapID = 'yoyo' }) {
   }, [children, setMode, setMyself])
 
   useEffect(() => {
-    console.log(myself)
+    let myself = {
+      uid: getID(),
+    }
     if (myself) {
       return goOnline(myself, mapID)
     }
-  }, [myself, goOnline])
+  }, [mapID])
 
   if (mode === 'login') {
     return (

@@ -1,5 +1,5 @@
 import { useMetaStore } from '../store/use-meta-store'
-import { OtherOnePlayer } from './OtherOnePlayer'
+import { OtherOnePlayer } from '../game-parts/OtherOnePlayer'
 
 export function OtherPlayers() {
   let players = useMetaStore((s) => s.players)
