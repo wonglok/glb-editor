@@ -12,6 +12,8 @@ export const useMetaStore = create((set, get) => {
 
   let myCTX = makeAvatarCTX()
   return {
+    myCTX,
+
     //
     mode: 'ready',
     setMode: (mode) => {
@@ -34,6 +36,7 @@ export const useMetaStore = create((set, get) => {
       let db = firebase.database()
       let entireMapData = db.ref(`/meta/mapOnline/${mapID}`)
       let userData = db.ref(`/meta/mapOnline/${mapID}/${myself.uid}`)
+
       let hhSync = (snap) => {
         let val = snap && snap.val()
         let arr = []
@@ -48,10 +51,10 @@ export const useMetaStore = create((set, get) => {
               uid: key,
               ...(value || {}),
             })
-
-            console.log(arr)
           }
         }
+
+        //
         arr = arr.filter((a) => a.uid !== myself.uid)
 
         set({ players: arr })
@@ -103,8 +106,9 @@ export const useMetaStore = create((set, get) => {
           playerPosition: get().myCTX.player.position.toArray(),
         }
       }
+
       let last = ''
-      setInterval(() => {
+      let tt = setInterval(() => {
         let latest = check()
         if (latest !== last) {
           last = latest
@@ -115,11 +119,11 @@ export const useMetaStore = create((set, get) => {
       }, 500)
 
       userData.onDisconnect().remove()
-      //
 
       console.log(myself)
 
       return () => {
+        clearInterval(tt)
         //
         userData.remove()
         offSnyc()
@@ -365,8 +369,6 @@ export const useMetaStore = create((set, get) => {
         window.removeEventListener('keyup', onKeyUp)
       }
     },
-
-    myCTX,
 
     clips: [],
     mixer: false,

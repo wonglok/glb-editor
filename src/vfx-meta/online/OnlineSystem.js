@@ -5,6 +5,7 @@ import { useMetaStore } from '../store/use-meta-store'
 import { auth } from '../store/firebase'
 import { LoginButton } from './LoginButtons'
 import { LogoutButtons } from './LogoutButtons'
+import { OtherPlayers } from './OtherPlayers'
 // import { SetupOnlineID } from './SetupOnlineID'
 
 export function OnlineSystem({ children, mapID = 'yoyo' }) {
@@ -51,6 +52,7 @@ export function OnlineSystem({ children, mapID = 'yoyo' }) {
       {(mode === 'guest' || mode === 'user') && (
         <>
           <LogoutButtons></LogoutButtons>
+          <OtherPlayers></OtherPlayers>
           {children}
         </>
       )}

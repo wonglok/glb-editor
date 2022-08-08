@@ -8,15 +8,15 @@ import { ClosetAvatar } from './ClosetAvatar'
 import { RPMAvatar } from './RPMAvatar'
 import { TempAvatar } from './TempAvatar'
 
-export function CompanionWrap({ speed = 9, targetO3D }) {
-  let avatarPartUpper = useMetaStore((s) => s.myCTX.avatarPartUpper)
-  let avatarPartLower = useMetaStore((s) => s.myCTX.avatarPartLower)
-  let avatarPartShoes = useMetaStore((s) => s.myCTX.avatarPartShoes)
-  let avatarPartSkeleton = useMetaStore((s) => s.myCTX.avatarPartSkeleton)
-  let setExporter = useMetaStore((s) => s.myCTX.setExporter)
-  let avatarVendor = useMetaStore((s) => s.myCTX.avatarVendor)
-  let avatarURL = useMetaStore((s) => s.myCTX.avatarURL)
-  let avatarURLTemp = useMetaStore((s) => s.myCTX.avatarURLTemp)
+export function OtherPlayerAvatarWrap({ speed = 9, targetO3D, otherPlayer }) {
+  // let avatarPartUpper = useMetaStore((s) => s.myCTX.avatarPartUpper)
+  // let avatarPartLower = useMetaStore((s) => s.myCTX.avatarPartLower)
+  // let avatarPartShoes = useMetaStore((s) => s.myCTX.avatarPartShoes)
+  // let avatarPartSkeleton = useMetaStore((s) => s.myCTX.avatarPartSkeleton)
+  // let setExporter = useMetaStore((s) => s.myCTX.setExporter)
+  let avatarVendor = otherPlayer.avatarVendor
+  let avatarURL = otherPlayer.avatarURL
+  let avatarURLTemp = otherPlayer.avatarURLTemp
 
   let ref = useRef()
   let [dist] = useState(() => {
@@ -106,7 +106,7 @@ export function CompanionWrap({ speed = 9, targetO3D }) {
             ></RPMAvatar>
           )}
 
-          {avatarVendor === 'closet' && (
+          {/* {avatarVendor === 'closet' && (
             <ClosetAvatar
               avatarPartUpper={avatarPartUpper}
               avatarPartLower={avatarPartLower}
@@ -121,7 +121,7 @@ export function CompanionWrap({ speed = 9, targetO3D }) {
               exportAvatar={false}
               frustumCulled={false}
             ></ClosetAvatar>
-          )}
+          )} */}
         </Suspense>
       </group>
 
