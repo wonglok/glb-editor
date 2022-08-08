@@ -1,6 +1,6 @@
 import Router from 'next/router'
 
-export function AvatarButton({}) {
+export function HomeButton({}) {
   return (
     <div
       style={{
@@ -9,11 +9,11 @@ export function AvatarButton({}) {
         boxShadow: '0px 0px 30px 0px rgba(0,0,255,0.5)',
       }}
       onClick={() => {
-        Router.push(`/clothes`)
+        Router.push(`/`)
       }}
       className='inline-block w-full px-10 py-2 mb-4 text-center text-white bg-blue-500 cursor-pointer rounded-xl'
     >
-      Avatar
+      Home
     </div>
   )
 }
