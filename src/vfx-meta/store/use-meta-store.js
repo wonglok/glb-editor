@@ -63,7 +63,7 @@ export const useMetaStore = create((set, get) => {
 
         // console.log(val)
       }
-
+      // OtherOnePlayer
       entireMapData.on('value', hhSync)
       let offSnyc = () => {
         entireMapData.off('value', hhSync)
