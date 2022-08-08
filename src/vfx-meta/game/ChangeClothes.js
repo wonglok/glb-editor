@@ -1,5 +1,5 @@
 // import { UIContent } from '@/vfx-core/UIContent'
-import { ClosetBtns } from '../game-parts/ClosetBtns'
+import { ClothesUI } from '../game-parts/ClothesUI'
 import { Floor } from '../game-parts/Floor'
 import { HDR } from '../game-parts/HDR'
 import { Player } from '../game-parts/Player'
@@ -15,7 +15,7 @@ export function ChangeClothes() {
       <OnlineSystem mapID='closet'>
         <>
           <Player></Player>
-          <ClosetBtns></ClosetBtns>
+          <ClothesUI></ClothesUI>
         </>
       </OnlineSystem>
 

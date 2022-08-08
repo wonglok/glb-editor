@@ -30,6 +30,7 @@ export class OnlineGame {
           if (userRes) {
             // const uid = userRes.uid;
             resolve(userRes)
+            //
             clean()
           } else {
             // resolve(null)
@@ -46,6 +47,8 @@ export class OnlineGame {
           }
         })
       })
+
+      //
 
       // let user = null
 
