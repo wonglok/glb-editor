@@ -94,6 +94,9 @@ export class NoodleSegmentCompute {
     if (error !== null) {
       console.error(error)
     }
+    this.node.onLoop(() => {
+      this.render()
+    })
   }
 
   positionShader() {

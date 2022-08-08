@@ -101,10 +101,6 @@ export async function effect({ node, mini, data }) {
     howLongTail: howLongTail,
   })
 
-  mini.onLoop(() => {
-    sim.render()
-  })
-
   let renderConfig = {
     color: new Color('#00ffff'),
     transparent: true,
