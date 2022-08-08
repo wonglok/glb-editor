@@ -2,9 +2,12 @@ import { useEffect } from 'react'
 import { useMetaStore } from '../store/use-meta-store'
 import { auth } from '../store/firebase'
 import { LoginButton } from './LoginButtons'
-import { LogoutButtons } from './LogoutButtons'
+import { TopRightButtons } from './TopRightButtons'
 import { OtherPlayers } from './OtherPlayers'
 import { getID } from '@/vfx-runtime/ENUtils'
+import { LogoutButtons } from './LogoutButtons'
+import { AvatarButton } from './AvatarButton'
+import { useRouter } from 'next/router'
 // import { SetupOnlineID } from './SetupOnlineID'
 
 export function OnlineSystem({ children, mapID = 'yoyo' }) {
@@ -13,6 +16,7 @@ export function OnlineSystem({ children, mapID = 'yoyo' }) {
   let mode = useMetaStore((s) => s.mode)
   let setMode = useMetaStore((s) => s.setMode)
   let goOnline = useMetaStore((s) => s.goOnline)
+
   useEffect(() => {
     return auth().onAuthStateChanged((user) => {
       //
@@ -52,7 +56,10 @@ export function OnlineSystem({ children, mapID = 'yoyo' }) {
     <>
       {(mode === 'guest' || mode === 'user') && (
         <>
-          <LogoutButtons></LogoutButtons>
+          <TopRightButtons>
+            <LogoutButtons></LogoutButtons>
+            <AvatarButton></AvatarButton>
+          </TopRightButtons>
           <OtherPlayers></OtherPlayers>
           {children}
         </>

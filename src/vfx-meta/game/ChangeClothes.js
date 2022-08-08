@@ -8,11 +8,11 @@ import { OnlineSystem } from '../online/OnlineSystem'
 export function ChangeClothes() {
   return (
     <group>
-      <Floor url={'/scene/dome/dome.glb'}></Floor>
+      <Floor url={'/scene/closet/closet.glb'}></Floor>
       <HDR></HDR>
       {/*  */}
 
-      <OnlineSystem mapID='dome-map'>
+      <OnlineSystem mapID='closet'>
         <>
           <Player></Player>
         </>
