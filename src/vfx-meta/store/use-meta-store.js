@@ -68,8 +68,38 @@ export const useMetaStore = create((set, get) => {
 
       let check = () => get().myCTX.player.position.toArray().join('-')
       let prepare = () => {
+        let {
+          avatarURL,
+          avatarVendor,
+
+          //
+          avatarURLTemp,
+
+          avatarActionResumeOnKeyUp,
+          avatarActionName,
+          avatarActionIdleName,
+          avatarActionRepeat,
+        } = get().myCTX
+
+        if (avatarActionRepeat === Infinity) {
+          avatarActionRepeat = 'Infinity'
+        }
         return {
           uid: myself.uid,
+
+          //
+          avatarURL,
+          avatarVendor,
+
+          //
+          avatarURLTemp,
+
+          avatarActionResumeOnKeyUp,
+          avatarActionName,
+          avatarActionIdleName,
+          avatarActionRepeat,
+          //
+
           playerPosition: get().myCTX.player.position.toArray(),
         }
       }
