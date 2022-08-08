@@ -158,6 +158,7 @@ export const useMetaStore = create((set, get) => {
           avatarPartSkeleton,
 
           //
+          [mapID]: get().myCTX.player.position.toArray(),
           playerPosition: get().myCTX.player.position.toArray(),
         }
       }
@@ -172,7 +173,7 @@ export const useMetaStore = create((set, get) => {
           //
           let myCTX = get().myCTX
 
-          myCTX.player.position.fromArray(value.playerPosition)
+          myCTX.player.position.fromArray(value[mapID] || [0, 10, 0])
 
           for (let kn in value) {
             myCTX[kn] = value[kn]
