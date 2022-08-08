@@ -12,7 +12,6 @@ import { UploadAvatar } from './UploadAvatar'
 
 export function ClothesUI() {
   let exportAvatar = useMetaStore((s) => s.exportAvatar)
-  // let myCTX = useMetaStore((s) => s.myCTX)
 
   // UploadAvatar
   // let [status, setStatus] = useState('stand')
@@ -39,18 +38,7 @@ export function ClothesUI() {
       {/*  */}
 
       {/* {myCTX?.player && (
-        <CompanionWrap
-          onChangeStatus={(v) => {
-            //
-            // onChangeStatus
-            //
-            if (status !== v) {
-              setStatus(v)
-            }
-          }}
-          speed={6.5}
-          targetO3D={myCTX.player}
-        ></CompanionWrap>
+
       )} */}
 
       <AvatarRPMARea></AvatarRPMARea>
@@ -132,8 +120,6 @@ function AvatarCloset() {
             rotation-x={Math.PI * -0.25}
             position={[0, 0, 1]}
             onClick={() => {
-              //
-
               let avatarPartUpper = Fashion[0].uppers[1].url
 
               setAvatar({

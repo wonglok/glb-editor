@@ -2,6 +2,7 @@
 import { useFrame, useThree } from '@react-three/fiber'
 import { useEffect, useRef } from 'react'
 import { useMetaStore } from '../store/use-meta-store'
+import { CompanionWrap } from './CompanionWrap'
 // import { CompanionWrap } from './CompanionWrap'
 import { JoyStick } from './JoyStick'
 // import { NPCAvatar } from './NPCAvatar'
@@ -47,8 +48,24 @@ export function Player() {
         </group>
       </group>
 
+      {/*  */}
+      {/*  */}
       <JoyStick></JoyStick>
 
+      {/*  */}
+      {/*  */}
+      {/* <CompanionWrap
+        onChangeStatus={(v) => {
+          //
+          // onChangeStatus
+          //
+          // if (status !== v) {
+          //   setStatus(v)
+          // }
+        }}
+        speed={6.5}
+        targetO3D={myCTX.player}
+      ></CompanionWrap> */}
       {/*  */}
       {/*  */}
       {/* <primitive object={myCTX.player}></primitive> */}
