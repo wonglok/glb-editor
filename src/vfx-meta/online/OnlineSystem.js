@@ -1,5 +1,3 @@
-//
-
 import { useEffect } from 'react'
 import { useMetaStore } from '../store/use-meta-store'
 import { auth } from '../store/firebase'

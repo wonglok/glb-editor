@@ -29,13 +29,13 @@ export const useMetaStore = create((set, get) => {
     },
     players: [],
 
-    goOnline: (myself, seed) => {
+    goOnline: (cloneSelf, seed) => {
       //
       let mapID = md5(seed)
 
       let db = firebase.database()
       let entireMapData = db.ref(`/meta/mapOnline/${mapID}`)
-      let userData = db.ref(`/meta/mapOnline/${mapID}/${myself.uid}`)
+      let userData = db.ref(`/meta/mapOnline/${mapID}/${cloneSelf.uid}`)
 
       let hhSync = (snap) => {
         let val = snap && snap.val()
@@ -55,7 +55,7 @@ export const useMetaStore = create((set, get) => {
         }
 
         //
-        arr = arr.filter((a) => a.uid !== myself.uid)
+        arr = arr.filter((a) => a.uid !== cloneSelf.uid)
 
         set({ players: arr })
 
@@ -88,7 +88,7 @@ export const useMetaStore = create((set, get) => {
           avatarActionRepeat = 'Infinity'
         }
         return {
-          uid: myself.uid,
+          uid: cloneSelf.uid,
 
           //
           avatarURL,
@@ -120,7 +120,7 @@ export const useMetaStore = create((set, get) => {
 
       userData.onDisconnect().remove()
 
-      console.log(myself)
+      console.log(cloneSelf)
 
       return () => {
         clearInterval(tt)
