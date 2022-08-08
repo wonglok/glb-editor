@@ -7,38 +7,44 @@ import { GLTFLoader } from 'three140/examples/jsm/loaders/GLTFLoader'
 import { useMetaStore } from '../store/use-meta-store'
 
 export function UploadAvatar() {
+  let uploadAvatar = useMetaStore((s) => s.uploadAvatar)
+  let myself = useMetaStore((s) => s.myself)
   let setAvatar = useMetaStore((s) => s.setAvatar)
   return (
     <group>
-      <Text
-        fontSize={1}
-        position={[0, 4, -1]}
-        onClick={() => {
-          //
+      {myself && myself.uid && !myself.isAnonymous && (
+        <Text
+          fontSize={1}
+          position={[0, 4, -1]}
+          onClick={() => {
+            //
 
-          let input = document.createElement('input')
-          input.type = 'file'
-          input.onchange = async ({ target: { files } }) => {
-            let file = files[0]
-            if (file) {
-              //
-              //
-              setAvatar({
-                vendor: 'temp',
-                avatarURL: URL.createObjectURL(file),
-              })
+            let input = document.createElement('input')
+            input.type = 'file'
+            input.onchange = async ({ target: { files } }) => {
+              let file = files[0]
+              if (file) {
+                //
+                //
+
+                uploadAvatar(file)
+                //
+                // setAvatar({
+                //   vendor: 'temp',
+                //   avatarURL: URL.createObjectURL(file),
+                // })
+              }
             }
-          }
 
-          input.click()
+            input.click()
 
-          //
-        }}
-        rotation-x={Math.PI * -0.25}
-      >
-        Upload Avatar File
-      </Text>
-
+            //
+          }}
+          rotation-x={Math.PI * -0.25}
+        >
+          Upload Avatar File
+        </Text>
+      )}
       {/* <group position={[0, -0.62, 0]}>
         {glb && (
           <>

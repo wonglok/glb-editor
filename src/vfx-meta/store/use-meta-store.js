@@ -1,4 +1,5 @@
-import { ref } from 'firebase-v9/database'
+import { uploadS3 } from '@/aws/aws.s3.gui'
+import { avatarCDN_A } from 'firebase.config'
 import md5 from 'md5'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
 import create from 'zustand'
@@ -6,7 +7,7 @@ import { makeAvatarCTX } from '../ctx/make-avatar-ctx'
 import { exportGLB } from './export-glb'
 import { firebase } from './firebase'
 import { sceneToCollider } from './scene-to-bvh'
-
+import path from 'path'
 export const useMetaStore = create((set, get) => {
   // return
 
@@ -22,15 +23,55 @@ export const useMetaStore = create((set, get) => {
     },
 
     //
+
+    myAvatars: [],
+
+    loadMyAvatars: () => {
+      //
+    },
+    //
     myself: false,
+    cloneSelf: false,
     setMyself: (user) => {
       //
       set({ myself: user })
     },
     players: [],
 
+    uploadAvatar: async (file) => {
+      //
+      let { myself } = get()
+      let result = await uploadS3({
+        file,
+        idToken: '',
+        folderPath: 'user-avatar',
+      })
+      let db = firebase.database()
+      let myData = db.ref(`/meta/avatars/${myself.uid}`)
+
+      let newitem = myData.push()
+
+      newitem.set({
+        cdn: avatarCDN_A,
+        result,
+        url: path.join(avatarCDN_A, result.fileKey),
+      })
+
+      //
+      //
+      // //
+      // setAvatar({
+      //   vendor: 'temp',
+      //   avatarURL: URL.createObjectURL(file),
+      // })
+
+      //
+    },
+
     goOnline: (cloneSelf, seed) => {
       //
+
+      set({ cloneSelf })
       let mapID = md5(seed)
 
       let db = firebase.database()
