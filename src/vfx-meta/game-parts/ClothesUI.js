@@ -33,6 +33,7 @@ function UseAvatar() {
   let setAvatar = useMetaStore((s) => s.setAvatar)
 
   let avatars = useMetaStore((s) => s.avatars)
+  let removeAvatar = useMetaStore((s) => s.removeAvatar)
 
   console.log(avatars)
 
@@ -71,8 +72,6 @@ function UseAvatar() {
                       rotation-x={Math.PI * -0.25}
                       onClick={() => {
                         //
-                        //
-
                         setAvatar({
                           vendor: 'temp',
                           avatarURL: a.url,
@@ -88,10 +87,13 @@ function UseAvatar() {
                       rotation-x={Math.PI * -0.25}
                       onClick={() => {
                         //
-                        setAvatar({
-                          vendor: 'rpm',
-                          avatarURL: `/scene/loklokdemo/lok-green-wear.glb`,
-                        })
+                        if (window.confirm('remove?')) {
+                          setAvatar({
+                            vendor: 'rpm',
+                            avatarURL: `/scene/loklokdemo/lok-green-wear.glb`,
+                          })
+                          removeAvatar(a._id)
+                        }
                       }}
                       fontSize={0.5}
                       position={[3, 0.5, 1 + idx]}

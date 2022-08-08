@@ -75,6 +75,15 @@ export const useMetaStore = create((set, get) => {
     avatars: [],
     //
     playerInfoIsReady: false,
+
+    removeAvatar: (avaID) => {
+      let myself = get().myself
+      let db = firebase.database()
+
+      let avatars = db.ref(`/meta/avatars/${myself.uid}/${avaID}`)
+
+      return avatars.remove()
+    },
     goOnline: (cloneSelf, myself, seed) => {
       set({ cloneSelf })
       let mapID = md5(seed)
