@@ -40,14 +40,8 @@ export function ClothesUI() {
         </>
       )}
 
-      {/*  */}
-
-      {/* {myCTX?.player && (
-
-      )} */}
-
       <AvatarRPMARea></AvatarRPMARea>
-      <AvatarCloset></AvatarCloset>
+      <AvatarMixMatch></AvatarMixMatch>
 
       {/*  */}
       {/*  */}
@@ -57,7 +51,7 @@ export function ClothesUI() {
   )
 }
 
-function AvatarCloset() {
+function AvatarMixMatch() {
   let setAvatar = useMetaStore((s) => s.setAvatar)
   return (
     <>
