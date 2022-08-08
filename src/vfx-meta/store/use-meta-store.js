@@ -77,6 +77,7 @@ export const useMetaStore = create((set, get) => {
       let db = firebase.database()
       let entireMapData = db.ref(`/meta/mapOnline/${mapID}`)
       let userData = db.ref(`/meta/mapOnline/${mapID}/${cloneSelf.uid}`)
+      let activeData = db.ref(`/meta/activeData/${mapID}/${cloneSelf.uid}`)
 
       let hhSync = (snap) => {
         let val = snap && snap.val()
@@ -104,6 +105,7 @@ export const useMetaStore = create((set, get) => {
 
         // console.log(val)
       }
+
       // OtherOnePlayer
       entireMapData.on('value', hhSync)
       let offSnyc = () => {
@@ -162,24 +164,38 @@ export const useMetaStore = create((set, get) => {
         }
       }
 
-      let last = ''
-      let tt = setInterval(() => {
-        let latest = check()
-        if (latest !== last) {
-          last = latest
-          userData.set({
-            ...prepare(),
-          })
+      let offInternval = () => {}
+      activeData.once('value', (snap) => {
+        //
+        //
+        if (snap && snap.val()) {
+          let value = snap.val() || {}
+
+          console.log(value)
+          //
+        } //
+
+        let last = ''
+        let tt = setInterval(() => {
+          let latest = check()
+          if (latest !== last) {
+            last = latest
+            userData.set({
+              ...prepare(),
+            })
+          }
+        }, 500)
+
+        offInternval = () => {
+          clearInterval(tt)
         }
-      }, 500)
+      })
 
       userData.onDisconnect().remove()
 
-      console.log(cloneSelf)
-
       return () => {
-        clearInterval(tt)
         //
+        offInternval()
         userData.remove()
         offSnyc()
         //

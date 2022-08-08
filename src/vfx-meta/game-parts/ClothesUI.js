@@ -13,27 +13,32 @@ import { UploadAvatar } from './UploadAvatar'
 export function ClothesUI() {
   let exportAvatar = useMetaStore((s) => s.exportAvatar)
 
+  let myself = useMetaStore((s) => s.myself)
+
   // UploadAvatar
   // let [status, setStatus] = useState('stand')
   return (
     <group>
-      <UploadAvatar></UploadAvatar>
+      {myself && myself.uid && !myself.isAnonymous && (
+        <>
+          <UploadAvatar></UploadAvatar>
 
-      <Text
-        rotation-x={Math.PI * -0.25}
-        onClick={() => {
-          //
-          //
+          <Text
+            rotation-x={Math.PI * -0.25}
+            onClick={() => {
+              //
 
-          exportAvatar()
-          //
-          //
-        }}
-        fontSize={1}
-        position={[0, 6, -3]}
-      >
-        Download Current Avatar
-      </Text>
+              exportAvatar()
+              //
+              //
+            }}
+            fontSize={1}
+            position={[0, 6, -3]}
+          >
+            Download Current Avatar
+          </Text>
+        </>
+      )}
 
       {/*  */}
 
