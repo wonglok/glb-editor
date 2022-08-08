@@ -1,7 +1,7 @@
 import FIREBASE from 'firebase-v8/app'
 import 'firebase-v8/auth'
 import 'firebase-v8/database'
-import { firebaseConfig } from './CONFIG'
+import { firebaseConfig } from '../../../firebase.config'
 import { FireCache } from './firebaseCache'
 
 export function setupFirebase() {

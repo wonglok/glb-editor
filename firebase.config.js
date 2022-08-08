@@ -13,7 +13,7 @@
 const firebaseConfig = {
   apiKey: 'AIzaSyB-tfIbfq6okbv1tYReo585t_r4zFvf-rI',
   authDomain: 'effectnode.firebaseapp.com',
-  databaseURL: 'https://effectnode-multiverse-node.firebaseio.com',
+  databaseURL: 'https://effectnode-online.firebaseio.com',
   projectId: 'effectnode',
   storageBucket: 'effectnode.appspot.com',
   messagingSenderId: '316567530740',

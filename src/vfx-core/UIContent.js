@@ -7,7 +7,7 @@ export function UIContent({ children, className }) {
     let tttt = setInterval(() => {
       let doc = document.querySelector('#myroot')
       if (doc) {
-        let div = document.createElement('div')
+        let div = document.createElement('span')
         clearInterval(tttt)
         doc.appendChild(div)
         div.className = className || ''

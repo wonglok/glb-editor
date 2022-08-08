@@ -17,7 +17,7 @@ export default function Document() {
           }}
         />
       </Head>
-      <body>
+      <body className='w-full h-full'>
         <noscript>
           <iframe
             src='https://www.googletagmanager.com/ns.html?id=GTM-WQVG99Q'

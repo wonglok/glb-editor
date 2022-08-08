@@ -1,4 +1,4 @@
-import { OnlineGame } from '@/vfx-meta/game/OnlineGame'
+import { ChangeClothes } from '@/vfx-meta/game/ChangeClothes'
 import { Canvas } from '@react-three/fiber'
 import { Suspense } from 'react'
 import { sRGBEncoding } from 'three'
@@ -17,11 +17,9 @@ export default function Game() {
         }}
       >
         <Suspense fallback={null}>
-          <OnlineGame></OnlineGame>
+          <ChangeClothes></ChangeClothes>
         </Suspense>
       </Canvas>
     </div>
   )
 }
-
-//

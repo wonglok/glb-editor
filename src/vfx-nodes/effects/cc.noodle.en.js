@@ -143,7 +143,6 @@ export async function effect({ node, mini, data }) {
   scene.add(pars)
 
   //
-  //
   // let myItem = new TheVortex({
   //   enableDetection: true,
   //   tracker: mini.now.mounter,

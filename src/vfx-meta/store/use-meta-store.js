@@ -1,8 +1,10 @@
+import { ref } from 'firebase-v9/database'
+import md5 from 'md5'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
-import { Object3D } from 'three140'
 import create from 'zustand'
 import { makeAvatarCTX } from '../ctx/make-avatar-ctx'
 import { exportGLB } from './export-glb'
+import { firebase } from './firebase'
 import { sceneToCollider } from './scene-to-bvh'
 
 export const useMetaStore = create((set, get) => {
@@ -10,6 +12,117 @@ export const useMetaStore = create((set, get) => {
 
   let myCTX = makeAvatarCTX()
   return {
+    //
+    mode: 'ready',
+    setMode: (mode) => {
+      //
+      set({ mode })
+    },
+
+    //
+    myself: false,
+    setMyself: (user) => {
+      //
+      set({ myself: user })
+    },
+    players: [],
+
+    goOnline: (myself, seed) => {
+      //
+      let mapID = md5(seed)
+
+      let db = firebase.database()
+      let entireMapData = db.ref(`/meta/mapOnline/${mapID}`)
+      let userData = db.ref(`/meta/mapOnline/${mapID}/${myself.uid}`)
+      let hhSync = (snap) => {
+        let val = snap && snap.val()
+        let arr = []
+
+        if (val) {
+          for (let kn in val) {
+            let value = val[kn]
+            let key = kn
+
+            //
+            arr.push({
+              uid: key,
+              ...(value || {}),
+            })
+
+            console.log(arr)
+          }
+        }
+        arr = arr.filter((a) => a.uid !== myself.uid)
+
+        set({ players: arr })
+
+        console.log(arr)
+
+        // console.log(val)
+      }
+
+      entireMapData.on('value', hhSync)
+      let offSnyc = () => {
+        entireMapData.off('value', hhSync)
+      }
+
+      let check = () => get().myCTX.player.position.toArray().join('-')
+      let prepare = () => {
+        return {
+          uid: myself.uid,
+          playerPosition: get().myCTX.player.position.toArray(),
+        }
+      }
+      let last = ''
+      setInterval(() => {
+        let latest = check()
+        if (latest !== last) {
+          last = latest
+          userData.set({
+            ...prepare(),
+          })
+        }
+      }, 500)
+
+      userData.onDisconnect().remove()
+      //
+
+      console.log(myself)
+
+      return () => {
+        //
+        userData.remove()
+        offSnyc()
+        //
+        //
+      }
+    },
+    getLoginUser: (playerID) => {
+      //
+      let { players } = get()
+      let idx = players.findIndex((e) => e._id === playerID)
+      return players[idx] || null
+    },
+
+    //
+    // addLoginUser: (player) => {
+    //   let { players } = get()
+    //   players.push(player)
+    //   set({ players })
+    // },
+    // //
+    // removeLoginUserID: (playerID) => {
+    //   let { players } = get()
+    //   let idx = players.findIndex((e) => e._id === playerID)
+    //   //
+    //   if (idx !== -1) {
+    //     players.splice(idx, 1)
+    //     set({ players: [...players] })
+    //   } else {
+    //     console.log('not found')
+    //   }
+    // },
+
     //
     loader: 'ready',
     setStartLoading: () => {

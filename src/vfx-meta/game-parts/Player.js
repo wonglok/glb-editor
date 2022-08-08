@@ -1,10 +1,10 @@
-import { UIContent } from '@/vfx-core/UIContent'
-import { createPortal, useFrame, useThree } from '@react-three/fiber'
+// import { UIContent } from '@/vfx-core/UIContent'
+import { useFrame, useThree } from '@react-three/fiber'
 import { useEffect, useRef } from 'react'
 import { useMetaStore } from '../store/use-meta-store'
-import { CompanionWrap } from './CompanionWrap'
+// import { CompanionWrap } from './CompanionWrap'
 import { JoyStick } from './JoyStick'
-import { NPCAvatar } from './NPCAvatar'
+// import { NPCAvatar } from './NPCAvatar'
 import { PlayerAvatar } from './PlayerAvatar'
 
 export function Player() {
