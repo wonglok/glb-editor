@@ -66,23 +66,40 @@ function UseAvatar() {
             <group position={[0, 0, 1.5]}>
               {avatars.map((a, idx) => {
                 return (
-                  <Text
-                    key={a._id}
-                    rotation-x={Math.PI * -0.25}
-                    onClick={() => {
-                      //
-                      //
+                  <group key={a._id}>
+                    <Text
+                      rotation-x={Math.PI * -0.25}
+                      onClick={() => {
+                        //
+                        //
 
-                      setAvatar({
-                        vendor: 'temp',
-                        avatarURL: a.url,
-                      })
-                    }}
-                    fontSize={0.5}
-                    position={[0, 0.5, 1 + idx]}
-                  >
-                    {idx}
-                  </Text>
+                        setAvatar({
+                          vendor: 'temp',
+                          avatarURL: a.url,
+                        })
+                      }}
+                      fontSize={0.5}
+                      position={[-2.5, 0.5, 1 + idx]}
+                    >
+                      Use {idx} Avatar
+                    </Text>
+
+                    <Text
+                      rotation-x={Math.PI * -0.25}
+                      onClick={() => {
+                        //
+                        setAvatar({
+                          vendor: 'rpm',
+                          avatarURL: `/scene/loklokdemo/lok-green-wear.glb`,
+                        })
+                      }}
+                      fontSize={0.5}
+                      position={[3, 0.5, 1 + idx]}
+                      color={'red'}
+                    >
+                      Remove
+                    </Text>
+                  </group>
                 )
               })}
             </group>
