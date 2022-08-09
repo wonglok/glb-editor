@@ -163,11 +163,13 @@ function OneParticipane({ room, participant }) {
     }
   }, [])
 
+  //
   return (
     <div>
       <div>AudioTracks:</div>
       <div>
         {/*  */}
+
         {toArray(participant.audioTracks).map((e) => {
           return <AudioTracker key={e._id} publication={e}></AudioTracker>
         })}
