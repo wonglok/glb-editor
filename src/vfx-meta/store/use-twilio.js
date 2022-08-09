@@ -18,6 +18,12 @@ export const useTwilio = create((set, get) => {
     },
 
     room: false,
+    reload: () => {
+      let { room } = get()
+      set({ room })
+    },
+
+    participants: [],
     connectRoom: async (roomName, token, audioDeviceID, videoDeviceID) => {
       // join the video room with the Access Token and the given room name
       const room = await connect(token, {
@@ -29,16 +35,34 @@ export const useTwilio = create((set, get) => {
           deviceId: audioDeviceID,
         },
       })
-
       set({ room })
 
-      room.on('participantConnected', () => {
-        set({ room })
-      })
-      room.on('participantDisconnected', () => {
-        set({ room })
-      })
-      return room
+      window.addEventListener('beforeunload', () => room.disconnect())
+
+      let add = (v) => {
+        let { participants } = get()
+        participants = [...participants, v]
+        set({ participants })
+      }
+
+      let dis = (v) => {
+        let { participants } = get()
+        participants = [...participants]
+
+        participants.splice(
+          participants.findIndex((s) => s.identity === v.identity),
+          1
+        )
+        set({ participants })
+      }
+
+      add(room.participants)
+      room.on('participantConnected', add)
+      room.on('participantDisconnected', dis)
+      return () => {
+        room.off('participantConnected', add)
+        room.off('participantDisconnected', dis)
+      }
     },
     getTokenByRoomName: async (roomName) => {
       console.log(roomName)
