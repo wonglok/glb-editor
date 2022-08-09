@@ -35,11 +35,13 @@ export const useTwilio = create((set, get) => {
           deviceId: audioDeviceID,
         },
       })
-      set({ room })
 
       window.addEventListener('beforeunload', () => room.disconnect())
 
       let add = (v) => {
+        if (!v) {
+          return
+        }
         let { participants } = get()
         participants = [...participants, v]
         set({ participants })
@@ -56,9 +58,16 @@ export const useTwilio = create((set, get) => {
         set({ participants })
       }
 
-      add(room.participants)
+      room.participants.forEach((participant) => {
+        if (participant) {
+          add(participant)
+        }
+      })
       room.on('participantConnected', add)
       room.on('participantDisconnected', dis)
+
+      set({ room })
+
       return () => {
         room.off('participantConnected', add)
         room.off('participantDisconnected', dis)

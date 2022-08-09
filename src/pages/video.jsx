@@ -129,21 +129,25 @@ function Room() {
       {/*  */}
       {/*  */}
       {/*  */}
-      <OneParticipane
-        room={room}
-        participant={room.localParticipant}
-      ></OneParticipane>
+      {room.localParticipant && (
+        <OneParticipane
+          room={room}
+          participant={room.localParticipant}
+        ></OneParticipane>
+      )}
 
       {/*  */}
-      {participants.map((e) => {
-        return (
-          <OneParticipane
-            key={e.identity}
-            room={room}
-            participant={e}
-          ></OneParticipane>
-        )
-      })}
+      {participants
+        .filter((a) => a)
+        .map((e) => {
+          return (
+            <OneParticipane
+              key={e.identity}
+              room={room}
+              participant={e}
+            ></OneParticipane>
+          )
+        })}
 
       {/*  */}
       {/*  */}
@@ -156,14 +160,11 @@ function Room() {
 }
 
 function OneParticipane({ participant }) {
-  console.log(participant)
-
-  let room = useTwilio((s) => s.room)
   let reload = useTwilio((s) => s.reload)
   useEffect(() => {
     //
     let hh = () => {
-      reload()
+      //
     }
     participant.on('trackPublished', hh)
     return () => {
