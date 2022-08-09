@@ -133,6 +133,7 @@ function Room() {
         <OneParticipane
           room={room}
           participant={room.localParticipant}
+          isSelf={true}
         ></OneParticipane>
       )}
 
@@ -159,7 +160,7 @@ function Room() {
   )
 }
 
-function OneParticipane({ participant }) {
+function OneParticipane({ participant, isSelf = false }) {
   let reload = useTwilio((s) => s.reload)
   useEffect(() => {
     //
