@@ -50,6 +50,8 @@ export const useTwilio = create((set, get) => {
         }
 
         set({ participants })
+
+        set({ room })
       }
 
       let dis = (v) => {
@@ -61,6 +63,7 @@ export const useTwilio = create((set, get) => {
           1
         )
         set({ participants })
+        set({ room })
       }
 
       room.participants.forEach((participant) => {
