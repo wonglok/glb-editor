@@ -48,6 +48,7 @@ export const useTwilio = create((set, get) => {
         if (!participants.some((s) => s.identity === v.identity)) {
           participants.push(v)
         }
+
         set({ participants })
       }
 
