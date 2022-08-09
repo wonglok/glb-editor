@@ -58,6 +58,8 @@
     "three140": "npm:three@^0.140.0",
     "three143": "npm:three@^0.143.0",
     "tweakpane": "^3.1.0",
+    "twilio": "^3.80.0",
+    "twilio-video": "^2.23.0",
     "zustand": "^4.0.0-rc.1"
   },
   "devDependencies": {
