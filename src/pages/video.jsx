@@ -31,7 +31,7 @@ export default function JoinRoom() {
   let refA = useRef()
   let refV = useRef()
   return (
-    <div>
+    <div className='w-full h-full overflow-y-auto'>
       <button
         onClick={async () => {
           await getDevices()
