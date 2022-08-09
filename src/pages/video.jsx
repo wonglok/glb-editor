@@ -166,14 +166,16 @@ function OneParticipane({ room, participant }) {
   //
   return (
     <div>
-      <div>AudioTracks:</div>
+      <div>Person: {participant.identity}</div>
       <div>
         {/*  */}
+        <div>AudioTracks:</div>
 
         {toArray(participant.audioTracks).map((e) => {
           return <AudioTracker key={e._id} publication={e}></AudioTracker>
         })}
 
+        <div>Video Tracks:</div>
         {toArray(participant.videoTracks).map((e) => {
           return <VideoTracker key={e._id} publication={e}></VideoTracker>
         })}
