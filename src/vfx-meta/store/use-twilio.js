@@ -43,8 +43,12 @@ export const useTwilio = create((set, get) => {
           return
         }
         let { participants } = get()
-        participants = [...participants, v]
-        set({ participants })
+
+        participants = [...participants]
+
+        if (!participants.some((s) => s.identity === v.identity)) {
+          set({ participants })
+        }
       }
 
       let dis = (v) => {
