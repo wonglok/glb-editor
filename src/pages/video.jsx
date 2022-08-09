@@ -166,6 +166,7 @@ function OneParticipane({ participant, isSelf = false }) {
     //
     let hh = () => {
       //
+      reload()
     }
     participant.on('trackPublished', hh)
     return () => {
