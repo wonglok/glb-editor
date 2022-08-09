@@ -1,113 +1,6 @@
-import { useState } from 'react'
-import { useMemo } from 'react'
+import { useTwilio } from '@/vfx-meta/store/use-twilio'
 import { useEffect } from 'react'
 import { useRef } from 'react'
-import * as TwilioVideo from 'twilio-video'
-
-export default function JoinRoom() {
-  let refRoom = useRef()
-
-  let join = async (roomName) => {
-    console.log(roomName)
-
-    // fetch an Access Token from the join-room route
-    const response = await fetch('/api/twilio/video', {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        roomName: roomName,
-        actionType: 'join-room',
-        password: roomName,
-      }),
-    })
-    const { token } = await response.json()
-
-    console.log(token)
-
-    return token
-    //
-  }
-
-  const joinVideoRoom = async (roomName, token) => {
-    // join the video room with the Access Token and the given room name
-    const room = await TwilioVideo.connect(token, {
-      room: roomName,
-      video: true,
-    })
-    return room
-  }
-  let [room, setRoom] = useState(false)
-  let [roomParticipants, setParticiplants] = useState([])
-
-  const handleConnectedParticipant = (participant) => {
-    //
-
-    setParticiplants((s) => {
-      if (s.map((e) => e.identity).includes(participant.identity)) {
-        return [...s]
-      } else {
-        return [...s, participant]
-      }
-    })
-  }
-
-  const handleDisconnectedParticipant = (participant) => {
-    setParticiplants((s) => {
-      if (s.map((e) => e.identity).includes(participant.identity)) {
-        s.splice(
-          s.findIndex((e) => e.identity === participant.identity),
-          1
-        )
-        return [...s]
-      } else {
-        return [...s, participant]
-      }
-    })
-  }
-
-  useEffect(() => {
-    if (!room) {
-      return
-    }
-    handleConnectedParticipant(room.localParticipant)
-    room.participants.forEach(handleConnectedParticipant)
-    room.on('participantConnected', handleConnectedParticipant)
-    room.on('participantDisconnected', handleDisconnectedParticipant)
-
-    return () => {
-      room.off('participantConnected', handleConnectedParticipant)
-      room.off('participantDisconnected', handleDisconnectedParticipant)
-    }
-  }, [room])
-
-  return (
-    <div className='w-full h-full overflow-auto'>
-      <input type='text' defaultValue={'my-1st-room'} ref={refRoom}></input>
-      <button
-        onClick={async () => {
-          const roomName = refRoom.current.value
-
-          let token = await join(roomName)
-
-          let newRoom = await joinVideoRoom(roomName, token)
-
-          console.log(newRoom)
-          setRoom(newRoom)
-        }}
-      >
-        join
-      </button>
-
-      {roomParticipants.map((p) => {
-        return <Participant key={p.identity} participant={p}></Participant>
-      })}
-      {/* <pre>{JSON.stringify(roomParticipants, null, '  ')}</pre> */}
-    </div>
-  )
-}
 
 function toArray(map) {
   let arr = []
@@ -121,68 +14,220 @@ function toArray(map) {
   return arr
 }
 
-function Participant({ participant }) {
+export default function JoinRoom() {
+  let getDevices = useTwilio((s) => s.getDevices)
+  let devices = useTwilio((s) => s.devices)
+  let getTokenByRoomName = useTwilio((s) => s.getTokenByRoomName)
+  let connectRoom = useTwilio((s) => s.connectRoom)
+  let room = useTwilio((s) => s.room)
+
+  useEffect(() => {
+    getDevices()
+  }, [])
+
+  let refR = useRef()
+  let refA = useRef()
+  let refV = useRef()
   return (
     <div>
-      Person: {participant.identity}
-      {toArray(participant.tracks).map((trackPublication) => {
-        return (
-          <TrackPublication
-            key={trackPublication.trackSid}
-            participant={participant}
-            trackPublication={trackPublication}
-          ></TrackPublication>
-        )
-      })}
-      {/*  */} {/*  */}
-      {/*  */}
-      {/*  */}
+      <div>
+        <select onChange={() => {}} ref={refA}>
+          {devices
+            .filter((e) => {
+              return e.kind === 'audioinput'
+            })
+            .sort((a, b) => {
+              return (
+                b.label.toLowerCase().indexOf('built') -
+                a.label.toLowerCase().indexOf('built')
+              )
+            })
+            .map((e) => {
+              return (
+                <option key={e.deviceId} value={e.deviceId}>
+                  {e.label}
+                </option>
+              )
+            })}
+        </select>
+        <select onChange={() => {}} ref={refV}>
+          {devices
+            .filter((e) => {
+              return e.kind === 'videoinput'
+            })
+            .sort((a, b) => {
+              return (
+                b.label.toLowerCase().indexOf('facetime') -
+                a.label.toLowerCase().indexOf('facetime')
+              )
+            })
+            .map((e) => {
+              return (
+                <option key={e.deviceId} value={e.deviceId}>
+                  {e.label}
+                </option>
+              )
+            })}
+        </select>
+        Room Name:{' '}
+        <input ref={refR} onChange={() => {}} value={'myfirstroom'}></input>
+        <button
+          onClick={async (ev) => {
+            //
+            ev.target.innerText = 'Joining room.....'
+            let roomName = refR.current.value
+            let audioDevice = refA.current.value
+            let videoDevice = refA.current.value
+
+            let token = await getTokenByRoomName(roomName)
+            let room = await connectRoom(
+              roomName,
+              token,
+              audioDevice,
+              videoDevice
+            )
+
+            ev.target.innerText = 'Done'
+            setTimeout(() => {
+              ev.target.innerText = 'Join Room'
+            }, 3000)
+          }}
+        >
+          Join Room
+        </button>
+      </div>
+
+      {room && <Room></Room>}
     </div>
   )
 }
 
-function TrackPublication({ trackPublication, participant }) {
+function Room() {
   let ref = useRef()
-  useMemo(() => {
-    if (!participant) {
-      return
-    }
-    if (!trackPublication) {
-      return
-    }
 
-    let dom = false
-    let handleTrackPublication = (track) => {
-      if (dom) {
-        dom.remove()
-      }
-      dom = track.attach()
-      console.log(track)
+  let room = useTwilio((s) => s.room)
 
-      let tt = setInterval(() => {
-        if (ref.current) {
-          clearInterval(tt)
-          ref.current.appendChild(dom)
-        }
-      })
-    }
-    if (trackPublication.track) {
-      handleTrackPublication(trackPublication.track)
-    }
-    participant.on('trackPublished', handleTrackPublication)
-
+  useEffect(() => {
     return () => {
-      if (dom) {
-        dom.remove()
-      }
-      participant.off('trackPublished', handleTrackPublication)
+      room.disconnect()
     }
-  }, [trackPublication, participant])
+  }, [room])
+
+  return (
+    <>
+      <div>Room Title: {room.name}</div>
+
+      {/*  */}
+      {/*  */}
+      {/*  */}
+      {/*  */}
+      <OneParticipane
+        room={room}
+        participant={room.localParticipant}
+      ></OneParticipane>
+
+      {/*  */}
+      {/*  */}
+      {/*  */}
+      {/*  */}
+      {toArray(room.participants).map((e) => {
+        return (
+          <OneParticipane
+            key={e._id}
+            room={room}
+            participant={e}
+          ></OneParticipane>
+        )
+      })}
+
+      {/*  */}
+      {/*  */}
+      {/*  */}
+      {/*  */}
+      {/*  */}
+      <div ref={ref}></div>
+    </>
+  )
+}
+
+function OneParticipane({ room, participant }) {
+  console.log(participant)
+
+  useEffect(() => {
+    //
+    let hh = () => {}
+    participant.on('trackPublished', hh)
+    return () => {
+      participant.off('trackPublished', hh)
+      participant.removeAllListeners()
+    }
+  }, [])
 
   return (
     <div>
-      Track: {trackPublication.trackSid}
-      <div ref={ref}></div>
+      <div>AudioTracks:</div>
+      <div>
+        {/*  */}
+        {toArray(participant.audioTracks).map((e) => {
+          return <AudioTracker key={e._id} publication={e}></AudioTracker>
+        })}
+
+        {toArray(participant.videoTracks).map((e) => {
+          return <VideoTracker key={e._id} publication={e}></VideoTracker>
+        })}
+
+        {/*  */}
+      </div>
+    </div>
+  )
+}
+
+function AudioTracker({ publication }) {
+  let ref = useRef()
+
+  useEffect(() => {
+    if (publication.track) {
+      publication.track.attach(ref.current)
+    }
+
+    let hh = (track) => {
+      track.attach(ref.current)
+    }
+    publication.on('subscribed', hh)
+    return () => {
+      publication.off('subscribed', hh)
+      publication.track.detach()
+    }
+  }, [publication])
+  return (
+    <div>
+      Audio: {publication.trackName}
+      <audio autoPlay playsInline ref={ref}></audio>
+    </div>
+  )
+}
+
+function VideoTracker({ publication }) {
+  let ref = useRef()
+
+  useEffect(() => {
+    if (publication.track) {
+      publication.track.attach(ref.current)
+    }
+
+    let hh = () => {
+      publication.track.attach(ref.current)
+    }
+    publication.on('subscribed', hh)
+    return () => {
+      publication.off('subscribed', hh)
+      publication.track.detach()
+    }
+  }, [publication])
+  return (
+    <div>
+      Video: {publication.trackName}
+      <video autoPlay playsInline={true} ref={ref}></video>
     </div>
   )
 }
