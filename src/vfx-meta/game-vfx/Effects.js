@@ -1,6 +1,6 @@
 import { useLoader } from '@react-three/fiber'
 import { EffectComposer, SSR, Bloom, LUT } from '@react-three/postprocessing'
-import { useControls } from 'leva'
+// import { useControls } from 'leva'
 import { LUTCubeLoader } from 'postprocessing'
 import { useEffect } from 'react'
 
@@ -38,20 +38,54 @@ let settings = {
 }
 
 function useSettings(v) {
-  v = { ...v }
+  v = JSON.parse(JSON.stringify(v))
 
   for (let kn in v) {
-    if (v[kn]?.value) {
+    if (typeof v[kn] === 'object' && typeof v[kn].value !== 'undefined') {
       v[kn] = v[kn].value
     }
   }
+
   return v
 }
 
 export function Effects({}) {
   const texture = useLoader(LUTCubeLoader, '/lut/F-6800-STD.cube')
 
-  const { enabled, ...props } = useSettings(settings, {}, {})
+  // const { enabled, ...props } = useControls(settings, {}, {})
+
+  let enabled = true
+  let props = {
+    temporalResolve: true,
+    STRETCH_MISSED_RAYS: true,
+    USE_MRT: true,
+    USE_NORMALMAP: true,
+    USE_ROUGHNESSMAP: true,
+    ENABLE_JITTERING: true,
+    ENABLE_BLUR: true,
+    DITHERING: false,
+    temporalResolveMix: 0.5,
+    temporalResolveCorrectionMix: 0.5,
+    maxSamples: 0,
+    resolutionScale: 1,
+    blurMix: 0.5,
+    blurKernelSize: 8,
+    BLUR_EXPONENT: 10,
+    rayStep: 0.5,
+    intensity: 3.5,
+    maxRoughness: 1,
+    jitter: 1.4,
+    jitterSpread: 0.05,
+    jitterRough: 1,
+    roughnessFadeOut: 1,
+    rayFadeOut: 0,
+    MAX_STEPS: 20,
+    NUM_BINARY_SEARCH_STEPS: 6,
+    maxDepthDifference: 7,
+    maxDepth: 1,
+    thickness: 7.6,
+    ior: 1.33,
+  }
 
   useEffect(() => {
     let tt = setInterval(() => {
@@ -70,6 +104,7 @@ export function Effects({}) {
       {enabled && (
         <EffectComposer disableNormalPass>
           <SSR {...props} />
+
           <Bloom
             luminanceThreshold={0.2}
             mipmapBlur

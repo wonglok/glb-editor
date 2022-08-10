@@ -7,8 +7,9 @@ import { OtherPlayers } from './OtherPlayers'
 import { getID } from '@/vfx-runtime/ENUtils'
 import { LogoutButtons } from './LogoutButtons'
 import { AvatarButton } from './AvatarButton'
-import { useRouter } from 'next/router'
+// import { useRouter } from 'next/router'
 import { HomeButton } from './HomeButton'
+import { ChatButton } from './ChatButton'
 // import { SetupOnlineID } from './SetupOnlineID'
 
 export function OnlineSystem({ children, mapID = 'yoyo' }) {
@@ -64,6 +65,7 @@ export function OnlineSystem({ children, mapID = 'yoyo' }) {
             <LogoutButtons></LogoutButtons>
             <AvatarButton></AvatarButton>
             <HomeButton></HomeButton>
+            <ChatButton></ChatButton>
           </TopRightButtons>
 
           <OtherPlayers></OtherPlayers>
