@@ -212,6 +212,12 @@ function AudioTracker({ publication }) {
   useEffect(() => {
     let hh = (track) => {
       track.attach(ref.current)
+
+      if (ref.current.requestVideoFrameCallback) {
+        ref.current.requestVideoFrameCallback(() => {
+          //
+        })
+      }
     }
 
     if (publication.track) {
