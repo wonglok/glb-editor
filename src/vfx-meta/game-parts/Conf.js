@@ -249,8 +249,14 @@ function AudioTracker({ isSelf, participant, publication }) {
   let [mediaStreamTrack, setStreamTrack] = useState(false)
 
   useEffect(() => {
+    let cleans = []
     let hh = (track) => {
       setStreamTrack(track.mediaStreamTrack)
+      let res = track.attach()
+      res.muted = true
+      cleans.push(() => {
+        track.detach()
+      })
     }
 
     // console.log(publication.track)
@@ -259,6 +265,7 @@ function AudioTracker({ isSelf, participant, publication }) {
     }
     publication.on('subscribed', hh)
     return () => {
+      cleans.forEach((s) => s())
       publication.off('subscribed', hh)
     }
   }, [publication])
@@ -316,6 +323,8 @@ function AudioTracker({ isSelf, participant, publication }) {
     return () => {
       player.remove(listener)
       sound.pause()
+      sound.disconnect()
+      sound.setVolume(0)
 
       // clearInterval(intv)
     }
