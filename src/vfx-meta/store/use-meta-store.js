@@ -7,7 +7,7 @@ import { makeAvatarCTX } from '../ctx/make-avatar-ctx'
 import { exportGLB } from './export-glb'
 import { firebase } from './firebase'
 import { sceneToCollider } from './scene-to-bvh'
-import path from 'path'
+// import path from 'path'
 export const useMetaStore = create((set, get) => {
   // return
 
@@ -21,8 +21,6 @@ export const useMetaStore = create((set, get) => {
       //
       set({ mode })
     },
-
-    //
 
     myAvatars: [],
 
@@ -72,6 +70,23 @@ export const useMetaStore = create((set, get) => {
     },
 
     //
+
+    setVoiceID: (v) => {
+      let myCTX = get().myCTX
+      myCTX.voiceID = v
+      set({ myCTX: myCTX })
+    },
+    getVoicePlayer: (identityID) => {
+      //
+      let { players } = get()
+
+      let myAr = [...(players || [])]
+
+      let playerMesh = myAr.find((e) => e.voiceID === identityID)
+      return playerMesh || null
+    },
+
+    // asssets
     avatars: [],
     //
     playerInfoIsReady: false,
@@ -177,6 +192,8 @@ export const useMetaStore = create((set, get) => {
           avatarPartLower,
           avatarPartShoes,
           avatarPartSkeleton,
+
+          voiceID,
         } = get().myCTX
 
         if (avatarActionRepeat === Infinity) {
@@ -203,6 +220,8 @@ export const useMetaStore = create((set, get) => {
           avatarPartLower,
           avatarPartShoes,
           avatarPartSkeleton,
+
+          voiceID,
 
           //
           [mapID]: get().myCTX.player.position.toArray(),

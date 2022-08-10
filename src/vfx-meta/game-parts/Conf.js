@@ -1,6 +1,9 @@
 import { useTwilio } from '@/vfx-meta/store/use-twilio'
+import { useFrame } from '@react-three/fiber'
 import { useEffect, useState } from 'react'
 import { useRef } from 'react'
+import { Vector3 } from 'three140'
+import { useMetaStore } from '../store/use-meta-store'
 
 function toArray(map) {
   let arr = []
@@ -20,7 +23,6 @@ export function Conf() {
   let getTokenByRoomName = useTwilio((s) => s.getTokenByRoomName)
   let connectRoom = useTwilio((s) => s.connectRoom)
   let room = useTwilio((s) => s.room)
-
   useEffect(() => {
     // console.log('')
   }, [])
@@ -30,6 +32,7 @@ export function Conf() {
   let refR = useRef()
   let refA = useRef()
   let refV = useRef()
+  let refN = useRef()
   return (
     <div className='w-full h-full p-5 overflow-y-auto bg-white backdrop-blur bg-opacity-30 rounded-br-2xl'>
       {!deviceReady && (
@@ -93,6 +96,7 @@ export function Conf() {
               value={'myfirstroom'}
             ></input>
           </div>
+
           <div>
             <button
               onClick={async (ev) => {
@@ -135,7 +139,7 @@ function Room() {
   let myself = useTwilio((s) => s.myself)
   let participants = useTwilio((s) => s.participants)
 
-  console.log(room)
+  //
   return (
     <>
       <div>Room Title: {room.name}</div>
@@ -173,10 +177,11 @@ function Room() {
 
 function OneParticipane({ participant, isSelf = false }) {
   let reload = useTwilio((s) => s.reload)
+  let setVoiceID = useMetaStore((s) => s.setVoiceID)
+  setVoiceID(participant.identity)
+
   useEffect(() => {
-    //
     let hh = () => {
-      //
       reload()
     }
     participant.on('trackPublished', hh)
@@ -193,11 +198,23 @@ function OneParticipane({ participant, isSelf = false }) {
         {/*  */}
 
         {toArray(participant.audioTracks).map((e) => {
-          return <AudioTracker key={e._id} publication={e}></AudioTracker>
+          return (
+            <AudioTracker
+              key={e._id}
+              participant={participant}
+              publication={e}
+            ></AudioTracker>
+          )
         })}
 
         {toArray(participant.videoTracks).map((e) => {
-          return <VideoTracker key={e._id} publication={e}></VideoTracker>
+          return (
+            <VideoTracker
+              key={e._id}
+              participant={participant}
+              publication={e}
+            ></VideoTracker>
+          )
         })}
 
         {/*  */}
@@ -206,8 +223,44 @@ function OneParticipane({ participant, isSelf = false }) {
   )
 }
 
-function AudioTracker({ publication }) {
+function AudioTracker({ participant, publication }) {
   let ref = useRef()
+  let getVoicePlayer = useMetaStore((s) => s.getVoicePlayer)
+  let player = useMetaStore((s) => s.myCTX.player)
+  useMetaStore((s) => s.players)
+
+  let foundData = getVoicePlayer(participant.identity)
+
+  let max = 25
+  useEffect(() => {
+    let me = new Vector3()
+    let other = new Vector3()
+    if (player && foundData) {
+      me.fromArray(player.position.toArray())
+      other.fromArray(foundData.playerPosition)
+
+      let distance = me.distanceTo(other)
+
+      if (distance >= max) {
+        distance = max
+      }
+
+      let ratio = (max - distance) / max
+
+      ref.current.volume = ratio
+      console.log(ratio)
+
+      //
+    }
+
+    let intv = setInterval(() => {
+      //
+    })
+
+    return () => {
+      clearInterval(intv)
+    }
+  }, [player, foundData])
 
   useEffect(() => {
     let hh = (track) => {
@@ -228,6 +281,8 @@ function AudioTracker({ publication }) {
       publication.off('subscribed', hh)
     }
   }, [publication])
+
+  //
   return (
     <div>
       {/* Audio: {publication.trackName} */}
@@ -255,7 +310,7 @@ function VideoTracker({ publication }) {
   return (
     <div>
       {/* Video: {publication.trackName} */}
-      <video className=' w-96' autoPlay playsInline={true} ref={ref}></video>
+      <video className='  h-36' autoPlay playsInline={true} ref={ref}></video>
     </div>
   )
 }

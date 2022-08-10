@@ -36,6 +36,7 @@ export const makeAvatarCTX = () => {
       self.player.position.fromArray(array)
     },
 
+    voiceID: '',
     //
     avatarURL: `/scene/loklokdemo/shader-3.glb`,
     avatarVendor: `rpm`,
