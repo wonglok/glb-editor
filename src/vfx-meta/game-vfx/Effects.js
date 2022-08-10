@@ -109,7 +109,7 @@ export function Effects({}) {
             luminanceThreshold={0.2}
             mipmapBlur
             luminanceSmoothing={0}
-            intensity={0.65}
+            intensity={1.5}
           />
           <LUT lut={texture} />
         </EffectComposer>
