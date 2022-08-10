@@ -1,5 +1,12 @@
 import { useLoader } from '@react-three/fiber'
-import { EffectComposer, SSR, Bloom, LUT } from '@react-three/postprocessing'
+import {
+  EffectComposer,
+  SSR,
+  Bloom,
+  LUT,
+  DepthOfField,
+  Noise,
+} from '@react-three/postprocessing'
 // import { useControls } from 'leva'
 import { LUTCubeLoader } from 'postprocessing'
 import { useEffect } from 'react'
@@ -112,6 +119,15 @@ export function Effects({}) {
             intensity={1.5}
           />
           <LUT lut={texture} />
+
+          {/* <DepthOfField
+            focusDistance={0}
+            focalLength={0.02}
+            bokehScale={2}
+            height={480}
+          /> */}
+
+          <Noise opacity={0.02} />
         </EffectComposer>
       )}
     </>
