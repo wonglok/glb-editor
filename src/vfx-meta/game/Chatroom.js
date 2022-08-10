@@ -13,7 +13,7 @@ export function Chatroom() {
       <HDR></HDR>
       {/*  */}
 
-      <OnlineSystem mapID='chat-room-v2.glb'>
+      <OnlineSystem mapID='/scene/chatroom/chat-room-v2.glb'>
         <>
           <Player></Player>
 
