@@ -234,10 +234,8 @@ function AudioTracker({ participant, publication }) {
   let id = getID()
   let foundData = getVoicePlayer(participant.identity)
 
-  let max = 25
+  let max = 10
   useEffect(() => {
-    console.log()
-
     let me = new Vector3()
     let other = new Vector3()
 
