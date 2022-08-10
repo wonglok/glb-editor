@@ -152,7 +152,11 @@ function Room() {
       {/*  */}
       {/*  */}
       {room && myself && (
-        <OneParticipane room={room} participant={myself}></OneParticipane>
+        <OneParticipane
+          room={room}
+          isSelf={true}
+          participant={myself}
+        ></OneParticipane>
       )}
 
       {/*  */}
@@ -203,6 +207,7 @@ function OneParticipane({ participant, isSelf = false }) {
         {toArray(participant.audioTracks).map((e) => {
           return (
             <AudioTracker
+              isSelf={isSelf}
               key={e._id}
               participant={participant}
               publication={e}
@@ -227,7 +232,7 @@ function OneParticipane({ participant, isSelf = false }) {
   )
 }
 
-function AudioTracker({ participant, publication }) {
+function AudioTracker({ isSelf, participant, publication }) {
   let ref = useRef()
   let getVoicePlayer = useMetaStore((s) => s.getVoicePlayer)
   let player = useMetaStore((s) => s.myCTX.player)
@@ -261,6 +266,10 @@ function AudioTracker({ participant, publication }) {
       return
     }
     if (!mediaStreamTrack) {
+      return
+    }
+
+    if (isSelf) {
       return
     }
 
