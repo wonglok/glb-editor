@@ -11,6 +11,9 @@ export const useTwilio = create((set, get) => {
   return {
     devices: [],
     getDevices: async function getInputDevices() {
+      set({ room: false })
+      set({ devices: [] })
+
       const devices = await navigator.mediaDevices.enumerateDevices()
 
       set({ devices })
@@ -22,7 +25,7 @@ export const useTwilio = create((set, get) => {
       let { room } = get()
       set({ room })
     },
-
+    myself: false,
     participants: [],
     connectRoom: async (roomName, token, audioDeviceID, videoDeviceID) => {
       // join the video room with the Access Token and the given room name
@@ -35,6 +38,8 @@ export const useTwilio = create((set, get) => {
           deviceId: audioDeviceID,
         },
       })
+
+      console.log(room)
 
       window.addEventListener('beforeunload', () => room.disconnect())
 
@@ -74,7 +79,7 @@ export const useTwilio = create((set, get) => {
       room.on('participantConnected', add)
       room.on('participantDisconnected', dis)
 
-      set({ room })
+      set({ room, myself: room.localParticipant })
 
       return () => {
         room.off('participantConnected', add)

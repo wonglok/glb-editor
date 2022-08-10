@@ -118,9 +118,11 @@ export default function JoinRoom() {
 function Room() {
   let ref = useRef()
 
-  let room = useTwilio((s) => s.participants)
+  let room = useTwilio((s) => s.room)
+  let myself = useTwilio((s) => s.myself)
   let participants = useTwilio((s) => s.participants)
 
+  console.log(room)
   return (
     <>
       <div>Room Title: {room.name}</div>
@@ -129,12 +131,8 @@ function Room() {
       {/*  */}
       {/*  */}
       {/*  */}
-      {room.localParticipant && (
-        <OneParticipane
-          room={room}
-          participant={room.localParticipant}
-          isSelf={true}
-        ></OneParticipane>
+      {room && myself && (
+        <OneParticipane room={room} participant={myself}></OneParticipane>
       )}
 
       {/*  */}
@@ -242,3 +240,5 @@ function VideoTracker({ publication }) {
     </div>
   )
 }
+
+//
