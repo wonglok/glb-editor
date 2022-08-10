@@ -80,9 +80,16 @@ function AvatarContent() {
           includeCustomExtensions: true,
         }
 
+        let clonedObject = clone(group)
+        clonedObject.traverse((it) => {
+          if (it.userData.beforeMat) {
+            delete it.userData.beforeMat
+          }
+        })
+
         // Parse the input and generate the glTF output
         exporter.parse(
-          [clone(group)],
+          [clonedObject],
           // called when the gltf has been generated
           async function (gltf) {
             //

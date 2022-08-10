@@ -36,11 +36,19 @@ export const exportGLB = ({ clips, group, mixer, onDone = () => {} }) => {
       /** @type {AnimationMixer} */
       let mymixer = mixer
 
+      let clonedObject = clone(group)
+
+      clonedObject.traverse((it) => {
+        if (it.userData.beforeMat) {
+          delete it.userData.beforeMat
+        }
+      })
+
       mymixer.stopAllAction()
       mymixer.update(1 / 60)
       // Parse the input and generate the glTF output
       exporter.parse(
-        [clone(group)],
+        [clonedObject],
         // called when the gltf has been generated
         async function (gltf) {
           // let { WebIO } = await import('@gltf-transform/core')

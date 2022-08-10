@@ -31,6 +31,13 @@ export const Exporter = {
               it,
             })
           }
+
+          if (it.userData.beforeMat) {
+            delete it.userData.beforeMat
+          }
+          //
+          // mesh.userData.beforeMat
+          //
         })
 
         removeList.forEach((item) => {
