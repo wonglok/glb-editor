@@ -79,13 +79,7 @@ export function CompanionWrap({ speed = 9, targetO3D }) {
   return (
     <group ref={ref}>
       <group position={[0, -1.52, 0]}>
-        <Suspense
-          fallback={
-            <>
-              <Sphere args={[3, 32, 32]}></Sphere>
-            </>
-          }
-        >
+        <Suspense fallback={<></>}>
           {avatarVendor === 'temp' && (
             <TempAvatar
               setAction={setNPCAction}

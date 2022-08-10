@@ -73,13 +73,7 @@ export function NPCAvatar({ status, targetO3D }) {
 
   return (
     <group ref={ref}>
-      <Suspense
-        fallback={
-          <>
-            <Sphere args={[3, 32, 32]}></Sphere>
-          </>
-        }
-      >
+      <Suspense fallback={<></>}>
         {avatarVendor === 'rpm' && (
           <RPMAvatar
             setAction={() => {}} //setAction

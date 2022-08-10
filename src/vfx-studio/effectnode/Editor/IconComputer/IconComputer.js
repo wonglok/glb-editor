@@ -3,7 +3,7 @@ import { Suspense } from 'react'
 
 export function IconComputer({ onClick = () => {} }) {
   return (
-    <Suspense fallback={<Sphere onPointerDown={onClick}></Sphere>}>
+    <Suspense fallback={null}>
       <IconComputerInside onClick={onClick}></IconComputerInside>
     </Suspense>
   )

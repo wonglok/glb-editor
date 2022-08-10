@@ -2,7 +2,7 @@ import Router from 'next/router'
 
 export function ChatButton({}) {
   return (
-    Router.pathname !== '/chatroom' &&
+    Router.pathname !== '/chat' &&
     ((
       <div
         style={{

@@ -339,13 +339,7 @@ export function PreviewRPMAvaTester() {
   let setAction = useMetaStore((s) => s.setAction)
 
   return (
-    <Suspense
-      fallback={
-        <>
-          <Sphere args={[3, 32, 32]}></Sphere>
-        </>
-      }
-    >
+    <Suspense fallback={<></>}>
       <RPMAvatar
         setAction={setAction}
         avatarActionName={avatarActionName}
@@ -373,13 +367,7 @@ export function PreviewClosetAvaTester() {
   let setAction = useMetaStore((s) => s.setAction)
 
   return (
-    <Suspense
-      fallback={
-        <>
-          <Sphere args={[3, 32, 32]}></Sphere>
-        </>
-      }
-    >
+    <Suspense fallback={<></>}>
       {/* {avatarVendor === 'rpm' && (
         <RPMAvatar
           setAction={setAction}

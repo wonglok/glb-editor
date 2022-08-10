@@ -55,13 +55,7 @@ export function PlayerAvatar() {
 
       <Loader></Loader>
 
-      <Suspense
-        fallback={
-          <>
-            <Sphere args={[3, 32, 32]}></Sphere>
-          </>
-        }
-      >
+      <Suspense fallback={<></>}>
         {avatarVendor === 'temp' && (
           <TempAvatar
             setAction={setAction}

@@ -121,13 +121,7 @@ export function OtherOnePlayer({ speed = 9, otherPlayer }) {
   return (
     <group ref={ref}>
       <group position={[0, -1.52, 0]}>
-        <Suspense
-          fallback={
-            <>
-              <Sphere args={[3, 32, 32]}></Sphere>
-            </>
-          }
-        >
+        <Suspense fallback={<></>}>
           {avatarVendor === 'temp' && (
             <TempAvatar
               setAction={setNPCAction}
