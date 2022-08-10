@@ -235,27 +235,33 @@ function AudioTracker({ participant, publication }) {
   useEffect(() => {
     let me = new Vector3()
     let other = new Vector3()
-    if (player && foundData) {
-      me.fromArray(player.position.toArray())
-      other.fromArray(foundData.playerPosition)
 
-      let distance = me.distanceTo(other)
+    let sync = (log) => {
+      if (player && foundData) {
+        me.fromArray(player.position.toArray())
+        other.fromArray(foundData.playerPosition)
 
-      if (distance >= max) {
-        distance = max
+        let distance = me.distanceTo(other)
+
+        if (distance >= max) {
+          distance = max
+        }
+
+        let ratio = (max - distance) / max
+
+        ref.current.volume = ratio
+
+        if (log) {
+          console.log(ratio)
+        }
+        //
       }
-
-      let ratio = (max - distance) / max
-
-      ref.current.volume = ratio
-      console.log(ratio)
-
-      //
     }
-
     let intv = setInterval(() => {
       //
+      sync()
     })
+    sync(true)
 
     return () => {
       clearInterval(intv)
