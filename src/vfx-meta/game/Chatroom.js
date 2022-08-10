@@ -28,7 +28,7 @@ export function Chatroom() {
           <>
             <Player></Player>
 
-            <Effects></Effects>
+            {/* <Effects></Effects> */}
 
             <UIContent>
               <div className=' absolute top-0 left-0 w-96 '>
