@@ -1,4 +1,5 @@
 import { useTwilio } from '@/vfx-meta/store/use-twilio'
+import { getID } from '@/vfx-runtime/ENUtils'
 import { useFrame } from '@react-three/fiber'
 import { useEffect, useState } from 'react'
 import { useRef } from 'react'
@@ -218,6 +219,7 @@ function OneParticipane({ participant, isSelf = false }) {
         })}
 
         {/*  */}
+        {/*  */}
       </div>
     </div>
   )
@@ -229,10 +231,13 @@ function AudioTracker({ participant, publication }) {
   let player = useMetaStore((s) => s.myCTX.player)
   useMetaStore((s) => s.players)
 
+  let id = getID()
   let foundData = getVoicePlayer(participant.identity)
 
   let max = 25
   useEffect(() => {
+    console.log()
+
     let me = new Vector3()
     let other = new Vector3()
 
@@ -249,36 +254,44 @@ function AudioTracker({ participant, publication }) {
 
         let ratio = (max - distance) / max
 
-        ref.current.volume = ratio
+        let el = document.querySelector('#' + id)
 
-        if (log) {
-          console.log(ratio)
+        if (el && !isNaN(ratio) && ref.current) {
+          ref.current.volume = Number(ratio)
+          el.volume = Number(ratio)
+
+          if (ratio < 0.1) {
+            el.muted = true
+          } else {
+            el.muted = false
+          }
+          if (log) {
+            console.log(ref.current === el, el.volume, ratio)
+          }
+          //
         }
         //
+
+        // .muted = true
       }
     }
     let intv = setInterval(() => {
       //
-      sync()
+      sync(true)
     })
     sync(true)
 
     return () => {
       clearInterval(intv)
     }
-  }, [player, foundData])
+  }, [id, player, foundData])
 
   useEffect(() => {
     let hh = (track) => {
       track.attach(ref.current)
-
-      if (ref.current.requestVideoFrameCallback) {
-        ref.current.requestVideoFrameCallback(() => {
-          //
-        })
-      }
     }
 
+    console.log(publication.track)
     if (publication.track) {
       hh(publication.track)
     }
@@ -292,7 +305,7 @@ function AudioTracker({ participant, publication }) {
   return (
     <div>
       {/* Audio: {publication.trackName} */}
-      <audio autoPlay playsInline ref={ref}></audio>
+      <audio id={id} autoPlay controls playsInline ref={ref}></audio>
     </div>
   )
 }
