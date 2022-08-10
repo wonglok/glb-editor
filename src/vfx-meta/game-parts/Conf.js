@@ -269,10 +269,6 @@ function AudioTracker({ isSelf, participant, publication }) {
       return
     }
 
-    if (isSelf) {
-      return
-    }
-
     let sound = new PositionalAudio(listener)
     let context = listener.context
     // listener.setMasterVolume(1.0)
