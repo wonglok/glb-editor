@@ -764,6 +764,8 @@ export const useMetaStore = create((set, get) => {
       self.controls.target.copy(myCTX.player.position)
       self.camera.position.add(myCTX.player.position)
 
+      self.controls.target.y += 0.0001 * Math.sin(delta)
+
       // if the player has fallen too far below the level reset their position to the start
       if (myCTX.player.position.y < -100) {
         // self.myCTX.player.position.copy({
