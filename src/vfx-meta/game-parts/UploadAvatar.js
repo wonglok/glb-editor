@@ -1,8 +1,8 @@
-import { EffectNodeRuntime } from '@/vfx-studio/effectnode/Runtime/EffectNodeRuntime/EffectNodeRuntime'
+// import { EffectNodeRuntime } from '@/vfx-studio/effectnode/Runtime/EffectNodeRuntime/EffectNodeRuntime'
 import { Text } from '@react-three/drei'
 import { useThree } from '@react-three/fiber'
 import { useState } from 'react'
-import { DRACOLoader } from 'three140/examples/jsm/loaders/DRACOLoader'
+// import { DRACOLoader } from 'three140/examples/jsm/loaders/DRACOLoader'
 import { GLTFLoader } from 'three140/examples/jsm/loaders/GLTFLoader'
 import { useMetaStore } from '../store/use-meta-store'
 
@@ -29,14 +29,14 @@ export function UploadAvatar() {
               //
               setPhase('loading')
 
-              uploadAvatar(file).then(({ url }) => {
+              uploadAvatar(file).then(async ({ url }) => {
                 //
                 //
 
                 setPhase('')
 
                 let foundRPM = false
-                new GLTFLoader()
+                await new GLTFLoader()
                   .loadAsync(URL.createObjectURL(file))
                   .then((glb) => {
                     glb.scene.traverse((it) => {

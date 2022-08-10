@@ -71,10 +71,10 @@ function UseAvatar() {
                   <group key={a._id}>
                     <Text
                       rotation-x={Math.PI * -0.25}
-                      onClick={() => {
+                      onClick={async () => {
                         //
                         let foundRPM = false
-                        new GLTFLoader().loadAsync(a.url).then((glb) => {
+                        await new GLTFLoader().loadAsync(a.url).then((glb) => {
                           glb.scene.traverse((it) => {
                             if (it.name.indexOf('Wolf3D_') !== -1) {
                               foundRPM = true
