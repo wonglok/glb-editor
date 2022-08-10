@@ -3,7 +3,7 @@ import { getID } from '@/vfx-runtime/ENUtils'
 import { useFrame } from '@react-three/fiber'
 import { useEffect, useState } from 'react'
 import { useRef } from 'react'
-import { Vector3 } from 'three140'
+import { Vector3, Audio as Audio3, PositionalAudio } from 'three140'
 import { useMetaStore } from '../store/use-meta-store'
 
 function toArray(map) {
@@ -24,6 +24,7 @@ export function Conf() {
   let getTokenByRoomName = useTwilio((s) => s.getTokenByRoomName)
   let connectRoom = useTwilio((s) => s.connectRoom)
   let room = useTwilio((s) => s.room)
+  let setListener = useTwilio((s) => s.setListener)
   useEffect(() => {
     // console.log('')
   }, [])
@@ -39,6 +40,7 @@ export function Conf() {
       {!deviceReady && (
         <button
           onClick={async () => {
+            setListener()
             await getDevices()
             setReady(true)
           }}
@@ -229,68 +231,22 @@ function AudioTracker({ participant, publication }) {
   let ref = useRef()
   let getVoicePlayer = useMetaStore((s) => s.getVoicePlayer)
   let player = useMetaStore((s) => s.myCTX.player)
+  let listener = useTwilio((s) => s.listener)
   useMetaStore((s) => s.players)
 
   let id = getID()
   let foundData = getVoicePlayer(participant.identity)
 
   let max = 10
-  useEffect(() => {
-    let me = new Vector3()
-    let other = new Vector3()
 
-    let sync = (log) => {
-      if (player && foundData) {
-        me.fromArray(player.position.toArray())
-        other.fromArray(foundData.playerPosition)
-
-        let distance = me.distanceTo(other)
-
-        if (distance >= max) {
-          distance = max
-        }
-
-        let ratio = (max - distance) / max
-
-        let el = document.querySelector('#' + id)
-
-        if (el && !isNaN(ratio) && ref.current) {
-          ref.current.volume = ratio
-          el.volume = ratio
-
-          // if (ratio <= 0.1) {
-          //   el.muted = true
-          // } else {
-          //   el.muted = false
-          // }
-
-          if (log) {
-            console.log(ref.current === el, el.volume, ratio)
-          }
-          //
-        }
-        //
-
-        // .muted = true
-      }
-    }
-    let intv = setInterval(() => {
-      //
-      sync(true)
-    })
-    sync(true)
-
-    return () => {
-      clearInterval(intv)
-    }
-  }, [id, max, player, foundData])
+  let [mediaStreamTrack, setStreamTrack] = useState(false)
 
   useEffect(() => {
     let hh = (track) => {
-      track.attach(ref.current)
+      setStreamTrack(track.mediaStreamTrack)
     }
 
-    console.log(publication.track)
+    // console.log(publication.track)
     if (publication.track) {
       hh(publication.track)
     }
@@ -299,6 +255,63 @@ function AudioTracker({ participant, publication }) {
       publication.off('subscribed', hh)
     }
   }, [publication])
+
+  useEffect(() => {
+    if (!listener) {
+      return
+    }
+    if (!mediaStreamTrack) {
+      return
+    }
+
+    let sound = new PositionalAudio(listener)
+    let context = listener.context
+    // listener.setMasterVolume(1.0)
+
+    player.add(listener)
+
+    let source = context.createMediaStreamSource(
+      new MediaStream([mediaStreamTrack])
+    )
+    sound.setNodeSource(source)
+    sound.play()
+
+    if (foundData) {
+      sound.position.fromArray(foundData.playerPosition)
+    }
+
+    // let me = new Vector3()
+    // let other = new Vector3()
+
+    // let sync = (log) => {
+    //   if (player && foundData) {
+    //     me.fromArray(player.position.toArray())
+    //     other.fromArray(foundData.playerPosition)
+
+    //     let distance = me.distanceTo(other)
+
+    //     if (distance >= max) {
+    //       distance = max
+    //     }
+
+    //     let ratio = (max - distance) / max
+
+    //     listener.setMasterVolume(ratio)
+
+    //     console.log(ratio)
+    //   }
+    // }
+    // let intv = setInterval(() => {
+    //   sync(true)
+    // })
+    // sync(true)
+
+    return () => {
+      player.remove(listener)
+
+      // clearInterval(intv)
+    }
+  }, [id, max, player, listener, mediaStreamTrack, foundData])
 
   //
   return (

@@ -1,7 +1,8 @@
+import { AudioListener, PositionalAudio } from 'three'
 import {
   connect,
-  createLocalAudioTrack,
-  createLocalVideoTrack,
+  // createLocalAudioTrack,
+  // createLocalVideoTrack,
 } from 'twilio-video'
 import create from 'zustand'
 
@@ -9,6 +10,22 @@ export const useTwilio = create((set, get) => {
   // return
 
   return {
+    listener: false,
+    setListener: () => {
+      let listener = new AudioListener()
+      set({ listener })
+    },
+    // makePositionalAudio: (listener, mesh, buffer) => {
+    //   const sound = new PositionalAudio(listener)
+
+    //   sound.setBuffer(buffer)
+    //   sound.setRefDistance(20)
+    //   sound.play()
+
+    //   mesh.add(sound)
+    //   return sound
+    // },
+
     devices: [],
     getDevices: async function getInputDevices() {
       set({ room: false })
