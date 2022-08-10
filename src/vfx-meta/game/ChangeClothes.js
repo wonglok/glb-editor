@@ -3,6 +3,7 @@ import { ClothesUI } from '../game-parts/ClothesUI'
 import { Floor } from '../game-parts/Floor'
 import { HDR } from '../game-parts/HDR'
 import { Player } from '../game-parts/Player'
+import { Effects } from '../game-vfx/Effects'
 import { OnlineSystem } from '../online/OnlineSystem'
 
 export function ChangeClothes() {
@@ -16,6 +17,7 @@ export function ChangeClothes() {
         <>
           <Player></Player>
           <ClothesUI></ClothesUI>
+          <Effects></Effects>
         </>
       </OnlineSystem>
 
