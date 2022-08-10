@@ -258,15 +258,12 @@ function AudioTracker({ participant, publication }) {
           ref.current.volume = ratio
           el.volume = ratio
 
-          //
-
           // if (ratio <= 0.1) {
           //   el.muted = true
           // } else {
           //   el.muted = false
           // }
 
-          //
           if (log) {
             console.log(ref.current === el, el.volume, ratio)
           }
@@ -307,14 +304,7 @@ function AudioTracker({ participant, publication }) {
   return (
     <div>
       {/* Audio: {publication.trackName} */}
-      <audio
-        id={id}
-        autoPlay
-        controls
-        muted={false}
-        playsInline
-        ref={ref}
-      ></audio>
+      <audio id={id} autoPlay controls playsInline ref={ref}></audio>
     </div>
   )
 }
