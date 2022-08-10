@@ -211,7 +211,7 @@ function AudioTracker({ publication }) {
   }, [publication])
   return (
     <div>
-      Audio: {publication.trackName}
+      {/* Audio: {publication.trackName} */}
       <audio autoPlay playsInline ref={ref}></audio>
     </div>
   )
@@ -235,8 +235,8 @@ function VideoTracker({ publication }) {
   }, [publication])
   return (
     <div>
-      Video: {publication.trackName}
-      <video autoPlay playsInline={true} ref={ref}></video>
+      {/* Video: {publication.trackName} */}
+      <video className=' w-96' autoPlay playsInline={true} ref={ref}></video>
     </div>
   )
 }
