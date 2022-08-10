@@ -255,8 +255,10 @@ function AudioTracker({ participant, publication }) {
         let el = document.querySelector('#' + id)
 
         if (el && !isNaN(ratio) && ref.current) {
-          ref.current.volume = Number(ratio)
-          el.volume = Number(ratio)
+          ref.current.volume = ratio
+          el.volume = ratio
+
+          //
 
           // if (ratio <= 0.1) {
           //   el.muted = true
@@ -284,7 +286,7 @@ function AudioTracker({ participant, publication }) {
     return () => {
       clearInterval(intv)
     }
-  }, [id, player, foundData])
+  }, [id, max, player, foundData])
 
   useEffect(() => {
     let hh = (track) => {
