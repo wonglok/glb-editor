@@ -1,5 +1,7 @@
 // import { UIContent } from '@/vfx-core/UIContent'
 // import { ClosetBtns } from '../game-parts/ClosetBtns'
+import { UIContent } from '@/vfx-core/UIContent'
+import { Conf } from '../game-parts/Conf'
 import { Floor } from '../game-parts/Floor'
 import { HDR } from '../game-parts/HDR'
 import { Player } from '../game-parts/Player'
@@ -18,6 +20,12 @@ export function Chatroom() {
           <Player></Player>
 
           <Effects></Effects>
+
+          <UIContent>
+            <div className=' absolute top-0 left-0 w-96 '>
+              <Conf></Conf>
+            </div>
+          </UIContent>
         </>
       </OnlineSystem>
 

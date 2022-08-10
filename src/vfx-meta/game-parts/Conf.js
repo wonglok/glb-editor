@@ -14,7 +14,7 @@ function toArray(map) {
   return arr
 }
 
-export default function VideoElement() {
+export function Conf() {
   let getDevices = useTwilio((s) => s.getDevices)
   let devices = useTwilio((s) => s.devices)
   let getTokenByRoomName = useTwilio((s) => s.getTokenByRoomName)
@@ -31,16 +31,19 @@ export default function VideoElement() {
   let refA = useRef()
   let refV = useRef()
   return (
-    <div className='w-full h-full overflow-y-auto'>
-      <button
-        onClick={async () => {
-          await getDevices()
-          setReady(true)
-        }}
-      >
-        Create Chat
-      </button>
-      {deviceReady && (
+    <div className='w-full h-full p-5 overflow-y-auto bg-white backdrop-blur bg-opacity-30 rounded-br-2xl'>
+      {!deviceReady && (
+        <button
+          onClick={async () => {
+            await getDevices()
+            setReady(true)
+          }}
+          className='p-2 px-4 bg-white border border-black rounded-lg'
+        >
+          Start Video Chat
+        </button>
+      )}
+      {!room && deviceReady && (
         <div>
           <select onChange={() => {}} ref={refA}>
             {devices
@@ -81,32 +84,42 @@ export default function VideoElement() {
                 )
               })}
           </select>
-          Room Name:
-          <input ref={refR} onChange={() => {}} value={'myfirstroom'}></input>
-          <button
-            onClick={async (ev) => {
-              //
-              ev.target.innerText = 'Joining room.....'
-              let roomName = refR.current.value
-              let audioDevice = refA.current.value
-              let videoDevice = refA.current.value
+          <div className='pl-2 mb-3 bg-white'>
+            Room Name:
+            <input
+              className='p-2 ml-2 bg-gray-100'
+              ref={refR}
+              onChange={() => {}}
+              value={'myfirstroom'}
+            ></input>
+          </div>
+          <div>
+            <button
+              onClick={async (ev) => {
+                //
+                ev.target.innerText = 'Joining room.....'
+                let roomName = refR.current.value
+                let audioDevice = refA.current.value
+                let videoDevice = refA.current.value
 
-              let token = await getTokenByRoomName(roomName)
-              let room = await connectRoom(
-                roomName,
-                token,
-                audioDevice,
-                videoDevice
-              )
+                let token = await getTokenByRoomName(roomName)
+                let room = await connectRoom(
+                  roomName,
+                  token,
+                  audioDevice,
+                  videoDevice
+                )
 
-              ev.target.innerText = 'Done'
-              setTimeout(() => {
-                ev.target.innerText = 'Join Room'
-              }, 3000)
-            }}
-          >
-            Join Room
-          </button>
+                ev.target.innerText = 'Done'
+                setTimeout(() => {
+                  ev.target.innerText = 'Join Room'
+                }, 3000)
+              }}
+              className='p-2 px-4 bg-white border border-black rounded-lg'
+            >
+              Join Room
+            </button>
+          </div>
         </div>
       )}
 
