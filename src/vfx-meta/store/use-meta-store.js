@@ -343,6 +343,11 @@ export const useMetaStore = create((set, get) => {
 
     controls: false,
     camera: false,
+    scene: false,
+
+    setScene: (v) => {
+      set({ scene: v })
+    },
 
     setControls: ({ camera, dom }) => {
       let self = get()

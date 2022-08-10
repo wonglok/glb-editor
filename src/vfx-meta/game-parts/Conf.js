@@ -238,6 +238,7 @@ function AudioTracker({ isSelf, participant, publication }) {
   let ref = useRef()
   let getVoicePlayer = useMetaStore((s) => s.getVoicePlayer)
   let player = useMetaStore((s) => s.myCTX.player)
+  let scene = useMetaStore((s) => s.scene)
   let listener = useTwilio((s) => s.listener)
   useMetaStore((s) => s.players)
 
@@ -277,12 +278,17 @@ function AudioTracker({ isSelf, participant, publication }) {
     if (!mediaStreamTrack) {
       return
     }
+    if (!scene) {
+      return
+    }
 
     let sound = new PositionalAudio(listener)
     let context = listener.context
     // listener.setMasterVolume(1.0)
 
-    player.add(listener)
+    if (!player.children.includes(listener)) {
+      player.add(listener)
+    }
 
     let source = context.createMediaStreamSource(
       new MediaStream([mediaStreamTrack])
@@ -293,6 +299,7 @@ function AudioTracker({ isSelf, participant, publication }) {
     if (foundData) {
       sound.position.fromArray(foundData.playerPosition)
     }
+    scene.add(sound)
 
     // let me = new Vector3()
     // let other = new Vector3()
@@ -322,13 +329,14 @@ function AudioTracker({ isSelf, participant, publication }) {
 
     return () => {
       player.remove(listener)
+
       sound.pause()
-      sound.disconnect()
       sound.setVolume(0)
+      sound.removeFromParent()
 
       // clearInterval(intv)
     }
-  }, [id, max, player, listener, mediaStreamTrack, foundData])
+  }, [id, max, player, listener, scene, mediaStreamTrack, foundData])
 
   //
   return (

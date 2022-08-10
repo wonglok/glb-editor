@@ -10,6 +10,7 @@ import { AvatarButton } from './AvatarButton'
 // import { useRouter } from 'next/router'
 import { HomeButton } from './HomeButton'
 import { ChatButton } from './ChatButton'
+import { useThree } from '@react-three/fiber'
 // import { SetupOnlineID } from './SetupOnlineID'
 
 export function OnlineSystem({ children, mapID = 'yoyo' }) {
@@ -18,7 +19,11 @@ export function OnlineSystem({ children, mapID = 'yoyo' }) {
   let mode = useMetaStore((s) => s.mode)
   let setMode = useMetaStore((s) => s.setMode)
   let goOnline = useMetaStore((s) => s.goOnline)
+  let setScene = useMetaStore((s) => s.setScene)
+  let scene = useThree((s) => s.scene)
 
+  //
+  setScene(scene)
   useEffect(() => {
     return auth().onAuthStateChanged((user) => {
       //
