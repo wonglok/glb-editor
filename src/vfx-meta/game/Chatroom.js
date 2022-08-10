@@ -1,6 +1,7 @@
 // import { UIContent } from '@/vfx-core/UIContent'
 // import { ClosetBtns } from '../game-parts/ClosetBtns'
 import { UIContent } from '@/vfx-core/UIContent'
+import { ContactShadows } from '@react-three/drei'
 import { Conf } from '../game-parts/Conf'
 import { Floor } from '../game-parts/Floor'
 import { HDR } from '../game-parts/HDR'
