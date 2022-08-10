@@ -308,6 +308,7 @@ function AudioTracker({ participant, publication }) {
 
     return () => {
       player.remove(listener)
+      sound.pause()
 
       // clearInterval(intv)
     }
