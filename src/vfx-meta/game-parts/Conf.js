@@ -167,6 +167,7 @@ function Room() {
             <OneParticipane
               key={e.identity}
               room={room}
+              isSelf={false}
               participant={e}
             ></OneParticipane>
           )
@@ -204,16 +205,17 @@ function OneParticipane({ participant, isSelf = false }) {
       <div>
         {/*  */}
 
-        {toArray(participant.audioTracks).map((e) => {
-          return (
-            <AudioTracker
-              isSelf={isSelf}
-              key={e._id}
-              participant={participant}
-              publication={e}
-            ></AudioTracker>
-          )
-        })}
+        {!isSelf &&
+          toArray(participant.audioTracks).map((e) => {
+            return (
+              <AudioTracker
+                isSelf={isSelf}
+                key={e._id}
+                participant={participant}
+                publication={e}
+              ></AudioTracker>
+            )
+          })}
 
         {toArray(participant.videoTracks).map((e) => {
           return (
