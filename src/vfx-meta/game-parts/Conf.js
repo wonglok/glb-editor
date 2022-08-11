@@ -186,10 +186,24 @@ function Room() {
 function OneParticipane({ participant, isSelf = false }) {
   let reload = useTwilio((s) => s.reload)
   let setVoiceID = useMetaStore((s) => s.setVoiceID)
+  let listener = useTwilio((s) => s.listener)
+  let player = useMetaStore((s) => s.myCTX.player)
 
   if (isSelf) {
     setVoiceID(participant.identity)
   }
+
+  useEffect(() => {
+    if (player && listener) {
+      if (!player.children.includes(listener) && isSelf) {
+        player.add(listener)
+
+        return () => {
+          player.remove(listener)
+        }
+      }
+    }
+  }, [player, isSelf, listener])
 
   useEffect(() => {
     let hh = () => {
@@ -240,7 +254,6 @@ function OneParticipane({ participant, isSelf = false }) {
 function AudioTracker({ isSelf, participant, publication }) {
   let ref = useRef()
   let getVoicePlayer = useMetaStore((s) => s.getVoicePlayer)
-  let player = useMetaStore((s) => s.myCTX.player)
   let scene = useMetaStore((s) => s.scene)
   let listener = useTwilio((s) => s.listener)
   useMetaStore((s) => s.players)
@@ -275,13 +288,6 @@ function AudioTracker({ isSelf, participant, publication }) {
     }
   }, [publication])
 
-  let sound = useMemo(() => {
-    if (!listener) {
-      return false
-    }
-    let sound = new PositionalAudio(listener)
-    return sound
-  }, [listener])
   useEffect(() => {
     if (!listener) {
       return
@@ -292,21 +298,15 @@ function AudioTracker({ isSelf, participant, publication }) {
     if (!scene) {
       return
     }
-    if (!sound) {
-      return
-    }
+    let sound = new PositionalAudio(listener)
 
     let context = listener.context
-
-    if (!player.children.includes(listener)) {
-      player.add(listener)
-    }
 
     let source = context.createMediaStreamSource(
       new MediaStream([mediaStreamTrack])
     )
     sound.setNodeSource(source)
-    sound.setRefDistance(max)
+    sound.setRefDistance(1)
 
     console.log(foundData)
     if (foundData) {
@@ -343,15 +343,13 @@ function AudioTracker({ isSelf, participant, publication }) {
     // sync(true)
 
     return () => {
-      player.remove(listener)
-
       sound.muted = true
       sound.setVolume(0)
       sound.removeFromParent()
 
       // clearInterval(intv)
     }
-  }, [id, max, player, listener, scene, sound, mediaStreamTrack, foundData])
+  }, [id, max, listener, scene, mediaStreamTrack, foundData])
 
   //
   return (
