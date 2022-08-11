@@ -198,8 +198,12 @@ export const useMetaStore = create((set, get) => {
         entireMapData.off('value', hhSync)
       }
 
+      let rand = 0
+      let intervTick = setInterval(() => {
+        rand = Math.random()
+      }, 5000)
       let check = () => {
-        return JSON.stringify(get().myCTX)
+        return JSON.stringify(get().myCTX + rand)
       }
 
       let prepare = () => {
@@ -321,6 +325,7 @@ export const useMetaStore = create((set, get) => {
         offInternval()
         userData.remove()
         offSnyc()
+        clearInterval(intervTick)
         //
         //
       }
