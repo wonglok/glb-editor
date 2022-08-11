@@ -1,14 +1,15 @@
 // import { UIContent } from '@/vfx-core/UIContent'
 // import { ClosetBtns } from '../game-parts/ClosetBtns'
 import { UIContent } from '@/vfx-core/UIContent'
-import { ContactShadows, Text } from '@react-three/drei'
+import { Text } from '@react-three/drei'
 import { Suspense } from 'react'
 import { Conf } from '../game-parts/Conf'
 import { Floor } from '../game-parts/Floor'
 import { HDR } from '../game-parts/HDR'
 import { Player } from '../game-parts/Player'
-import { Effects } from '../game-vfx/Effects'
 import { OnlineSystem } from '../online/OnlineSystem'
+import { Effects } from '../game-vfx/Effects'
+import { useRender } from '../store/use-render'
 
 export function Chatroom() {
   return (
@@ -28,7 +29,7 @@ export function Chatroom() {
           <>
             <Player></Player>
 
-            {/* <Effects></Effects> */}
+            <Effects></Effects>
 
             <UIContent>
               <div
@@ -46,7 +47,9 @@ export function Chatroom() {
           </>
         </OnlineSystem>
       </Suspense>
-      {/*  */}
+
+      <TopLeft></TopLeft>
+
       {/* <ClosetBtns></ClosetBtns> */}
     </group>
   )
@@ -58,6 +61,25 @@ export function Chatroom() {
 
 //
 
-//
+function TopLeft() {
+  const enable = useRender((s) => s.enable)
+  const setRender = useRender((s) => s.setRender)
 
-//
+  return (
+    <>
+      <UIContent>
+        <div className='absolute top-0 left-0'>
+          <button
+            className='p-2 bg-white'
+            onClick={() => {
+              //
+              setRender(!enable)
+            }}
+          >
+            Toggle Render
+          </button>
+        </div>
+      </UIContent>
+    </>
+  )
+}
