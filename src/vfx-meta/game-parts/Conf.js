@@ -131,7 +131,9 @@ export function Conf() {
         </div>
       )}
 
-      {room && <Room></Room>}
+      <div className='pointer-events-none select-none '>
+        {room && <Room></Room>}
+      </div>
     </div>
   )
 }
@@ -362,7 +364,7 @@ function VideoTracker({ participant, publication }) {
     let hh = (track) => {
       track.attach(ref.current)
 
-      if (ref.current.requestVideoFrameCallback) {
+      if (ref.current?.requestVideoFrameCallback) {
         ref.current.requestVideoFrameCallback(() => {
           //
 
@@ -377,7 +379,7 @@ function VideoTracker({ participant, publication }) {
             }
           })
         })
-      } else {
+      } else if (ref.current) {
         ref.current.oncanplay = () => {
           let tt = setInterval(() => {
             let foundData = getVoicePlayer(participant.identity)
