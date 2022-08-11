@@ -147,8 +147,8 @@ export function Conf() {
       )}
 
       <div
-        //className='invisible h-32 overflow-auto pointer-events-none select-none'
-        className='bg-white'
+        className='w-1 h-1 overflow-hidden pointer-events-none select-none'
+        // className='bg-white'
       >
         {room && <Room></Room>}
       </div>
@@ -297,12 +297,12 @@ function AudioTracker({ isSelf, participant, publication }) {
     let cleans = []
     let hh = (track) => {
       setStreamTrack(track.mediaStreamTrack)
-      // let res = track.attach()
-      // res.muted = true
+      let res = track.attach(ref.current)
+      res.muted = true
 
-      // cleans.push(() => {
-      //   track.detach()
-      // })
+      cleans.push(() => {
+        track.detach()
+      })
     }
 
     // console.log(publication.track)

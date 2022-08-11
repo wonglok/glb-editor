@@ -31,7 +31,15 @@ export function Chatroom() {
             {/* <Effects></Effects> */}
 
             <UIContent>
-              <div className=' absolute top-0 left-0 w-96 '>
+              <div
+                className=' absolute  flex items-center justify-center '
+                style={{
+                  top: 'calc(50vh - 300px / 2)',
+                  left: 'calc(50vw - 300px / 2)',
+                  width: '300px',
+                  height: '300px',
+                }}
+              >
                 <Conf></Conf>
               </div>
             </UIContent>
