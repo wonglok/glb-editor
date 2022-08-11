@@ -3,6 +3,7 @@ import { getID } from '@/vfx-runtime/ENUtils'
 import { useFrame } from '@react-three/fiber'
 import { useEffect, useMemo, useState } from 'react'
 import { useRef } from 'react'
+import { VideoTexture } from 'three'
 import { Vector3, Audio as Audio3, PositionalAudio } from 'three140'
 import { useMetaStore } from '../store/use-meta-store'
 
@@ -352,12 +353,44 @@ function AudioTracker({ isSelf, participant, publication }) {
   )
 }
 
-function VideoTracker({ publication }) {
+function VideoTracker({ participant, publication }) {
   let ref = useRef()
+  let getVoicePlayer = useMetaStore((s) => s.getVoicePlayer)
+  let setVidTextureByUID = useMetaStore((s) => s.setVidTextureByUID)
 
   useEffect(() => {
     let hh = (track) => {
       track.attach(ref.current)
+
+      if (ref.current.requestVideoFrameCallback) {
+        ref.current.requestVideoFrameCallback(() => {
+          //
+
+          let tt = setInterval(() => {
+            let foundData = getVoicePlayer(participant.identity)
+
+            if (foundData) {
+              clearInterval(tt)
+              let texture = new VideoTexture(ref.current)
+              texture.aspect = ref.current.videoWidth / ref.current.videoHeight
+              setVidTextureByUID(foundData.uid, texture)
+            }
+          })
+        })
+      } else {
+        ref.current.oncanplay = () => {
+          let tt = setInterval(() => {
+            let foundData = getVoicePlayer(participant.identity)
+            if (foundData) {
+              clearInterval(tt)
+              let texture = new VideoTexture(ref.current)
+              texture.aspect = ref.current.videoWidth / ref.current.videoHeight
+              setVidTextureByUID(foundData.uid, texture)
+            }
+          })
+          //
+        }
+      }
     }
 
     if (publication.track) {
@@ -367,7 +400,7 @@ function VideoTracker({ publication }) {
     return () => {
       publication.off('subscribed', hh)
     }
-  }, [publication])
+  }, [getVoicePlayer, participant.identity, publication, setVidTextureByUID])
   return (
     <div>
       {/* Video: {publication.trackName} */}

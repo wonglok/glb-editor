@@ -35,6 +35,14 @@ export const useMetaStore = create((set, get) => {
       set({ myself: user })
     },
     players: [],
+    videoTextures: {},
+    setVidTextureByUID: (uid, val) => {
+      let videoTextures = get().videoTextures
+
+      videoTextures[uid] = val
+
+      set({ videoTextures: { ...videoTextures } })
+    },
 
     uploadAvatar: async (file) => {
       //
@@ -78,9 +86,10 @@ export const useMetaStore = create((set, get) => {
     },
     getVoicePlayer: (voiceID) => {
       //
-      let { players } = get()
+      let { players, myCTX } = get()
 
-      let myAr = players || []
+      let myAr = [...(players || [])]
+      myAr.push(myCTX)
 
       let playerMesh = myAr.find((e) => e.voiceID === voiceID)
       return playerMesh || null

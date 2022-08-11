@@ -49,6 +49,7 @@ export const useTwilio = create((set, get) => {
       const room = await connect(token, {
         room: roomName,
         video: {
+          width: 320,
           deviceId: videoDeviceID,
         },
         audio: {
