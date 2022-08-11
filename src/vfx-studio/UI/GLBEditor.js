@@ -6,7 +6,7 @@ import { MeshMaterialEditor } from './MeshMaterialEditor'
 import { BackButton } from './BackButton'
 import { TitleButton } from './TitleButton'
 import { RunnerEditor } from '@/vfx-studio/runner-editor/RunnerEditor'
-import { EffectNodeSeries } from './EffectNodeSeries'
+// import { EffectNodeSeries } from './EffectNodeSeries'
 import { GLBTree } from './GLBTree'
 
 export function GLBEditor() {
@@ -52,3 +52,5 @@ export function GLBEditor() {
     </div>
   )
 }
+
+//
