@@ -364,14 +364,14 @@ function VideoTracker({ participant, publication }) {
     let hh = (track) => {
       track.attach(ref.current)
 
-      if (ref.current?.requestVideoFrameCallback) {
+      if (ref.current && ref.current.requestVideoFrameCallback) {
         ref.current.requestVideoFrameCallback(() => {
           //
 
           let tt = setInterval(() => {
             let foundData = getVoicePlayer(participant.identity)
 
-            if (foundData) {
+            if (foundData && ref.current) {
               clearInterval(tt)
               let texture = new VideoTexture(ref.current)
               texture.aspect = ref.current.videoWidth / ref.current.videoHeight
