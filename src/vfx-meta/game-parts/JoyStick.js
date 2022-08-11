@@ -38,6 +38,10 @@ export function JoyStick() {
         zone: found,
         color: 'white',
       })
+      clean()
+      clean = () => {
+        manager.destroy()
+      }
 
       let up = new Vector3(0, 1, 0)
       let forward = new Vector3()
@@ -87,11 +91,6 @@ export function JoyStick() {
 
           myCTX.player.rotation.y = nippleAngle + controls.getAzimuthalAngle()
         }
-      }
-
-      clean()
-      clean = () => {
-        manager.destroy()
       }
     })
 
