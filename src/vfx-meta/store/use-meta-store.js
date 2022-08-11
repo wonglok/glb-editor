@@ -76,13 +76,13 @@ export const useMetaStore = create((set, get) => {
       myCTX.voiceID = v
       set({ myCTX: myCTX })
     },
-    getVoicePlayer: (identityID) => {
+    getVoicePlayer: (voiceID) => {
       //
       let { players } = get()
 
-      let myAr = [...(players || [])]
+      let myAr = players || []
 
-      let playerMesh = myAr.find((e) => e.voiceID === identityID)
+      let playerMesh = myAr.find((e) => e.voiceID === voiceID)
       return playerMesh || null
     },
 

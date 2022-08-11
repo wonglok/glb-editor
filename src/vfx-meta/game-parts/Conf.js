@@ -1,7 +1,7 @@
 import { useTwilio } from '@/vfx-meta/store/use-twilio'
 import { getID } from '@/vfx-runtime/ENUtils'
 import { useFrame } from '@react-three/fiber'
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { useRef } from 'react'
 import { Vector3, Audio as Audio3, PositionalAudio } from 'three140'
 import { useMetaStore } from '../store/use-meta-store'
@@ -36,7 +36,7 @@ export function Conf() {
   let refV = useRef()
   let refN = useRef()
   return (
-    <div className='w-full h-full p-5 overflow-y-auto bg-white backdrop-blur bg-opacity-30 rounded-br-2xl'>
+    <div className='p-5 bg-white bg-opacity-30 rounded-br-2xl'>
       {!deviceReady && (
         <button
           onClick={async () => {
@@ -186,7 +186,10 @@ function Room() {
 function OneParticipane({ participant, isSelf = false }) {
   let reload = useTwilio((s) => s.reload)
   let setVoiceID = useMetaStore((s) => s.setVoiceID)
-  setVoiceID(participant.identity)
+
+  if (isSelf) {
+    setVoiceID(participant.identity)
+  }
 
   useEffect(() => {
     let hh = () => {
@@ -255,6 +258,7 @@ function AudioTracker({ isSelf, participant, publication }) {
       setStreamTrack(track.mediaStreamTrack)
       let res = track.attach()
       res.muted = true
+
       cleans.push(() => {
         track.detach()
       })
@@ -271,6 +275,13 @@ function AudioTracker({ isSelf, participant, publication }) {
     }
   }, [publication])
 
+  let sound = useMemo(() => {
+    if (!listener) {
+      return false
+    }
+    let sound = new PositionalAudio(listener)
+    return sound
+  }, [listener])
   useEffect(() => {
     if (!listener) {
       return
@@ -281,10 +292,11 @@ function AudioTracker({ isSelf, participant, publication }) {
     if (!scene) {
       return
     }
+    if (!sound) {
+      return
+    }
 
-    let sound = new PositionalAudio(listener)
     let context = listener.context
-    // listener.setMasterVolume(1.0)
 
     if (!player.children.includes(listener)) {
       player.add(listener)
@@ -294,12 +306,15 @@ function AudioTracker({ isSelf, participant, publication }) {
       new MediaStream([mediaStreamTrack])
     )
     sound.setNodeSource(source)
-    sound.play()
+    sound.setRefDistance(max)
 
+    console.log(foundData)
     if (foundData) {
       sound.position.fromArray(foundData.playerPosition)
     }
     scene.add(sound)
+
+    console.log(sound.position)
 
     // let me = new Vector3()
     // let other = new Vector3()
@@ -330,19 +345,19 @@ function AudioTracker({ isSelf, participant, publication }) {
     return () => {
       player.remove(listener)
 
-      sound.pause()
+      sound.muted = true
       sound.setVolume(0)
       sound.removeFromParent()
 
       // clearInterval(intv)
     }
-  }, [id, max, player, listener, scene, mediaStreamTrack, foundData])
+  }, [id, max, player, listener, scene, sound, mediaStreamTrack, foundData])
 
   //
   return (
     <div>
       {/* Audio: {publication.trackName} */}
-      <audio id={id} autoPlay controls playsInline ref={ref}></audio>
+      <audio id={id} autoPlay playsInline ref={ref}></audio>
     </div>
   )
 }
