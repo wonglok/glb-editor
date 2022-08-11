@@ -107,7 +107,7 @@ export function Conf() {
                 )
               })}
           </select>
-          <div className='pl-2 mb-3 bg-white'>
+          {/* <div className='pl-2 mb-3 bg-white'>
             Room Name:
             <input
               className='p-2 ml-2 bg-gray-100'
@@ -115,14 +115,16 @@ export function Conf() {
               onChange={() => {}}
               value={'myfirstroom'}
             ></input>
-          </div>
+          </div> */}
 
           <div>
             <button
               onClick={async (ev) => {
                 //
+                let roomName = mapID
+
                 ev.target.innerText = 'Joining room.....'
-                let roomName = refR.current.value
+                // let roomName = refR.current.value
                 let audioDevice = refA.current.value
                 let videoDevice = refA.current.value
 
