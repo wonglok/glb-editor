@@ -397,7 +397,7 @@ function VideoTracker({ publication }) {
   return (
     <div>
       {/* Video: {publication.trackName} */}
-      <video className='  h-36' autoPlay playsInline={true} ref={ref}></video>
+      <video className=' h-36' autoPlay playsInline={true} ref={ref}></video>
     </div>
   )
 }
