@@ -61,7 +61,7 @@ export function Conf() {
             ev.target.innerText = 'Start Video Chat'
             setReady(true)
           }}
-          className='p-2 px-4 m-5 bg-white border border-black rounded-lg'
+          className='p-2 px-4 m-5 bg-white border border-black rounded-lg select-none'
         >
           Start Video Chat
         </button>
@@ -297,12 +297,12 @@ function AudioTracker({ isSelf, participant, publication }) {
     let cleans = []
     let hh = (track) => {
       setStreamTrack(track.mediaStreamTrack)
-      let res = track.attach()
-      res.muted = true
+      // let res = track.attach()
+      // res.muted = true
 
-      cleans.push(() => {
-        track.detach()
-      })
+      // cleans.push(() => {
+      //   track.detach()
+      // })
     }
 
     // console.log(publication.track)
@@ -343,7 +343,7 @@ function AudioTracker({ isSelf, participant, publication }) {
 
     scene.add(sound)
 
-    console.log(sound.position)
+    // console.log(sound.position)
 
     setSound(sound)
 
