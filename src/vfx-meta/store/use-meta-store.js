@@ -73,7 +73,6 @@ export const useMetaStore = create((set, get) => {
       //   vendor: 'temp',
       //   avatarURL: URL.createObjectURL(file),
       // })
-
       //
     },
 

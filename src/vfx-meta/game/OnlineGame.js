@@ -16,7 +16,7 @@ export function OnlineGame() {
       <OnlineSystem mapID='dome-map'>
         <>
           <Player></Player>
-          {/* <Effects></Effects> */}
+          <Effects></Effects>
         </>
       </OnlineSystem>
 
