@@ -172,12 +172,10 @@ export function OtherOnePlayer({ speed = 9, otherPlayer }) {
 }
 
 //
-
 function VideoFeed({ otherPlayer }) {
   let videoTextures = useMetaStore((s) => s.videoTextures)
   let map = videoTextures[otherPlayer.uid] || null
   let aspect = map?.aspect || 1
-
   let ref = useRef()
 
   useFrame(({ camera }) => {
