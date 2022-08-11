@@ -26,9 +26,21 @@ export function Conf() {
   let connectRoom = useTwilio((s) => s.connectRoom)
   let room = useTwilio((s) => s.room)
   let setListener = useTwilio((s) => s.setListener)
+  let setToken = useTwilio((s) => s.setToken)
+  let token = useTwilio((s) => s.token)
+  let mapID = useMetaStore((s) => s.mapID)
   useEffect(() => {
+    let roomName = mapID
+
+    if (!roomName) {
+      return
+    }
     // console.log('')
-  }, [])
+
+    getTokenByRoomName(roomName).then((token) => {
+      setToken(token)
+    })
+  }, [mapID, getTokenByRoomName, setToken])
 
   //
   let [deviceReady, setReady] = useState(false)
@@ -38,11 +50,15 @@ export function Conf() {
   let refN = useRef()
   return (
     <div className=''>
-      {!deviceReady && (
+      {!deviceReady && token && (
         <button
-          onClick={async () => {
+          onClick={async (ev) => {
+            ev.target.innerText = 'Loading...'
             setListener()
+
             await getDevices()
+
+            ev.target.innerText = 'Start Video Chat'
             setReady(true)
           }}
           className='p-2 px-4 m-5 bg-white border border-black rounded-lg'
@@ -110,7 +126,6 @@ export function Conf() {
                 let audioDevice = refA.current.value
                 let videoDevice = refA.current.value
 
-                let token = await getTokenByRoomName(roomName)
                 let room = await connectRoom(
                   roomName,
                   token,
@@ -131,7 +146,10 @@ export function Conf() {
         </div>
       )}
 
-      <div className='invisible h-32 overflow-auto pointer-events-none select-none'>
+      <div
+        //className='invisible h-32 overflow-auto pointer-events-none select-none'
+        className='bg-white'
+      >
         {room && <Room></Room>}
       </div>
     </div>
@@ -390,6 +408,7 @@ function VideoTracker({ participant, publication }) {
         })
       } else if (ref.current) {
         ref.current.oncanplay = () => {
+          ref.current.play()
           let tt = setInterval(() => {
             let foundData = getVoicePlayer(participant.identity)
             if (foundData) {

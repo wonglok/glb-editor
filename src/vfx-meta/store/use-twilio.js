@@ -44,6 +44,10 @@ export const useTwilio = create((set, get) => {
     },
     myself: false,
     participants: [],
+    token: false,
+    setToken: (v) => {
+      set({ token: v })
+    },
     connectRoom: async (roomName, token, audioDeviceID, videoDeviceID) => {
       // join the video room with the Access Token and the given room name
       const room = await connect(token, {
