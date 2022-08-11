@@ -201,7 +201,7 @@ export const useMetaStore = create((set, get) => {
       let rand = 0
       let intervTick = setInterval(() => {
         rand = Math.random()
-      }, 5000)
+      }, 2500)
       let check = () => {
         return JSON.stringify(get().myCTX + rand)
       }

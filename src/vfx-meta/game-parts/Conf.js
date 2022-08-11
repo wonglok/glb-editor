@@ -145,6 +145,13 @@ function Room() {
   let myself = useTwilio((s) => s.myself)
   let participants = useTwilio((s) => s.participants)
 
+  useEffect(() => {
+    if (room) {
+      return () => {
+        room.disconnect()
+      }
+    }
+  }, [room])
   //
   return (
     <>
