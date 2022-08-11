@@ -121,6 +121,7 @@ export function OtherOnePlayer({ speed = 9, otherPlayer }) {
   return (
     <group ref={ref}>
       <group position={[0, -1.52, 0]}>
+        <group name={otherPlayer.uid}></group>
         <Suspense fallback={<></>}>
           {avatarVendor === 'temp' && (
             <TempAvatar

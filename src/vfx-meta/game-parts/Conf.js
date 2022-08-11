@@ -353,10 +353,21 @@ function AudioTracker({ isSelf, participant, publication }) {
   }, [max, listener, scene, mediaStreamTrack])
 
   useEffect(() => {
-    if (foundData && mySound) {
-      mySound.position.fromArray(foundData.playerPosition)
+    if (foundData && mySound && scene) {
+      let tt = setInterval(() => {
+        let found = scene.getObjectByName(foundData.uid)
+        if (found) {
+          found.getWorldPosition(mySound.position)
+        } else {
+          mySound.position.fromArray(foundData.playerPosition)
+        }
+      })
+
+      return () => {
+        clearInterval(tt)
+      }
     }
-  }, [mySound, foundData])
+  }, [mySound, scene, foundData])
 
   //
   return (
