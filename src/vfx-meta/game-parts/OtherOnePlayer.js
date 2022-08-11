@@ -118,23 +118,12 @@ export function OtherOnePlayer({ speed = 9, otherPlayer }) {
     }
   })
 
-  let videoTextures = useMetaStore((s) => s.videoTextures)
-  let map = videoTextures[otherPlayer.uid] || null
-  let aspect = map?.aspect || 1
-
   // console.log(map)
 
   return (
     <group ref={ref}>
-      {map && (
-        <mesh
-          scale={[1, 1 / map.aspect, 1]}
-          position={[0, 1.5 / map.aspect, 0]}
-        >
-          <boxBufferGeometry args={[1, 1, 0.1]}></boxBufferGeometry>
-          <meshBasicMaterial map={map}></meshBasicMaterial>
-        </mesh>
-      )}
+      <VideoFeed otherPlayer={otherPlayer}></VideoFeed>
+
       <group position={[0, -1.52, 0]}>
         <group name={otherPlayer.uid}></group>
         <Suspense fallback={<></>}>
@@ -183,3 +172,23 @@ export function OtherOnePlayer({ speed = 9, otherPlayer }) {
 }
 
 //
+
+function VideoFeed({ otherPlayer }) {
+  let videoTextures = useMetaStore((s) => s.videoTextures)
+  let map = videoTextures[otherPlayer.uid] || null
+  let aspect = map?.aspect || 1
+
+  let ref = useRef()
+
+  useFrame(({ camera }) => {
+    if (ref.current) {
+      ref.current.lookAt(camera.position)
+    }
+  })
+  return (
+    <mesh scale={[1, 1 / aspect, 1]} position={[0, 1.5 / aspect, 0]}>
+      <boxBufferGeometry args={[1, 1, 0.1]}></boxBufferGeometry>
+      <meshBasicMaterial map={map}></meshBasicMaterial>
+    </mesh>
+  )
+}

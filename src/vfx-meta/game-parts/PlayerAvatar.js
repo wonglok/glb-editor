@@ -49,21 +49,11 @@ export function PlayerAvatar() {
     }
   })
 
-  let myself = useMetaStore((s) => s.myCTX)
-  let videoTextures = useMetaStore((s) => s.videoTextures)
-  let map = videoTextures[myself?.uid] || null
-  let aspect = map?.aspect || 1
-
   return (
     <group ref={ref}>
       {/*  */}
 
-      {map && (
-        <mesh scale={[1, 1 / aspect, 1]} position={[0, 1.5 / aspect + 1.5, 0]}>
-          <boxBufferGeometry args={[1, 1, 0.1]}></boxBufferGeometry>
-          <meshBasicMaterial map={map}></meshBasicMaterial>
-        </mesh>
-      )}
+      <VideoFeed></VideoFeed>
 
       <Loader></Loader>
 
@@ -114,6 +104,32 @@ export function PlayerAvatar() {
         )}
       </Suspense>
     </group>
+  )
+}
+
+function VideoFeed() {
+  let myself = useMetaStore((s) => s.myCTX)
+  let videoTextures = useMetaStore((s) => s.videoTextures)
+  let map = videoTextures[myself?.uid] || null
+  let aspect = map?.aspect || 1
+
+  let ref = useRef()
+
+  useFrame(({ camera }) => {
+    if (ref.current) {
+      ref.current.lookAt(camera.position)
+    }
+  })
+  return (
+    <mesh
+      ref={ref}
+      visible={!!map}
+      scale={[1, 1 / aspect, 1]}
+      position={[0, 1.5 / aspect + 1.5, 0]}
+    >
+      <boxBufferGeometry args={[1, 1, 0.1]}></boxBufferGeometry>
+      <meshBasicMaterial map={map}></meshBasicMaterial>
+    </mesh>
   )
 }
 
