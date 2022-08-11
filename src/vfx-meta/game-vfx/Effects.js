@@ -56,12 +56,11 @@ function useSettings(v) {
   return v
 }
 
-export function Effects({}) {
+export function Effects({ enabled = true }) {
   const texture = useLoader(LUTCubeLoader, '/lut/F-6800-STD.cube')
 
   // const { enabled, ...props } = useControls(settings, {}, {})
 
-  let enabled = true
   let props = {
     temporalResolve: true,
     STRETCH_MISSED_RAYS: true,
@@ -94,17 +93,17 @@ export function Effects({}) {
     ior: 1.33,
   }
 
-  useEffect(() => {
-    let tt = setInterval(() => {
-      let svg = document.querySelector('svg')
-      if (svg?.classList.toString().includes('leva')) {
-        clearInterval(tt)
-        if (window.innerWidth <= 500) {
-          svg.parentElement.click()
-        }
-      }
-    })
-  }, [])
+  // useEffect(() => {
+  //   let tt = setInterval(() => {
+  //     let svg = document.querySelector('svg')
+  //     if (svg?.classList.toString().includes('leva')) {
+  //       clearInterval(tt)
+  //       if (window.innerWidth <= 500) {
+  //         svg.parentElement.click()
+  //       }
+  //     }
+  //   })
+  // }, [])
 
   return (
     <>

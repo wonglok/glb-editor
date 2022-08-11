@@ -19,9 +19,6 @@ export function OnlineGame() {
           <Effects></Effects>
         </>
       </OnlineSystem>
-
-      {/*  */}
-      {/* <ClosetBtns></ClosetBtns> */}
     </group>
   )
 }
