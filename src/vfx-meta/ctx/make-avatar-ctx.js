@@ -38,7 +38,7 @@ export const makeAvatarCTX = () => {
 
     voiceID: '',
     //
-    avatarURL: `/scene/loklokdemo/shader-3.glb`,
+    avatarURL: `/rpm/rpm-avatar/white-armor.glb`,
     avatarVendor: `rpm`,
 
     //

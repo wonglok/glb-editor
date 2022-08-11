@@ -16,6 +16,13 @@ export function OtherOnePlayer({ speed = 9, otherPlayer }) {
     return o3d
   }, [])
 
+  let goOfflineBroken = useMetaStore((s) => s.goOfflineBroken)
+  useEffect(() => {
+    if (otherPlayer) {
+      goOfflineBroken(otherPlayer)
+    }
+  }, [goOfflineBroken, otherPlayer])
+
   targetO3D.position.fromArray(otherPlayer.playerPosition)
 
   let avatarPartUpper = otherPlayer.avatarPartUpper

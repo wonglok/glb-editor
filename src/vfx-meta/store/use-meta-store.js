@@ -108,10 +108,28 @@ export const useMetaStore = create((set, get) => {
 
       return avatars.remove()
     },
+
+    mapID: false,
+
+    goOfflineBroken: (otherPlayer) => {
+      let db = firebase.database()
+      otherPlayer.heartbeat =
+        otherPlayer.heartbeat || new Date().getTime() - 500000
+
+      let mapID = get().mapID
+      let diff = new Date().getTime() - otherPlayer.heartbeat
+      console.log(diff)
+
+      if (diff >= 80000 && diff <= 50000000 && mapID) {
+        //
+        let userData = db.ref(`/meta/mapOnline/${mapID}/${otherPlayer.uid}`)
+        userData.remove()
+      }
+    },
     goOnline: (cloneSelf, myself, seed) => {
       set({ cloneSelf })
       let mapID = md5(seed)
-
+      set({ mapID })
       let db = firebase.database()
       let entireMapData = db.ref(`/meta/mapOnline/${mapID}`)
       let userData = db.ref(`/meta/mapOnline/${mapID}/${cloneSelf.uid}`)
@@ -231,7 +249,7 @@ export const useMetaStore = create((set, get) => {
           avatarPartSkeleton,
 
           voiceID,
-
+          heartbeat: new Date().getTime(),
           //
           [mapID]: get().myCTX.player.position.toArray(),
           playerPosition: get().myCTX.player.position.toArray(),
