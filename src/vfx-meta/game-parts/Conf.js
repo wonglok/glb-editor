@@ -305,8 +305,9 @@ function AudioTracker({ isSelf, participant, publication }) {
     let source = context.createMediaStreamSource(
       new MediaStream([mediaStreamTrack])
     )
-    sound.setNodeSource(source)
+
     sound.setRefDistance(1)
+    sound.setNodeSource(source)
 
     console.log(foundData)
     if (foundData) {
