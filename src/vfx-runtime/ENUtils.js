@@ -1,6 +1,6 @@
-import axios from 'axios'
+// import axios from 'axios'
 import { useEffect, useState } from 'react'
-import { firebaseConfig } from '../vfx-cms/CONFIG'
+// import { firebaseConfig } from '../vfx-cms/CONFIG'
 
 export const getID = function () {
   return (
@@ -194,58 +194,58 @@ export const useAutoEvent = function (ev, fnc, target = () => {}) {
   }, [])
 }
 
-export async function getEffectNodeData(graphID) {
-  let detectSlash = '/'
+// export async function getEffectNodeData(graphID) {
+//   let detectSlash = '/'
 
-  if (
-    firebaseConfig.databaseURL[firebaseConfig.databaseURL.length - 1] === '/'
-  ) {
-    detectSlash = ''
-  }
+//   if (
+//     firebaseConfig.databaseURL[firebaseConfig.databaseURL.length - 1] === '/'
+//   ) {
+//     detectSlash = ''
+//   }
 
-  //
-  return axios({
-    method: 'GET',
-    url: `${firebaseConfig.databaseURL}${detectSlash}canvas/${graphID}.json`,
-  }).then(
-    (response) => {
-      let ans = false
-      for (let kn in response.data) {
-        if (!ans) {
-          ans = response.data[kn]
-        }
-      }
-      if (ans) {
-        let connections = []
+//   //
+//   return axios({
+//     method: 'GET',
+//     url: `${firebaseConfig.databaseURL}${detectSlash}canvas/${graphID}.json`,
+//   }).then(
+//     (response) => {
+//       let ans = false
+//       for (let kn in response.data) {
+//         if (!ans) {
+//           ans = response.data[kn]
+//         }
+//       }
+//       if (ans) {
+//         let connections = []
 
-        for (let kn in ans.connections) {
-          connections.push({
-            _fid: kn,
-            data: ans.connections[kn],
-          })
-        }
+//         for (let kn in ans.connections) {
+//           connections.push({
+//             _fid: kn,
+//             data: ans.connections[kn],
+//           })
+//         }
 
-        let nodes = []
-        for (let kn in ans.nodes) {
-          nodes.push({
-            _fid: kn,
-            data: ans.nodes[kn],
-          })
-        }
+//         let nodes = []
+//         for (let kn in ans.nodes) {
+//           nodes.push({
+//             _fid: kn,
+//             data: ans.nodes[kn],
+//           })
+//         }
 
-        return {
-          connections,
-          nodes,
-        }
-      } else {
-        return false
-      }
-    },
-    () => {
-      return false
-    }
-  )
-}
+//         return {
+//           connections,
+//           nodes,
+//         }
+//       } else {
+//         return false
+//       }
+//     },
+//     () => {
+//       return false
+//     }
+//   )
+// }
 
 //
 //
