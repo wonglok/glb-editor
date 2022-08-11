@@ -57,10 +57,6 @@ export function Chatroom() {
 
 //
 
-//
-
-//
-
 function TopLeft() {
   const enable = useRender((s) => s.enable)
   const setRender = useRender((s) => s.setRender)
@@ -70,7 +66,7 @@ function TopLeft() {
       <UIContent>
         <div className='absolute top-0 left-0'>
           <button
-            className='p-2 bg-white'
+            className='p-3 m-3 bg-white rounded-lg'
             onClick={() => {
               //
               setRender(!enable)
