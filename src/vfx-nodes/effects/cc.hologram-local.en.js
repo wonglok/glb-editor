@@ -1,4 +1,3 @@
-import { TheVortex } from '@/vfx-library/TheVortex/TheVortex'
 import { getID } from '@/vfx-runtime/ENUtils'
 import { Color, MeshStandardMaterial } from 'three140'
 
