@@ -160,7 +160,7 @@ export const useMetaStore = create((set, get) => {
 
         set({ players: arr })
 
-        console.log(arr)
+        // console.log(arr)
 
         // console.log(val)
       }

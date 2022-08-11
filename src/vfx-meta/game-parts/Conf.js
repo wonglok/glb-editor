@@ -315,32 +315,6 @@ function AudioTracker({ isSelf, participant, publication }) {
 
     console.log(sound.position)
 
-    // let me = new Vector3()
-    // let other = new Vector3()
-
-    // let sync = (log) => {
-    //   if (player && foundData) {
-    //     me.fromArray(player.position.toArray())
-    //     other.fromArray(foundData.playerPosition)
-
-    //     let distance = me.distanceTo(other)
-
-    //     if (distance >= max) {
-    //       distance = max
-    //     }
-
-    //     let ratio = (max - distance) / max
-
-    //     listener.setMasterVolume(ratio)
-
-    //     console.log(ratio)
-    //   }
-    // }
-    // let intv = setInterval(() => {
-    //   sync(true)
-    // })
-    // sync(true)
-
     setSound(sound)
 
     return () => {
