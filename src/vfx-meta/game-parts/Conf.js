@@ -311,7 +311,9 @@ function AudioTracker({ isSelf, participant, publication }) {
       new MediaStream([mediaStreamTrack])
     )
 
-    sound.setRefDistance(1)
+    // sound.setDistanceModel()
+    // sound.setRefDistance(1)
+    sound.setMaxDistance(5)
     sound.setNodeSource(source)
 
     scene.add(sound)
