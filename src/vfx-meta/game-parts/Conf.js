@@ -228,7 +228,7 @@ function OneParticipane({ participant, isSelf = false }) {
   //
   return (
     <div>
-      <div>Person: {participant.identity}</div>
+      <div className=' select-none'>Person: {participant.identity}</div>
       <div>
         {/*  */}
 
