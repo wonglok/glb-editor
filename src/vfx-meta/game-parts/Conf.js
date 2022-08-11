@@ -288,6 +288,8 @@ function AudioTracker({ isSelf, participant, publication }) {
     }
   }, [publication])
 
+  let [mySound, setSound] = useState(false)
+
   useEffect(() => {
     if (!listener) {
       return
@@ -309,10 +311,6 @@ function AudioTracker({ isSelf, participant, publication }) {
     sound.setRefDistance(1)
     sound.setNodeSource(source)
 
-    console.log(foundData)
-    if (foundData) {
-      sound.position.fromArray(foundData.playerPosition)
-    }
     scene.add(sound)
 
     console.log(sound.position)
@@ -343,6 +341,8 @@ function AudioTracker({ isSelf, participant, publication }) {
     // })
     // sync(true)
 
+    setSound(sound)
+
     return () => {
       sound.muted = true
       sound.setVolume(0)
@@ -350,7 +350,13 @@ function AudioTracker({ isSelf, participant, publication }) {
 
       // clearInterval(intv)
     }
-  }, [id, max, listener, scene, mediaStreamTrack, foundData])
+  }, [max, listener, scene, mediaStreamTrack])
+
+  useEffect(() => {
+    if (foundData && mySound) {
+      mySound.position.fromArray(foundData.playerPosition)
+    }
+  }, [mySound, foundData])
 
   //
   return (
