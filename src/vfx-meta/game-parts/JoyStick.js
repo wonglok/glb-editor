@@ -89,6 +89,7 @@ export function JoyStick() {
         }
       }
 
+      clean()
       clean = () => {
         manager.destroy()
       }
