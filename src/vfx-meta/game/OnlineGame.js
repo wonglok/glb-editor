@@ -33,7 +33,7 @@ function TopLeft() {
   return (
     <>
       <UIContent>
-        <div className=' absolute top-0 left-0'>
+        <div className='absolute top-0 left-0 m-3 w-36'>
           <EffectButton></EffectButton>
         </div>
       </UIContent>
