@@ -186,7 +186,12 @@ function VideoFeed({ otherPlayer }) {
     }
   })
   return (
-    <mesh scale={[1, 1 / aspect, 1]} position={[0, 1.5 / aspect, 0]}>
+    <mesh
+      ref={ref}
+      visible={!!map}
+      scale={[1, 1 / aspect, 1]}
+      position={[0, 1.5 / aspect, 0]}
+    >
       <boxBufferGeometry args={[1, 1, 0.1]}></boxBufferGeometry>
       <meshBasicMaterial map={map}></meshBasicMaterial>
     </mesh>

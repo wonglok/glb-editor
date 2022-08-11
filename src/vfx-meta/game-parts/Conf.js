@@ -37,7 +37,7 @@ export function Conf() {
   let refV = useRef()
   let refN = useRef()
   return (
-    <div className='p-5 bg-white bg-opacity-30 rounded-br-2xl'>
+    <div className=''>
       {!deviceReady && (
         <button
           onClick={async () => {
@@ -45,7 +45,7 @@ export function Conf() {
             await getDevices()
             setReady(true)
           }}
-          className='p-2 px-4 bg-white border border-black rounded-lg'
+          className='p-2 px-4 m-5 bg-white border border-black rounded-lg'
         >
           Start Video Chat
         </button>
@@ -131,7 +131,7 @@ export function Conf() {
         </div>
       )}
 
-      <div className='pointer-events-none select-none '>
+      <div className='invisible h-32 overflow-auto pointer-events-none select-none'>
         {room && <Room></Room>}
       </div>
     </div>
