@@ -335,15 +335,10 @@ function AudioTracker({ isSelf, participant, publication }) {
     let source = context.createMediaStreamSource(
       new MediaStream([mediaStreamTrack])
     )
-
-    // sound.setDistanceModel()
-    // sound.setRefDistance(1)
     sound.setMaxDistance(5)
     sound.setNodeSource(source)
 
     scene.add(sound)
-
-    // console.log(sound.position)
 
     setSound(sound)
 
@@ -351,8 +346,6 @@ function AudioTracker({ isSelf, participant, publication }) {
       sound.muted = true
       sound.setVolume(0)
       sound.removeFromParent()
-
-      // clearInterval(intv)
     }
   }, [max, listener, scene, mediaStreamTrack])
 
