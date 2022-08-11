@@ -20,11 +20,11 @@ export function Chatroom() {
           </Text>
         }
       >
-        <Floor url={'/scene/chatroom/chat-room-v2.glb'}></Floor>
+        <Floor url={'/scene/chatroom/chat-room-v2-v2.glb'}></Floor>
         <HDR></HDR>
         {/*  */}
 
-        <OnlineSystem mapID='/scene/chatroom/chat-room-v2.glb'>
+        <OnlineSystem mapID='/scene/chatroom/chat-room-v2-v2.glb'>
           <>
             <Player></Player>
 
