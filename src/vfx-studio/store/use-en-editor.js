@@ -124,9 +124,8 @@ export const useENEditor = create((set, get) => {
     },
     addByPlacing: async () => {
       //
-
       let { effectNodeID, chosenCodeID: codeID, effectNodeMap } = get()
-      //
+
       //
       let code = codes.find((s) => s.title === codeID)
 
@@ -151,6 +150,7 @@ export const useENEditor = create((set, get) => {
             { _id: getID(), type: 'input', nodeID },
             { _id: getID(), type: 'input', nodeID },
           ],
+
           //
           outputs: [
             //

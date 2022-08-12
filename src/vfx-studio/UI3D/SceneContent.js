@@ -9,6 +9,7 @@ import { EffectNodeRuntime } from '../effectnode/Runtime/EffectNodeRuntime/Effec
 
 export function SceneContent({}) {
   let glbObject = useAccessor((s) => s.glbObject)
+  let glbObjectForEffect = useAccessor((s) => s.glbObjectForEffect)
   let updateSelected = useAccessor((s) => s.updateSelected)
   let scene = useThree((s) => s.scene)
   let setContorl = useAccessor((s) => s.setContorl)
@@ -24,75 +25,83 @@ export function SceneContent({}) {
   return (
     <>
       {/*  */}
-      {glbObject && (
-        <Select
-          box
-          // multiple={false}
-          onChange={(v) => {
-            updateSelected(v)
-
-            //
-            if (v[0]) {
-              setLayout('effectnode')
-
-              v[0].geometry.computeBoundingSphere()
-              let center = v[0].geometry.boundingSphere.center
-              let radius = v[0].geometry.boundingSphere.radius
+      {glbObject && glbObjectForEffect && (
+        <>
+          <Select
+            box
+            // multiple={false}
+            onChange={(v) => {
+              updateSelected(v)
 
               //
-              let next = new Vector3()
-              next.copy(center)
-              v[0].updateMatrixWorld()
-              next.applyMatrix4(v[0].matrixWorld)
+              if (v[0]) {
+                setLayout('effectnode')
 
-              let diff = control.object.position
-                .clone()
-                .sub(control.target)
-                .normalize()
-                .multiplyScalar(radius * 2 + 1)
+                v[0].geometry.computeBoundingSphere()
+                let center = v[0].geometry.boundingSphere.center
+                let radius = v[0].geometry.boundingSphere.radius
 
-              let posFinal = next.clone().add(diff)
+                //
+                let next = new Vector3()
+                next.copy(center)
+                v[0].updateMatrixWorld()
+                next.applyMatrix4(v[0].matrixWorld)
 
-              let anim = anime({
-                targets: [control.object.position],
-                x: posFinal.x,
-                y: posFinal.y,
-                z: posFinal.z,
-                duration: 500,
-                easing: 'easeInOutQuad',
-              })
+                let diff = control.object.position
+                  .clone()
+                  .sub(control.target)
+                  .normalize()
+                  .multiplyScalar(radius * 2 + 1)
 
-              let anim2 = anime({
-                targets: [control.target],
-                x: next.x,
-                y: next.y,
-                z: next.z,
-                duration: 500,
-                easing: 'easeInOutQuad',
-              })
+                let posFinal = next.clone().add(diff)
 
-              let h = () => {
-                window.removeEventListener('wheel', h)
-                anim.pause()
-                anim2.pause()
+                let anim = anime({
+                  targets: [control.object.position],
+                  x: posFinal.x,
+                  y: posFinal.y,
+                  z: posFinal.z,
+                  duration: 500,
+                  easing: 'easeInOutQuad',
+                })
+
+                let anim2 = anime({
+                  targets: [control.target],
+                  x: next.x,
+                  y: next.y,
+                  z: next.z,
+                  duration: 500,
+                  easing: 'easeInOutQuad',
+                })
+
+                let h = () => {
+                  window.removeEventListener('wheel', h)
+                  anim.pause()
+                  anim2.pause()
+                }
+                window.addEventListener('wheel', h)
+
+                clean.current()
+
+                let helper = new BoxHelper(v[0])
+
+                clean.current = () => {
+                  helper.removeFromParent()
+                }
+
+                scene.add(helper)
               }
-              window.addEventListener('wheel', h)
+            }}
+            filter={(items) => items}
+          >
+            {/*  */}
+            <primitive object={glbObject.scene}></primitive>
+          </Select>
 
-              clean.current()
-              let helper = new BoxHelper(v[0])
-              clean.current = () => {
-                helper.removeFromParent()
-              }
-
-              scene.add(helper)
-            }
-          }}
-          filter={(items) => items}
-        >
-          <primitive object={glbObject.scene}></primitive>
           <EffectNodeRuntime glbObject={glbObject}></EffectNodeRuntime>
-        </Select>
+        </>
       )}
+
+      {/*  */}
 
       <HDRTex scene={scene} url={`/hdr/greenwich_park_02_1k.hdr`} />
 

@@ -1,4 +1,4 @@
-import { useAccessor } from './use-accessor'
+// import { useAccessor } from './use-accessor'
 
 export function useFilterEffectNode({ glbObject }) {
   // let glbObject = useAccessor((s) => s.glbObject)

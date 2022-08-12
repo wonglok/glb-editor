@@ -296,6 +296,8 @@ function OneParticipane({ participant, onlyShowScreenShare, isSelf = false }) {
   )
 }
 
+//
+
 function AudioTracker({ isSelf, participant, publication }) {
   let ref = useRef()
   let getVoicePlayer = useMetaStore((s) => s.getVoicePlayer)

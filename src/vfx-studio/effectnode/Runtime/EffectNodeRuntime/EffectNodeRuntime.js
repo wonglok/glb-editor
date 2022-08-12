@@ -5,8 +5,8 @@ import { EffectNodeObject } from '../EffectNodeObject/EffectNodeObject'
 export function EffectNodeRuntime({ glbObject }) {
   let reloadGraphID = useENEditor((s) => s.reloadGraphID)
   let ens = useFilterEffectNode({ glbObject })
-
   glbObject.scene.updateMatrixWorld(true)
+
   return (
     <>
       <group key={reloadGraphID}>
