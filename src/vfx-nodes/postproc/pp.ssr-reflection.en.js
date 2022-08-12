@@ -1,5 +1,5 @@
 import { getID } from '@/vfx-runtime/ENUtils'
-import { SSR } from '@react-three/postprocessing'
+import { Bloom, SSR } from '@react-three/postprocessing'
 //
 
 let props = {
@@ -86,27 +86,6 @@ export async function nodeData({ defaultData, nodeID }) {
 }
 
 export function effect({ node, mini, data, setComponent }) {
-  //
-  // setComponent
-  //
-  //
-
-  // let config = {}
-  // // ...
-
-  // let makeElemnet = () => {
-  //   return (
-  //     <EffectComposer>
-  //       <Bloom
-  //         luminanceThreshold={0.2}
-  //         mipmapBlur
-  //         luminanceSmoothing={0}
-  //         intensity={0.5}
-  //       />
-  //     </EffectComposer>
-  //   )
-  // }
-
   let defaultConfig = {}
 
   let keys = Object.keys(props)
@@ -116,17 +95,16 @@ export function effect({ node, mini, data, setComponent }) {
       defaultConfig[key] = data.value[key]
     }
 
-    //
     node.out0.pulse(<SSR key={getID()} {...defaultConfig} />)
   }
 
+  send()
+
   for (let key of keys) {
-    data.uniforms[key]((signal) => {
+    data.uniforms[key](() => {
       send()
     })
   }
-
-  send()
 
   //
 }
