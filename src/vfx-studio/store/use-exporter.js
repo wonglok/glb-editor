@@ -9,7 +9,6 @@
 import { Object3D } from 'three'
 import { clone } from 'three140/examples/jsm/utils/SkeletonUtils'
 import { useAccessor } from './use-accessor'
-import { getID } from './use-en-editor'
 
 export const Exporter = {
   download: ({
@@ -58,7 +57,7 @@ export const Exporter = {
         cloned.traverse((pp) => {
           if (pp.userData.effectNode) {
             objectForExport.traverse((oo) => {
-              if (oo.userData.enUUID === pp.userData.enUUID) {
+              if (oo.userData.posMD5 === pp.userData.posMD5) {
                 oo.userData.effectNode = JSON.parse(
                   JSON.stringify(pp.userData.effectNode)
                 )

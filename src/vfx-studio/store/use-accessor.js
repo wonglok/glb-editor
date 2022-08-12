@@ -9,6 +9,7 @@ import {
 import create from 'zustand'
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
+import md5 from 'md5'
 
 export const useAccessor = create((set, get) => {
   return {
@@ -93,27 +94,35 @@ export const useAccessor = create((set, get) => {
         draco.setCrossOrigin('')
         loader.setDRACOLoader(draco)
 
-        //
+        Promise.all([
+          loader.parseAsync(buffer, '/'),
+          loader.parseAsync(buffer, '/'),
+        ]).then(([glb1, glb2]) => {
+          let i1 = 0
+          glb1.scene.traverse((it) => {
+            if (it.geometry) {
+              it.userData.posMD5 = md5(
+                it.geometry.attributes.position.array.length + it.name
+              )
+            }
 
-        loader.parse(buffer, '/', (glb) => {
-          let i = 0
-          glb.scene.traverse((it) => {
-            it.userData.enUUID = 'uuid' + i
-            i++
+            it.userData.enUUID = 'uuid' + i1
+            i1++
           })
 
-          set({ glbObject: glb })
-        })
+          let i2 = 0
+          glb2.scene.traverse((it) => {
+            if (it.geometry) {
+              it.userData.posMD5 = md5(
+                it.geometry.attributes.position.array.length + it.name
+              )
+            }
 
-        //
-        loader.parse(buffer, '/', (glb) => {
-          let i = 0
-          glb.scene.traverse((it) => {
-            it.userData.enUUID = 'uuid' + i
-            i++
+            it.userData.enUUID = 'uuid' + i2
+            i2++
           })
 
-          set({ glbObjectBeforeEdit: glb })
+          set({ glbObject: glb1, glbObjectBeforeEdit: glb2 })
         })
       })
     },

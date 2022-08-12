@@ -9,6 +9,7 @@ import { EffectNodeRuntime } from '../effectnode/Runtime/EffectNodeRuntime/Effec
 
 export function SceneContent({}) {
   let glbObject = useAccessor((s) => s.glbObject)
+  let glbObjectBeforeEdit = useAccessor((s) => s.glbObjectBeforeEdit)
   let openEffectNode = useAccessor((s) => s.openEffectNode)
   let updateSelected = useAccessor((s) => s.updateSelected)
   let scene = useThree((s) => s.scene)
@@ -25,7 +26,7 @@ export function SceneContent({}) {
   return (
     <>
       {/*  */}
-      {glbObject && (
+      {glbObject && glbObjectBeforeEdit && (
         <>
           <Select
             box
@@ -98,7 +99,10 @@ export function SceneContent({}) {
             <primitive object={glbObject.scene}></primitive>
           </Select>
 
-          <EffectNodeRuntime glbObject={glbObject}></EffectNodeRuntime>
+          <EffectNodeRuntime
+            glbObject={glbObject}
+            originalGLBObject={glbObjectBeforeEdit}
+          ></EffectNodeRuntime>
         </>
       )}
 
