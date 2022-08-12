@@ -5,15 +5,18 @@ import { Floor } from '../game-parts/Floor'
 import { HDR } from '../game-parts/HDR'
 import { Player } from '../game-parts/Player'
 import { Effects } from '../game-vfx/Effects'
+import { EnvLight } from '../game-vfx/EnvLight'
 import { EffectButton } from '../online/EffectButton'
 import { OnlineSystem } from '../online/OnlineSystem'
 
 export function OnlineGame() {
   return (
     <group>
-      <Floor url={'/scene/dome/dome.glb'}></Floor>
-      <HDR></HDR>
+      <Floor url={'/scene/dome/dome1.glb'}></Floor>
+      {/* <HDR></HDR> */}
       {/*  */}
+
+      <EnvLight></EnvLight>
 
       <OnlineSystem mapID='dome-map'>
         <>

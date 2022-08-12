@@ -1,4 +1,4 @@
-import { useLoader } from '@react-three/fiber'
+import { useFrame, useLoader } from '@react-three/fiber'
 import {
   EffectComposer,
   SSR,
@@ -59,7 +59,7 @@ function useSettings(v) {
 export function Effects({}) {
   const enable = useRender((s) => s.enable)
 
-  const texture = useLoader(LUTCubeLoader, '/lut/F-6800-STD.cube')
+  const texture = useLoader(LUTCubeLoader, '/lut/Remy 24.CUBE')
 
   // const { enabled, ...props } = useControls(settings, {}, {})
 
@@ -107,28 +107,32 @@ export function Effects({}) {
   //   })
   // }, [])
 
+  useFrame(({ camera, clock }) => {
+    //
+    let t = clock.getElapsedTime()
+
+    camera.position.y += 0.00000001 * Math.sin(t * 1000)
+  })
+
   return (
     <>
       {enable && (
         <EffectComposer disableNormalPass>
           <SSR {...props} />
-
-          <Bloom
+          {/* <Bloom
             luminanceThreshold={0.2}
             mipmapBlur
             luminanceSmoothing={0}
-            intensity={1.5}
-          />
+            intensity={0.8}
+          /> */}
           <LUT lut={texture} />
-
           {/* <DepthOfField
-            focusDistance={0}
+            focusDistance={2}
             focalLength={0.02}
             bokehScale={2}
             height={480}
           /> */}
-
-          <Noise opacity={0.02} />
+          <Noise opacity={0.05} />
         </EffectComposer>
       )}
     </>
