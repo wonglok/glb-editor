@@ -59,6 +59,8 @@ function useSettings(v) {
 export function Effects({}) {
   const enable = useRender((s) => s.enable)
 
+  // public/hdr/snowy_field_1k.hdr
+  // const texture = useLoader(LUTCubeLoader, '/lut/F-6800-STD.cube')
   const texture = useLoader(LUTCubeLoader, '/lut/F-6800-STD.cube')
 
   // const { enabled, ...props } = useControls(settings, {}, {})

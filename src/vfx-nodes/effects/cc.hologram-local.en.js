@@ -70,6 +70,16 @@ gl_FragColor.a = ratioA * 1.0;
 export function effect({ node, mini, data }) {
   let it = mini.now.itself
 
+  let scan = { value: 1 }
+
+  data.uniforms.colorA((v) => {
+    if (v && typeof v.value !== 'undefined') {
+      if (it.material) {
+        it.material.color = new Color(v.value)
+      }
+    }
+  })
+
   data.uniforms.shader((v) => {
     if (v && typeof v.value !== 'undefined') {
       let mat = new MeshPhysicalMaterial({
@@ -83,6 +93,7 @@ export function effect({ node, mini, data }) {
       })
 
       //
+
       mat.onBeforeCompile = (shader, renderer) => {
         // shader.fragmentShader = ``
         let atBeginV = `
@@ -106,6 +117,8 @@ export function effect({ node, mini, data }) {
 
         let t = { value: 0 }
         shader.uniforms.time = t
+
+        shader.uniforms.scan = scan
 
         if (mini) {
           mini.onLoop((dt) => {

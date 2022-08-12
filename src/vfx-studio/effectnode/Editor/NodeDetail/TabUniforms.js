@@ -52,6 +52,7 @@ export function TabUnifroms({ node }) {
         >
           <option value={'text'}>Text</option>
           <option value={'glsl'}>GLSL</option>
+          <option value={'bool'}>Boolean</option>
           <option value={'float'}>Float</option>
           <option value={'vec2'}>Vector2</option>
           <option value={'vec3'}>Vector3</option>
@@ -73,6 +74,9 @@ export function TabUnifroms({ node }) {
                     gl_FragColor = vec4(1.0, 1.0, 1.0, 1.0);
                   }
                 `
+              }
+              if (type === 'bool') {
+                return true
               }
               if (type === 'text') {
                 return ''
@@ -120,6 +124,17 @@ export function TabUnifroms({ node }) {
           return (
             <div key={mm._id + mm.nodeID + node._id} className='mb-3 mr-3'>
               <div className='inline-block'>
+                {mm.type === 'bool' && (
+                  <BoolInput
+                    object={mm}
+                    name={'value'}
+                    label={mm.name}
+                    value={mm.value}
+                    onSaveLater={onSaveLater(mm)}
+                    onRemove={onRemove(mm)}
+                  ></BoolInput>
+                )}
+
                 {mm.type === 'text' && (
                   <TextInput
                     object={mm}
@@ -597,6 +612,64 @@ function GLSLInput({
 }
 
 function TextInput({
+  object = { value: 0 },
+  name = 'value',
+  label,
+  value = 0,
+  min,
+  max,
+  step = 0.01,
+  onSave = () => {},
+  onSaveLater = () => {},
+  onRemove = () => {},
+}) {
+  let ref = useRef()
+  useEffect(() => {
+    const pane = new Pane({
+      container: ref.current,
+    })
+
+    //
+    let tt = 0
+    pane
+      .addInput(object, name, {
+        label,
+        value,
+        step,
+      })
+      .on('change', () => {
+        onSave()
+
+        clearTimeout(tt)
+        tt = setTimeout(() => {
+          onSaveLater()
+        }, 100)
+      })
+
+    const btn = pane.addButton({
+      title: 'Remove',
+      label: 'Remove', // optional
+    })
+
+    btn.on('click', () => {
+      if (window.confirm('remove?')) {
+        onRemove()
+      }
+    })
+
+    return () => {
+      //
+      pane.dispose()
+    }
+  }, [])
+  return (
+    <div>
+      <div ref={ref}></div>
+    </div>
+  )
+}
+
+function BoolInput({
   object = { value: 0 },
   name = 'value',
   label,

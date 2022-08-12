@@ -4,9 +4,9 @@ import { useFrame } from '@react-three/fiber'
 export function RenderSwitch() {
   ///
 
-  useFrame((st, dt) => {
-    st.gl.render(st.scene, st.camera)
-  }, 100)
+  // useFrame((st, dt) => {
+  //   st.gl.render(st.scene, st.camera)
+  // }, 100)
   return (
     <>
       {/*  */}

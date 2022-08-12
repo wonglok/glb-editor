@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useENEditor } from '@/vfx-studio/store/use-en-editor'
 
 export function EffectNodeObjectNode({
@@ -12,19 +12,12 @@ export function EffectNodeObjectNode({
   enRuntime,
 }) {
   let codes = useENEditor((s) => s.codes)
+
+  let [component, setComponent] = useState(<></>)
   useEffect(() => {
     let cleans = []
     let featureModule = codes.find((e) => e.title === node.codeID)
 
-    // let url = new URL(
-    //   'http://localhost:3000/repo-libs/wonglok/happy.js'
-    // ).href.toLowerCase()
-    // let val = eval(`import(${JSON.stringify(url)});`)
-    // val.then((e) => {
-    //   console.log(e)
-    // })
-
-    //
     if (featureModule) {
       featureModule.loader().then(async (logic) => {
         enRuntime.set(node._id, node)
@@ -189,6 +182,7 @@ export function EffectNodeObjectNode({
             mini,
             node: nodeAPI,
             data: dataAPI,
+            setComponent,
           })
           ?.catch((e) => {
             console.log(e)
@@ -200,5 +194,11 @@ export function EffectNodeObjectNode({
       cleans.forEach((c) => c())
     }
   }, [])
-  return <></>
+  return (
+    <>
+      {/*  */}
+      {/*  */}
+      {component}
+    </>
+  )
 }
