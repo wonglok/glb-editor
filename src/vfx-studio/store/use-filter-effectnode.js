@@ -8,6 +8,7 @@ export function useFilterEffectNode({ glbObject }) {
   if (glbObject) {
     glbObject.scene.traverse((it) => {
       //
+
       if (it.userData.effectNode) {
         array.push(it)
       }
