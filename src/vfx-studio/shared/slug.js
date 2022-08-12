@@ -1,1 +1,1 @@
-export const Slug = 'render'
+export const Slug = 'editor'
