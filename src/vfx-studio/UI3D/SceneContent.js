@@ -25,7 +25,7 @@ export function SceneContent({}) {
   return (
     <>
       {/*  */}
-      {glbObject && glbObjectForEffect && (
+      {glbObject && (
         <>
           <Select
             box
