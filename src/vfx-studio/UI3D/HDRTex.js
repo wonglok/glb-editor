@@ -3,6 +3,7 @@ import { TextureLoader } from 'three140'
 import { RGBELoader } from 'three140/examples/jsm/loaders/RGBELoader'
 import { EquirectangularReflectionMapping, sRGBEncoding } from 'three140'
 import { useEffect } from 'react'
+
 export function HDRTex({ url, scene }) {
   let using = TextureLoader
 

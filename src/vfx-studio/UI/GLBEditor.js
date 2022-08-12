@@ -23,6 +23,7 @@ export function GLBEditor() {
       <div
         className='flex w-full h-full'
         style={{
+          overflow: 'auto',
           width:
             layout === 'effectnode '
               ? `calc(100% - 280px)`
@@ -39,6 +40,8 @@ export function GLBEditor() {
           <RunnerEditor></RunnerEditor>
           <Overlay></Overlay>
         </div>
+
+        {/*  */}
         {
           <div className='w-1/2 h-full bg-gray-100'>
             <EditorColumnEffectNode></EditorColumnEffectNode>

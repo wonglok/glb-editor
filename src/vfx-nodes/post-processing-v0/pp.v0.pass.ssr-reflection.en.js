@@ -87,46 +87,34 @@ export async function nodeData({ defaultData, nodeID }) {
 
 export function effect({ node, mini, data, setComponent }) {
   let defaultConfig = {}
-
-  let keys = Object.keys(props)
-
   let send = () => {
-    for (let key of keys) {
-      defaultConfig[key] = data.value[key]
-    }
-
     node.out0.pulse(<SSR key={getID()} {...defaultConfig} />)
   }
 
-  send()
-
+  let keys = Object.keys(props)
   for (let key of keys) {
-    data.uniforms[key](() => {
-      send()
+    defaultConfig[key] = data.value[key]
+  }
+  needsUpdate = true
+
+  let needsUpdate = false
+  for (let key of keys) {
+    data.uniforms[key]((signal) => {
+      defaultConfig[key] = signal.value
+      needsUpdate = true
     })
   }
 
+  let tt = setInterval(() => {
+    if (needsUpdate) {
+      needsUpdate = false
+      send()
+    }
+  }, 1)
+  mini.onClean(() => {
+    clearInterval(tt)
+  })
+  //
+
   //
 }
-
-//
-
-/*
-<SSR premultiply={true} opacity={0.2} />
-
-<SSR {...props} />
-<Bloom
-  luminanceThreshold={0.2}
-  mipmapBlur
-  luminanceSmoothing={0}
-  intensity={0.5}
-/>
-<LUT lut={texture} />
-{/* <DepthOfField
-    focusDistance={2}
-    focalLength={0.02}
-    bokehScale={2}
-    height={480}
-  />
-
-  */
