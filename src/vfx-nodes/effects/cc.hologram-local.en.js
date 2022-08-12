@@ -52,10 +52,8 @@ export async function nodeData({ defaultData, nodeID }) {
         name: 'shader',
         type: `glsl`,
         value: `
-
-float ratioA = abs(sin(vH * 700.0 + time * 25.0));
+float ratioA = abs(cos(250.0 * vH + time * 25.0) * sin(vH * 250.0 + time * 25.0));
 gl_FragColor.a = ratioA * 1.0;
-
 `,
       },
     ],

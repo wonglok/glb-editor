@@ -262,7 +262,7 @@ function ColorInput({
         clearTimeout(tt)
         tt = setTimeout(() => {
           onSaveLater()
-        }, 100)
+        }, 25)
       })
 
     const btn = pane.addButton({
@@ -322,7 +322,7 @@ function Vector4Input({
         clearTimeout(tt)
         tt = setTimeout(() => {
           onSaveLater()
-        }, 100)
+        }, 25)
       })
 
     const btn = pane.addButton({
@@ -382,7 +382,7 @@ function Vector3Input({
         clearTimeout(tt)
         tt = setTimeout(() => {
           onSaveLater()
-        }, 100)
+        }, 25)
       })
 
     const btn = pane.addButton({
@@ -442,7 +442,7 @@ function Vector2Input({
         clearTimeout(tt)
         tt = setTimeout(() => {
           onSaveLater()
-        }, 100)
+        }, 25)
       })
 
     const btn = pane.addButton({
@@ -500,7 +500,7 @@ function FloatInput({
         clearTimeout(tt)
         tt = setTimeout(() => {
           onSaveLater()
-        }, 100)
+        }, 25)
       })
 
     const btn = pane.addButton({
@@ -643,7 +643,7 @@ function TextInput({
         clearTimeout(tt)
         tt = setTimeout(() => {
           onSaveLater()
-        }, 100)
+        }, 25)
       })
 
     const btn = pane.addButton({
@@ -701,7 +701,7 @@ function BoolInput({
         clearTimeout(tt)
         tt = setTimeout(() => {
           onSaveLater()
-        }, 100)
+        }, 25)
       })
 
     const btn = pane.addButton({
