@@ -59,7 +59,7 @@ function useSettings(v) {
 export function Effects({}) {
   const enable = useRender((s) => s.enable)
 
-  const texture = useLoader(LUTCubeLoader, '/lut/Remy 24.CUBE')
+  const texture = useLoader(LUTCubeLoader, '/lut/F-6800-STD.cube')
 
   // const { enabled, ...props } = useControls(settings, {}, {})
 
@@ -119,12 +119,12 @@ export function Effects({}) {
       {enable && (
         <EffectComposer disableNormalPass>
           <SSR {...props} />
-          {/* <Bloom
+          <Bloom
             luminanceThreshold={0.2}
             mipmapBlur
             luminanceSmoothing={0}
-            intensity={0.8}
-          /> */}
+            intensity={0.5}
+          />
           <LUT lut={texture} />
           {/* <DepthOfField
             focusDistance={2}
