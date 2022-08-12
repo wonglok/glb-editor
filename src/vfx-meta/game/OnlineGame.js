@@ -25,9 +25,10 @@ export function OnlineGame() {
       <OnlineSystem mapID='dome-map'>
         <>
           <Player></Player>
-          <Effects></Effects>
         </>
       </OnlineSystem>
+
+      <Effects></Effects>
 
       <TopLeft></TopLeft>
     </group>
