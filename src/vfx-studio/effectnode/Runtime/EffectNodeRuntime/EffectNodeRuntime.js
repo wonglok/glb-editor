@@ -12,27 +12,41 @@ export function EffectNodeRuntime({ glbObject, originalGLBObject }) {
 
   useEffect(() => {
     setReady(false)
-    ens.forEach((en) => {
-      //
-      en.updateMatrixWorld()
 
-      //
-
-      if (en.userData.effectNode) {
-        if (originalGLBObject) {
-          originalGLBObject.scene.traverse((oo) => {
-            if (oo.userData.posMD5 === en.userData.posMD5) {
-              en.material = oo.material.clone()
-              en.material.needsUpdate = true
-            }
-          })
-        }
-      }
-    })
     setTimeout(() => {
+      let ens = []
+
+      if (glbObject) {
+        glbObject.scene.traverse((it) => {
+          //
+
+          if (it.userData.effectNode) {
+            ens.push(it)
+          }
+        })
+      }
+
+      ens.forEach((en) => {
+        //
+        en.updateMatrixWorld()
+
+        if (en.userData.effectNode) {
+          if (originalGLBObject) {
+            originalGLBObject.scene.traverse((oo) => {
+              if (oo.userData.posMD5 === en.userData.posMD5) {
+                en.material = oo.material.clone()
+                en.material.needsUpdate = true
+              }
+            })
+          }
+        }
+      })
+
       setReady(true)
     })
-  }, [ens, originalGLBObject, reloadGraphID, glbObject])
+  }, [glbObject, originalGLBObject, reloadGraphID])
+
+  //
   return (
     <>
       <group>
@@ -53,3 +67,5 @@ export function EffectNodeRuntime({ glbObject, originalGLBObject }) {
     </>
   )
 }
+
+//
