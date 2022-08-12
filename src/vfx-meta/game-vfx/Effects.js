@@ -126,13 +126,13 @@ export function Effects({}) {
             intensity={0.5}
           />
           <LUT lut={texture} />
+          <Noise premultiply={true} opacity={0.5} />
           {/* <DepthOfField
             focusDistance={2}
             focalLength={0.02}
             bokehScale={2}
             height={480}
           /> */}
-          <Noise opacity={0.05} />
         </EffectComposer>
       )}
     </>
