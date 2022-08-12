@@ -118,6 +118,8 @@ export function Effects({}) {
     <>
       {enable && (
         <EffectComposer disableNormalPass>
+          <Noise premultiply={true} opacity={0.2} />
+
           <SSR {...props} />
           <Bloom
             luminanceThreshold={0.2}
@@ -126,7 +128,6 @@ export function Effects({}) {
             intensity={0.5}
           />
           <LUT lut={texture} />
-          <Noise premultiply={true} opacity={0.5} />
           {/* <DepthOfField
             focusDistance={2}
             focalLength={0.02}
