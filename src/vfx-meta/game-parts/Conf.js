@@ -31,18 +31,7 @@ export function Conf() {
   let mapID = useMetaStore((s) => s.mapID)
   // let checkSupportScreenShare = useTwilio((s) => s.checkSupportScreenShare)
   // let screenShare = useTwilio((s) => s.screenShare)
-  useEffect(() => {
-    let roomName = mapID
-
-    if (!roomName) {
-      return
-    }
-    // console.log('')
-
-    getTokenByRoomName(roomName).then((token) => {
-      setToken(token)
-    })
-  }, [mapID, getTokenByRoomName, setToken])
+  // useEffect(() => {}, [mapID, getTokenByRoomName, setToken])
 
   //
   let [deviceReady, setReady] = useState(false)
@@ -52,10 +41,25 @@ export function Conf() {
   let refN = useRef()
   return (
     <div className=''>
-      {!deviceReady && !room && token && (
+      {!deviceReady && !room && !token && (
         <button
           onClick={async (ev) => {
+            if (ev.target.innerText === 'Loading...') {
+              return
+            }
             ev.target.innerText = 'Loading...'
+
+            let roomName = mapID
+
+            if (!roomName) {
+              return
+            }
+            // console.log('')
+
+            await getTokenByRoomName(roomName).then((token) => {
+              setToken(token)
+            })
+
             setListener()
 
             await getDevices()
@@ -122,6 +126,9 @@ export function Conf() {
           <div>
             <button
               onClick={async (ev) => {
+                if (ev.target.innerText === 'Joining room.....') {
+                  return
+                }
                 //
                 let roomName = mapID
 
