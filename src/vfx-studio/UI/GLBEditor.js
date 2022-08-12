@@ -25,8 +25,8 @@ export function GLBEditor() {
         style={{
           width:
             layout === 'effectnode '
-              ? `calc(100% - 280px - 280px)`
-              : `calc(100% - 280px - 280px)`,
+              ? `calc(100% - 280px)`
+              : `calc(100% - 280px)`,
         }}
       >
         <div
@@ -45,10 +45,10 @@ export function GLBEditor() {
           </div>
         }
       </div>
-      <div className='h-full' style={{ width: `280px` }}>
-        {/* <EffectNodeSeries></EffectNodeSeries> */}
-        <MeshMaterialEditor></MeshMaterialEditor>
-      </div>
+      {/* <div className='h-full' style={{ width: `280px` }}> */}
+      {/* <EffectNodeSeries></EffectNodeSeries> */}
+      {/* <MeshMaterialEditor></MeshMaterialEditor> */}
+      {/* </div> */}
     </div>
   )
 }

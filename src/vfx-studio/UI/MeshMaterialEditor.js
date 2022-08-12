@@ -39,9 +39,9 @@ function Details({ mesh }) {
       let pane = new Pane({ container: refDiv.current })
 
       if (mesh?.material) {
-        let currentMat = mesh.material
+        // let currentMat = mesh.material
 
-        mesh.userData.beforeMat = mesh.userData.beforeMat || currentMat.clone()
+        // mesh.userData.beforeMat = mesh.userData.beforeMat || currentMat.clone()
 
         // mesh.userData.beforeAfter = mesh.userData.beforeAfter || 'before'
         // pane
@@ -60,51 +60,51 @@ function Details({ mesh }) {
         //   })
         // //
 
-        pane.addInput(currentMat, 'metalness', {
-          min: 0,
-          max: 1,
-        })
+        // pane.addInput(currentMat, 'metalness', {
+        //   min: 0,
+        //   max: 1,
+        // })
 
-        pane.addInput(currentMat, 'roughness', {
-          min: 0,
-          max: 1,
-        })
+        // pane.addInput(currentMat, 'roughness', {
+        //   min: 0,
+        //   max: 1,
+        // })
 
-        pane.addInput(currentMat, 'side', {
-          options: {
-            double: DoubleSide,
-            front: FrontSide,
-            back: BackSide,
-          },
-        })
+        // pane.addInput(currentMat, 'side', {
+        //   options: {
+        //     double: DoubleSide,
+        //     front: FrontSide,
+        //     back: BackSide,
+        //   },
+        // })
 
-        pane.addInput(currentMat, 'transparent')
+        // pane.addInput(currentMat, 'transparent')
 
-        pane.addInput(currentMat, 'opacity', {
-          min: 0,
-          max: 1,
-        })
+        // pane.addInput(currentMat, 'opacity', {
+        //   min: 0,
+        //   max: 1,
+        // })
 
-        let addColorPicker = (name) => {
-          let PARAMS = {
-            [name]:
-              '#' + new Color(currentMat[name] || 0xffffff).getHexString(),
-            _____outbound: new Color(currentMat[name] || 0xffffff),
-          }
-          pane
-            .addInput(PARAMS, name, {
-              view: 'color',
-              color: { alpha: false },
-            })
-            .on('change', (ev) => {
-              PARAMS[name] = ev.value
-              PARAMS._____outbound.set(ev.value)
-              currentMat[name] = PARAMS._____outbound
-            })
-        }
+        // let addColorPicker = (name) => {
+        //   let PARAMS = {
+        //     [name]:
+        //       '#' + new Color(currentMat[name] || 0xffffff).getHexString(),
+        //     _____outbound: new Color(currentMat[name] || 0xffffff),
+        //   }
+        //   pane
+        //     .addInput(PARAMS, name, {
+        //       view: 'color',
+        //       color: { alpha: false },
+        //     })
+        //     .on('change', (ev) => {
+        //       PARAMS[name] = ev.value
+        //       PARAMS._____outbound.set(ev.value)
+        //       currentMat[name] = PARAMS._____outbound
+        //     })
+        // }
 
-        addColorPicker('color')
-        addColorPicker('emissive')
+        // addColorPicker('color')
+        // addColorPicker('emissive')
 
         const btnEffectNode = pane.addButton({
           title: 'Embed Effect Node',
