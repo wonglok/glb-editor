@@ -70,9 +70,8 @@ export function effect({ node, mini, data, setComponent }) {
   for (let key of keys) {
     defaultConfig[key] = data.value[key]
   }
-  needsUpdate = true
 
-  let needsUpdate = false
+  let needsUpdate = true
   for (let key of keys) {
     data.uniforms[key]((signal) => {
       defaultConfig[key] = signal.value
