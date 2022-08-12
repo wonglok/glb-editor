@@ -133,7 +133,4 @@ export function effect({ node, mini, data, setComponent }) {
     bokehScale={2}
     height={480}
   />
-
-
-
   */
