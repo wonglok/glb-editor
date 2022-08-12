@@ -33,28 +33,20 @@ export async function nodeData({ defaultData, nodeID }) {
     material: [],
 
     uniforms: [
-      // {
-      //   _id: getID(),
-      //   nodeID,
-      //   name: 'speed',
-      //   type: 'float',
-      //   value: 1,
-      // },
-      // {
-      //   _id: getID(),
-      //   nodeID,
-      //   name: 'colorA',
-      //   type: 'color',
-      //   value: '#00ff89',
-      // },
-      // {
-      //   id: getID(),
-      //   nodeID,
-      //   name: 'shader',
-      //   type: `glsl`,
-      //   value: `
-      //   `,
-      // },
+      {
+        _id: getID(),
+        nodeID,
+        name: 'premultiply',
+        type: 'bool',
+        value: false,
+      },
+      {
+        _id: getID(),
+        nodeID,
+        name: 'opacity',
+        type: 'float',
+        value: 0.2,
+      },
     ],
 
     //
@@ -86,9 +78,25 @@ export function effect({ node, mini, data, setComponent }) {
   //   )
   // }
 
+  let defaultConfig = {}
+
+  let keys = ['premultiply', 'opacity']
+
   let send = () => {
-    node.out0.pulse(<Noise premultiply={false} opacity={0.2} />)
+    node.out0.pulse(<Noise key={getID()} {...defaultConfig} />)
   }
+
+  for (let key of keys) {
+    defaultConfig[key] = data.value[key]
+  }
+  for (let key of keys) {
+    data.uniforms[key]((signal) => {
+      defaultConfig[key] = signal.value
+      send()
+    })
+  }
+
+  //
 }
 
 //

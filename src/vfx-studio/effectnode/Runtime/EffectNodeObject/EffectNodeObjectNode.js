@@ -111,7 +111,24 @@ export function EffectNodeObjectNode({
           {},
           {
             get: (obj, accessKey) => {
-              if (
+              if (accessKey === 'value') {
+                if (enRuntime && enRuntime.now[node._id])
+                  return new Proxy(
+                    {},
+                    {
+                      get: (_ooo, entryName) => {
+                        let obj = enRuntime.now[node._id].uniforms.find(
+                          (e) => e.name === entryName
+                        )
+                        if (obj) {
+                          return obj.value
+                        } else {
+                          return undefined
+                        }
+                      },
+                    }
+                  )
+              } else if (
                 //
                 accessKey === 'shaders' ||
                 accessKey === 'materials' ||

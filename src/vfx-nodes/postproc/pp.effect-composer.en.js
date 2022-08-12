@@ -71,23 +71,16 @@ export function effect({ node, mini, data, setComponent }) {
   //
 
   let config = {}
-  // ...
+
+  node.in0.stream((v) => {
+    config['in0'] = v || null
+    setComponent(makeElemnet(config))
+  })
 
   let makeElemnet = () => {
-    return (
-      <EffectComposer>
-        <Bloom
-          luminanceThreshold={0.2}
-          mipmapBlur
-          luminanceSmoothing={0}
-          intensity={0.5}
-        />
-        <Noise premultiply={false} opacity={0.2} />
-      </EffectComposer>
-    )
+    let values = Object.values(config)
+    return <EffectComposer>{values}</EffectComposer>
   }
-
-  setComponent(makeElemnet(config))
 }
 
 //
