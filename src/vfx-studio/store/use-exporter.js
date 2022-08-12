@@ -51,9 +51,9 @@ export const Exporter = {
         })
 
         let glbObjectBeforeEdit = useAccessor.getState().glbObjectBeforeEdit
-        let objectForExport = glbObjectBeforeEdit.scene
-
-        //
+        let objectForExport =
+          glbObjectBeforeEdit.scene.getObjectByName('Scene') ||
+          glbObjectBeforeEdit.scene
 
         cloned.traverse((pp) => {
           if (pp.userData.effectNode) {

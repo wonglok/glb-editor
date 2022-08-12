@@ -9,7 +9,7 @@ import { EffectNodeRuntime } from '../effectnode/Runtime/EffectNodeRuntime/Effec
 
 export function SceneContent({}) {
   let glbObject = useAccessor((s) => s.glbObject)
-  let glbObjectForEffect = useAccessor((s) => s.glbObjectForEffect)
+  let openEffectNode = useAccessor((s) => s.openEffectNode)
   let updateSelected = useAccessor((s) => s.updateSelected)
   let scene = useThree((s) => s.scene)
   let setContorl = useAccessor((s) => s.setContorl)
@@ -35,6 +35,7 @@ export function SceneContent({}) {
 
               //
               if (v[0]) {
+                openEffectNode(v[0])
                 setLayout('effectnode')
 
                 v[0].geometry.computeBoundingSphere()
