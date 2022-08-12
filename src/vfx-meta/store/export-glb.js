@@ -1,9 +1,7 @@
+import { useAccessor } from '@/vfx-studio/store/use-accessor'
 import { AnimationMixer } from 'three140'
 
 export const exportGLB = ({ clips, group, mixer, onDone = () => {} }) => {
-  //
-  //
-
   import('three/examples/jsm/exporters/GLTFExporter.js').then(
     async ({ GLTFExporter }) => {
       let { clone } = await import('three/examples/jsm/utils/SkeletonUtils')
@@ -27,8 +25,6 @@ export const exportGLB = ({ clips, group, mixer, onDone = () => {} }) => {
 
         //   return a
         // }),
-
-        //
 
         forceIndice: true,
         includeCustomExtensions: true,

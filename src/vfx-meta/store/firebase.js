@@ -30,6 +30,9 @@ export function setupFirebase() {
         }
       })
   }
+
+  //
+
   if (!FireCache.has('setup-do-login')) {
     FireCache.set('setup-do-login', true)
 

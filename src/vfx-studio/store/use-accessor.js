@@ -13,6 +13,7 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
 export const useAccessor = create((set, get) => {
   return {
     glbObject: null,
+    glbObjectBeforeEdit: null,
     glbMetadata: null,
     fileID: null,
 
@@ -76,12 +77,13 @@ export const useAccessor = create((set, get) => {
       //
     },
     loadBfferGLB: (fileID) => {
+      set({ glbObject: null, glbObjectBeforeEdit: null })
+
       set({ fileID })
 
       loadMetadataByFileID(fileID).then((metadata) => {
         set({ glbMetadata: metadata })
       })
-
       //
 
       loadBinaryByFileID(fileID).then((buffer) => {
@@ -92,8 +94,26 @@ export const useAccessor = create((set, get) => {
         loader.setDRACOLoader(draco)
 
         //
+
         loader.parse(buffer, '/', (glb) => {
+          let i = 0
+          glb.scene.traverse((it) => {
+            it.userData.enUUID = 'uuid' + i
+            i++
+          })
+
           set({ glbObject: glb })
+        })
+
+        //
+        loader.parse(buffer, '/', (glb) => {
+          let i = 0
+          glb.scene.traverse((it) => {
+            it.userData.enUUID = 'uuid' + i
+            i++
+          })
+
+          set({ glbObjectBeforeEdit: glb })
         })
       })
     },

@@ -8,6 +8,8 @@
 // import { DracoMeshCompression } from '@gltf-transform/extensions'
 import { Object3D } from 'three'
 import { clone } from 'three140/examples/jsm/utils/SkeletonUtils'
+import { useAccessor } from './use-accessor'
+import { getID } from './use-en-editor'
 
 export const Exporter = {
   download: ({
@@ -48,6 +50,23 @@ export const Exporter = {
           }
         })
 
+        let glbObjectBeforeEdit = useAccessor.getState().glbObjectBeforeEdit
+        let objectForExport = glbObjectBeforeEdit.scene
+
+        //
+
+        cloned.traverse((pp) => {
+          if (pp.userData.effectNode) {
+            objectForExport.traverse((oo) => {
+              if (oo.userData.enUUID === pp.userData.enUUID) {
+                oo.userData.effectNode = JSON.parse(
+                  JSON.stringify(pp.userData.effectNode)
+                )
+              }
+            })
+          }
+        })
+
         const exporter = new GLTFExporter()
         const options = {
           binary: true,
@@ -74,7 +93,7 @@ export const Exporter = {
 
         // Parse the input and generate the glTF output
         exporter.parse(
-          [cloned.getObjectByName('Scene') || cloned],
+          [objectForExport],
           // called when the gltf has been generated
           async function (gltf) {
             //
