@@ -22,7 +22,7 @@ GLB has alawys been a good standard for the 3D content on the internet. It also 
 https://effectnode-multiverse-gui.vercel.app/
 
 ## Editor
-https://effectnode-multiverse-gui.vercel.app/render
+https://effectnode-multiverse-gui.vercel.app/editor
 
 https://user-images.githubusercontent.com/4082826/181136392-4c1d61cd-f0f3-4bc3-adc7-4e02c993ffdf.mp4
 
