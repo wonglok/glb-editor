@@ -14,7 +14,7 @@ export const Exporter = {
   download: ({
     clips = [],
     group = new Object3D(),
-    downloadName = 'opsimitsedGLB',
+    downloadName = 'export-glb',
     optimize = [1024, 1024],
     onDoneOptimizeBuffer = null,
   }) => {
