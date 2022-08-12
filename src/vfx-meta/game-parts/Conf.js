@@ -184,13 +184,13 @@ function Room({ onlyShowScreenShare = false }) {
   return (
     <>
       <div>Room Title: {room.name}</div>
-
       {/*  */}
       {/*  */}
       {/*  */}
       {/*  */}
       {room && myself && (
         <OneParticipane
+          key={'myself-participlant' + myself.videoTracks.size}
           room={room}
           onlyShowScreenShare={onlyShowScreenShare}
           isSelf={true}
@@ -198,21 +198,19 @@ function Room({ onlyShowScreenShare = false }) {
         ></OneParticipane>
       )}
 
-      {/*  */}
       {participants
         .filter((a) => a)
         .map((e) => {
           return (
             <OneParticipane
               onlyShowScreenShare={onlyShowScreenShare}
-              key={e.identity}
+              key={e.identity + e.videoTracks.size}
               room={room}
               isSelf={false}
               participant={e}
             ></OneParticipane>
           )
         })}
-
       {/*  */}
       {/*  */}
       {/*  */}
