@@ -35,8 +35,6 @@ export function OnlineGame() {
   )
 }
 
-//
-
 function TopLeft() {
   let setRender = useRender((s) => s.setRender)
   useEffect(() => {
@@ -52,5 +50,9 @@ function TopLeft() {
     </>
   )
 }
+
+//
+
+//
 
 //
