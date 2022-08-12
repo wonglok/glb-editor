@@ -72,18 +72,48 @@ export function effect({ node, mini, data, setComponent }) {
   // setComponent
   //
   //
-
-  let config = {}
-
-  node.in0.stream((v) => {
-    config['in0'] = v || null
-    setComponent(makeElemnet(config))
-  })
+  let receivers = {}
 
   let makeElemnet = () => {
-    let values = Object.values(config)
-    return <EffectComposer>{values}</EffectComposer>
+    let values = []
+
+    for (let socketInputName in receivers) {
+      if (receivers[socketInputName]) {
+        values.push(receivers[socketInputName])
+      }
+    }
+    return <EffectComposer key={getID()}>{values}</EffectComposer>
   }
+
+  let send = () => {
+    setComponent(makeElemnet(receivers))
+  }
+
+  let keys = ['in0', 'in1', 'in2', 'in3', 'in4', 'in5', 'in6', 'in7', 'in8']
+
+  keys.forEach((socket) => {
+    node[socket].stream((v) => {
+      //
+      //
+
+      receivers[socket] = v
+      send()
+    })
+  })
+
+  // keys.forEach((kn) => {
+  //   data.uniforms[kn]((v) => {
+  //     defaultConfig[kn] = v || null
+  //     setComponent(makeElemnet(defaultConfig))
+  //   })
+  // })
+
+  // //
+
+  // keys.forEach((kn) => {
+  //   console.log(data.value[kn])
+  //   defaultConfig[kn] = data.value[kn] || null
+  // })
 }
 
 //
@@ -105,5 +135,7 @@ export function effect({ node, mini, data, setComponent }) {
     bokehScale={2}
     height={480}
   />
+
+
 
   */
