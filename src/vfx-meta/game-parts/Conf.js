@@ -29,8 +29,8 @@ export function Conf() {
   let setToken = useTwilio((s) => s.setToken)
   let token = useTwilio((s) => s.token)
   let mapID = useMetaStore((s) => s.mapID)
-  let checkSupportScreenShare = useTwilio((s) => s.checkSupportScreenShare)
-  let screenShare = useTwilio((s) => s.screenShare)
+  // let checkSupportScreenShare = useTwilio((s) => s.checkSupportScreenShare)
+  // let screenShare = useTwilio((s) => s.screenShare)
   useEffect(() => {
     let roomName = mapID
 
@@ -52,7 +52,7 @@ export function Conf() {
   let refN = useRef()
   return (
     <div className=''>
-      {!deviceReady && token && (
+      {!deviceReady && !room && token && (
         <button
           onClick={async (ev) => {
             ev.target.innerText = 'Loading...'
@@ -163,7 +163,7 @@ export function Conf() {
         </div>
       )} */}
 
-      <div className=' bg-white'>
+      <div className='fixed top-0 left-0 opacity-0 pointer-events-none'>
         {room && <Room onlyShowScreenShare={true}></Room>}
       </div>
     </div>

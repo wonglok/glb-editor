@@ -10,6 +10,7 @@ import { Player } from '../game-parts/Player'
 import { OnlineSystem } from '../online/OnlineSystem'
 import { Effects } from '../game-vfx/Effects'
 import { useRender } from '../store/use-render'
+import { useTwilio } from '../store/use-twilio'
 
 export function Chatroom() {
   return (
@@ -31,19 +32,7 @@ export function Chatroom() {
 
             <Effects></Effects>
 
-            <UIContent>
-              <div
-                className=' absolute  flex items-center justify-center '
-                style={{
-                  top: 'calc(50vh - 300px / 2)',
-                  left: 'calc(50vw - 300px / 2)',
-                  width: '300px',
-                  height: '300px',
-                }}
-              >
-                <Conf></Conf>
-              </div>
-            </UIContent>
+            <Center></Center>
           </>
         </OnlineSystem>
       </Suspense>
@@ -56,6 +45,32 @@ export function Chatroom() {
 }
 
 //
+
+function Center() {
+  let room = useTwilio((s) => s.room)
+  return (
+    <UIContent>
+      <div
+        className='absolute flex items-center justify-center -z-10'
+        style={
+          room
+            ? {
+                top: '0px',
+                left: '0px',
+              }
+            : {
+                top: 'calc(50vh - 300px / 2)',
+                left: 'calc(50vw - 300px / 2)',
+                width: '300px',
+                height: '300px',
+              }
+        }
+      >
+        <Conf></Conf>
+      </div>
+    </UIContent>
+  )
+}
 
 function TopLeft() {
   const enable = useRender((s) => s.enable)
