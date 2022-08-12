@@ -64,11 +64,47 @@ export function EnvLight() {
       {/* Sides */}
       {/* Key */}
       <Lightformer
-        form='ring'
-        color='cyan'
+        form='rect'
+        color='#00ffff'
         intensity={5}
         scale={2}
         position={[0, 5, 0]}
+        onUpdate={(self) => self.lookAt(0, 0, 0)}
+      />
+
+      <Lightformer
+        form='rect'
+        color='#00ffff'
+        intensity={5}
+        scale={2}
+        position={[-5, 5, 0]}
+        onUpdate={(self) => self.lookAt(0, 0, 0)}
+      />
+
+      <Lightformer
+        form='rect'
+        color='#00ffff'
+        intensity={5}
+        scale={2}
+        position={[5, 5, 0]}
+        onUpdate={(self) => self.lookAt(0, 0, 0)}
+      />
+
+      <Lightformer
+        form='rect'
+        color='#00ffff'
+        intensity={5}
+        scale={2}
+        position={[-5, 5, 5]}
+        onUpdate={(self) => self.lookAt(0, 0, 0)}
+      />
+
+      <Lightformer
+        form='rect'
+        color='#00ffff'
+        intensity={5}
+        scale={2}
+        position={[5, 5, -5]}
         onUpdate={(self) => self.lookAt(0, 0, 0)}
       />
     </Environment>
