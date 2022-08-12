@@ -92,10 +92,8 @@ export function effect({ node, mini, data, setComponent }) {
   let keys = ['in0', 'in1', 'in2', 'in3', 'in4', 'in5', 'in6', 'in7', 'in8']
 
   keys.forEach((socket) => {
+    receivers[socket] = null
     node[socket].stream((v) => {
-      //
-      //
-
       receivers[socket] = v
       send()
     })
