@@ -45,6 +45,10 @@ export function GLBEditor() {
           </div>
         }
       </div>
+
+      {/*  */}
+      {/*  */}
+      {/*  */}
       {/* <div className='h-full' style={{ width: `280px` }}> */}
       {/* <EffectNodeSeries></EffectNodeSeries> */}
       {/* <MeshMaterialEditor></MeshMaterialEditor> */}
