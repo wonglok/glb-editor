@@ -32,6 +32,7 @@ export async function nodeData({ defaultData, nodeID }) {
     //
     material: [],
 
+    //
     uniforms: [
       // {
       //   _id: getID(),
