@@ -1,5 +1,5 @@
 import { getID } from '@/vfx-runtime/ENUtils'
-import { Color, MeshStandardMaterial } from 'three140'
+import { Color, MeshPhysicalMaterial, MeshStandardMaterial } from 'three140'
 
 //
 
@@ -43,24 +43,9 @@ export async function nodeData({ defaultData, nodeID }) {
 
         name: 'colorA',
         type: 'color',
-        value: '#ef05ba',
+        value: '#00ff89',
       },
-      {
-        _id: getID(),
-        nodeID,
 
-        name: 'colorB',
-        type: 'color',
-        value: '#02ffe0',
-      },
-      {
-        _id: getID(),
-        nodeID,
-
-        name: 'colorC',
-        type: 'color',
-        value: '#ffffff',
-      },
       {
         id: getID(),
         nodeID,
@@ -68,23 +53,8 @@ export async function nodeData({ defaultData, nodeID }) {
         type: `glsl`,
         value: `
 
-
-
-  noiser = vec3(
-    rand(uv.xy + 0.1) * 2.0 - 1.0,
-    rand(uv.xy + 0.2) * 2.0 - 1.0,
-    rand(uv.xy + 0.3) * 2.0 - 1.0
-  );
-
-  toBall(noiser, az, el);
-
-  az += sin(time + uv.x * 3.14);
-  el += cos(time + uv.x * 3.14);
-
-  pos.xyz = trackerPos + vec3(0.0, 1.0, 0.0) + rotateY(time) * fromBall(2.9 + 0.5 * sin(time), az, el);
-
-  gl_FragColor.rgb = pos.rgb;
-  gl_FragColor.w = 1.0;
+float ratioA = abs(sin(vH * 700.0 + time * 25.0));
+gl_FragColor.a = ratioA * 1.0;
 
 `,
       },
@@ -100,67 +70,86 @@ export async function nodeData({ defaultData, nodeID }) {
 export function effect({ node, mini, data }) {
   let it = mini.now.itself
 
-  if (it.material) {
-    it.material = new MeshStandardMaterial({
-      name: it.material.name,
-      uuid: it.material.uuid,
-      color: new Color('#ffffff'),
-      transparent: true,
-    })
-    it.material.onBeforeCompile = (shader, renderer) => {
-      // shader.fragmentShader = ``
-      let atBeginV = `
+  data.uniforms.shader((v) => {
+    if (v && typeof v.value !== 'undefined') {
+      let mat = new MeshPhysicalMaterial({
+        name: it.material.name,
+        color: new Color('#00ff89'),
+        map: it.material.map,
+        normalMap: it.material.normalMap,
+        metalnessMap: it.material.metalnessMap,
+        roughnessMap: it.material.roughnessMap,
+        transparent: true,
+      })
+
+      //
+      mat.onBeforeCompile = (shader, renderer) => {
+        // shader.fragmentShader = ``
+        let atBeginV = `
 
           varying float vH;
       `
-      let atEndV = `
+        let atEndV = `
           vH = transformed.y;
       `
 
-      let atBeginF = `
+        let atBeginF = `
 
           varying float vH;
-            uniform float time;
-      `
+          uniform float time;
+        `
 
-      let atEnd = `
-            float ratioA = abs(sin(vH * 380.0 + time * -10.0));
-            float ratioB = abs(sin(vH * 320.0 + time * -10.0));
-            float ratioC = abs(sin(vH * 310.0 + time * -10.0));
-            gl_FragColor.rgb *= ratioB * ratioA * vec3(1.0, 1.0, 1.0);
+        let atEnd = `
+              ${v.value}
+          `
+        //
 
-            gl_FragColor.rgb *= ratioC;
+        let t = { value: 0 }
+        shader.uniforms.time = t
 
-            gl_FragColor.rgb *= rand(vec2(time)) * 30.0;
-            gl_FragColor.a = ratioA * 0.5;
-      `
-      //
+        if (mini) {
+          mini.onLoop((dt) => {
+            t.value += dt
+          })
+        }
 
-      let t = { value: 0 }
-      shader.uniforms.time = t
+        //
+        //
+        shader.vertexShader = shader.vertexShader.replace(
+          `void main() {`,
+          `${atBeginV.trim()}void main() {`
+        )
+        shader.vertexShader = shader.vertexShader.replace(
+          `#include <fog_vertex>`,
+          `#include <fog_vertex>${atEndV}`
+        )
+        shader.fragmentShader = `${atBeginF.trim()}\n${shader.fragmentShader}`
+        shader.fragmentShader = shader.fragmentShader.replace(
+          `#include <dithering_fragment>`,
+          `#include <dithering_fragment>\n${atEnd.trim()}`
+        )
 
-      if (mini) {
-        mini.onLoop((dt) => {
-          t.value += dt
-        })
+        //
       }
-      //
 
-      shader.vertexShader = shader.vertexShader.replace(
-        `void main() {`,
-        `${atBeginV.trim()}void main() {`
-      )
-      shader.vertexShader = shader.vertexShader.replace(
-        `#include <fog_vertex>`,
-        `#include <fog_vertex>${atEndV}`
-      )
-      shader.fragmentShader = `${atBeginF.trim()}\n${shader.fragmentShader}`
-      shader.fragmentShader = shader.fragmentShader.replace(
-        `#include <dithering_fragment>`,
-        `#include <dithering_fragment>\n${atEnd.trim()}`
-      )
+      mat.customProgramCacheKey = () => v.value
+      it.material = mat
+
+      //
     }
-  }
+  })
+
+  data.uniforms.colorA((v) => {
+    if (v && typeof v.value !== 'undefined') {
+      if (it.material) {
+        it.material.color = new Color(v.value)
+      }
+    }
+  })
+
+  //
+  // if (it.material) {
+  // }
 
   // let myItem = new TheVortex({
   //   enableDetection: true,
