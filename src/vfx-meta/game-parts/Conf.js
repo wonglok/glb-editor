@@ -29,6 +29,8 @@ export function Conf() {
   let setToken = useTwilio((s) => s.setToken)
   let token = useTwilio((s) => s.token)
   let mapID = useMetaStore((s) => s.mapID)
+  let checkSupportScreenShare = useTwilio((s) => s.checkSupportScreenShare)
+  let screenShare = useTwilio((s) => s.screenShare)
   useEffect(() => {
     let roomName = mapID
 
@@ -148,30 +150,36 @@ export function Conf() {
         </div>
       )}
 
-      <div
-        className='w-1 h-1 overflow-hidden pointer-events-none select-none'
-        // className='bg-white'
-      >
-        {room && <Room></Room>}
-      </div>
+      {room && checkSupportScreenShare() && (
+        <div className='fixed left-0 top-24'>
+          <div
+            className='p-2 m-3 bg-white'
+            onClick={() => {
+              screenShare()
+            }}
+          >
+            ScreenShare
+            {/*  */}
+            {/*  */}
+            {/*  */}
+            {/*  */}
+          </div>
+          <div className=' bg-white'>
+            {room && <Room onlyShowScreenShare={true}></Room>}
+          </div>
+        </div>
+      )}
     </div>
   )
 }
 
-function Room() {
+function Room({ onlyShowScreenShare = false }) {
   let ref = useRef()
 
   let room = useTwilio((s) => s.room)
   let myself = useTwilio((s) => s.myself)
   let participants = useTwilio((s) => s.participants)
 
-  useEffect(() => {
-    if (room) {
-      return () => {
-        room.disconnect()
-      }
-    }
-  }, [room])
   //
   return (
     <>
@@ -184,6 +192,7 @@ function Room() {
       {room && myself && (
         <OneParticipane
           room={room}
+          onlyShowScreenShare={onlyShowScreenShare}
           isSelf={true}
           participant={myself}
         ></OneParticipane>
@@ -195,6 +204,7 @@ function Room() {
         .map((e) => {
           return (
             <OneParticipane
+              onlyShowScreenShare={onlyShowScreenShare}
               key={e.identity}
               room={room}
               isSelf={false}
@@ -213,7 +223,8 @@ function Room() {
   )
 }
 
-function OneParticipane({ participant, isSelf = false }) {
+function OneParticipane({ participant, onlyShowScreenShare, isSelf = false }) {
+  let room = useTwilio((s) => s.room)
   let reload = useTwilio((s) => s.reload)
   let setVoiceID = useMetaStore((s) => s.setVoiceID)
   let listener = useTwilio((s) => s.listener)
@@ -239,11 +250,12 @@ function OneParticipane({ participant, isSelf = false }) {
     let hh = () => {
       reload()
     }
+    reload()
     participant.on('trackPublished', hh)
     return () => {
       participant.off('trackPublished', hh)
     }
-  }, [])
+  }, [reload, participant])
 
   //
   return (
@@ -268,6 +280,7 @@ function OneParticipane({ participant, isSelf = false }) {
           return (
             <VideoTracker
               key={e._id}
+              onlyShowScreenShare={onlyShowScreenShare}
               participant={participant}
               publication={e}
             ></VideoTracker>
@@ -352,6 +365,7 @@ function AudioTracker({ isSelf, participant, publication }) {
   }, [max, listener, scene, mediaStreamTrack])
 
   useEffect(() => {
+    //
     if (foundData && mySound && scene) {
       let tt = setInterval(() => {
         let found = scene.getObjectByName(foundData.uid)
@@ -377,7 +391,7 @@ function AudioTracker({ isSelf, participant, publication }) {
   )
 }
 
-function VideoTracker({ participant, publication }) {
+function VideoTracker({ onlyShowScreenShare, participant, publication }) {
   let ref = useRef()
   let getVoicePlayer = useMetaStore((s) => s.getVoicePlayer)
   let setVidTextureByUID = useMetaStore((s) => s.setVidTextureByUID)
@@ -426,10 +440,10 @@ function VideoTracker({ participant, publication }) {
       publication.off('subscribed', hh)
     }
   }, [getVoicePlayer, participant.identity, publication, setVidTextureByUID])
+
   return (
-    <div>
-      {/* Video: {publication.trackName} */}
-      <video className=' h-36' autoPlay playsInline={true} ref={ref}></video>
+    <div className='relative'>
+      <video className={' h-36 '} autoPlay playsInline={true} ref={ref}></video>
     </div>
   )
 }

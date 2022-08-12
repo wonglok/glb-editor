@@ -1,6 +1,8 @@
+import { getID } from '@/vfx-runtime/ENUtils'
 import { AudioListener, PositionalAudio } from 'three'
 import {
   connect,
+  LocalVideoTrack,
   // createLocalAudioTrack,
   // createLocalVideoTrack,
 } from 'twilio-video'
@@ -47,6 +49,26 @@ export const useTwilio = create((set, get) => {
     token: false,
     setToken: (v) => {
       set({ token: v })
+    },
+    checkSupportScreenShare: () => {
+      return 'getDisplayMedia' in window?.navigator?.mediaDevices
+    },
+    screenShare: () => {
+      let { room, checkSupportScreenShare } = get()
+
+      if (checkSupportScreenShare()) {
+        navigator.mediaDevices
+          .getDisplayMedia()
+          .then((stream) => {
+            let screenTrack = new LocalVideoTrack(stream.getTracks()[0])
+            room.localParticipant.publishTrack(screenTrack)
+          })
+          .catch((v) => {
+            console.log('Could not share the screen.', v)
+          })
+      } else {
+        console.log('No support for screenshare api')
+      }
     },
     connectRoom: async (roomName, token, audioDeviceID, videoDeviceID) => {
       // join the video room with the Access Token and the given room name
