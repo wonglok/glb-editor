@@ -402,7 +402,7 @@ export const useMetaStore = create((set, get) => {
       }
     },
 
-    setPosition: ({ initPos = [0, 5, 0], cameraOffset = [0, 0, 5] }) => {
+    setPosition: ({ initPos = [0, 5, 0], cameraOffset = [0, -0.5, 10] }) => {
       let controls = get().controls
       let camera = get().camera
       myCTX.setPositionByArray(initPos)
