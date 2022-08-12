@@ -150,7 +150,7 @@ export function Conf() {
         </div>
       )}
 
-      {room && checkSupportScreenShare() && (
+      {/* {room && checkSupportScreenShare() && (
         <div className='fixed left-0 top-24'>
           <div
             className='p-2 m-3 bg-white'
@@ -159,16 +159,13 @@ export function Conf() {
             }}
           >
             ScreenShare
-            {/*  */}
-            {/*  */}
-            {/*  */}
-            {/*  */}
-          </div>
-          <div className=' bg-white'>
-            {room && <Room onlyShowScreenShare={true}></Room>}
           </div>
         </div>
-      )}
+      )} */}
+
+      <div className=' bg-white'>
+        {room && <Room onlyShowScreenShare={true}></Room>}
+      </div>
     </div>
   )
 }
