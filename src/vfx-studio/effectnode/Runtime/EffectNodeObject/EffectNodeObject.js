@@ -49,7 +49,7 @@ export function EffectNodeObject({
     }
     enRuntime.now.mounter = mounter
     enRuntime.now.itself = item
-    enRuntime.now.group = glbObject
+    enRuntime.now.glbObject = glbObject
 
     //
     enRuntime.onLoop(() => {

@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from 'react'
 import { Pane } from 'tweakpane'
 import Editor from '@monaco-editor/react'
 import { GLSLEditor } from '@/vfx-studio/UI/GLSLEditor'
+import * as TweakpaneImagePlugin from 'tweakpane-image-plugin'
 
 export function TabUnifroms({ node }) {
   let refName = useRef()
@@ -50,6 +51,7 @@ export function TabUnifroms({ node }) {
           defaultValue={'float'}
           className='p-2 bg-gray-100'
         >
+          <option value={'texture'}>Texture</option>
           <option value={'text'}>Text</option>
           <option value={'glsl'}>GLSL</option>
           <option value={'bool'}>Boolean</option>
@@ -74,6 +76,11 @@ export function TabUnifroms({ node }) {
                     gl_FragColor = vec4(1.0, 1.0, 1.0, 1.0);
                   }
                 `
+              }
+
+              //
+              if (type === 'texture') {
+                return ''
               }
               if (type === 'bool') {
                 return true
@@ -124,6 +131,17 @@ export function TabUnifroms({ node }) {
           return (
             <div key={mm._id + mm.nodeID + node._id} className='mb-3 mr-3'>
               <div className='inline-block'>
+                {mm.type === 'texture' && (
+                  <TextureInput
+                    object={mm}
+                    name={'value'}
+                    label={mm.name}
+                    value={mm.value}
+                    onSaveLater={onSaveLater(mm)}
+                    onRemove={onRemove(mm)}
+                  ></TextureInput>
+                )}
+
                 {mm.type === 'bool' && (
                   <BoolInput
                     object={mm}
@@ -720,6 +738,85 @@ function BoolInput({
       pane.dispose()
     }
   }, [])
+  return (
+    <div>
+      <div ref={ref}></div>
+    </div>
+  )
+}
+
+function TextureInput({
+  object = { value: null },
+  name = 'value',
+  label,
+  value = 0,
+  min,
+  max,
+  step = 0.01,
+  onSave = () => {},
+  onSaveLater = () => {},
+  onRemove = () => {},
+}) {
+  //
+  let ref = useRef()
+
+  //
+  useEffect(() => {
+    const pane = new Pane({
+      container: ref.current,
+    })
+    pane.registerPlugin(TweakpaneImagePlugin)
+
+    let tt = 0
+    try {
+      pane
+        .addInput(object, name, {
+          view: 'input-image',
+        })
+        .on('change', async (ev) => {
+          let src = ev.value?.src
+          if (src) {
+            let blob = await fetch(src).then((r) => r.blob())
+            let dataUrl = await new Promise((resolve) => {
+              let reader = new FileReader()
+              reader.onload = () => resolve(reader.result)
+              reader.readAsDataURL(blob)
+            })
+
+            object[name] = dataUrl
+          } else {
+            object[name] = ''
+          }
+
+          onSave()
+
+          clearTimeout(tt)
+          tt = setTimeout(() => {
+            onSaveLater()
+          }, 25)
+        })
+    } catch (e) {
+      console.log(e)
+    }
+
+    const btn = pane.addButton({
+      title: 'Remove: ' + label,
+      label: 'Remove', // optional
+    })
+
+    btn.on('click', () => {
+      if (window.confirm('remove?' + label)) {
+        onRemove()
+      }
+    })
+
+    return () => {
+      //
+      pane.dispose()
+    }
+  }, [])
+
+  //
   return (
     <div>
       <div ref={ref}></div>

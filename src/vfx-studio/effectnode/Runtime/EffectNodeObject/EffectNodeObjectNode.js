@@ -129,7 +129,13 @@ export function EffectNodeObjectNode({
           {},
           {
             get: (obj, accessKey) => {
-              if (accessKey === 'value') {
+              if (accessKey === 'raw') {
+                if (enRuntime && enRuntime.now[node._id]) {
+                  return enRuntime.now[node._id]
+                } else {
+                  return null
+                }
+              } else if (accessKey === 'value') {
                 if (enRuntime && enRuntime.now[node._id])
                   return new Proxy(
                     {},
