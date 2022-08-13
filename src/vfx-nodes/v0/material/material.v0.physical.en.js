@@ -239,27 +239,30 @@ export function effect({ node, mini, data, setComponent }) {
     for (let kn in propsApply) {
       mini.now.itself.material[kn] = propsApply[kn]
     }
-
-    // setComponent(createPortal(makeElemnet(inputReceivers), mini.now.itself))
   }
 
-  let inputSockets = ['in0', 'in1', 'in2', 'in3', 'in4']
+  // let inputSockets = ['in0', 'in1', 'in2', 'in3', 'in4']
 
-  inputSockets.forEach((socket) => {
-    inputReceivers[socket] = null
-    node[socket].stream((v) => {
-      inputReceivers[socket] = v
-      send()
-    })
-  })
+  // inputSockets.forEach((socket) => {
+  //   inputReceivers[socket] = null
+  //   node[socket].stream((v) => {
+  //     inputReceivers[socket] = v
+  //     send()
+  //   })
+  // })
 
+  let last = {}
   defs.uniforms.forEach((uni) => {
     //
     data.uniforms[uni.name]((signal) => {
-      setTimeout(() => {
-        send()
-      })
+      if (last[uni.name] !== signal.value) {
+        last[uni.name] = signal.value
+        setTimeout(() => {
+          send()
+        })
+      }
     })
+    //
   })
 
   send()

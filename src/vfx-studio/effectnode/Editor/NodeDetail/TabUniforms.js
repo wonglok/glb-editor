@@ -280,7 +280,7 @@ function ColorInput({
         clearTimeout(tt)
         tt = setTimeout(() => {
           onSaveLater()
-        }, 25)
+        }, 15)
       })
     if (!object.protected) {
       const btn = pane.addButton({
@@ -340,7 +340,7 @@ function Vector4Input({
         clearTimeout(tt)
         tt = setTimeout(() => {
           onSaveLater()
-        }, 25)
+        }, 15)
       })
 
     if (!object.protected) {
@@ -402,7 +402,7 @@ function Vector3Input({
         clearTimeout(tt)
         tt = setTimeout(() => {
           onSaveLater()
-        }, 25)
+        }, 15)
       })
 
     if (!object.protected) {
@@ -464,7 +464,7 @@ function Vector2Input({
         clearTimeout(tt)
         tt = setTimeout(() => {
           onSaveLater()
-        }, 25)
+        }, 15)
       })
 
     if (!object.protected) {
@@ -523,7 +523,7 @@ function FloatInput({
         clearTimeout(tt)
         tt = setTimeout(() => {
           onSaveLater()
-        }, 25)
+        }, 15)
       })
 
     if (!object.protected) {
@@ -669,7 +669,7 @@ function TextInput({
         clearTimeout(tt)
         tt = setTimeout(() => {
           onSaveLater()
-        }, 25)
+        }, 15)
       })
 
     if (!object.protected) {
@@ -729,7 +729,7 @@ function BoolInput({
         clearTimeout(tt)
         tt = setTimeout(() => {
           onSaveLater()
-        }, 25)
+        }, 15)
       })
 
     if (!object.protected) {
@@ -809,7 +809,7 @@ function TextureInput({
             tt = setTimeout(() => {
               onSaveLater()
               setReload((s) => s + 1)
-            }, 25)
+            }, 15)
           }
         }
 
@@ -833,7 +833,7 @@ function TextureInput({
       tt = setTimeout(() => {
         onSaveLater()
         setReload((s) => s + 1)
-      }, 25)
+      }, 15)
     })
 
     ///
