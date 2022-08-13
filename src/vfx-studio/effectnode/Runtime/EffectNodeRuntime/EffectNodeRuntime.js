@@ -35,10 +35,18 @@ export function EffectNodeRuntime({
           if (originalGLBObject) {
             originalGLBObject.scene.traverse((oo) => {
               if (oo.userData.posMD5 === en.userData.posMD5) {
-                // en.geometry = oo.geometry.clone()
                 if (oo.material) {
                   en.material = oo.material.clone()
                   en.material.needsUpdate = true
+                }
+                if (oo.geometry) {
+                  if (
+                    en.geometry.attributes.position.array.length !==
+                    oo.geometry.attributes.position.array.length
+                  ) {
+                    en.geometry = oo.geometry.clone()
+                    en.geometry.needsUpdate = true
+                  }
                 }
               }
             })
