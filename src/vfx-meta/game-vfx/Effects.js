@@ -1,4 +1,4 @@
-import { useFrame, useLoader } from '@react-three/fiber'
+import { useFrame, useLoader, useThree } from '@react-three/fiber'
 import {
   EffectComposer,
   SSR,
@@ -119,25 +119,36 @@ export function Effects({}) {
   return (
     <>
       {enable && (
-        <EffectComposer disableNormalPass>
-          <Noise premultiply={true} opacity={0.2} />
+        <>
+          <CameraFling></CameraFling>
+          <EffectComposer disableNormalPass>
+            <Noise premultiply={true} opacity={0.2} />
 
-          <SSR {...props} />
-          <Bloom
-            luminanceThreshold={0.2}
-            mipmapBlur
-            luminanceSmoothing={0}
-            intensity={0.5}
-          />
-          <LUT lut={texture} />
-          {/* <DepthOfField
+            <SSR {...props} />
+            <Bloom
+              luminanceThreshold={0.2}
+              mipmapBlur
+              luminanceSmoothing={0}
+              intensity={0.5}
+            />
+            <LUT lut={texture} />
+            {/* <DepthOfField
             focusDistance={2}
             focalLength={0.02}
             bokehScale={2}
             height={480}
           /> */}
-        </EffectComposer>
+          </EffectComposer>
+        </>
       )}
     </>
   )
+}
+
+function CameraFling() {
+  let camera = useThree((s) => s.camera)
+
+  useFrame(() => {
+    camera.position.y += (Math.random() - 0.5) * 0.0001
+  })
 }

@@ -32,8 +32,6 @@ export function OnlineGame() {
       <Effects></Effects>
 
       <TopLeft></TopLeft>
-
-      <CameraFling></CameraFling>
     </group>
   )
 }
@@ -52,12 +50,4 @@ function TopLeft() {
       </UIContent>
     </>
   )
-}
-
-function CameraFling() {
-  let camera = useThree((s) => s.camera)
-
-  useFrame(() => {
-    camera.position.y += (Math.random() - 0.5) * 0.0001
-  })
 }
