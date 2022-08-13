@@ -257,45 +257,32 @@ export function effect({ node, mini, data, setComponent }) {
   let send = () => {
     if (!original.has(data.raw.nodeID)) {
       original.set(data.raw.nodeID, mini.now.itself.material.clone())
-    } else {
     }
 
-    let props = {
-      side: getSide(data.value.side),
-      color: new Color(data.value.color),
-      metalness: data.value.metalness,
-      roughness: data.value.roughness,
-      transmission: data.value.transmission,
-      ior: data.value.ior,
-      thickness: data.value.thickness,
-
-      transparent: data.value.transparent,
-      thickness: 1.0,
-      flatShading: data.value.flatShading,
-      emissive: new Color(data.value.emissive),
-      map: data.value.map ? loadTexture(data.value.map) : undefined,
-      emissiveMap: data.value.emissiveMap
-        ? loadTexture(data.value.emissiveMap)
-        : undefined,
-    }
-
-    for (let kn in props) {
-      if (
-        typeof props[kn] === 'undefined' ||
-        props[kn] === null ||
-        (typeof props[kn] === 'number' && isNaN(props[kn]))
-      ) {
-        delete props[kn]
-      }
-    }
     let clonedOrig = original.get(data.raw.nodeID).clone()
+    mini.now.itself.material = clonedOrig
 
-    console.log(props)
+    let newMat = new MeshPhysicalMaterial({ ...clonedOrig })
 
-    mini.now.itself.material = new MeshPhysicalMaterial({
-      ...clonedOrig,
-      ...props,
+    defs.uniforms.forEach((uni) => {
+      let val = data.value[uni.name]
+
+      if (val) {
+        if (uni.type === 'float') {
+          newMat[uni.name] = val
+        }
+        if (uni.type === 'color') {
+          newMat[uni.name] = new Color(val)
+        }
+        if (uni.type === 'texture') {
+          newMat[uni.name] = loadTexture(val)
+        }
+      }
+
+      //
     })
+
+    mini.now.itself.material = newMat
   }
 
   // let inputSockets = ['in0', 'in1', 'in2', 'in3', 'in4']
