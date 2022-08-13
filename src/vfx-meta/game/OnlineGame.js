@@ -1,6 +1,7 @@
 // import { UIContent } from '@/vfx-core/UIContent'
 // import { ClosetBtns } from '../game-parts/ClosetBtns'
 import { UIContent } from '@/vfx-core/UIContent'
+import { useFrame, useThree } from '@react-three/fiber'
 import { useEffect } from 'react'
 import { BG } from '../game-parts/BG'
 import { Floor } from '../game-parts/Floor'
@@ -31,6 +32,8 @@ export function OnlineGame() {
       <Effects></Effects>
 
       <TopLeft></TopLeft>
+
+      <CameraFling></CameraFling>
     </group>
   )
 }
@@ -49,4 +52,12 @@ function TopLeft() {
       </UIContent>
     </>
   )
+}
+
+function CameraFling() {
+  let camera = useThree((s) => s.camera)
+
+  useFrame(() => {
+    camera.position.y += (Math.random() - 0.5) * 0.0001
+  })
 }
