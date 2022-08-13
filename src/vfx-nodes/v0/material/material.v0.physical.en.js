@@ -268,13 +268,13 @@ export function effect({ node, mini, data, setComponent }) {
       let val = data.value[uni.name]
 
       if (val) {
-        if (uni.type === 'float') {
+        if (uni.name === 'side') {
+          newMat[uni.name] = getSide(val)
+        } else if (uni.type === 'float') {
           newMat[uni.name] = val
-        }
-        if (uni.type === 'color') {
+        } else if (uni.type === 'color') {
           newMat[uni.name] = new Color(val)
-        }
-        if (uni.type === 'texture') {
+        } else if (uni.type === 'texture') {
           newMat[uni.name] = loadTexture(val)
         }
       }
