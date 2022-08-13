@@ -1,7 +1,13 @@
 import { getID } from '@/vfx-runtime/ENUtils'
 import { createPortal } from '@react-three/fiber'
 import { BackSide, FrontSide, sRGBEncoding } from 'three'
-import { Color, DoubleSide, Texture, TextureLoader } from 'three140'
+import {
+  Color,
+  DoubleSide,
+  MeshPhysicalMaterial,
+  Texture,
+  TextureLoader,
+} from 'three140'
 // import { Bloom, EffectComposer, Noise } from '@react-three/postprocessing'
 //
 let getDefinitions = ({ nodeID }) => {
@@ -50,7 +56,48 @@ let getDefinitions = ({ nodeID }) => {
       value: '#000000',
       protected: true,
     },
-
+    //
+    {
+      _id: getID(),
+      nodeID,
+      name: 'metalness',
+      type: 'float',
+      value: 0,
+      protected: true,
+    },
+    {
+      _id: getID(),
+      nodeID,
+      name: 'roughness',
+      type: 'float',
+      value: 0.5,
+      protected: true,
+    },
+    {
+      _id: getID(),
+      nodeID,
+      name: 'transmission',
+      type: 'float',
+      value: 0,
+      protected: true,
+    },
+    {
+      _id: getID(),
+      nodeID,
+      name: 'thickness',
+      type: 'float',
+      value: 1,
+      protected: true,
+    },
+    //
+    {
+      _id: getID(),
+      nodeID,
+      name: 'ior',
+      type: 'float',
+      value: 1.45,
+      protected: true,
+    },
     //
     {
       _id: getID(),
@@ -208,18 +255,22 @@ export function effect({ node, mini, data, setComponent }) {
   // }
 
   let send = () => {
-    if (original.has(data.raw.nodeID)) {
-      mini.now.itself.material = original.get(data.raw.nodeID).clone()
-    } else {
+    if (!original.has(data.raw.nodeID)) {
       original.set(data.raw.nodeID, mini.now.itself.material.clone())
-
-      mini.now.itself.material = original.get(data.raw.nodeID).clone()
+    } else {
     }
 
     let props = {
       side: getSide(data.value.side),
       color: new Color(data.value.color),
+      metalness: data.value.metalness,
+      roughness: data.value.roughness,
+      transmission: data.value.transmission,
+      ior: data.value.ior,
+      thickness: data.value.thickness,
+
       transparent: data.value.transparent,
+      thickness: 1.0,
       flatShading: data.value.flatShading,
       emissive: new Color(data.value.emissive),
       map: data.value.map ? loadTexture(data.value.map) : undefined,
@@ -228,17 +279,23 @@ export function effect({ node, mini, data, setComponent }) {
         : undefined,
     }
 
-    let propsApply = { ...props }
-
-    for (let kn in propsApply) {
-      if (typeof propsApply[kn] === 'undefined' || propsApply[kn] === null) {
-        delete propsApply[kn]
+    for (let kn in props) {
+      if (
+        typeof props[kn] === 'undefined' ||
+        props[kn] === null ||
+        (typeof props[kn] === 'number' && isNaN(props[kn]))
+      ) {
+        delete props[kn]
       }
     }
+    let clonedOrig = original.get(data.raw.nodeID).clone()
 
-    for (let kn in propsApply) {
-      mini.now.itself.material[kn] = propsApply[kn]
-    }
+    console.log(props)
+
+    mini.now.itself.material = new MeshPhysicalMaterial({
+      ...clonedOrig,
+      ...props,
+    })
   }
 
   // let inputSockets = ['in0', 'in1', 'in2', 'in3', 'in4']
@@ -257,9 +314,7 @@ export function effect({ node, mini, data, setComponent }) {
     data.uniforms[uni.name]((signal) => {
       if (last[uni.name] !== signal.value) {
         last[uni.name] = signal.value
-        setTimeout(() => {
-          send()
-        })
+        send()
       }
     })
     //
