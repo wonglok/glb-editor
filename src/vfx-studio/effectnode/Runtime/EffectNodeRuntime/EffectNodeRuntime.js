@@ -6,7 +6,7 @@ import { EffectNodeObject } from '../EffectNodeObject/EffectNodeObject'
 export function EffectNodeRuntime({
   glbObject,
   originalGLBObject,
-  disabledNodes = ['effect-composer', '.pass.'],
+  disabledNodes = ['effect-composer', '.pass.', 'global.'],
 }) {
   let reloadGraphID = useENEditor((s) => s.reloadGraphID)
   let ens = useFilterEffectNode({ glbObject })
