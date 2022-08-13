@@ -1,4 +1,4 @@
-import { useRef } from 'react'
+import { useEffect, useRef } from 'react'
 import { useAccessor } from '@/vfx-studio/store/use-accessor'
 import { useThree } from '@react-three/fiber'
 import { HDRTex } from './HDRTex'
@@ -8,9 +8,14 @@ import {
   OrbitControls,
   Select,
 } from '@react-three/drei'
-import { BoxHelper, Object3D, Vector3 } from 'three'
+import { BoxBufferGeometry, BoxHelper, Object3D, Vector3 } from 'three'
 import anime from 'animejs'
 import { EffectNodeRuntime } from '../effectnode/Runtime/EffectNodeRuntime/EffectNodeRuntime'
+import { Player } from '@/vfx-meta/game-parts/Player'
+import { OnlineSystem } from '@/vfx-meta/online/OnlineSystem'
+import { useMetaStore } from '@/vfx-meta/store/use-meta-store'
+import { Mesh, MeshBasicMaterial, Scene } from 'three140'
+import { EnvLight } from '@/vfx-meta/game-vfx/EnvLight'
 
 export function SceneContent({}) {
   let glbObject = useAccessor((s) => s.glbObject)
@@ -23,9 +28,28 @@ export function SceneContent({}) {
   let setLayout = useAccessor((s) => s.setLayout)
   let control = useAccessor((s) => s.control)
 
+  let setPlayerReady = useMetaStore((s) => s.setPlayerReady)
+  let setPosition = useMetaStore((s) => s.setPosition)
+
   let clean = useRef(() => {
     return () => {}
   })
+
+  //
+  let setColliderFromScene = useMetaStore((s) => s.setColliderFromScene)
+  useEffect(() => {
+    let planeScene = new Scene()
+    planeScene.add(
+      new Mesh(new BoxBufferGeometry(100, 0.1, 100), new MeshBasicMaterial())
+    )
+    setColliderFromScene({ scene: planeScene })
+
+    setPosition({ initPos: [0, 5, 2], cameraOffset: [0, 0, 5] })
+    setTimeout(() => {
+      setPlayerReady(true)
+    }, 100)
+    // playerInfoIsReady
+  }, [setColliderFromScene, setPlayerReady, setPosition])
 
   //
   return (
@@ -112,6 +136,8 @@ export function SceneContent({}) {
 
       {/*  */}
 
+      <Player></Player>
+
       <HDRTex scene={scene} url={`/hdr/greenwich_park_02_1k.hdr`} />
 
       {/* <OrbitControls
@@ -124,7 +150,7 @@ export function SceneContent({}) {
         makeDefault={true}
       ></OrbitControls> */}
 
-      <MapControls
+      {/* <MapControls
         object-position-y={3}
         object-position-z={3}
         target-x={0}
@@ -135,7 +161,7 @@ export function SceneContent({}) {
           setContorl(ev)
         }}
         enableRotate={false}
-      />
+      /> */}
     </>
   )
 }

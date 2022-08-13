@@ -98,6 +98,9 @@ export const useMetaStore = create((set, get) => {
     avatars: [],
     //
     playerInfoIsReady: false,
+    setPlayerReady: (v) => {
+      set({ playerInfoIsReady: v })
+    },
 
     removeAvatar: (avaID) => {
       let myself = get().myself
