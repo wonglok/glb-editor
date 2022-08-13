@@ -11,6 +11,11 @@ export const useRender = create((set, get) => {
     setRender: (v) => {
       set({ enable: v })
     },
+
+    enableDefaultHDR: true,
+    setEnableDefaultHDR: (v) => {
+      set({ enableDefaultHDR: v })
+    },
     //
     //
   }

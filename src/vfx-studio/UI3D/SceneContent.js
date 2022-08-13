@@ -16,6 +16,7 @@ import { OnlineSystem } from '@/vfx-meta/online/OnlineSystem'
 import { useMetaStore } from '@/vfx-meta/store/use-meta-store'
 import { Mesh, MeshBasicMaterial, Scene } from 'three140'
 import { EnvLight } from '@/vfx-meta/game-vfx/EnvLight'
+import { useRender } from '@/vfx-meta/store/use-render'
 
 export function SceneContent({}) {
   let glbObject = useAccessor((s) => s.glbObject)
@@ -31,6 +32,8 @@ export function SceneContent({}) {
   let setPlayerReady = useMetaStore((s) => s.setPlayerReady)
   let setPosition = useMetaStore((s) => s.setPosition)
 
+  let setEnableDefaultHDR = useRender((s) => s.setEnableDefaultHDR)
+  let enableDefaultHDR = useRender((s) => s.enableDefaultHDR)
   let clean = useRef(() => {
     return () => {}
   })
@@ -140,7 +143,9 @@ export function SceneContent({}) {
 
       <gridHelper args={[100, 50, 0x00ffff, 0xff00ff]}> </gridHelper>
 
-      <HDRTex scene={scene} url={`/hdr/greenwich_park_02_1k.hdr`} />
+      {enableDefaultHDR && (
+        <HDRTex scene={scene} url={`/hdr/greenwich_park_02_1k.hdr`} />
+      )}
 
       {/* <OrbitControls
         ref={(ev) => {
