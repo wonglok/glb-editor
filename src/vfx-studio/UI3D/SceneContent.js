@@ -138,6 +138,8 @@ export function SceneContent({}) {
 
       <Player></Player>
 
+      <gridHelper args={[100, 50, 0x00ffff, 0xff00ff]}> </gridHelper>
+
       <HDRTex scene={scene} url={`/hdr/greenwich_park_02_1k.hdr`} />
 
       {/* <OrbitControls
