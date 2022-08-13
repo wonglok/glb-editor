@@ -282,18 +282,18 @@ function ColorInput({
           onSaveLater()
         }, 25)
       })
+    if (!object.protected) {
+      const btn = pane.addButton({
+        title: 'Remove',
+        label: 'Remove', // optional
+      })
 
-    const btn = pane.addButton({
-      title: 'Remove',
-      label: 'Remove', // optional
-    })
-
-    btn.on('click', () => {
-      if (window.confirm('remove?')) {
-        onRemove()
-      }
-    })
-
+      btn.on('click', () => {
+        if (window.confirm('remove?')) {
+          onRemove()
+        }
+      })
+    }
     return () => {
       //
       pane.dispose()
@@ -343,16 +343,18 @@ function Vector4Input({
         }, 25)
       })
 
-    const btn = pane.addButton({
-      title: 'Remove',
-      label: 'Remove', // optional
-    })
+    if (!object.protected) {
+      const btn = pane.addButton({
+        title: 'Remove',
+        label: 'Remove', // optional
+      })
 
-    btn.on('click', () => {
-      if (window.confirm('remove?')) {
-        onRemove()
-      }
-    })
+      btn.on('click', () => {
+        if (window.confirm('remove?')) {
+          onRemove()
+        }
+      })
+    }
 
     return () => {
       //
@@ -403,16 +405,18 @@ function Vector3Input({
         }, 25)
       })
 
-    const btn = pane.addButton({
-      title: 'Remove',
-      label: 'Remove', // optional
-    })
+    if (!object.protected) {
+      const btn = pane.addButton({
+        title: 'Remove',
+        label: 'Remove', // optional
+      })
 
-    btn.on('click', () => {
-      if (window.confirm('remove?')) {
-        onRemove()
-      }
-    })
+      btn.on('click', () => {
+        if (window.confirm('remove?')) {
+          onRemove()
+        }
+      })
+    }
 
     return () => {
       //
@@ -463,17 +467,18 @@ function Vector2Input({
         }, 25)
       })
 
-    const btn = pane.addButton({
-      title: 'Remove',
-      label: 'Remove', // optional
-    })
+    if (!object.protected) {
+      const btn = pane.addButton({
+        title: 'Remove',
+        label: 'Remove', // optional
+      })
 
-    btn.on('click', () => {
-      if (window.confirm('remove?')) {
-        onRemove()
-      }
-    })
-
+      btn.on('click', () => {
+        if (window.confirm('remove?')) {
+          onRemove()
+        }
+      })
+    }
     return () => {
       //
       pane.dispose()
@@ -521,16 +526,18 @@ function FloatInput({
         }, 25)
       })
 
-    const btn = pane.addButton({
-      title: 'Remove',
-      label: 'Remove', // optional
-    })
+    if (!object.protected) {
+      const btn = pane.addButton({
+        title: 'Remove',
+        label: 'Remove', // optional
+      })
 
-    btn.on('click', () => {
-      if (window.confirm('remove?')) {
-        onRemove()
-      }
-    })
+      btn.on('click', () => {
+        if (window.confirm('remove?')) {
+          onRemove()
+        }
+      })
+    }
 
     return () => {
       //
@@ -564,17 +571,18 @@ function GLSLInput({
       container: ref.current,
     })
 
-    const btn = pane.addButton({
-      title: 'Remove',
-      label: 'Remove', // optional
-    })
+    if (!object.protected) {
+      const btn = pane.addButton({
+        title: 'Remove',
+        label: 'Remove', // optional
+      })
 
-    btn.on('click', () => {
-      if (window.confirm('remove?')) {
-        onRemove()
-      }
-    })
-
+      btn.on('click', () => {
+        if (window.confirm('remove?')) {
+          onRemove()
+        }
+      })
+    }
     return () => {
       //
       pane.dispose()
@@ -664,16 +672,18 @@ function TextInput({
         }, 25)
       })
 
-    const btn = pane.addButton({
-      title: 'Remove',
-      label: 'Remove', // optional
-    })
+    if (!object.protected) {
+      const btn = pane.addButton({
+        title: 'Remove',
+        label: 'Remove', // optional
+      })
 
-    btn.on('click', () => {
-      if (window.confirm('remove?')) {
-        onRemove()
-      }
-    })
+      btn.on('click', () => {
+        if (window.confirm('remove?')) {
+          onRemove()
+        }
+      })
+    }
 
     return () => {
       //
@@ -722,16 +732,18 @@ function BoolInput({
         }, 25)
       })
 
-    const btn = pane.addButton({
-      title: 'Remove',
-      label: 'Remove', // optional
-    })
+    if (!object.protected) {
+      const btn = pane.addButton({
+        title: 'Remove',
+        label: 'Remove', // optional
+      })
 
-    btn.on('click', () => {
-      if (window.confirm('remove?')) {
-        onRemove()
-      }
-    })
+      btn.on('click', () => {
+        if (window.confirm('remove?')) {
+          onRemove()
+        }
+      })
+    }
 
     return () => {
       //
@@ -760,6 +772,7 @@ function TextureInput({
   //
   let ref = useRef()
 
+  let [reload, setReload] = useState(0)
   //
   useEffect(() => {
     const pane = new Pane({
@@ -769,56 +782,89 @@ function TextureInput({
 
     let tt = 0
     try {
-      pane
-        .addInput(object, name, {
-          view: 'input-image',
-        })
-        .on('change', async (ev) => {
-          let src = ev.value?.src
-          if (src) {
-            let blob = await fetch(src).then((r) => r.blob())
+      const btnSelect = pane.addButton({
+        title: label,
+        label: 'Select', // optional
+      })
+
+      btnSelect.on('click', () => {
+        let sel = document.createElement('input')
+        sel.type = 'file'
+        sel.accept = 'image/*'
+        sel.click()
+        sel.onchange = async (ev) => {
+          if (ev.target.files) {
+            let file = ev.target.files[0]
+
             let dataUrl = await new Promise((resolve) => {
               let reader = new FileReader()
               reader.onload = () => resolve(reader.result)
-              reader.readAsDataURL(blob)
+              reader.readAsDataURL(file)
             })
 
             object[name] = dataUrl
-          } else {
-            object[name] = ''
+
+            onSave()
+            clearTimeout(tt)
+            tt = setTimeout(() => {
+              onSaveLater()
+              setReload((s) => s + 1)
+            }, 25)
           }
+        }
 
-          onSave()
-
-          clearTimeout(tt)
-          tt = setTimeout(() => {
-            onSaveLater()
-          }, 25)
-        })
+        // object[name] = null
+      })
     } catch (e) {
       console.log(e)
     }
 
-    const btn = pane.addButton({
-      title: 'Remove: ' + label,
-      label: 'Remove', // optional
+    const btnReset = pane.addButton({
+      title: 'Reset',
+      label: 'reset', // optional
     })
 
-    btn.on('click', () => {
-      if (window.confirm('remove?' + label)) {
-        onRemove()
-      }
+    btnReset.on('click', () => {
+      object[name] = null
+
+      onSave()
+
+      clearTimeout(tt)
+      tt = setTimeout(() => {
+        onSaveLater()
+        setReload((s) => s + 1)
+      }, 25)
     })
+
+    ///
+    if (!object.protected) {
+      const btn = pane.addButton({
+        title: 'Remove: ' + label,
+        label: 'Remove', // optional
+      })
+
+      btn.on('click', () => {
+        if (window.confirm('remove?' + label)) {
+          onRemove()
+        }
+      })
+    }
 
     return () => {
       //
       pane.dispose()
     }
-  }, [])
+  }, [reload])
 
   //
   return (
     <div>
+      {object[name] && (
+        <img
+          className='w-full h-full max-w-24 max-h-24'
+          src={object[name]}
+        ></img>
+      )}
       <div ref={ref}></div>
     </div>
   )

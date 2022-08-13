@@ -126,6 +126,7 @@ export function SceneContent({}) {
             }}
             filter={(items) => items}
           >
+            {/*  */}
             <primitive object={glbObject.scene}></primitive>
           </Select>
 

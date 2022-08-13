@@ -1,6 +1,7 @@
 import { getID } from '@/vfx-runtime/ENUtils'
 import { createPortal } from '@react-three/fiber'
-import { Color, Texture, TextureLoader } from 'three140'
+import { BackSide, FrontSide, sRGBEncoding } from 'three'
+import { Color, DoubleSide, Texture, TextureLoader } from 'three140'
 // import { Bloom, EffectComposer, Noise } from '@react-three/postprocessing'
 //
 let getDefinitions = ({ nodeID }) => {
@@ -9,9 +10,63 @@ let getDefinitions = ({ nodeID }) => {
     {
       _id: getID(),
       nodeID,
+      name: 'side',
+      type: 'string',
+      value: 'front',
+      protected: true,
+    },
+    {
+      _id: getID(),
+      nodeID,
+      name: 'transparent',
+      type: 'bool',
+      value: false,
+      protected: true,
+    },
+
+    {
+      _id: getID(),
+      nodeID,
+      name: 'flatShading',
+      type: 'bool',
+      value: false,
+      protected: true,
+    },
+
+    {
+      _id: getID(),
+      nodeID,
+      name: 'color',
+      type: 'color',
+      value: '#ffffff',
+      protected: true,
+    },
+
+    {
+      _id: getID(),
+      nodeID,
+      name: 'emissive',
+      type: 'color',
+      value: '#000000',
+      protected: true,
+    },
+
+    //
+    {
+      _id: getID(),
+      nodeID,
       name: 'map',
       type: 'texture',
       value: '',
+      protected: true,
+    },
+    {
+      _id: getID(),
+      nodeID,
+      name: 'emissiveMap',
+      type: 'texture',
+      value: '',
+      protected: true,
     },
     {
       _id: getID(),
@@ -19,6 +74,7 @@ let getDefinitions = ({ nodeID }) => {
       name: 'normalMap',
       type: 'texture',
       value: '',
+      protected: true,
     },
     {
       _id: getID(),
@@ -26,6 +82,7 @@ let getDefinitions = ({ nodeID }) => {
       name: 'roughnessMap',
       type: 'texture',
       value: '',
+      protected: true,
     },
     {
       _id: getID(),
@@ -33,6 +90,7 @@ let getDefinitions = ({ nodeID }) => {
       name: 'metalnessMap',
       type: 'texture',
       value: '',
+      protected: true,
     },
     {
       _id: getID(),
@@ -40,6 +98,7 @@ let getDefinitions = ({ nodeID }) => {
       name: 'transmissionMap',
       type: 'texture',
       value: '',
+      protected: true,
     },
   ]
 
@@ -85,22 +144,6 @@ export async function nodeData({ defaultData, nodeID }) {
     uniforms: [
       ...defs.uniforms,
 
-      //
-      //
-      // {
-      //   _id: getID(),
-      //   nodeID,
-      //   name: 'speed',
-      //   type: 'float',
-      //   value: 1,
-      // },
-      // {
-      //   _id: getID(),
-      //   nodeID,
-      //   name: 'colorA',
-      //   type: 'color',
-      //   value: '#00ff89',
-      // },
       // {
       //   id: getID(),
       //   nodeID,
@@ -109,8 +152,6 @@ export async function nodeData({ defaultData, nodeID }) {
       //   value: `
       //   `,
       // },
-      //
-      //
     ],
 
     //
@@ -120,6 +161,30 @@ export async function nodeData({ defaultData, nodeID }) {
   }
 }
 
+let textureCahce = new Map()
+let loadTexture = (v) => {
+  if (textureCahce.has(v)) {
+    return textureCahce.get(v)
+  } else {
+    let out = new TextureLoader().load(v, (s) => {
+      s.encoding = sRGBEncoding
+    })
+    textureCahce.set(v, out)
+    return out
+  }
+}
+
+let getSide = (side) => {
+  if (side === 'front') {
+    return FrontSide
+  } else if (side === 'back') {
+    return BackSide
+  } else if (side === 'double') {
+    return DoubleSide
+  }
+}
+
+let original = new Map()
 export function effect({ node, mini, data, setComponent }) {
   //
   // setComponent
@@ -128,34 +193,54 @@ export function effect({ node, mini, data, setComponent }) {
 
   let inputReceivers = {}
 
-  let makeElemnet = () => {
-    let props = {
-      color: new Color('#ffffff'),
-      map: new TextureLoader().load(data.value.map),
+  // let makeElemnet = () => {
+
+  //   let kidz = []
+
+  //   for (let socketInputName in inputReceivers) {
+  //     if (inputReceivers[socketInputName]) {
+  //       kidz.push(inputReceivers[socketInputName])
+  //     }
+  //   }
+
+  //   return (
+  //   )
+  // }
+
+  let send = () => {
+    if (original.has(data.raw.nodeID)) {
+      mini.now.itself.material = original.get(data.raw.nodeID).clone()
+    } else {
+      original.set(data.raw.nodeID, mini.now.itself.material.clone())
+
+      mini.now.itself.material = original.get(data.raw.nodeID).clone()
     }
 
-    let kidz = []
+    let props = {
+      side: getSide(data.value.side),
+      color: new Color(data.value.color),
+      transparent: data.value.transparent,
+      flatShading: data.value.flatShading,
+      emissive: new Color(data.value.emissive),
+      map: data.value.map ? loadTexture(data.value.map) : undefined,
+      emissiveMap: data.value.emissiveMap
+        ? loadTexture(data.value.map)
+        : undefined,
+    }
 
-    for (let socketInputName in inputReceivers) {
-      if (inputReceivers[socketInputName]) {
-        kidz.push(inputReceivers[socketInputName])
+    let propsApply = { ...props }
+
+    for (let kn in propsApply) {
+      if (typeof propsApply[kn] === 'undefined' || propsApply[kn] === null) {
+        delete propsApply[kn]
       }
     }
 
-    return (
-      <meshPhysicalMaterial
-        attach={'material'}
-        key={data.raw._id}
-        {...mini.now.itself.material}
-        {...props}
-      >
-        {kidz}
-      </meshPhysicalMaterial>
-    )
-  }
+    for (let kn in propsApply) {
+      mini.now.itself.material[kn] = propsApply[kn]
+    }
 
-  let send = () => {
-    setComponent(createPortal(makeElemnet(inputReceivers), mini.now.itself))
+    // setComponent(createPortal(makeElemnet(inputReceivers), mini.now.itself))
   }
 
   let inputSockets = ['in0', 'in1', 'in2', 'in3', 'in4']
@@ -168,15 +253,17 @@ export function effect({ node, mini, data, setComponent }) {
     })
   })
 
-  send()
-
   defs.uniforms.forEach((uni) => {
     //
     data.uniforms[uni.name]((signal) => {
-      //
-      send()
+      setTimeout(() => {
+        send()
+      })
     })
   })
+
+  send()
+
   //
   //
   //
