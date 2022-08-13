@@ -22,8 +22,6 @@ export function EffectNodeRuntime({
 
       if (glbObject) {
         glbObject.scene.traverse((it) => {
-          //
-
           if (it.userData.effectNode) {
             ens.push(it)
           }
@@ -31,15 +29,17 @@ export function EffectNodeRuntime({
       }
 
       ens.forEach((en) => {
-        //
         en.updateMatrixWorld()
-
+        //
         if (en.userData.effectNode) {
           if (originalGLBObject) {
             originalGLBObject.scene.traverse((oo) => {
               if (oo.userData.posMD5 === en.userData.posMD5) {
-                en.material = oo.material.clone()
-                en.material.needsUpdate = true
+                // en.geometry = oo.geometry.clone()
+                if (oo.material) {
+                  en.material = oo.material.clone()
+                  en.material.needsUpdate = true
+                }
               }
             })
           }
@@ -51,8 +51,6 @@ export function EffectNodeRuntime({
   }, [glbObject, originalGLBObject, reloadGraphID])
 
   //
-
-  //
   return (
     <>
       <group>
@@ -62,7 +60,7 @@ export function EffectNodeRuntime({
           ens.map((en) => {
             return (
               <EffectNodeObject
-                key={en.uuid + reloadGraphID}
+                key={en.uuid + reloadGraphID + glbObject.uuid}
                 glbObject={glbObject}
                 item={en}
                 disabledNodes={disabledNodes}
@@ -74,7 +72,5 @@ export function EffectNodeRuntime({
     </>
   )
 }
-
-//
 
 //
