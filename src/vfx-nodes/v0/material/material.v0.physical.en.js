@@ -191,7 +191,7 @@ export function effect({ node, mini, data, setComponent }) {
   //
   let defs = getDefinitions({ nodeID: data.raw.nodeID })
 
-  let inputReceivers = {}
+  // let inputReceivers = {}
 
   // let makeElemnet = () => {
 
@@ -224,7 +224,7 @@ export function effect({ node, mini, data, setComponent }) {
       emissive: new Color(data.value.emissive),
       map: data.value.map ? loadTexture(data.value.map) : undefined,
       emissiveMap: data.value.emissiveMap
-        ? loadTexture(data.value.map)
+        ? loadTexture(data.value.emissiveMap)
         : undefined,
     }
 
