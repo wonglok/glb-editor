@@ -44,7 +44,7 @@ export function SceneContent({}) {
     )
     setColliderFromScene({ scene: planeScene })
 
-    setPosition({ initPos: [0, 5, 2], cameraOffset: [0, 0, 5] })
+    setPosition({ initPos: [0, 1.5, 2], cameraOffset: [0, 0, 5] })
     setTimeout(() => {
       setPlayerReady(true)
     }, 100)
