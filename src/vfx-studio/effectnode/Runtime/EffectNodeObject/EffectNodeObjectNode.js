@@ -10,13 +10,31 @@ export function EffectNodeObjectNode({
   emit,
   node,
   enRuntime,
+  disabledNodes = [],
 }) {
   let codes = useENEditor((s) => s.codes)
 
   let [component, setComponent] = useState(<></>)
   useEffect(() => {
     let cleans = []
-    let featureModule = codes.find((e) => e.title === node.codeID)
+    let featureModule = codes
+      .filter((e) => {
+        let res = true
+
+        disabledNodes.forEach((name) => {
+          if (res) {
+            if (e.title.indexOf(name) !== -1) {
+              res = false
+            }
+          }
+        })
+
+        if (!res) {
+          console.log('disabled node found:', e.title)
+        }
+        return res
+      })
+      .find((e) => e.title === node.codeID)
 
     if (featureModule) {
       featureModule.loader().then(async (logic) => {

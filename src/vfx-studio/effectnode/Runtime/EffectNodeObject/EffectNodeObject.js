@@ -8,7 +8,12 @@ import { ENTJCore } from '../ENTJCore/ENTJCore'
 import { EffectNodeObjectLink } from './EffectNodeObjectLink'
 import { EffectNodeObjectNode } from './EffectNodeObjectNode'
 
-export function EffectNodeObject({ glbObject, item, effectNode }) {
+export function EffectNodeObject({
+  glbObject,
+  item,
+  effectNode,
+  disabledNodes,
+}) {
   //
   let [enRuntime, setEnRuntime] = useState()
 
@@ -101,6 +106,7 @@ export function EffectNodeObject({ glbObject, item, effectNode }) {
                       enRuntime.name +
                       effectNode.connections.map((e) => e._id)
                     }
+                    disabledNodes={disabledNodes}
                     node={node}
                     glbObject={glbObject}
                     mounter={item}

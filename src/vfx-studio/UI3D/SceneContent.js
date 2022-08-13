@@ -129,6 +129,7 @@ export function SceneContent({}) {
           <EffectNodeRuntime
             glbObject={glbObject}
             originalGLBObject={glbObjectBeforeEdit}
+            disabledNodes={[]}
           ></EffectNodeRuntime>
         </>
       )}

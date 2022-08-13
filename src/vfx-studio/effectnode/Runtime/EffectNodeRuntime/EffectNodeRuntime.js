@@ -3,7 +3,11 @@ import { useFilterEffectNode } from '@/vfx-studio/store/use-filter-effectnode'
 import { useEffect, useState } from 'react'
 import { EffectNodeObject } from '../EffectNodeObject/EffectNodeObject'
 
-export function EffectNodeRuntime({ glbObject, originalGLBObject }) {
+export function EffectNodeRuntime({
+  glbObject,
+  originalGLBObject,
+  disabledNodes = ['effect-composer'],
+}) {
   let reloadGraphID = useENEditor((s) => s.reloadGraphID)
   let ens = useFilterEffectNode({ glbObject })
   glbObject.scene.updateMatrixWorld(true)
@@ -59,6 +63,7 @@ export function EffectNodeRuntime({ glbObject, originalGLBObject }) {
                 key={en.uuid + reloadGraphID}
                 glbObject={glbObject}
                 item={en}
+                disabledNodes={disabledNodes}
                 effectNode={en.userData.effectNode}
               ></EffectNodeObject>
             )
