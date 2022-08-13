@@ -262,6 +262,8 @@ export function effect({ node, mini, data, setComponent }) {
     let clonedOrig = original.get(data.raw.nodeID).clone()
     mini.now.itself.material = clonedOrig
 
+    delete clonedOrig.defines
+
     let newMat = new MeshPhysicalMaterial({ ...clonedOrig })
 
     defs.uniforms.forEach((uni) => {
