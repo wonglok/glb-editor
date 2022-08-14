@@ -35,7 +35,7 @@ export class NoodleRenderable {
 
     let { geometry, ballGeo, subdivisions, count } = new NoodleGeo({
       count: this.howManyTracker,
-      numSides: 8,
+      numSides: 4,
       subdivisions: this.howLongTail,
       openEnded: false,
     })
@@ -98,7 +98,7 @@ export class NoodleRenderable {
         vec4 color = texture2D(posTexture,
           vec2(
             t,
-            lineIDXER / ${this.sim.HEIGHT.toFixed(1)}
+            lineIDXER / ${this.sim.howManyTracker.toFixed(2)}
           )
         );
         return color.rgb;
@@ -178,10 +178,13 @@ export class NoodleRenderable {
 
 
             vec3 nPos = makeGeo();
+
+            float lineIDXER = offset.w;
+
             vec3 transformed = vec3( nPos );
 
 
-            `
+        `
 
       let transformV3Normal = `
 

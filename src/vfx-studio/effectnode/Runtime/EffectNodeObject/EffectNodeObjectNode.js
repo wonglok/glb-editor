@@ -17,6 +17,7 @@ export function EffectNodeObjectNode({
   let [component, setComponent] = useState(<></>)
   useEffect(() => {
     let cleans = []
+
     let featureModule = codes
       .filter((e) => {
         let res = true
@@ -29,9 +30,9 @@ export function EffectNodeObjectNode({
           }
         })
 
-        if (!res) {
-          console.log('disabled node found:', e.title)
-        }
+        // if (!res) {
+        //   console.log('disabled node found:', e.title)
+        // }
         return res
       })
       .find((e) => e.title === node.codeID)
