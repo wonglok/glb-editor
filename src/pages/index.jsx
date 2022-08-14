@@ -8,6 +8,7 @@ export default function Game() {
     <div className='w-full h-full'>
       <Canvas
         gl={{
+          antialias: false,
           logarithmicDepthBuffer: true,
         }}
         onCreated={(st) => {

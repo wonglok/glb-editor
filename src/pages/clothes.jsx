@@ -7,6 +7,10 @@ export default function Game() {
   return (
     <div className='w-full h-full'>
       <Canvas
+        gl={{
+          antialias: false,
+          logarithmicDepthBuffer: true,
+        }}
         onCreated={(st) => {
           st.gl.outputEncoding = sRGBEncoding
           st.gl.physicallyCorrectLights = true
