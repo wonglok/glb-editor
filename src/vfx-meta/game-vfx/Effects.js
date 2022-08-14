@@ -122,14 +122,14 @@ export function Effects({}) {
         <>
           <CameraFling></CameraFling>
           <EffectComposer disableNormalPass>
-            <Noise premultiply={true} opacity={0.2} />
+            <Noise premultiply={true} opacity={0.35} />
 
             <SSR {...props} />
             <Bloom
-              luminanceThreshold={0.2}
+              luminanceThreshold={0.0}
               mipmapBlur
               luminanceSmoothing={0}
-              intensity={0.5}
+              intensity={1}
             />
             <LUT lut={texture} />
             {/* <DepthOfField
