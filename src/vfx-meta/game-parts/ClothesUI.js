@@ -263,48 +263,7 @@ function AvatarRPMARea() {
         >
           Ready Player Me (Lok)
         </Text>
-        <Text
-          rotation-x={Math.PI * -0.25}
-          onClick={() => {
-            //
-            setAvatar({
-              vendor: 'rpm',
-              avatarURL: `/scene/loklokdemo/loklok-demo.glb`,
-            })
-          }}
-          fontSize={0.5}
-          position={[0, 0, 2]}
-        >
-          Ready Player Me (VFX - 1)
-        </Text>
-        <Text
-          rotation-x={Math.PI * -0.25}
-          onClick={() => {
-            //
-            setAvatar({
-              vendor: 'rpm',
-              avatarURL: `/scene/loklokdemo/shader-3.glb`,
-            })
-          }}
-          fontSize={0.5}
-          position={[0, 0, 3]}
-        >
-          Ready Player Me (VFX - 2)
-        </Text>
-        <Text
-          rotation-x={Math.PI * -0.25}
-          onClick={() => {
-            //
-            setAvatar({
-              vendor: 'rpm',
-              avatarURL: `/scene/loklokdemo/effect2.glb`,
-            })
-          }}
-          fontSize={0.5}
-          position={[0, 0, 4]}
-        >
-          Ready Player Me (VFX - 3)
-        </Text>
+
         <Text
           rotation-x={Math.PI * -0.25}
           onClick={() => {
@@ -318,6 +277,20 @@ function AvatarRPMARea() {
           position={[0, 0, 1]}
         >
           Ready Player Me Green
+        </Text>
+        <Text
+          rotation-x={Math.PI * -0.25}
+          onClick={() => {
+            //
+            setAvatar({
+              vendor: 'rpm',
+              avatarURL: `/scene/loklokdemo/effect2.glb`,
+            })
+          }}
+          fontSize={0.5}
+          position={[0, 0, 2]}
+        >
+          Ready Player Me (VFX)
         </Text>
       </group>
     </>
