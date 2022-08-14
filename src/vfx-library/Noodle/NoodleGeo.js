@@ -119,16 +119,15 @@ export class NoodleGeo {
       new InstancedBufferAttribute(new Float32Array(offset), 4)
     )
 
-    let isoGeo = new IcosahedronBufferGeometry(0.4, 3)
+    // let isoGeo = new IcosahedronBufferGeometry(0.4, 3)
+    // let ballGeo = new InstancedBufferGeometry()
+    // ballGeo = ballGeo.copy(isoGeo)
+    // ballGeo.instanceCount = count
 
-    let ballGeo = new InstancedBufferGeometry()
-    ballGeo = ballGeo.copy(isoGeo)
-    ballGeo.instanceCount = count
-
-    ballGeo.setAttribute(
-      'offset',
-      new InstancedBufferAttribute(new Float32Array(offset), 4)
-    )
+    // ballGeo.setAttribute(
+    //   'offset',
+    //   new InstancedBufferAttribute(new Float32Array(offset), 4)
+    // )
 
     // let eachLineIdx = []
     // for (let c = 0; c < count; c++) {
@@ -144,7 +143,7 @@ export class NoodleGeo {
       ...props,
       dataLength: posArray.length,
       geometry: lineGeo,
-      ballGeo,
+      // ballGeo,
     }
   }
 }

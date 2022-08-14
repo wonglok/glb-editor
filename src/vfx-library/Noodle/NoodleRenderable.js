@@ -46,10 +46,10 @@ export class NoodleRenderable {
       color: new Color('#ff0000'),
       transparent: true,
       roughness: 0.0,
-      metalness: 0.0,
+      metalness: 1.0,
       side: DoubleSide,
       reflectivity: 0.5,
-      transmission: 1.0,
+      transmission: 0.0,
       ior: 1.25,
       ...this.renderConfig,
     }
@@ -222,111 +222,37 @@ export class NoodleRenderable {
       shader.fragmentShader = shader.fragmentShader.replace(
         `#include <output_fragment>`,
         `
-      #ifdef OPAQUE
-        diffuseColor.a = 1.0;
-      #endif
-      #ifdef USE_TRANSMISSION
-        diffuseColor.a *= transmissionAlpha + 0.1;
-      #endif
+        #ifdef OPAQUE
+          diffuseColor.a = 1.0;
+        #endif
+        #ifdef USE_TRANSMISSION
+          diffuseColor.a *= transmissionAlpha + 0.1;
+        #endif
 
-      gl_FragColor = vec4( outgoingLight, diffuseColor.a * (1.0 - vT) );
+        float aa = diffuseColor.a * (1.0 - vT);
+
+        if (aa >= 0.01) {
+          gl_FragColor = vec4( outgoingLight, aa );
+        } else {
+          discard;
+        }
       `
       )
       // console.log(shader.fragmentShader)
     }
     let line1 = new Mesh(geometry, matLine1)
     line1.userData.enableBloom = true
+
     this.o3d.add(line1)
-    line1.visible = true
+
+    // line1.visible = true
     node.onClean(() => {
-      this.o3d.remove(line1)
+      line1.removeFromParent()
     })
     line1.frustumCulled = false
     line1.userData.enableBloom = true
 
-    ///
-
-    // class BallMataterial extends MeshPhysicalMaterial {
-    //   constructor({ ...props }) {
-    //     super({
-    //       ...props,
-    //     })
-    //     //
-    //     //
-
-    //     this.onBeforeCompile = (shader, gl) => {
-    //       //
-    //       shader.uniforms.time = { value: 0 }
-    //       shader.uniforms.posTexture = { value: null }
-
-    //       //
-    //       self.sim.wait.then(() => {
-    //         node.onLoop(() => {
-    //           let result = self.sim.getTextureAfterCompute()
-    //           shader.uniforms.posTexture.value = result.posTexture
-    //           shader.uniforms.time.value = window.performance.now() / 1000
-    //         })
-    //       })
-
-    //       shader.vertexShader = shader.vertexShader.replace(
-    //         `#include <common>`,
-    //         `#include <common>
-
-    //         attribute vec4 offset;
-    //         uniform sampler2D posTexture;
-    //         uniform float time;
-
-    //       `
-    //       )
-    //       shader.vertexShader = shader.vertexShader.replace(
-    //         '#include <begin_vertex>',
-    //         /* glsl */ `
-
-    //         float lineIDXER = offset.w;
-    //         float fling = time + lineIDXER  / ${self.sim.HEIGHT.toFixed(1)};
-    //         vec4 coord = texture2D(posTexture, vec2(0.5, lineIDXER / ${self.sim.HEIGHT.toFixed(
-    //           1
-    //         )}));
-
-    //         vec3 transformed = position.rgb * 0.1 + coord.rgb;
-    //         `
-    //       )
-    //     }
-    //     //
-    //     //
-    //   }
-    // }
-
-    // let matBall0 = new BallMataterial({
-    //   // side: DoubleSide,
-    //   // metalness: 0.2,
-    //   // roughness: 0.2,
-    //   // thickness: 4,
-    //   // transmission: 1,
-    //   // ior: 1.3,
-    //   // transparent: true,
-    //   // opacity: 1,
-    //   // // transmission: 1.0,
-    //   // color: new Color('#ffffff'),
-    //   // // vertexColors: false,
-    //   // emissive: new Color('#007777').offsetHSL(0, 0, 0.0),
-    //   // reflectivity: 0.5,
-
-    //   ...matConfig,
-    // })
-
-    // let ball0 = new Mesh(ballGeo, matBall0)
-    // ball0.userData.enableBloom = true
-
-    // this.o3d.add(ball0)
-    // node.onClean(() => {
-    //   this.o3d.remove(ball0)
-    // })
-
-    // ball0.frustumCulled = false
-    // ball0.userData.enableBloom = true
-
-    await this.sim.wait
+    // await this.sim.wait
     node.onLoop(() => {
       let result = this.sim.getTextureAfterCompute()
       // matLine0.uniforms.posTexture.value = result.posTexture

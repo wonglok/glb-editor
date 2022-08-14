@@ -104,12 +104,12 @@ export async function effect({ node, mini, data }) {
   let renderConfig = {
     color: new Color('#00ffff'),
     transparent: true,
-    roughness: 0.5,
-    metalness: 0.5,
+    roughness: 0,
+    metalness: 1,
     side: FrontSide,
-    reflectivity: 1.5,
-    transmission: 0.5,
-    ior: 1.5,
+    reflectivity: 0,
+    transmission: 0,
+    ior: 1,
   }
 
   let scene = mini.now.scene

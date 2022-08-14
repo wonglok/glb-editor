@@ -52,6 +52,7 @@ export async function nodeData({ defaultData, nodeID }) {
         name: 'shader',
         type: `glsl`,
         value: `
+
 float ratioA = abs(cos(250.0 * vH + time * 25.0) * sin(vH * 250.0 + time * 25.0));
 gl_FragColor.a = ratioA * 1.0;
 `,
@@ -97,18 +98,29 @@ export function effect({ node, mini, data }) {
         let atBeginV = `
 
           varying float vH;
+          varying vec2 myUV;
       `
         let atEndV = `
           vH = transformed.y;
+          myUV = uv;
       `
 
         let atBeginF = `
 
           varying float vH;
+          varying vec2 myUV;
           uniform float time;
         `
 
         let atEnd = `
+
+        vec2 uv = myUV;
+        vec3 noiser = vec3(
+
+          rand(vec2(vH) + 0.1),
+          rand(vec2(vH) + 0.2),
+          rand(vec2(vH) + 0.3)
+        );
               ${v.value}
           `
         //
