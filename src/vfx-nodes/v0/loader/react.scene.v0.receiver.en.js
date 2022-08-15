@@ -1,5 +1,5 @@
 import { getID } from '@/vfx-runtime/ENUtils'
-import { EffectComposer } from '@react-three/postprocessing'
+import { createPortal } from '@react-three/fiber'
 //
 
 export async function nodeData({ defaultData, nodeID }) {
@@ -72,7 +72,7 @@ export function effect({ node, mini, data, setComponent }) {
   //
   // setComponent
   //
-  //
+
   let receivers = {}
 
   let makeElemnet = () => {
@@ -83,11 +83,11 @@ export function effect({ node, mini, data, setComponent }) {
         values.push(receivers[socketInputName])
       }
     }
-    return <EffectComposer key={getID()}>{values}</EffectComposer>
+    return <group key={getID()}>{values}</group>
   }
 
   let send = () => {
-    setComponent(makeElemnet(receivers))
+    setComponent(createPortal(makeElemnet(receivers), mini.now.scene))
   }
 
   let keys = ['in0', 'in1', 'in2', 'in3', 'in4', 'in5', 'in6', 'in7', 'in8']

@@ -1,5 +1,6 @@
 import { useENEditor } from '@/vfx-studio/store/use-en-editor'
 import { useFilterEffectNode } from '@/vfx-studio/store/use-filter-effectnode'
+import md5 from 'md5'
 import { useEffect, useState } from 'react'
 import { EffectNodeObject } from '../EffectNodeObject/EffectNodeObject'
 
@@ -13,9 +14,26 @@ export function EffectNodeRuntime({
   glbObject.scene.updateMatrixWorld(true)
 
   let [ready, setReady] = useState(false)
-
   useEffect(() => {
     setReady(false)
+
+    glbObject.scene.traverse((it) => {
+      if (it.geometry) {
+        it.userData.posMD5 = md5(
+          it.geometry.attributes.position.array.length + it.name
+        )
+      }
+    })
+
+    if (originalGLBObject) {
+      originalGLBObject.scene.traverse((it) => {
+        if (it.geometry) {
+          it.userData.posMD5 = md5(
+            it.geometry.attributes.position.array.length + it.name
+          )
+        }
+      })
+    }
 
     setTimeout(() => {
       let ens = []

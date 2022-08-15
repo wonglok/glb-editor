@@ -4,6 +4,7 @@ import { Pane } from 'tweakpane'
 import Editor from '@monaco-editor/react'
 import { GLSLEditor } from '@/vfx-studio/UI/GLSLEditor'
 import * as TweakpaneImagePlugin from 'tweakpane-image-plugin'
+import { ModelViewer } from './ModelViewer'
 
 export function TabUnifroms({ node }) {
   let refName = useRef()
@@ -140,6 +141,17 @@ export function TabUnifroms({ node }) {
                     onSaveLater={onSaveLater(mm)}
                     onRemove={onRemove(mm)}
                   ></TextureInput>
+                )}
+
+                {mm.type === 'glb' && (
+                  <GLBInput
+                    object={mm}
+                    name={'value'}
+                    label={mm.name}
+                    value={mm.value}
+                    onSaveLater={onSaveLater(mm)}
+                    onRemove={onRemove(mm)}
+                  ></GLBInput>
                 )}
 
                 {mm.type === 'bool' && (
@@ -865,6 +877,117 @@ function TextureInput({
           src={object[name]}
         ></img>
       )}
+      <div ref={ref}></div>
+    </div>
+  )
+}
+
+function GLBInput({
+  object = { value: null },
+  name = 'value',
+  label,
+  value = 0,
+  min,
+  max,
+  step = 0.01,
+  onSave = () => {},
+  onSaveLater = () => {},
+  onRemove = () => {},
+}) {
+  //
+  let ref = useRef()
+
+  let [reload, setReload] = useState(0)
+  //
+  useEffect(() => {
+    const pane = new Pane({
+      container: ref.current,
+    })
+    pane.registerPlugin(TweakpaneImagePlugin)
+
+    let tt = 0
+    try {
+      const btnSelect = pane.addButton({
+        title: label,
+        label: 'Select', // optional
+      })
+
+      btnSelect.on('click', () => {
+        let sel = document.createElement('input')
+        sel.type = 'file'
+        sel.accept = 'model/gltf-binary'
+        sel.click()
+        sel.onchange = async (ev) => {
+          if (ev.target.files) {
+            let file = ev.target.files[0]
+
+            let dataUrl = await new Promise((resolve) => {
+              let reader = new FileReader()
+              reader.onload = () => resolve(reader.result)
+              reader.readAsDataURL(file)
+            })
+
+            object[name] = dataUrl
+
+            onSave()
+            clearTimeout(tt)
+            tt = setTimeout(() => {
+              onSaveLater()
+              setReload((s) => s + 1)
+            }, 15)
+          }
+        }
+
+        // object[name] = null
+      })
+    } catch (e) {
+      console.log(e)
+    }
+
+    const btnReset = pane.addButton({
+      title: 'Reset',
+      label: 'reset', // optional
+    })
+
+    btnReset.on('click', () => {
+      object[name] = null
+
+      onSave()
+
+      clearTimeout(tt)
+      tt = setTimeout(() => {
+        onSaveLater()
+        setReload((s) => s + 1)
+      }, 15)
+    })
+
+    ///
+    if (!object.protected) {
+      const btn = pane.addButton({
+        title: 'Remove: ' + label,
+        label: 'Remove', // optional
+      })
+
+      btn.on('click', () => {
+        if (window.confirm('remove?' + label)) {
+          onRemove()
+        }
+      })
+    }
+
+    return () => {
+      //
+      pane.dispose()
+    }
+  }, [reload])
+
+  //
+
+  return (
+    <div>
+      <div className='h-40'>
+        {object[name] && <ModelViewer url={object[name]} />}
+      </div>
       <div ref={ref}></div>
     </div>
   )
