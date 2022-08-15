@@ -1,5 +1,6 @@
 import { getID } from '@/vfx-runtime/ENUtils'
 import { createPortal } from '@react-three/fiber'
+import { Object3D } from 'three140'
 //
 
 export async function nodeData({ defaultData, nodeID }) {
@@ -86,8 +87,19 @@ export function effect({ node, mini, data, setComponent }) {
     return <group key={getID()}>{values}</group>
   }
 
+  let clean = () => {}
   let send = () => {
-    setComponent(createPortal(makeElemnet(receivers), mini.now.itself))
+    let o3d = new Object3D()
+    mini.now.itself.getWorldPosition(o3d.position)
+    mini.now.itself.getWorldQuaternion(o3d.quaternion)
+    mini.now.itself.getWorldScale(o3d.scale)
+
+    clean()
+    clean = () => {
+      o3d.removeFromParent()
+    }
+    mini.now.scene.add(o3d)
+    setComponent(createPortal(makeElemnet(receivers), o3d))
   }
 
   let keys = ['in0', 'in1', 'in2', 'in3', 'in4', 'in5', 'in6', 'in7', 'in8']
