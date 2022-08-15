@@ -28,9 +28,7 @@ export function GLBTree() {
             }
             onClick={() => {
               //
-              setTimeout(() => {
-                updateSelected([li])
-              })
+              updateSelected([li])
               setTimeout(() => {
                 updateSelected([li])
               }, 10)

@@ -858,6 +858,12 @@ function TextureInput({
       btn.on('click', () => {
         if (window.confirm('remove?' + label)) {
           onRemove()
+          onSave()
+          clearTimeout(tt)
+          tt = setTimeout(() => {
+            onSaveLater()
+            setReload((s) => s + 1)
+          }, 15)
         }
       })
     }
@@ -971,6 +977,12 @@ function GLBInput({
       btn.on('click', () => {
         if (window.confirm('remove?' + label)) {
           onRemove()
+          onSave()
+          clearTimeout(tt)
+          tt = setTimeout(() => {
+            onSaveLater()
+            setReload((s) => s + 1)
+          }, 15)
         }
       })
     }

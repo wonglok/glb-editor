@@ -43,7 +43,7 @@ export function SceneContent({}) {
   useEffect(() => {
     let planeScene = new Scene()
     planeScene.add(
-      new Mesh(new BoxBufferGeometry(100, 0.1, 100), new MeshBasicMaterial())
+      new Mesh(new BoxBufferGeometry(850, 0.1, 850), new MeshBasicMaterial())
     )
     setColliderFromScene({ scene: planeScene })
 
@@ -65,6 +65,18 @@ export function SceneContent({}) {
             // multiple={false}
             onChange={(v) => {
               updateSelected(v)
+              setTimeout(() => {
+                updateSelected(v)
+              }, 10)
+              setTimeout(() => {
+                updateSelected(v)
+              }, 20)
+              setTimeout(() => {
+                updateSelected(v)
+              }, 30)
+              setTimeout(() => {
+                updateSelected(v)
+              }, 40)
 
               //
               if (v[0]) {
