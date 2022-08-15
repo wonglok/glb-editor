@@ -31,7 +31,6 @@ export async function nodeData({ defaultData, nodeID }) {
     ],
 
     uniforms: [
-      //
       //       {
       //         _id: getID(),
       //         nodeID,
@@ -66,9 +65,8 @@ export async function nodeData({ defaultData, nodeID }) {
       //         name: 'shader',T
       //         type: `glsl`,
       //         value: `
-      // `,
+      //         `,
       //       },
-      //
     ],
 
     //
