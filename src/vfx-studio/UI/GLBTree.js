@@ -28,8 +28,21 @@ export function GLBTree() {
             }
             onClick={() => {
               //
-              updateSelected([li])
-              openEffectNode(li)
+              setTimeout(() => {
+                updateSelected([li])
+              })
+              setTimeout(() => {
+                updateSelected([li])
+              }, 10)
+              setTimeout(() => {
+                updateSelected([li])
+              }, 20)
+              setTimeout(() => {
+                updateSelected([li])
+              }, 30)
+              setTimeout(() => {
+                updateSelected([li])
+              }, 40)
             }}
           >
             {li.name} {`${li.userData.effectNode ? '[EN]' : ''}`}
