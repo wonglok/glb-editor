@@ -40,11 +40,7 @@ export const useAccessor = create((set, get) => {
 
       set({
         selectedMeshes: [mesh],
-      })
-      setTimeout(() => {
-        set({
-          layout: 'effectnode',
-        })
+        layout: 'effectnode',
       })
     },
 

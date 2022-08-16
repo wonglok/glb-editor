@@ -52,7 +52,10 @@ export function NodesAdd() {
               rows={1}
               autoFocus={true}
               defaultValue={str}
-              onKeyDown={(ev) => {
+              onKeyDownCapture={(ev) => {
+                ev.stopPropagation()
+              }}
+              onInput={(ev) => {
                 if (ev.key === 'Enter') {
                   ev.preventDefault()
                   //

@@ -38,7 +38,12 @@ export function TabUnifroms({ node }) {
   }
 
   return (
-    <div className='p-2'>
+    <div
+      className='p-2'
+      onKeyDownCapture={(ev) => {
+        ev.stopPropagation()
+      }}
+    >
       <div className='flex  mb-3'>
         <input
           type='text'

@@ -65,12 +65,9 @@ export function SceneContent({}) {
             // multiple={false}
             onChange={(v) => {
               let onSelect = (v) => {
-                updateSelected(v)
-
                 //
                 if (v[0]) {
                   openEffectNode(v[0])
-                  setLayout('effectnode')
 
                   // v[0].geometry.computeBoundingSphere()
                   // let center = v[0].geometry.boundingSphere.center
