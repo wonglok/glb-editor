@@ -4,7 +4,7 @@ import { useEffect } from 'react'
 // import { TextureLoader } from 'three'
 import { EquirectangularReflectionMapping } from 'three'
 import { RGBELoader } from 'three/examples/jsm/loaders/RGBELoader'
-export function HDR() {
+export function HDR({ url = `/hdr/greenwich_park_02_1k.hdr` }) {
   //
   let scene = useThree((s) => s.scene)
   useEffect(() => {
@@ -12,7 +12,7 @@ export function HDR() {
     let loader = new RGBELoader()
 
     // public
-    loader.loadAsync(`/hdr/greenwich_park_02_1k.hdr`).then((tex) => {
+    loader.loadAsync(url).then((tex) => {
       // loader.loadAsync(`/hdr/studio_small_08_1k.hdr`).then((tex) => {
       tex.mapping = EquirectangularReflectionMapping
       // scene.background = tex
@@ -27,7 +27,7 @@ export function HDR() {
     //   scene.environment = tex
     //   scene.background = tex
     // })
-  }, [])
+  }, [url])
   //
   return <group></group>
 }
