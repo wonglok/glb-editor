@@ -121,14 +121,14 @@ export function SceneContent({}) {
                   // }
                   // window.addEventListener('wheel', h)
 
-                  let helper = new BoxHelper(v[0])
+                  // let helper = new BoxHelper(v[0])
 
-                  clean.current()
-                  clean.current = () => {
-                    helper.removeFromParent()
-                  }
+                  // clean.current()
+                  // clean.current = () => {
+                  //   helper.removeFromParent()
+                  // }
 
-                  scene.add(helper)
+                  // scene.add(helper)
                 }
               }
 
@@ -144,6 +144,8 @@ export function SceneContent({}) {
               setTimeout(() => {
                 onSelect(v)
               }, 400)
+
+              //
             }}
             filter={(items) => items}
           >

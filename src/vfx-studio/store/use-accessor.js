@@ -109,10 +109,27 @@ export const useAccessor = create((set, get) => {
   }
 })
 
+let getJSON = (it) => {
+  let str = ''
+
+  if (it.geometry) {
+    str += it.geometry.attributes.position.array.length
+  }
+  return str
+  //
+  // let nit = { ...it }
+  // delete nit.geometry
+  // delete nit.material
+  // delete nit.effectnode
+  // delete nit.children
+
+  // return JSON.stringify(nit)
+}
 export const getPosMD5 = (glb) => {
   glb.scene.traverse((it) => {
     it.userData.posMD5 = md5(
-      it.name +
+      getJSON(it) +
+        it.name +
         it.children.map((e) => e.name).join('_') +
         it?.parent?.name +
         it?.parent?.children?.map((e) => e.name).join('_')

@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { useAccessor } from '../store/use-accessor'
 // import { useENEditor } from '../store/use-en-editor'
 
@@ -8,12 +9,13 @@ export function GLBTree() {
   let selectedMeshes = useAccessor((s) => s.selectedMeshes)
   // let overlay = useENEditor((s) => s.overlay)
   let list = []
-  glbObject?.scene?.getObjectByName('Scene').traverse((it) => {
-    if (it.isObject3D && it.name !== 'Scene') {
+  glbObject?.scene?.traverse((it) => {
+    if (it.children && it.geometry) {
       list.push(it)
     }
   })
 
+  let [filter, setFilter] = useState([])
   let getClass = (li) => {
     // li.userData.effectNode
 
@@ -35,36 +37,51 @@ export function GLBTree() {
     //   : 'w-full p-2 text-xs text-right bg-yellow-300 border-b border-yellow-500 cursor-pointer hover:bg-yellow-400 '
   }
   return (
-    <div
-      style={{
-        maxHeight: 'calc(100vh - 300px)',
-        overflow: 'scroll',
-      }}
-      //
-      //
-      //
-    >
-      {list.map((li) => {
-        return (
-          <div
-            key={li.uuid}
-            className={'flex  justify-between' + ` ${getClass(li)}`}
-            onClick={() => {
-              //
-              openEffectNode(li)
-              setTimeout(() => {
-                openEffectNode(li)
-              }, 100)
-            }}
-          >
-            <div>{`${
-              li.userData.effectNode?.nodes?.length > 0 ? '[EN]' : ''
-            }`}</div>
-            <div>{li.name}</div>
-          </div>
-        )
-      })}
-    </div>
+    <>
+      <input
+        type={'text'}
+        className='w-full p-2 text-center'
+        placeholder='Search'
+        onKeyDownCapture={(ev) => {
+          ev.stopPropagation()
+        }}
+        onInput={(ev) => {
+          setFilter(ev.target.value)
+        }}
+      ></input>
+      <div
+        style={{
+          maxHeight: 'calc(100vh - 300px)',
+          overflow: 'scroll',
+        }}
+        //
+        //
+        //
+      >
+        {list
+          .filter((e) => e.name.indexOf(filter) !== -1)
+          .map((li) => {
+            return (
+              <div
+                key={li.uuid}
+                className={'flex  justify-between' + ` ${getClass(li)}`}
+                onClick={() => {
+                  //
+                  openEffectNode(li)
+                  setTimeout(() => {
+                    openEffectNode(li)
+                  }, 100)
+                }}
+              >
+                <div>{`${
+                  li.userData.effectNode?.nodes?.length > 0 ? '[EN]' : ''
+                }`}</div>
+                <div>{li.name}</div>
+              </div>
+            )
+          })}
+      </div>
+    </>
   )
 }
 
