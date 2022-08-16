@@ -39,7 +39,10 @@ export function SceneContent({}) {
     return () => {}
   })
 
-  let anim = useAnimations(glbObject.animations, glbObject.scene)
+  let anim = useAnimations(
+    glbObject?.animations || [],
+    glbObject?.scene || new Object3D()
+  )
   useEffect(() => {
     Object.values(anim.actions).forEach((e) => e.play())
   })

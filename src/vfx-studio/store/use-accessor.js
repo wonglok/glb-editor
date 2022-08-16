@@ -9,7 +9,9 @@ import {
 import create from 'zustand'
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
+import { clone } from 'three/examples/jsm/utils/SkeletonUtils'
 import md5 from 'md5'
+import { ObjectLoader } from 'three140'
 
 export const useAccessor = create((set, get) => {
   return {
@@ -94,29 +96,11 @@ export const useAccessor = create((set, get) => {
           loader.parseAsync(buffer, '/'),
           loader.parseAsync(buffer, '/'),
         ]).then(([glb1, glb2]) => {
-          let i1 = 0
-          glb1.scene.traverse((it) => {
-            if (it.geometry) {
-              it.userData.posMD5 = md5(
-                it.geometry.attributes.position.array.length + it.name
-              )
-            }
+          //
 
-            it.userData.enUUID = 'uuid' + i1
-            i1++
-          })
+          getPosMD5(glb2)
 
-          let i2 = 0
-          glb2.scene.traverse((it) => {
-            if (it.geometry) {
-              it.userData.posMD5 = md5(
-                it.geometry.attributes.position.array.length + it.name
-              )
-            }
-
-            it.userData.enUUID = 'uuid' + i2
-            i2++
-          })
+          getPosMD5(glb1)
 
           set({ glbObject: glb1, glbObjectBeforeEdit: glb2 })
         })
@@ -124,3 +108,14 @@ export const useAccessor = create((set, get) => {
     },
   }
 })
+
+export const getPosMD5 = (glb) => {
+  glb.scene.traverse((it) => {
+    it.userData.posMD5 = md5(
+      it?.geometry?.attributes?.position?.array?.length +
+        it.name +
+        it.children.map((e) => e.name) +
+        it?.parent?.children?.map((e) => e.name)
+    )
+  })
+}

@@ -1,3 +1,4 @@
+import { getPosMD5 } from '@/vfx-studio/store/use-accessor'
 import { useENEditor } from '@/vfx-studio/store/use-en-editor'
 import { useFilterEffectNode } from '@/vfx-studio/store/use-filter-effectnode'
 import md5 from 'md5'
@@ -17,22 +18,9 @@ export function EffectNodeRuntime({
   useEffect(() => {
     setReady(false)
 
-    glbObject.scene.traverse((it) => {
-      if (it.geometry) {
-        it.userData.posMD5 = md5(
-          it.geometry.attributes.position.array.length + it.name
-        )
-      }
-    })
-
+    getPosMD5(glbObject)
     if (originalGLBObject) {
-      originalGLBObject.scene.traverse((it) => {
-        if (it.geometry) {
-          it.userData.posMD5 = md5(
-            it.geometry.attributes.position.array.length + it.name
-          )
-        }
-      })
+      getPosMD5(originalGLBObject)
     }
 
     setTimeout(() => {

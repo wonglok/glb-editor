@@ -13,8 +13,13 @@ export function GLBEditor() {
   let layout = useAccessor((s) => s.layout)
 
   return (
-    <div className='flex items-start justify-between w-full h-full'>
-      <div className='h-full' style={{ width: `280px` }}>
+    <div className='flex w-full h-full'>
+      <div
+        className='h-full'
+        style={{
+          width: `280px`,
+        }}
+      >
         <BackButton></BackButton>
         <TitleButton></TitleButton>
         <DownloadButton></DownloadButton>

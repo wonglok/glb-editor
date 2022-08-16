@@ -13,7 +13,12 @@ export function GLBTree() {
     }
   })
   return (
-    <div>
+    <div
+      style={{
+        maxHeight: 'calc(100vh - 300px)',
+        overflow: 'scroll',
+      }}
+    >
       {list.map((li) => {
         return (
           <div
