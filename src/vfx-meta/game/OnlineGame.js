@@ -16,7 +16,7 @@ import { useRender } from '../store/use-render'
 export function OnlineGame() {
   return (
     <group>
-      <Floor url={'/scene/dome/dome4.glb'}></Floor>
+      <Floor url={'/scene/dome/dome7.glb'}></Floor>
       <BG url={`/hdr/moonless_golf_1k.hdr`}></BG>
       {/* <HDR></HDR> */}
       {/*  */}
