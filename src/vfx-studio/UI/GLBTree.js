@@ -13,6 +13,9 @@ export function GLBTree() {
     if (it.children && it.geometry) {
       list.push(it)
     }
+    if (it.isBone) {
+      list.push(it)
+    }
   })
 
   let [filter, setFilter] = useState([])
