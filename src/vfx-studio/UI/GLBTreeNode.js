@@ -12,7 +12,7 @@ export function GLBTreeNode({ node, getClass }) {
           openEffectNode(node)
         }}
       >
-        <div className=' text-white bg-lime-500'>{`${
+        <div className='text-xs text-white bg-lime-500'>{`${
           node.userData.effectNode?.nodes?.length > 0 ? '[EN]' : ''
         }`}</div>
         <div>{node.name}</div>
