@@ -7,6 +7,7 @@ import {
   MapControls,
   OrbitControls,
   Select,
+  useAnimations,
 } from '@react-three/drei'
 import { BoxBufferGeometry, BoxHelper, Object3D, Vector3 } from 'three'
 import anime from 'animejs'
@@ -38,7 +39,11 @@ export function SceneContent({}) {
     return () => {}
   })
 
-  //
+  let anim = useAnimations(glbObject.animations, glbObject.scene)
+  useEffect(() => {
+    Object.values(anim.actions).forEach((e) => e.play())
+  })
+
   let setColliderFromScene = useMetaStore((s) => s.setColliderFromScene)
   useEffect(() => {
     let planeScene = new Scene()
