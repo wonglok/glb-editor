@@ -12,7 +12,7 @@ export function RunnerEditor() {
           gl.outputEncoding = sRGBEncoding
         }}
       >
-        <RenderSwitch></RenderSwitch>
+        {/* <RenderSwitch></RenderSwitch> */}
         <SceneContent></SceneContent>
       </Canvas>
     </div>

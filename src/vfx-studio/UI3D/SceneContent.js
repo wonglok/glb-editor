@@ -23,17 +23,17 @@ export function SceneContent({}) {
   let glbObject = useAccessor((s) => s.glbObject)
   let glbObjectBeforeEdit = useAccessor((s) => s.glbObjectBeforeEdit)
   let openEffectNode = useAccessor((s) => s.openEffectNode)
-  let updateSelected = useAccessor((s) => s.updateSelected)
+  // let updateSelected = useAccessor((s) => s.updateSelected)
   let scene = useThree((s) => s.scene)
-  let setContorl = useAccessor((s) => s.setContorl)
+  // let setContorl = useAccessor((s) => s.setContorl)
   // let openEffectNode = useAccessor((s) => s.openEffectNode)
-  let setLayout = useAccessor((s) => s.setLayout)
-  let control = useAccessor((s) => s.control)
+  // let setLayout = useAccessor((s) => s.setLayout)
+  // let control = useAccessor((s) => s.control)
 
   let setPlayerReady = useMetaStore((s) => s.setPlayerReady)
   let setPosition = useMetaStore((s) => s.setPosition)
 
-  let setEnableDefaultHDR = useRender((s) => s.setEnableDefaultHDR)
+  // let setEnableDefaultHDR = useRender((s) => s.setEnableDefaultHDR)
   let enableDefaultHDR = useRender((s) => s.enableDefaultHDR)
   let clean = useRef(() => {
     return () => {}

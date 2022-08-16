@@ -1,14 +1,14 @@
 import { useAccessor } from '../store/use-accessor'
-import { useENEditor } from '../store/use-en-editor'
+// import { useENEditor } from '../store/use-en-editor'
 
 export function GLBTree() {
   let glbObject = useAccessor((s) => s.glbObject)
   let openEffectNode = useAccessor((s) => s.openEffectNode)
-  let updateSelected = useAccessor((s) => s.updateSelected)
-  let overlay = useENEditor((s) => s.overlay)
+  // let updateSelected = useAccessor((s) => s.updateSelected)
+  // let overlay = useENEditor((s) => s.overlay)
   let list = []
-  glbObject?.scene?.traverse((it) => {
-    if (it.geometry) {
+  glbObject?.scene?.getObjectByName('Scene').traverse((it) => {
+    if (it.isObject3D && it.name !== 'Scene') {
       list.push(it)
     }
   })
@@ -28,19 +28,10 @@ export function GLBTree() {
             }
             onClick={() => {
               //
-              updateSelected([li])
+              openEffectNode(li)
               setTimeout(() => {
-                updateSelected([li])
-              }, 10)
-              setTimeout(() => {
-                updateSelected([li])
-              }, 20)
-              setTimeout(() => {
-                updateSelected([li])
-              }, 30)
-              setTimeout(() => {
-                updateSelected([li])
-              }, 40)
+                openEffectNode(li)
+              }, 100)
             }}
           >
             {li.name} {`${li.userData.effectNode ? '[EN]' : ''}`}
@@ -50,7 +41,5 @@ export function GLBTree() {
     </div>
   )
 }
-
-//
 
 //
