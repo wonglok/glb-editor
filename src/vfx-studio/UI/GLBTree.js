@@ -59,7 +59,10 @@ export function GLBTree() {
         //
       >
         {glbObject && (
-          <GLBTreeNode getClass={getClass} node={glbObject.scene}></GLBTreeNode>
+          <GLBTreeNode
+            getClass={getClass}
+            node={glbObject.scene.getObjectByName('Scene') || glbObject.scene}
+          ></GLBTreeNode>
         )}
 
         {/* {list
