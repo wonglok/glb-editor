@@ -18,10 +18,10 @@ export function OnlineGame() {
     <group>
       <Floor url={'/scene/dome/dome1.glb'}></Floor>
       <BG url={`/hdr/moonless_golf_1k.hdr`}></BG>
-      {/* <HDR url={`/hdr/moonless_golf_1k.hdr`}> </HDR> */}
+      <HDR url={`/hdr/moonless_golf_1k.hdr`}> </HDR>
       {/*  */}
 
-      <EnvLight></EnvLight>
+      {/* <EnvLight></EnvLight> */}
 
       <OnlineSystem mapID='dome-map'>
         <>
