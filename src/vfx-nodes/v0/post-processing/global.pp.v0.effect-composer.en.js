@@ -1,5 +1,7 @@
+import { useRender } from '@/vfx-meta/store/use-render'
 import { getID } from '@/vfx-runtime/ENUtils'
 import { EffectComposer } from '@react-three/postprocessing'
+import { useEffect } from 'react'
 //
 
 export async function nodeData({ defaultData, nodeID }) {
@@ -68,6 +70,15 @@ export async function nodeData({ defaultData, nodeID }) {
   }
 }
 
+function GlobalOnOff({ children }) {
+  let enable = useRender((s) => s.enable)
+  let setEnableButton = useRender((s) => s.setEnableButton)
+  useEffect(() => {
+    setEnableButton(true)
+  })
+  return <>{enable && children}</>
+}
+
 export function effect({ node, mini, data, setComponent }) {
   //
   // setComponent
@@ -83,7 +94,11 @@ export function effect({ node, mini, data, setComponent }) {
         values.push(receivers[socketInputName])
       }
     }
-    return <EffectComposer key={getID()}>{values}</EffectComposer>
+    return (
+      <GlobalOnOff>
+        <EffectComposer key={getID()}>{values}</EffectComposer>
+      </GlobalOnOff>
+    )
   }
 
   let send = () => {

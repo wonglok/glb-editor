@@ -7,7 +7,7 @@ export const useRender = create((set, get) => {
   //
   //
   return {
-    enable: false,
+    enable: true,
     setRender: (v) => {
       set({ enable: v })
     },
@@ -15,6 +15,11 @@ export const useRender = create((set, get) => {
     enableDefaultHDR: true,
     setEnableDefaultHDR: (v) => {
       set({ enableDefaultHDR: v })
+    },
+
+    enableButtonToggle: false,
+    setEnableButton: (v) => {
+      set({ enableButtonToggle: v })
     },
     //
     //

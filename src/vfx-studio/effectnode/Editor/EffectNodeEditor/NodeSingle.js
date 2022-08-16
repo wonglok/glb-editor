@@ -137,7 +137,7 @@ function TitleText({ node }) {
         font='/font/Cronos-Pro-Light_12448.ttf'
         anchorX='center'
         anchorY='middle'
-        outlineWidth={0.12}
+        outlineWidth={0.1}
         outlineColor='#ffffff'
         rotation-x={Math.PI * -0.25}
         position={[0, 0.5, 2.5]}
