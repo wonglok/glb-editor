@@ -5,6 +5,7 @@ export function GLBTree() {
   let glbObject = useAccessor((s) => s.glbObject)
   let openEffectNode = useAccessor((s) => s.openEffectNode)
   // let updateSelected = useAccessor((s) => s.updateSelected)
+  let selectedMeshes = useAccessor((s) => s.selectedMeshes)
   // let overlay = useENEditor((s) => s.overlay)
   let list = []
   glbObject?.scene?.getObjectByName('Scene').traverse((it) => {
@@ -27,7 +28,9 @@ export function GLBTree() {
               '' +
               ` ${
                 li.userData.effectNode
-                  ? 'w-full p-2 text-xs text-right bg-green-300 border-b border-green-500 cursor-pointer hover:bg-green-400 '
+                  ? selectedMeshes[0] && selectedMeshes[0].uuid === li.uuid
+                    ? 'w-full p-2 text-xs text-right bg-blue-300 border-b border-blue-500 cursor-pointer hover:bg-blue-400 '
+                    : 'w-full p-2 text-xs text-right bg-green-300 border-b border-green-500 cursor-pointer hover:bg-green-400 '
                   : 'w-full p-2 text-xs text-right bg-yellow-300 border-b border-yellow-500 cursor-pointer hover:bg-yellow-400 '
               }`
             }
