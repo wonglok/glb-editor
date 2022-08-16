@@ -38,10 +38,6 @@ export function EffectNodeObject({
     enRuntime.now.eventsBus = new EventEmitter()
     Core.now.canvas = enRuntime
 
-    item.children.forEach((it) => {
-      it.removeFromParent()
-    })
-
     let st = get()
 
     for (let kn in st) {

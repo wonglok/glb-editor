@@ -68,7 +68,9 @@ gl_FragColor.a = ratioA * 1.0;
 
 export function effect({ node, mini, data }) {
   let it = mini.now.itself
-
+  if (!it.material) {
+    return
+  }
   let scan = { value: 1 }
 
   data.uniforms.colorA((v) => {
@@ -82,7 +84,7 @@ export function effect({ node, mini, data }) {
   data.uniforms.shader((v) => {
     if (v && typeof v.value !== 'undefined') {
       let mat = new MeshPhysicalMaterial({
-        name: it.material.name,
+        name: it.material?.name,
         color: new Color('#00ff89'),
         map: it.material.map,
         normalMap: it.material.normalMap,
