@@ -76,8 +76,6 @@ export function SceneContent({}) {
               let onSelect = (v) => {
                 if (v[0]) {
                   openEffectNode(v[0])
-                } else {
-                  updateSelected([])
                 }
               }
 
