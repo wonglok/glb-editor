@@ -118,6 +118,14 @@ let getDefinitions = ({ nodeID }) => {
     {
       _id: getID(),
       nodeID,
+      name: 'emissiveIntensity',
+      type: 'float',
+      value: 1,
+      protected: true,
+    },
+    {
+      _id: getID(),
+      nodeID,
       name: 'normalMap',
       type: 'texture',
       value: '',
@@ -272,12 +280,18 @@ export function effect({ node, mini, data, setComponent }) {
       if (val) {
         if (uni.name === 'side') {
           newMat[uni.name] = getSide(val)
+        } else if (uni.name === 'emissiveMap') {
+          newMat[uni.name] = loadTexture(val)
+        } else if (uni.name === 'map') {
+          newMat[uni.name] = loadTexture(val)
+        } else if (uni.name === 'normalMap') {
+          newMat[uni.name] = loadTexture(val)
+        } else if (uni.type === 'texture') {
+          newMat[uni.name] = loadTexture(val)
         } else if (uni.type === 'float') {
           newMat[uni.name] = val
         } else if (uni.type === 'color') {
           newMat[uni.name] = new Color(val)
-        } else if (uni.type === 'texture') {
-          newMat[uni.name] = loadTexture(val)
         }
       }
 

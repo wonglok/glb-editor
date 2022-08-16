@@ -16,7 +16,7 @@ import { useRender } from '../store/use-render'
 export function OnlineGame() {
   return (
     <group>
-      <Floor url={'/scene/dome/dome3.glb'}></Floor>
+      <Floor url={'/scene/dome/dome4.glb'}></Floor>
       <BG url={`/hdr/moonless_golf_1k.hdr`}></BG>
       {/* <HDR></HDR> */}
       {/*  */}
@@ -35,18 +35,18 @@ export function OnlineGame() {
   )
 }
 
-function TopLeft() {
-  let setRender = useRender((s) => s.setRender)
-  useEffect(() => {
-    setRender(true)
-  }, [setRender])
-  return (
-    <>
-      <UIContent>
-        <div className='absolute top-0 left-0 m-3 w-36'>
-          <EffectButton></EffectButton>
-        </div>
-      </UIContent>
-    </>
-  )
-}
+// function TopLeft() {
+//   let setRender = useRender((s) => s.setRender)
+//   useEffect(() => {
+//     setRender(true)
+//   }, [setRender])
+//   return (
+//     <>
+//       <UIContent>
+//         <div className='absolute top-0 left-0 m-3 w-36'>
+//           <EffectButton></EffectButton>
+//         </div>
+//       </UIContent>
+//     </>
+//   )
+// }

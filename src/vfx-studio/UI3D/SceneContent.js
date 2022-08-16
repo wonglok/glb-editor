@@ -64,77 +64,80 @@ export function SceneContent({}) {
             box
             // multiple={false}
             onChange={(v) => {
-              updateSelected(v)
-              setTimeout(() => {
+              let onSelect = (v) => {
                 updateSelected(v)
-              }, 10)
-              setTimeout(() => {
-                updateSelected(v)
-              }, 20)
-              setTimeout(() => {
-                updateSelected(v)
-              }, 30)
-              setTimeout(() => {
-                updateSelected(v)
-              }, 40)
 
-              //
-              if (v[0]) {
-                openEffectNode(v[0])
-                setLayout('effectnode')
+                //
+                if (v[0]) {
+                  openEffectNode(v[0])
+                  setLayout('effectnode')
 
-                // v[0].geometry.computeBoundingSphere()
-                // let center = v[0].geometry.boundingSphere.center
-                // let radius = v[0].geometry.boundingSphere.radius
+                  // v[0].geometry.computeBoundingSphere()
+                  // let center = v[0].geometry.boundingSphere.center
+                  // let radius = v[0].geometry.boundingSphere.radius
 
-                // //
-                // let next = new Vector3()
-                // next.copy(center)
-                // v[0].updateMatrixWorld()
-                // next.applyMatrix4(v[0].matrixWorld)
+                  // //
+                  // let next = new Vector3()
+                  // next.copy(center)
+                  // v[0].updateMatrixWorld()
+                  // next.applyMatrix4(v[0].matrixWorld)
 
-                // let diff = control.object.position
-                //   .clone()
-                //   .sub(control.target)
-                //   .normalize()
-                //   .multiplyScalar(radius * 2 + 1)
+                  // let diff = control.object.position
+                  //   .clone()
+                  //   .sub(control.target)
+                  //   .normalize()
+                  //   .multiplyScalar(radius * 2 + 1)
 
-                // let posFinal = next.clone().add(diff)
+                  // let posFinal = next.clone().add(diff)
 
-                // let anim = anime({
-                //   targets: [control.object.position],
-                //   x: posFinal.x,
-                //   y: posFinal.y,
-                //   z: posFinal.z,
-                //   duration: 500,
-                //   easing: 'easeInOutQuad',
-                // })
+                  // let anim = anime({
+                  //   targets: [control.object.position],
+                  //   x: posFinal.x,
+                  //   y: posFinal.y,
+                  //   z: posFinal.z,
+                  //   duration: 500,
+                  //   easing: 'easeInOutQuad',
+                  // })
 
-                // let anim2 = anime({
-                //   targets: [control.target],
-                //   x: next.x,
-                //   y: next.y,
-                //   z: next.z,
-                //   duration: 500,
-                //   easing: 'easeInOutQuad',
-                // })
+                  // let anim2 = anime({
+                  //   targets: [control.target],
+                  //   x: next.x,
+                  //   y: next.y,
+                  //   z: next.z,
+                  //   duration: 500,
+                  //   easing: 'easeInOutQuad',
+                  // })
 
-                // let h = () => {
-                //   window.removeEventListener('wheel', h)
-                //   anim.pause()
-                //   anim2.pause()
-                // }
-                // window.addEventListener('wheel', h)
+                  // let h = () => {
+                  //   window.removeEventListener('wheel', h)
+                  //   anim.pause()
+                  //   anim2.pause()
+                  // }
+                  // window.addEventListener('wheel', h)
 
-                let helper = new BoxHelper(v[0])
+                  let helper = new BoxHelper(v[0])
 
-                clean.current()
-                clean.current = () => {
-                  helper.removeFromParent()
+                  clean.current()
+                  clean.current = () => {
+                    helper.removeFromParent()
+                  }
+
+                  scene.add(helper)
                 }
-
-                scene.add(helper)
               }
+
+              setTimeout(() => {
+                onSelect(v)
+              }, 100)
+              setTimeout(() => {
+                onSelect(v)
+              }, 200)
+              setTimeout(() => {
+                onSelect(v)
+              }, 300)
+              setTimeout(() => {
+                onSelect(v)
+              }, 400)
             }}
             filter={(items) => items}
           >

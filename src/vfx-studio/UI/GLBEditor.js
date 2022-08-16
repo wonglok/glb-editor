@@ -43,7 +43,12 @@ export function GLBEditor() {
 
         {/*  */}
         {
-          <div className='w-1/2 h-full bg-gray-100'>
+          <div
+            onKeyDownCapture={(ev) => {
+              ev.stopPropagation()
+            }}
+            className='w-1/2 h-full bg-gray-100'
+          >
             <EditorColumnEffectNode></EditorColumnEffectNode>
           </div>
         }
