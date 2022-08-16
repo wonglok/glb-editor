@@ -112,10 +112,10 @@ export const useAccessor = create((set, get) => {
 export const getPosMD5 = (glb) => {
   glb.scene.traverse((it) => {
     it.userData.posMD5 = md5(
-      it?.geometry?.attributes?.position?.array?.length +
-        it.name +
-        it.children.map((e) => e.name) +
-        it?.parent?.children?.map((e) => e.name)
+      it.name +
+        it.children.map((e) => e.name).join('_') +
+        it?.parent?.name +
+        it?.parent?.children?.map((e) => e.name).join('_')
     )
   })
 }

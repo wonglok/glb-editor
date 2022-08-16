@@ -13,27 +13,42 @@ export function GLBTree() {
       list.push(it)
     }
   })
+
+  let getClass = (li) => {
+    // li.userData.effectNode
+
+    if (selectedMeshes[0] && selectedMeshes[0].uuid === li.uuid) {
+      return 'w-full p-2 text-xs text-right bg-lime-300 border-b border-lime-500 cursor-pointer hover:bg-lime-400 '
+    } else if (li.isMesh && !li.isSkinnedMesh) {
+      return 'w-full p-2 text-xs text-right bg-green-300 border-b border-green-500 cursor-pointer hover:bg-green-400 '
+    } else if (li.isSkinnedMesh) {
+      return 'w-full p-2 text-xs text-right bg-yellow-300 border-b border-yellow-500 cursor-pointer hover:bg-yellow-400 '
+    } else if (li.isBone) {
+      return 'w-full p-2 text-xs text-right bg-blue-300 border-b border-blue-500 cursor-pointer hover:bg-blue-400 '
+    } else {
+      return 'w-full p-2 text-xs text-right bg-gray-300 border-b border-gray-500 cursor-pointer hover:bg-gray-400 '
+    }
+
+    //   ? selectedMeshes[0] && selectedMeshes[0].uuid === li.uuid
+    //     ? 'w-full p-2 text-xs text-right bg-blue-300 border-b border-blue-500 cursor-pointer hover:bg-blue-400 '
+    //     : 'w-full p-2 text-xs text-right bg-green-300 border-b border-green-500 cursor-pointer hover:bg-green-400 '
+    //   : 'w-full p-2 text-xs text-right bg-yellow-300 border-b border-yellow-500 cursor-pointer hover:bg-yellow-400 '
+  }
   return (
     <div
       style={{
         maxHeight: 'calc(100vh - 300px)',
         overflow: 'scroll',
       }}
+      //
+      //
+      //
     >
       {list.map((li) => {
         return (
           <div
             key={li.uuid}
-            className={
-              '' +
-              ` ${
-                li.userData.effectNode
-                  ? selectedMeshes[0] && selectedMeshes[0].uuid === li.uuid
-                    ? 'w-full p-2 text-xs text-right bg-blue-300 border-b border-blue-500 cursor-pointer hover:bg-blue-400 '
-                    : 'w-full p-2 text-xs text-right bg-green-300 border-b border-green-500 cursor-pointer hover:bg-green-400 '
-                  : 'w-full p-2 text-xs text-right bg-yellow-300 border-b border-yellow-500 cursor-pointer hover:bg-yellow-400 '
-              }`
-            }
+            className={'flex  justify-between' + ` ${getClass(li)}`}
             onClick={() => {
               //
               openEffectNode(li)
@@ -42,12 +57,19 @@ export function GLBTree() {
               }, 100)
             }}
           >
-            {li.name} {`${li.userData.effectNode ? '[EN]' : ''}`}
+            <div>{`${
+              li.userData.effectNode?.nodes?.length > 0 ? '[EN]' : ''
+            }`}</div>
+            <div>{li.name}</div>
           </div>
         )
       })}
     </div>
   )
 }
+
+//
+
+//
 
 //
