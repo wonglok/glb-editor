@@ -12,6 +12,7 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
 import { clone } from 'three/examples/jsm/utils/SkeletonUtils'
 import md5 from 'md5'
 import { ObjectLoader } from 'three140'
+import { TabParams } from 'tweakpane'
 
 export const useAccessor = create((set, get) => {
   return {
@@ -104,42 +105,36 @@ export const useAccessor = create((set, get) => {
   }
 })
 
-let getJSON = (it) => {
-  let str = ''
-
-  if (it.geometry) {
-    str += it.geometry.attributes.position.array.length
-  }
-  return str
-  //
-  // let nit = { ...it }
-  // delete nit.geometry
-  // delete nit.material
-  // delete nit.effectnode
-  // delete nit.children
-
-  // return JSON.stringify(nit)
-}
 export const getPosMD5 = (glb) => {
   glb.scene.traverse((it) => {
-    it.userData.posMD5 = md5(
-      getJSON(it) +
-        it.name +
-        it.children.map((e) => e.name).join('_') +
-        it?.parent?.name +
-        it?.parent?.children?.map((e) => e.name).join('_') +
-        it?.parent?.children.length
-    )
+    it.userData.posMD5 = md5(getSignature(it))
   })
+}
+
+let getSignature = (it) => {
+  let str = '' + it.name
+
+  if (it.geometry) {
+    str += it.geometry.attributes.position.array.length + ''
+  }
+
+  let i = 0
+  it.traverseAncestors((ta) => {
+    str += `${i}-${ta.name}`
+    i += 1
+  })
+  it.traverse((sb) => {
+    str += `${i}-${sb.name}`
+    i += 1
+  })
+  return str
 }
 
 export const getArrayOfEditable = ({ glb: glbObject }) => {
   //
   let list = []
   glbObject?.scene?.traverse((it) => {
-    if (it.geometry) {
-      list.push(it)
-    }
+    list.push(it)
   })
   return list
 }

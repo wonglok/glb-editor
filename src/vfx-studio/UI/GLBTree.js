@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { getArrayOfEditable, useAccessor } from '../store/use-accessor'
+import { GLBTreeNode } from './GLBTreeNode'
 // import { useENEditor } from '../store/use-en-editor'
 
 export function GLBTree() {
@@ -39,7 +40,7 @@ export function GLBTree() {
     <>
       <input
         type={'text'}
-        className='w-full p-2 text-center'
+        className='w-full p-2'
         placeholder='Search'
         onKeyDownCapture={(ev) => {
           ev.stopPropagation()
@@ -57,13 +58,15 @@ export function GLBTree() {
         //
         //
       >
-        {list
+        {glbObject && <GLBTreeNode node={glbObject.scene}></GLBTreeNode>}
+
+        {/* {list
           .slice()
-          .filter((e) => e.name.indexOf(filter) !== -1)
-          .map((li) => {
+          // .filter((e) => e.name.indexOf(filter) !== -1)
+          .map((li, idx) => {
             return (
               <div
-                key={li.uuid}
+                key={idx}
                 className={'flex  justify-between' + ` ${getClass(li)}`}
                 onClick={() => {
                   //
@@ -76,7 +79,7 @@ export function GLBTree() {
                 <div>{li.name}</div>
               </div>
             )
-          })}
+          })} */}
       </div>
     </>
   )

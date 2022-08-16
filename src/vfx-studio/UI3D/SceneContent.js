@@ -23,7 +23,7 @@ export function SceneContent({}) {
   let glbObject = useAccessor((s) => s.glbObject)
   let glbObjectBeforeEdit = useAccessor((s) => s.glbObjectBeforeEdit)
   let openEffectNode = useAccessor((s) => s.openEffectNode)
-  // let updateSelected = useAccessor((s) => s.updateSelected)
+  let updateSelected = useAccessor((s) => s.updateSelected)
   let scene = useThree((s) => s.scene)
   // let setContorl = useAccessor((s) => s.setContorl)
   // let openEffectNode = useAccessor((s) => s.openEffectNode)
@@ -74,61 +74,10 @@ export function SceneContent({}) {
             // multiple={false}
             onChange={(v) => {
               let onSelect = (v) => {
-                //
                 if (v[0]) {
                   openEffectNode(v[0])
-
-                  // v[0].geometry.computeBoundingSphere()
-                  // let center = v[0].geometry.boundingSphere.center
-                  // let radius = v[0].geometry.boundingSphere.radius
-
-                  // //
-                  // let next = new Vector3()
-                  // next.copy(center)
-                  // v[0].updateMatrixWorld()
-                  // next.applyMatrix4(v[0].matrixWorld)
-
-                  // let diff = control.object.position
-                  //   .clone()
-                  //   .sub(control.target)
-                  //   .normalize()
-                  //   .multiplyScalar(radius * 2 + 1)
-
-                  // let posFinal = next.clone().add(diff)
-
-                  // let anim = anime({
-                  //   targets: [control.object.position],
-                  //   x: posFinal.x,
-                  //   y: posFinal.y,
-                  //   z: posFinal.z,
-                  //   duration: 500,
-                  //   easing: 'easeInOutQuad',
-                  // })
-
-                  // let anim2 = anime({
-                  //   targets: [control.target],
-                  //   x: next.x,
-                  //   y: next.y,
-                  //   z: next.z,
-                  //   duration: 500,
-                  //   easing: 'easeInOutQuad',
-                  // })
-
-                  // let h = () => {
-                  //   window.removeEventListener('wheel', h)
-                  //   anim.pause()
-                  //   anim2.pause()
-                  // }
-                  // window.addEventListener('wheel', h)
-
-                  // let helper = new BoxHelper(v[0])
-
-                  // clean.current()
-                  // clean.current = () => {
-                  //   helper.removeFromParent()
-                  // }
-
-                  // scene.add(helper)
+                } else {
+                  updateSelected([])
                 }
               }
 
