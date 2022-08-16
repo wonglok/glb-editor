@@ -93,10 +93,9 @@ export const useAccessor = create((set, get) => {
           loader.parseAsync(buffer, '/'),
         ]).then(([glb1, glb2]) => {
           //
+          getPosMD5(glb1)
 
           getPosMD5(glb2)
-
-          getPosMD5(glb1)
 
           set({ glbObject: glb1, glbObjectBeforeEdit: glb2 })
         })
@@ -115,7 +114,7 @@ let getSignature = (it) => {
   let str = '' + it.name
 
   if (it.geometry) {
-    str += it.geometry.attributes.position.array.length + ''
+    str += it.geometry.attributes.position.array.length + '-'
   }
 
   let i = 0
@@ -127,6 +126,8 @@ let getSignature = (it) => {
     str += `${i}-${sb.name}`
     i += 1
   })
+
+  console.log(str)
   return str
 }
 

@@ -14,7 +14,7 @@ export function EffectNodeObjectNode({
 }) {
   let codes = useENEditor((s) => s.codes)
 
-  let [component, setComponent] = useState(<></>)
+  let [component, setComponent] = useState(null)
   useEffect(() => {
     let cleans = []
 

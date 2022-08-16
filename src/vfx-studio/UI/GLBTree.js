@@ -20,15 +20,15 @@ export function GLBTree() {
     // li.userData.effectNode
 
     if (selectedMeshes[0] && selectedMeshes[0].uuid === li.uuid) {
-      return 'w-full p-2 text-xs text-right bg-lime-300 border-b border-lime-500 cursor-pointer hover:bg-lime-400 '
+      return 'w-full p-1 text-xs text-right bg-lime-300 border-b border-lime-500 cursor-pointer hover:bg-lime-400 bg-opacity-30 hover:bg-opacity-30 border'
     } else if (li.isMesh && !li.isSkinnedMesh) {
-      return 'w-full p-2 text-xs text-right bg-green-300 border-b border-green-500 cursor-pointer hover:bg-green-400 '
+      return 'w-full p-1 text-xs text-right bg-green-300 border-b border-green-500 cursor-pointer hover:bg-green-400 bg-opacity-30 hover:bg-opacity-30 border'
     } else if (li.isSkinnedMesh) {
-      return 'w-full p-2 text-xs text-right bg-yellow-300 border-b border-yellow-500 cursor-pointer hover:bg-yellow-400 '
+      return 'w-full p-1 text-xs text-right bg-yellow-300 border-b border-yellow-500 cursor-pointer hover:bg-yellow-400 bg-opacity-30 hover:bg-opacity-30 border'
     } else if (li.isBone) {
-      return 'w-full p-2 text-xs text-right bg-blue-300 border-b border-blue-500 cursor-pointer hover:bg-blue-400 '
+      return 'w-full p-1 text-xs text-right bg-blue-300 border-b border-blue-500 cursor-pointer hover:bg-blue-400 bg-opacity-30 hover:bg-opacity-30 border'
     } else {
-      return 'w-full p-2 text-xs text-right bg-gray-300 border-b border-gray-500 cursor-pointer hover:bg-gray-400 '
+      return 'w-full p-1 text-xs text-right bg-gray-300 border-b border-gray-500 cursor-pointer hover:bg-gray-400 bg-opacity-30 hover:bg-opacity-30 border'
     }
 
     //   ? selectedMeshes[0] && selectedMeshes[0].uuid === li.uuid
@@ -58,7 +58,9 @@ export function GLBTree() {
         //
         //
       >
-        {glbObject && <GLBTreeNode node={glbObject.scene}></GLBTreeNode>}
+        {glbObject && (
+          <GLBTreeNode getClass={getClass} node={glbObject.scene}></GLBTreeNode>
+        )}
 
         {/* {list
           .slice()
