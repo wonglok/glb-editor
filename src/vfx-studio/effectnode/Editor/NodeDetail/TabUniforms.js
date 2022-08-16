@@ -981,11 +981,14 @@ function GLBInput({
 
       btn.on('click', () => {
         if (window.confirm('remove?' + label)) {
-          onRemove()
+          object[name] = false
           onSave()
           clearTimeout(tt)
           tt = setTimeout(() => {
             onSaveLater()
+
+            onRemove()
+
             setReload((s) => s + 1)
           }, 15)
         }
