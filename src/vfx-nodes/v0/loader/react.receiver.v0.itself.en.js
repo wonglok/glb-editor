@@ -90,9 +90,11 @@ export function effect({ node, mini, data, setComponent }) {
   let clean = () => {}
   let send = () => {
     let o3d = new Object3D()
-    mini.now.itself.getWorldPosition(o3d.position)
-    mini.now.itself.getWorldQuaternion(o3d.quaternion)
-    mini.now.itself.getWorldScale(o3d.scale)
+    mini.onLoop(() => {
+      mini.now.itself.getWorldPosition(o3d.position)
+      mini.now.itself.getWorldQuaternion(o3d.quaternion)
+      mini.now.itself.getWorldScale(o3d.scale)
+    })
 
     clean()
     clean = () => {
