@@ -114,20 +114,17 @@ let getSignature = (it) => {
   let str = '' + it.name
 
   if (it.geometry) {
-    str += it.geometry.attributes.position.array.length + '-'
+    str += it.geometry.attributes.position?.array?.length + '-'
+    str += it.geometry.attributes.normal?.array?.length + '-'
   }
 
-  let i = 0
-  it.traverseAncestors((ta) => {
-    str += `${i}-${ta.name}`
-    i += 1
-  })
+  let k = 0
   it.traverse((sb) => {
-    str += `${i}-${sb.name}`
-    i += 1
+    str += `${k}-${sb.name}`
+    k += 1
   })
 
-  console.log(str)
+  // console.log(str)
   return str
 }
 
@@ -137,5 +134,7 @@ export const getArrayOfEditable = ({ glb: glbObject }) => {
   glbObject?.scene?.traverse((it) => {
     list.push(it)
   })
+
+  //
   return list
 }

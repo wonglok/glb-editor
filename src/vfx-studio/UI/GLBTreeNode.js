@@ -6,12 +6,16 @@ export function GLBTreeNode({ node, getClass }) {
   return (
     <div className={`  ${getClass(node)}`}>
       <div
+        className='flex justify-between'
         onClick={() => {
           //
           openEffectNode(node)
         }}
       >
-        {node.name}
+        <div className=' text-white bg-lime-500'>{`${
+          node.userData.effectNode?.nodes?.length > 0 ? '[EN]' : ''
+        }`}</div>
+        <div>{node.name}</div>
       </div>
       {node.children.map((it) => {
         return (

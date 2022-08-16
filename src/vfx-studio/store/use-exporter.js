@@ -23,31 +23,33 @@ export const Exporter = {
       ({ GLTFExporter }) => {
         let cloned = clone(group)
 
-        let removeList = []
-        cloned.traverse((it) => {
-          //
-          if (it.userData.effectNode) {
-            removeList.push({
-              type: 'remove',
-              it,
-            })
-          }
+        // let removeList = []
+        // cloned.traverse((it) => {
+        //   //
+        //   if (it.userData.effectNode) {
+        //     removeList.push({
+        //       type: 'remove',
+        //       it,
+        //     })
+        //   }
 
-          if (it.userData.beforeMat) {
-            delete it.userData.beforeMat
-          }
-          //
-          // mesh.userData.beforeMat
-          //
-        })
+        //   if (it.userData.beforeMat) {
+        //     delete it.userData.beforeMat
+        //   }
+        //   //
+        //   // mesh.userData.beforeMat
+        //   //
+        // })
 
-        removeList.forEach((item) => {
-          if (item.type === 'remove') {
-            item.it.children.forEach((k) => {
-              k.removeFromParent()
-            })
-          }
-        })
+        // removeList.forEach((item) => {
+        //   if (item.type === 'remove') {
+        //     item.it.children.forEach((k) => {
+        //       k.removeFromParent()
+        //     })
+        //   }
+        // })
+
+        console.log(cloned)
 
         let glbObjectBeforeEdit = useAccessor.getState().glbObjectBeforeEdit
         let objectForExport =
