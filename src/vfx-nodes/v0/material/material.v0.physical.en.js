@@ -107,12 +107,29 @@ let getDefinitions = ({ nodeID }) => {
       value: '',
       protected: true,
     },
+
+    {
+      _id: getID(),
+      nodeID,
+      name: 'mapFlipY',
+      type: 'bool',
+      value: false,
+      protected: true,
+    },
     {
       _id: getID(),
       nodeID,
       name: 'emissiveMap',
       type: 'texture',
       value: '',
+      protected: true,
+    },
+    {
+      _id: getID(),
+      nodeID,
+      name: 'emissiveMapFlipY',
+      type: 'bool',
+      value: false,
       protected: true,
     },
     {
@@ -134,9 +151,25 @@ let getDefinitions = ({ nodeID }) => {
     {
       _id: getID(),
       nodeID,
+      name: 'normalMapFlipY',
+      type: 'bool',
+      value: false,
+      protected: true,
+    },
+    {
+      _id: getID(),
+      nodeID,
       name: 'roughnessMap',
       type: 'texture',
       value: '',
+      protected: true,
+    },
+    {
+      _id: getID(),
+      nodeID,
+      name: 'roughnessMapFlipY',
+      type: 'bool',
+      value: false,
       protected: true,
     },
     {
@@ -150,9 +183,25 @@ let getDefinitions = ({ nodeID }) => {
     {
       _id: getID(),
       nodeID,
+      name: 'metalnessMapFlipY',
+      type: 'bool',
+      value: false,
+      protected: true,
+    },
+    {
+      _id: getID(),
+      nodeID,
       name: 'transmissionMap',
       type: 'texture',
       value: '',
+      protected: true,
+    },
+    {
+      _id: getID(),
+      nodeID,
+      name: 'transmissionMapFlipY',
+      type: 'bool',
+      value: false,
       protected: true,
     },
   ]
@@ -263,6 +312,9 @@ export function effect({ node, mini, data, setComponent }) {
   // }
 
   let send = () => {
+    if (!mini.now.itself.material) {
+      mini.now.itself.material = new MeshPhysicalMaterial()
+    }
     if (!original.has(data.raw.nodeID)) {
       original.set(data.raw.nodeID, mini.now.itself.material.clone())
     }
@@ -280,13 +332,14 @@ export function effect({ node, mini, data, setComponent }) {
       if (val) {
         if (uni.name === 'side') {
           newMat[uni.name] = getSide(val)
-        } else if (uni.name === 'emissiveMap') {
-          newMat[uni.name] = loadTexture(val)
         } else if (uni.name === 'map') {
+          newMat[uni.name] = loadTexture(val)
+        } else if (uni.name === 'emissiveMap') {
           newMat[uni.name] = loadTexture(val)
         } else if (uni.name === 'normalMap') {
           newMat[uni.name] = loadTexture(val)
         } else if (uni.type === 'texture') {
+          // needs fix
           newMat[uni.name] = loadTexture(val)
         } else if (uni.type === 'float') {
           newMat[uni.name] = val
@@ -298,6 +351,7 @@ export function effect({ node, mini, data, setComponent }) {
       //
     })
 
+    //
     mini.now.itself.material = newMat
   }
 
