@@ -1,5 +1,5 @@
-import { useState } from 'react'
-import { useAccessor } from '../store/use-accessor'
+import { useEffect, useState } from 'react'
+import { getArrayOfEditable, useAccessor } from '../store/use-accessor'
 // import { useENEditor } from '../store/use-en-editor'
 
 export function GLBTree() {
@@ -8,17 +8,13 @@ export function GLBTree() {
   // let updateSelected = useAccessor((s) => s.updateSelected)
   let selectedMeshes = useAccessor((s) => s.selectedMeshes)
   // let overlay = useENEditor((s) => s.overlay)
-  let list = []
-  glbObject?.scene?.traverse((it) => {
-    if (it.children && it.geometry) {
-      list.push(it)
-    }
-    if (it.isBone) {
-      list.push(it)
-    }
-  })
+  let list = getArrayOfEditable({ glb: glbObject })
 
-  let [filter, setFilter] = useState([])
+  let [filter, setFilter] = useState('')
+
+  useEffect(() => {
+    setFilter('')
+  }, [glbObject])
   let getClass = (li) => {
     // li.userData.effectNode
 
@@ -62,6 +58,7 @@ export function GLBTree() {
         //
       >
         {list
+          .slice()
           .filter((e) => e.name.indexOf(filter) !== -1)
           .map((li) => {
             return (
@@ -71,9 +68,6 @@ export function GLBTree() {
                 onClick={() => {
                   //
                   openEffectNode(li)
-                  setTimeout(() => {
-                    openEffectNode(li)
-                  }, 100)
                 }}
               >
                 <div>{`${

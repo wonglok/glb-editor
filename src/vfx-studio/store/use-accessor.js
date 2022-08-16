@@ -50,11 +50,7 @@ export const useAccessor = create((set, get) => {
       delete mesh.userData.effectNode
       set({
         selectedMeshes: [],
-      })
-      setTimeout(() => {
-        set({
-          layout: 'full',
-        })
+        layout: 'full',
       })
     },
     ///
@@ -83,7 +79,6 @@ export const useAccessor = create((set, get) => {
       loadMetadataByFileID(fileID).then((metadata) => {
         set({ glbMetadata: metadata })
       })
-      //
 
       loadBinaryByFileID(fileID).then((buffer) => {
         let loader = new GLTFLoader()
@@ -132,7 +127,19 @@ export const getPosMD5 = (glb) => {
         it.name +
         it.children.map((e) => e.name).join('_') +
         it?.parent?.name +
-        it?.parent?.children?.map((e) => e.name).join('_')
+        it?.parent?.children?.map((e) => e.name).join('_') +
+        it?.parent?.children.length
     )
   })
+}
+
+export const getArrayOfEditable = ({ glb: glbObject }) => {
+  //
+  let list = []
+  glbObject?.scene?.traverse((it) => {
+    if (it.geometry) {
+      list.push(it)
+    }
+  })
+  return list
 }
