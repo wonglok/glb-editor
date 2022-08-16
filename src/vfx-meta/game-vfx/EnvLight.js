@@ -2,7 +2,7 @@ import { Environment, Lightformer } from '@react-three/drei'
 
 export function EnvLight() {
   return (
-    <Environment frames={1} resolution={1024}>
+    <Environment frames={1} resolution={512}>
       <Lightformer
         intensity={20}
         rotation-x={Math.PI * -0.5}
@@ -65,7 +65,7 @@ export function EnvLight() {
       {/* Key */}
       <Lightformer
         form='rect'
-        color='#00ff99'
+        color='#ffffff'
         intensity={5}
         scale={2}
         position={[0, 5, 0]}
@@ -74,7 +74,7 @@ export function EnvLight() {
 
       <Lightformer
         form='rect'
-        color='#00ff99'
+        color='#ffffff'
         intensity={5}
         scale={2}
         position={[-5, 5, 0]}
@@ -83,7 +83,7 @@ export function EnvLight() {
 
       <Lightformer
         form='rect'
-        color='#00ff99'
+        color='#ffffff'
         intensity={5}
         scale={2}
         position={[5, 5, 0]}
@@ -92,7 +92,7 @@ export function EnvLight() {
 
       <Lightformer
         form='rect'
-        color='#00ff99'
+        color='#ffffff'
         intensity={5}
         scale={2}
         position={[-5, 5, 5]}
@@ -101,7 +101,7 @@ export function EnvLight() {
 
       <Lightformer
         form='rect'
-        color='#00ff99'
+        color='#ffffff'
         intensity={5}
         scale={2}
         position={[5, 5, -5]}

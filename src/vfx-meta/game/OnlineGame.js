@@ -17,7 +17,7 @@ export function OnlineGame() {
   return (
     <group>
       <Floor url={'/scene/dome/dome7.glb'}></Floor>
-      <BG url={`/hdr/moonless_golf_1k.hdr`}></BG>
+      {/* <BG url={`/hdr/default.hdr`}></BG> */}
       {/* <HDR></HDR> */}
       {/*  */}
 
