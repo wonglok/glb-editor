@@ -31,8 +31,6 @@ export function OnlineGame() {
       <TopLeft>
         <EffectButton></EffectButton>
       </TopLeft>
-      {/* <Effects></Effects>
-       */}
     </group>
   )
 }
