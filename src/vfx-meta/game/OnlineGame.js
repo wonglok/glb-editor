@@ -15,7 +15,7 @@ import { OnlineSystem } from '../online/OnlineSystem'
 export function OnlineGame() {
   return (
     <group>
-      <Floor url={'/scene/dome/dome1.glb'}></Floor>
+      <Floor url={'/scene/dome/dome2.glb'}></Floor>
       <BG url={`/hdr/moonless_golf_1k.hdr`}></BG>
       <HDR url={`/hdr/moonless_golf_1k.hdr`}> </HDR>
       {/*  */}
