@@ -46,6 +46,7 @@ export function SceneContent({}) {
 
   let setColliderFromScene = useMetaStore((s) => s.setColliderFromScene)
   useEffect(() => {
+    //
     let planeScene = new Scene()
     planeScene.add(
       new Mesh(new BoxBufferGeometry(850, 0.1, 850), new MeshBasicMaterial())
