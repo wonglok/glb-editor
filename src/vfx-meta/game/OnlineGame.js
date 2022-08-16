@@ -1,17 +1,16 @@
 // import { UIContent } from '@/vfx-core/UIContent'
 // import { ClosetBtns } from '../game-parts/ClosetBtns'
 import { UIContent } from '@/vfx-core/UIContent'
-import { useFrame, useThree } from '@react-three/fiber'
-import { useEffect } from 'react'
+// import { useFrame, useThree } from '@react-three/fiber'
+// import { useEffect } from 'react'
 import { BG } from '../game-parts/BG'
 import { Floor } from '../game-parts/Floor'
 import { HDR } from '../game-parts/HDR'
 import { Player } from '../game-parts/Player'
 // import { Effects } from '../game-vfx/Effects'
-import { EnvLight } from '../game-vfx/EnvLight'
+// import { EnvLight } from '../game-vfx/EnvLight'
 import { EffectButton } from '../online/EffectButton'
 import { OnlineSystem } from '../online/OnlineSystem'
-import { useRender } from '../store/use-render'
 
 export function OnlineGame() {
   return (
@@ -29,25 +28,20 @@ export function OnlineGame() {
         </>
       </OnlineSystem>
 
-      <TopLeft></TopLeft>
+      <TopLeft>
+        <EffectButton></EffectButton>
+      </TopLeft>
       {/* <Effects></Effects>
        */}
     </group>
   )
 }
 
-function TopLeft() {
-  let enableButtonToggle = useRender((s) => s.enableButtonToggle)
-  let setRender = useRender((s) => s.setRender)
-  useEffect(() => {
-    setRender(true)
-  }, [setRender])
+function TopLeft({ children }) {
   return (
     <>
       <UIContent>
-        <div className='absolute top-0 left-0 m-3 w-36'>
-          {enableButtonToggle && <EffectButton></EffectButton>}
-        </div>
+        <div className='absolute top-0 left-0 m-3 w-36'>{children}</div>
       </UIContent>
     </>
   )
