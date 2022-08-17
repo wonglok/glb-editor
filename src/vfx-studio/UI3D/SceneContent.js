@@ -80,6 +80,13 @@ export function SceneContent({}) {
                 if (v[0]) {
                   openEffectNode(v[0])
                   setOverlay(null)
+
+                  let helper = new BoxHelper(v[0])
+                  clean.current()
+                  clean.current = () => {
+                    helper.removeFromParent()
+                  }
+                  scene.add(helper)
                 }
               }
 

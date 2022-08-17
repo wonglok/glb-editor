@@ -13,9 +13,11 @@ export function GLBTree() {
 
   let [filter, setFilter] = useState('')
 
+  //
   useEffect(() => {
     setFilter('')
   }, [glbObject])
+
   let getClass = (li) => {
     // li.userData.effectNode
 

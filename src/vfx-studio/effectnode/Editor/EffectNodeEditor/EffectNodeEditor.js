@@ -41,12 +41,13 @@ function ContentInside() {
   let control = useENEditor((s) => s.control)
   let setNodeDrag = useENEditor((s) => s.setNodeDrag)
   let effectNode = firstMesh?.userData?.effectNode
+  //
 
   useEffect(() => {
     if (effectNode && firstMesh) {
       setEffectNode({ uuid: firstMesh.uuid, effectNode: effectNode })
     }
-  }, [effectNode, firstMesh, setEffectNode])
+  }, [effectNode, firstMesh, firstMesh.uuid, setEffectNode])
 
   // let glbObject = useAccessor((s) => s.glbObject)
   // let scene = useThree((s) => s.scene)
@@ -76,6 +77,7 @@ function ContentInside() {
           ref={(control) => {
             //
             setControl(control)
+            //
           }}
           object-position={[0, 30, 30]}
           enableDamping={true}
@@ -125,6 +127,10 @@ function ContentInside() {
             transparent={true}
             blending={AdditiveBlending}
           ></shaderMaterial>
+
+          {/*  */}
+          {/*  */}
+          {/*  */}
         </Box>
 
         <AddItemCurosr></AddItemCurosr>

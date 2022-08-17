@@ -7,6 +7,7 @@ import { useENEditor } from '@/vfx-studio/store/use-en-editor'
 import { ENTJCore } from '../ENTJCore/ENTJCore'
 import { EffectNodeObjectLink } from './EffectNodeObjectLink'
 import { EffectNodeObjectNode } from './EffectNodeObjectNode'
+import { useAccessor } from '@/vfx-studio/store/use-accessor'
 
 export function EffectNodeObject({
   glbObject,
@@ -19,6 +20,8 @@ export function EffectNodeObject({
 
   //
   let reloadGraphID = useENEditor((s) => s.reloadGraphID)
+  useENEditor((s) => s.overlay)
+  useAccessor((s) => s.selectedMeshes)
 
   //
   let get = useThree((s) => s.get)
@@ -30,7 +33,7 @@ export function EffectNodeObject({
     // // let radius = item.geometry.boundingSphere.radius
 
     // //
-    let next = new Vector3()
+    // let next = new Vector3()
 
     let mounter = new Object3D()
     // mounter.position.copy(next)
@@ -114,11 +117,17 @@ export function EffectNodeObject({
                 )
               })}
 
+            {/*  */}
             {effectNode?.connections &&
               effectNode.connections.map((conn) => {
                 return (
                   <EffectNodeObjectLink
-                    key={conn._id + reloadGraphID + enRuntime.name}
+                    key={
+                      conn._id +
+                      reloadGraphID +
+                      enRuntime.name +
+                      effectNode.connections.map((e) => e._id)
+                    }
                     link={conn}
                     allLinks={effectNode.connections}
                     on={on}

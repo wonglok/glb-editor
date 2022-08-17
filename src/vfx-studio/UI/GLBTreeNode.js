@@ -11,8 +11,12 @@ export function GLBTreeNode({ node, getClass }) {
         className='flex justify-between'
         onClick={() => {
           //
-          openEffectNode(node)
+
           setOverlay(null)
+          openEffectNode(node)
+          setTimeout(() => {
+            openEffectNode(node)
+          })
         }}
       >
         <div className='text-xs text-white bg-lime-500'>{`${
