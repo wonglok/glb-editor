@@ -21,7 +21,11 @@ export function Floor({ url = '/scene/dome/dome.glb' }) {
       {/*  */}
 
       <primitive object={glb.scene}></primitive>
-      <EffectNodeRuntime disabledNodes={[]} glbObject={glb}></EffectNodeRuntime>
+      <EffectNodeRuntime
+        key={url}
+        disabledNodes={[]}
+        glbObject={glb}
+      ></EffectNodeRuntime>
     </group>
   )
 }

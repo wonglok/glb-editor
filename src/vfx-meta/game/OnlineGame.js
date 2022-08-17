@@ -1,12 +1,14 @@
 // import { UIContent } from '@/vfx-core/UIContent'
 // import { ClosetBtns } from '../game-parts/ClosetBtns'
 import { UIContent } from '@/vfx-core/UIContent'
+import { Suspense } from 'react'
 // import { useFrame, useThree } from '@react-three/fiber'
 // import { useEffect } from 'react'
 import { BG } from '../game-parts/BG'
 import { Floor } from '../game-parts/Floor'
 import { HDR } from '../game-parts/HDR'
 import { Player } from '../game-parts/Player'
+import { TopLeft } from '../game-parts/TopLeft'
 // import { Effects } from '../game-vfx/Effects'
 // import { EnvLight } from '../game-vfx/EnvLight'
 import { EffectButton } from '../online/EffectButton'
@@ -15,7 +17,6 @@ import { OnlineSystem } from '../online/OnlineSystem'
 export function OnlineGame() {
   return (
     <group>
-      <Floor url={'/scene/dome/dome2.glb'}></Floor>
       <BG url={`/hdr/moonless_golf_1k.hdr`}></BG>
       <HDR url={`/hdr/moonless_golf_1k.hdr`}> </HDR>
       {/*  */}
@@ -24,6 +25,9 @@ export function OnlineGame() {
 
       <OnlineSystem mapID='dome-map'>
         <>
+          <Suspense fallback={null}>
+            <Floor url={'/scene/dome/dome2.glb'}></Floor>
+          </Suspense>
           <Player></Player>
         </>
       </OnlineSystem>
@@ -34,15 +38,3 @@ export function OnlineGame() {
     </group>
   )
 }
-
-function TopLeft({ children }) {
-  return (
-    <>
-      <UIContent>
-        <div className='absolute top-0 left-0 m-3 w-36'>{children}</div>
-      </UIContent>
-    </>
-  )
-}
-
-//

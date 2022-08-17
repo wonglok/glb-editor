@@ -96,7 +96,7 @@ export function effect({ node, mini, data, setComponent }) {
     }
     return (
       <GlobalOnOff>
-        <EffectComposer key={getID()}>{values}</EffectComposer>
+        <EffectComposer>{values}</EffectComposer>
       </GlobalOnOff>
     )
   }

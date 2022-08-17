@@ -20,6 +20,7 @@ export function OnlineSystem({ children, mapID = 'yoyo' }) {
   let setMode = useMetaStore((s) => s.setMode)
   let goOnline = useMetaStore((s) => s.goOnline)
   let setScene = useMetaStore((s) => s.setScene)
+  let playerInfoIsReady = useMetaStore((s) => s.playerInfoIsReady)
   let scene = useThree((s) => s.scene)
 
   //
@@ -64,7 +65,7 @@ export function OnlineSystem({ children, mapID = 'yoyo' }) {
 
   return (
     <>
-      {(mode === 'guest' || mode === 'user') && (
+      {(mode === 'guest' || mode === 'user') && playerInfoIsReady && (
         <>
           <TopRightButtons>
             <LogoutButtons></LogoutButtons>

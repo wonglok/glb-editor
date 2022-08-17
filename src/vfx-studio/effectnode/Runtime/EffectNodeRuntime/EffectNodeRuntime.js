@@ -2,7 +2,7 @@ import { getPosMD5 } from '@/vfx-studio/store/use-accessor'
 import { useENEditor } from '@/vfx-studio/store/use-en-editor'
 import { useFilterEffectNode } from '@/vfx-studio/store/use-filter-effectnode'
 import md5 from 'md5'
-import { useEffect, useState } from 'react'
+import { Suspense, useEffect, useState } from 'react'
 import { clone } from 'three/examples/jsm/utils/SkeletonUtils'
 import { EffectNodeObject } from '../EffectNodeObject/EffectNodeObject'
 import { ENRunNode } from './ENRunNode'
@@ -74,12 +74,14 @@ export function EffectNodeRuntime({
   //
   return (
     <>
-      <ENRunNode
-        key={reloadGraphID}
-        disabledNodes={disabledNodes}
-        node={glbObject.scene}
-        glbObject={glbObject}
-      ></ENRunNode>
+      <Suspense fallback={null}>
+        <ENRunNode
+          key={reloadGraphID}
+          disabledNodes={disabledNodes}
+          node={glbObject.scene}
+          glbObject={glbObject}
+        ></ENRunNode>
+      </Suspense>
       {/* <EffectNodeObject></EffectNodeObject> */}
       {/* <group>
         {ready &&

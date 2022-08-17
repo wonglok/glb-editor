@@ -8,7 +8,7 @@ import { JoyStick } from './JoyStick'
 // import { NPCAvatar } from './NPCAvatar'
 import { PlayerAvatar } from './PlayerAvatar'
 
-export function Player() {
+export function Player({ children }) {
   let myCTX = useMetaStore((s) => s.myCTX)
   let updatePlayer = useMetaStore((s) => s.updatePlayer)
   let setControls = useMetaStore((s) => s.setControls)
@@ -54,6 +54,8 @@ export function Player() {
       {/*  */}
       {/*  */}
       {playerInfoIsReady && <JoyStick></JoyStick>}
+
+      {playerInfoIsReady && <>{children}</>}
 
       {/*  */}
       {/*  */}
