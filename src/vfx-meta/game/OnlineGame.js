@@ -21,13 +21,13 @@ export function OnlineGame() {
       <HDR url={`/hdr/moonless_golf_1k.hdr`}> </HDR>
       {/*  */}
 
+      <Suspense fallback={null}>
+        <Floor url={'/scene/landing/os.glb'}></Floor>
+      </Suspense>
       {/* <EnvLight></EnvLight> */}
 
       <OnlineSystem mapID='dome-map'>
         <>
-          <Suspense fallback={null}>
-            <Floor url={'/scene/dome/dome2.glb'}></Floor>
-          </Suspense>
           <Player></Player>
         </>
       </OnlineSystem>
