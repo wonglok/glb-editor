@@ -311,20 +311,20 @@ export function effect({ node, mini, data, setComponent }) {
   //   )
   // }
 
-  let send = () => {
-    if (!mini.now.itself.material) {
-      mini.now.itself.material = new MeshPhysicalMaterial()
-    }
-    if (!original.has(data.raw.nodeID)) {
-      original.set(data.raw.nodeID, mini.now.itself.material.clone())
-    }
+  let send = (oldMaterial = new MeshPhysicalMaterial({})) => {
+    // if (!mini.now.itself.material) {
+    //   mini.now.itself.material = new MeshPhysicalMaterial()
+    // }
+    // if (!original.has(data.raw.nodeID)) {
+    //   original.set(data.raw.nodeID, mini.now.itself.material.clone())
+    // }
 
-    let clonedOrig = original.get(data.raw.nodeID).clone()
-    mini.now.itself.material = clonedOrig
+    // let clonedOrig = original.get(data.raw.nodeID).clone()
+    // mini.now.itself.material = clonedOrig
 
-    delete clonedOrig.defines
+    // delete clonedOrig.defines
 
-    let newMat = new MeshPhysicalMaterial({ ...clonedOrig })
+    let newMat = oldMaterial.clone()
 
     defs.uniforms.forEach((uni) => {
       let val = data.value[uni.name]
@@ -365,19 +365,20 @@ export function effect({ node, mini, data, setComponent }) {
   //   })
   // })
 
+  let material = new MeshPhysicalMaterial({})
   let last = {}
   defs.uniforms.forEach((uni) => {
     //
     data.uniforms[uni.name]((signal) => {
       if (last[uni.name] !== signal.value) {
         last[uni.name] = signal.value
-        send()
+        send(material)
       }
     })
     //
   })
 
-  send()
+  send(material)
 
   //
   //

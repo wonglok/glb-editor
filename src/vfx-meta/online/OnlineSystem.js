@@ -11,6 +11,7 @@ import { AvatarButton } from './AvatarButton'
 import { HomeButton } from './HomeButton'
 import { ChatButton } from './ChatButton'
 import { useThree } from '@react-three/fiber'
+import { EditorButton } from './EditorButton'
 // import { SetupOnlineID } from './SetupOnlineID'
 
 export function OnlineSystem({ children, mapID = 'yoyo' }) {
@@ -41,6 +42,7 @@ export function OnlineSystem({ children, mapID = 'yoyo' }) {
         setMode('login')
       }
     })
+    //
   }, [children, setMode, setMyself])
 
   useEffect(() => {
@@ -72,6 +74,7 @@ export function OnlineSystem({ children, mapID = 'yoyo' }) {
             <AvatarButton></AvatarButton>
             <HomeButton></HomeButton>
             <ChatButton></ChatButton>
+            <EditorButton></EditorButton>
           </TopRightButtons>
 
           <OtherPlayers></OtherPlayers>
