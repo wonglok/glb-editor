@@ -1,4 +1,4 @@
-import { Box, MapControls } from '@react-three/drei'
+import { Box, MapControls, Text } from '@react-three/drei'
 import { Canvas, useThree } from '@react-three/fiber'
 import { Suspense, useEffect } from 'react'
 import { AdditiveBlending } from 'three'
@@ -63,6 +63,26 @@ function ContentInside() {
           <DraggingWire></DraggingWire>
           <HDR></HDR>
 
+          {firstMesh && (
+            <Text
+              color={'#000000'}
+              fontSize={0.7}
+              maxWidth={200}
+              lineHeight={1}
+              textAlign={'center'}
+              font='/font/Cronos-Pro-Light_12448.ttf'
+              anchorX='center'
+              anchorY='middle'
+              outlineWidth={0.1}
+              outlineColor='#ffffff'
+              rotation-x={Math.PI * -0.25}
+              position={[0, 5, 0]}
+            >
+              {firstMesh.name}
+            </Text>
+          )}
+          {/*  */}
+          {/*  */}
           <group position={[0, 0.5, 0]}>
             <IconComputer
               onClick={() => {

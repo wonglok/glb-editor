@@ -85,6 +85,7 @@ export function EffectNodeObject({
       enRuntime.now.eventsBus.removeEventListener(ev, h)
     }
   }
+
   let emit = (ev, data) => {
     enRuntime.now.eventsBus.trigger(ev, data)
   }

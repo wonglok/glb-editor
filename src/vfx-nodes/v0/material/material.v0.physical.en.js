@@ -336,18 +336,24 @@ export function effect({ node, mini, data, setComponent }) {
           newMat[uni.name] = getSide(val)
         } else if (uni.name === 'map') {
           newMat[uni.name] = loadTexture(val)
+          newMat[uni.name].flipY = data.value[uni.anme + 'FlipY']
         } else if (uni.name === 'emissiveMap') {
           newMat[uni.name] = loadTexture(val)
+          newMat[uni.name].flipY = data.value[uni.anme + 'FlipY']
         } else if (uni.name === 'normalMap') {
           newMat[uni.name] = loadTexture(val)
-        } else if (uni.type === 'texture') {
-          // needs fix
-          newMat[uni.name] = loadTexture(val)
+          newMat[uni.name].flipY = data.value[uni.anme + 'FlipY']
         } else if (uni.type === 'float') {
           newMat[uni.name] = val
         } else if (uni.type === 'color') {
           newMat[uni.name] = new Color(val)
         }
+        /*
+        else if (uni.type === 'texture') {
+          // needs fix
+          newMat[uni.name] = loadTexture(val)
+        }
+        */
       }
 
       //

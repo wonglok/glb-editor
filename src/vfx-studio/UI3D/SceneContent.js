@@ -47,7 +47,15 @@ export function SceneContent({}) {
     glbObject?.scene || new Object3D()
   )
   useEffect(() => {
-    Object.values(anim.actions).forEach((e) => e.play())
+    let canStand = anim.actions.stand
+
+    if (canStand) {
+      anim.mixer.stopAllAction()
+      canStand.play()
+    } else {
+      anim.mixer.stopAllAction()
+      Object.values(anim.actions).forEach((e) => e.play())
+    }
   })
 
   let setColliderFromScene = useMetaStore((s) => s.setColliderFromScene)
