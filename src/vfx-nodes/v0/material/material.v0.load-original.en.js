@@ -1,6 +1,5 @@
-import { getID } from '@/vfx-runtime/ENUtils'
 import { createPortal } from '@react-three/fiber'
-import { BackSide, FrontSide, sRGBEncoding } from 'three'
+import { BackSide, FrontSide, sRGBEncoding } from 'three140'
 import {
   Color,
   DoubleSide,
@@ -8,9 +7,11 @@ import {
   Texture,
   TextureLoader,
 } from 'three140'
-// import { Bloom, EffectComposer, Noise } from '@react-three/postprocessing'
+
+import { getID } from '@/vfx-runtime/ENUtils'
+
 //
-let getDefinitions = ({ nodeID }) => {
+let getDefinitionArray = ({ nodeID }) => {
   //
   let db = [
     {
@@ -206,16 +207,11 @@ let getDefinitions = ({ nodeID }) => {
     },
   ]
 
-  let props = {}
-
-  return {
-    uniforms: db,
-    props,
-  }
+  return db
 }
 
 export async function nodeData({ defaultData, nodeID }) {
-  let defs = getDefinitions({ nodeID })
+  let defs = getDefinitionArray({ nodeID })
 
   return {
     ...defaultData,
@@ -246,8 +242,7 @@ export async function nodeData({ defaultData, nodeID }) {
 
     //
     uniforms: [
-      ...defs.uniforms,
-
+      // ...defs,
       // {
       //   id: getID(),
       //   nodeID,
@@ -265,122 +260,137 @@ export async function nodeData({ defaultData, nodeID }) {
   }
 }
 
-let textureCahce = new Map()
-let loadTexture = (v) => {
-  if (textureCahce.has(v)) {
-    return textureCahce.get(v)
-  } else {
-    let out = new TextureLoader().load(v, (s) => {
-      s.encoding = sRGBEncoding
-    })
-    textureCahce.set(v, out)
-    return out
-  }
-}
+// let textureCahce = new Map()
+// let loadTexture = (v) => {
+//   if (textureCahce.has(v)) {
+//     return textureCahce.get(v)
+//   } else {
+//     let out = new TextureLoader().load(v, (s) => {
+//       s.encoding = sRGBEncoding
+//     })
+//     textureCahce.set(v, out)
+//     return out
+//   }
+// }
 
-let getSide = (side) => {
-  if (side === 'front') {
-    return FrontSide
-  } else if (side === 'back') {
-    return BackSide
-  } else if (side === 'double') {
-    return DoubleSide
-  }
-}
+// let getSide = (side) => {
+//   if (side === 'front') {
+//     return FrontSide
+//   } else if (side === 'back') {
+//     return BackSide
+//   } else if (side === 'double') {
+//     return DoubleSide
+//   }
+// }
+
+// let original = new Map()
 
 let original = new Map()
+
 export function effect({ node, mini, data, setComponent }) {
-  //
-  // setComponent
-  //
-  let defs = getDefinitions({ nodeID: data.raw.nodeID })
-
-  // let inputReceivers = {}
-
-  // let makeElemnet = () => {
-
-  //   let kidz = []
-
-  //   for (let socketInputName in inputReceivers) {
-  //     if (inputReceivers[socketInputName]) {
-  //       kidz.push(inputReceivers[socketInputName])
-  //     }
-  //   }
-
-  //   return (
-  //   )
-  // }
-
-  let send = (oldMaterial = new MeshPhysicalMaterial({})) => {
-    // if (!mini.now.itself.material) {
-    //   mini.now.itself.material = new MeshPhysicalMaterial()
-    // }
-    // if (!original.has(data.raw.nodeID)) {
-    //   original.set(data.raw.nodeID, mini.now.itself.material.clone())
-    // }
-
-    // let clonedOrig = original.get(data.raw.nodeID).clone()
-    // mini.now.itself.material = clonedOrig
-
-    // delete clonedOrig.defines
-
-    let newMat = oldMaterial.clone()
-
-    defs.uniforms.forEach((uni) => {
-      let val = data.value[uni.name]
-
-      if (val) {
-        if (uni.name === 'side') {
-          newMat[uni.name] = getSide(val)
-        } else if (uni.name === 'map') {
-          newMat[uni.name] = loadTexture(val)
-        } else if (uni.name === 'emissiveMap') {
-          newMat[uni.name] = loadTexture(val)
-        } else if (uni.name === 'normalMap') {
-          newMat[uni.name] = loadTexture(val)
-        } else if (uni.type === 'texture') {
-          // needs fix
-          newMat[uni.name] = loadTexture(val)
-        } else if (uni.type === 'float') {
-          newMat[uni.name] = val
-        } else if (uni.type === 'color') {
-          newMat[uni.name] = new Color(val)
-        }
-      }
-
-      //
-    })
-
-    //
-    mini.now.itself.material = newMat
+  if (!mini.now.itself.material) {
+    return
+  }
+  if (!original.has(data.raw.nodeID)) {
+    original.set(data.raw.nodeID, mini.now.itself.material.clone())
   }
 
-  // let inputSockets = ['in0', 'in1', 'in2', 'in3', 'in4']
+  //
 
-  // inputSockets.forEach((socket) => {
-  //   inputReceivers[socket] = null
-  //   node[socket].stream((v) => {
-  //     inputReceivers[socket] = v
-  //     send()
+  // let defsArray = getDefinitionArray({ nodeID: data.raw.nodeID })
+
+  let originalMaterial = original.get(data.raw.nodeID).clone()
+
+  node.out0.pulse(originalMaterial)
+  node.out1.pulse(originalMaterial)
+  node.out2.pulse(originalMaterial)
+  node.out3.pulse(originalMaterial)
+  node.out4.pulse(originalMaterial)
+
+  //
+  //
+
+  //
+
+  //
+
+  //
+  //
+  //
+  //
+  // // setComponent
+  // //
+  // let defs = getDefinitionArray({ nodeID: data.raw.nodeID })
+  // // let inputReceivers = {}
+  // // let makeElemnet = () => {
+  // //   let kidz = []
+  // //   for (let socketInputName in inputReceivers) {
+  // //     if (inputReceivers[socketInputName]) {
+  // //       kidz.push(inputReceivers[socketInputName])
+  // //     }
+  // //   }
+  // //   return (
+  // //   )
+  // // }
+  // let send = (oldMaterial = new MeshPhysicalMaterial({})) => {
+  //   // if (!mini.now.itself.material) {
+  //   //   mini.now.itself.material = new MeshPhysicalMaterial()
+  //   // }
+
+  //   // let clonedOrig = original.get(data.raw.nodeID).clone()
+  //   // mini.now.itself.material = clonedOrig
+  //   // delete clonedOrig.defines
+  //   let newMat = oldMaterial.clone()
+  //   defs.uniforms.forEach((uni) => {
+  //     let val = data.value[uni.name]
+  //     if (val) {
+  //       if (uni.name === 'side') {
+  //         newMat[uni.name] = getSide(val)
+  //       } else if (uni.name === 'map') {
+  //         newMat[uni.name] = loadTexture(val)
+  //       } else if (uni.name === 'emissiveMap') {
+  //         newMat[uni.name] = loadTexture(val)
+  //       } else if (uni.name === 'normalMap') {
+  //         newMat[uni.name] = loadTexture(val)
+  //       } else if (uni.type === 'texture') {
+  //         // needs fix
+  //         newMat[uni.name] = loadTexture(val)
+  //       } else if (uni.type === 'float') {
+  //         newMat[uni.name] = val
+  //       } else if (uni.type === 'color') {
+  //         newMat[uni.name] = new Color(val)
+  //       }
+  //     }
+  //     //
   //   })
+  //   //
+  //   mini.now.itself.material = newMat
+  // }
+  // // let inputSockets = ['in0', 'in1', 'in2', 'in3', 'in4']
+  // // inputSockets.forEach((socket) => {
+  // //   inputReceivers[socket] = null
+  // //   node[socket].stream((v) => {
+  // //     inputReceivers[socket] = v
+  // //     send()
+  // //   })
+  // // })
+  // let material = new MeshPhysicalMaterial({})
+  // let last = {}
+  // defs.uniforms.forEach((uni) => {
+  //   //
+  //   data.uniforms[uni.name]((signal) => {
+  //     if (last[uni.name] !== signal.value) {
+  //       last[uni.name] = signal.value
+  //       send(material)
+  //     }
+  //   })
+  //   //
   // })
-
-  let material = new MeshPhysicalMaterial({})
-
-  let last = {}
-  defs.uniforms.forEach((uni) => {
-    //
-    data.uniforms[uni.name]((signal) => {
-      if (last[uni.name] !== signal.value) {
-        last[uni.name] = signal.value
-        send(material)
-      }
-    })
-    //
-  })
-
-  send(material)
-
+  // send(material)
+  // //
+  // //
+  //
+  //
   //
   //
   //

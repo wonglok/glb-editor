@@ -9,10 +9,7 @@ import {
 import create from 'zustand'
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
-import { clone } from 'three/examples/jsm/utils/SkeletonUtils'
 import md5 from 'md5'
-import { ObjectLoader } from 'three140'
-import { TabParams } from 'tweakpane'
 
 export const useAccessor = create((set, get) => {
   return {

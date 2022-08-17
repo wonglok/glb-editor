@@ -64,27 +64,6 @@ export function GLBTree() {
             node={glbObject.scene.getObjectByName('Scene') || glbObject.scene}
           ></GLBTreeNode>
         )}
-
-        {/* {list
-          .slice()
-          // .filter((e) => e.name.indexOf(filter) !== -1)
-          .map((li, idx) => {
-            return (
-              <div
-                key={idx}
-                className={'flex  justify-between' + ` ${getClass(li)}`}
-                onClick={() => {
-                  //
-                  openEffectNode(li)
-                }}
-              >
-                <div>{`${
-                  li.userData.effectNode?.nodes?.length > 0 ? '[EN]' : ''
-                }`}</div>
-                <div>{li.name}</div>
-              </div>
-            )
-          })} */}
       </div>
     </>
   )

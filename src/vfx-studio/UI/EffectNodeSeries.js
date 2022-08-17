@@ -5,6 +5,7 @@ import { useFilterEffectNode } from '../store/use-filter-effectnode'
 export function EffectNodeSeries() {
   let glbObject = useAccessor((s) => s.glbObject)
   let openEffectNode = useAccessor((s) => s.openEffectNode)
+  let setOverlay = useENEditor((s) => s.setOverlay)
   let ens = useFilterEffectNode({ glbObject })
 
   console.log(ens) // console.log(ens)
@@ -25,6 +26,7 @@ export function EffectNodeSeries() {
             <button
               onClick={() => {
                 openEffectNode(it)
+                setOverlay(null)
               }}
               className='w-full p-2 text-xs bg-yellow-300 border-b border-yellow-500'
             >

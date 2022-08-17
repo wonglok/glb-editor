@@ -18,6 +18,7 @@ import { useMetaStore } from '@/vfx-meta/store/use-meta-store'
 import { Mesh, MeshBasicMaterial, Scene } from 'three140'
 import { EnvLight } from '@/vfx-meta/game-vfx/EnvLight'
 import { useRender } from '@/vfx-meta/store/use-render'
+import { useENEditor } from '../store/use-en-editor'
 
 export function SceneContent({}) {
   let glbObject = useAccessor((s) => s.glbObject)
@@ -25,6 +26,8 @@ export function SceneContent({}) {
   let openEffectNode = useAccessor((s) => s.openEffectNode)
   let updateSelected = useAccessor((s) => s.updateSelected)
   let scene = useThree((s) => s.scene)
+  let setOverlay = useENEditor((s) => s.setOverlay)
+
   // let setContorl = useAccessor((s) => s.setContorl)
   // let openEffectNode = useAccessor((s) => s.openEffectNode)
   // let setLayout = useAccessor((s) => s.setLayout)
@@ -76,6 +79,7 @@ export function SceneContent({}) {
               let onSelect = (v) => {
                 if (v[0]) {
                   openEffectNode(v[0])
+                  setOverlay(null)
                 }
               }
 

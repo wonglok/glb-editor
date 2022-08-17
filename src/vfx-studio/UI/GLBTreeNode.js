@@ -1,7 +1,9 @@
 import { useAccessor } from '../store/use-accessor'
+import { useENEditor } from '../store/use-en-editor'
 
 export function GLBTreeNode({ node, getClass }) {
   let openEffectNode = useAccessor((s) => s.openEffectNode)
+  let setOverlay = useENEditor((s) => s.setOverlay)
 
   return (
     <div className={`  ${getClass(node)}`}>
@@ -10,6 +12,7 @@ export function GLBTreeNode({ node, getClass }) {
         onClick={() => {
           //
           openEffectNode(node)
+          setOverlay(null)
         }}
       >
         <div className='text-xs text-white bg-lime-500'>{`${
