@@ -1,9 +1,9 @@
 import { uploadS3 } from '@/aws/aws.s3.gui'
 import { avatarCDN_A } from 'firebase.config'
 import md5 from 'md5'
-import { Vector3 } from 'three'
+import { sRGBEncoding, Vector3 } from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
-import { PerspectiveCamera } from 'three140'
+import { PerspectiveCamera, VideoTexture } from 'three140'
 import create from 'zustand'
 import { makeAvatarCTX } from '../ctx/make-avatar-ctx'
 import { exportGLB } from './export-glb'
@@ -411,12 +411,43 @@ export const useMetaStore = create((set, get) => {
       }
     },
 
+    arTexture: false,
     setControlsAR: ({ camera }) => {
       let self = get()
 
       if (self.controlsAR) {
         self.controlsAR.dispose()
       }
+      let video = document.createElement('video')
+
+      let intv = -1
+      navigator.mediaDevices
+        .getUserMedia({
+          audio: false,
+          video: {
+            facingMode: 'environment',
+          },
+        })
+        .then((s) => {
+          video.playsInline = true
+          video.srcObject = s
+          video.autoplay = true
+          video.oncanplay = () => {
+            video.play()
+            //
+            let vtex = new VideoTexture(video)
+
+            clearInterval(intv)
+            intv = setInterval(() => {
+              vtex.needsUpdate = true
+            })
+            vtex.encoding = sRGBEncoding
+            set({ arTexture: vtex })
+
+            console.log(vtex)
+          }
+        })
+      // video.src =
 
       let clean = () => {}
       import('../game-parts/DeviceOrientationControls').then(
@@ -434,6 +465,7 @@ export const useMetaStore = create((set, get) => {
           clean = () => {
             clearInterval(ttt)
             controlsAR.dispose()
+            clearInterval(intv)
           }
 
           let diff = new Vector3(0, 0, 0)

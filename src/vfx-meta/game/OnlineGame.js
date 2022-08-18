@@ -2,6 +2,7 @@
 // import { ClosetBtns } from '../game-parts/ClosetBtns'
 import { UIContent } from '@/vfx-core/UIContent'
 import { Suspense } from 'react'
+import { ARBG } from '../game-parts/ARBG'
 // import { useFrame, useThree } from '@react-three/fiber'
 // import { useEffect } from 'react'
 import { BG } from '../game-parts/BG'
@@ -31,6 +32,8 @@ export function OnlineGame() {
           <Player></Player>
         </>
       </OnlineSystem>
+
+      <ARBG></ARBG>
 
       <TopLeft>
         <EffectButton></EffectButton>
