@@ -1,11 +1,21 @@
 import { useThree } from '@react-three/fiber'
+import { useEffect, useState } from 'react'
 import { useMetaStore } from '../store/use-meta-store'
 
 export function MyARButton({ camera }) {
+  let [onMobile, setOnMobile] = useState(false)
   let setControlsAR = useMetaStore((s) => s.setControlsAR)
+
+  useEffect(() => {
+    if (process.env.NODE_ENV === 'production') {
+      setOnMobile('ontouchstart' in window)
+    } else {
+      setOnMobile(true)
+    }
+  }, [])
   return (
     <>
-      {camera && (
+      {camera && onMobile && (
         <div
           style={{
             backdropFilter: 'blur(20px)',

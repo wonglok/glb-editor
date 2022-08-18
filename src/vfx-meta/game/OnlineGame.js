@@ -23,7 +23,7 @@ export function OnlineGame() {
       {/*  */}
 
       <Suspense fallback={null}>
-        <Floor url={'/scene/landing/os.glb'}></Floor>
+        <Floor url={'/scene/landing/os-effect.glb'}></Floor>
       </Suspense>
       {/* <EnvLight></EnvLight> */}
 
