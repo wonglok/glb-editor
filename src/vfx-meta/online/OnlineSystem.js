@@ -12,6 +12,7 @@ import { HomeButton } from './HomeButton'
 import { ChatButton } from './ChatButton'
 import { useThree } from '@react-three/fiber'
 import { EditorButton } from './EditorButton'
+import { MyARButton } from './MyARButton'
 // import { SetupOnlineID } from './SetupOnlineID'
 
 export function OnlineSystem({ children, mapID = 'yoyo' }) {
@@ -23,6 +24,7 @@ export function OnlineSystem({ children, mapID = 'yoyo' }) {
   let setScene = useMetaStore((s) => s.setScene)
   let playerInfoIsReady = useMetaStore((s) => s.playerInfoIsReady)
   let scene = useThree((s) => s.scene)
+  let camera = useThree((s) => s.camera)
 
   //
   setScene(scene)
@@ -43,6 +45,8 @@ export function OnlineSystem({ children, mapID = 'yoyo' }) {
       }
     })
     //
+
+    //
   }, [children, setMode, setMyself])
 
   useEffect(() => {
@@ -56,7 +60,7 @@ export function OnlineSystem({ children, mapID = 'yoyo' }) {
   }, [mapID, myself, goOnline])
 
   // let playerInfoIsReady = useMetaStore((s) => s.playerInfoIsReady)
-
+  //
   if (mode === 'login') {
     return (
       <>
@@ -70,6 +74,7 @@ export function OnlineSystem({ children, mapID = 'yoyo' }) {
       {(mode === 'guest' || mode === 'user') && playerInfoIsReady && (
         <>
           <TopRightButtons>
+            {camera && <MyARButton camera={camera}></MyARButton>}
             <LogoutButtons></LogoutButtons>
             <AvatarButton></AvatarButton>
             <HomeButton></HomeButton>

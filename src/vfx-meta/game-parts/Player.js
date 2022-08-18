@@ -12,6 +12,7 @@ export function Player({ children }) {
   let myCTX = useMetaStore((s) => s.myCTX)
   let updatePlayer = useMetaStore((s) => s.updatePlayer)
   let setControls = useMetaStore((s) => s.setControls)
+  let setControlsAR = useMetaStore((s) => s.setControlsAR)
   let setKeyboard = useMetaStore((s) => s.setKeyboard)
   let playerInfoIsReady = useMetaStore((s) => s.playerInfoIsReady)
   // let goFowradDown = useMetaStore((s) => s.goFowradDown)

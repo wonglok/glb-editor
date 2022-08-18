@@ -43,6 +43,8 @@ import { useRender } from '../store/use-render'
 //   thickness: { value: 7.6, min: 0, max: 10 },
 //   ior: { value: 1.33, min: 0, max: 2 },
 // }
+//
+//
 
 function useSettings(v) {
   v = JSON.parse(JSON.stringify(v))

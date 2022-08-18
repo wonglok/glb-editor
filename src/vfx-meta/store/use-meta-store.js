@@ -1,7 +1,9 @@
 import { uploadS3 } from '@/aws/aws.s3.gui'
 import { avatarCDN_A } from 'firebase.config'
 import md5 from 'md5'
+import { Vector3 } from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
+import { PerspectiveCamera } from 'three140'
 import create from 'zustand'
 import { makeAvatarCTX } from '../ctx/make-avatar-ctx'
 import { exportGLB } from './export-glb'
@@ -376,12 +378,16 @@ export const useMetaStore = create((set, get) => {
     },
 
     controls: false,
+    controlsAR: false,
     camera: false,
+    cameraAR: false,
     scene: false,
 
     setScene: (v) => {
       set({ scene: v })
     },
+
+    updateCameraAR: () => {},
 
     setControls: ({ camera, dom }) => {
       let self = get()
@@ -402,6 +408,59 @@ export const useMetaStore = create((set, get) => {
 
       return () => {
         controls.dispose()
+      }
+    },
+
+    setControlsAR: ({ camera }) => {
+      let self = get()
+
+      if (self.controlsAR) {
+        self.controlsAR.dispose()
+      }
+
+      let clean = () => {}
+      import('../game-parts/DeviceOrientationControls').then(
+        ({ DeviceOrientationControls }) => {
+          let cameraAR = new PerspectiveCamera()
+          let cameraLast = new PerspectiveCamera()
+          let controlsAR = new DeviceOrientationControls(cameraAR)
+
+          controlsAR.connect()
+          let ttt = setInterval(() => {
+            controlsAR.update()
+            get().updateCameraAR()
+          })
+          //
+          clean = () => {
+            clearInterval(ttt)
+            controlsAR.dispose()
+          }
+
+          let diff = new Vector3(0, 0, 0)
+          set({
+            controlsAR: controlsAR,
+            cameraAR: cameraAR,
+            updateCameraAR: () => {
+              diff.x = cameraAR.rotation.x - cameraLast.rotation.x
+              diff.y = cameraAR.rotation.y - cameraLast.rotation.y
+              diff.z = cameraAR.rotation.z - cameraLast.rotation.z
+
+              cameraLast.rotation.copy(cameraAR.rotation)
+
+              if (diff.length() > 0.1) {
+                return
+              }
+
+              camera.rotation.x += diff.x
+              camera.rotation.y += diff.y
+              camera.rotation.z += diff.z
+            },
+          })
+        }
+      )
+
+      return () => {
+        clean()
       }
     },
 
