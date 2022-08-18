@@ -74,12 +74,12 @@ export function OnlineSystem({ children, mapID = 'yoyo' }) {
       {(mode === 'guest' || mode === 'user') && playerInfoIsReady && (
         <>
           <TopRightButtons>
-            {camera && <MyARButton camera={camera}></MyARButton>}
             <LogoutButtons></LogoutButtons>
             <AvatarButton></AvatarButton>
             <HomeButton></HomeButton>
             <ChatButton></ChatButton>
             <EditorButton></EditorButton>
+            {camera && <MyARButton camera={camera}></MyARButton>}
           </TopRightButtons>
 
           <OtherPlayers></OtherPlayers>

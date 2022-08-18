@@ -13,6 +13,7 @@ export function TopRightButtons({ children }) {
           top: 'calc(10px)',
           right: 'calc(10px)',
         }}
+        className=' w-52'
       >
         {children}
       </div>

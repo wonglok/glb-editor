@@ -1,6 +1,6 @@
 // import { UIContent } from '@/vfx-core/UIContent'
 // import { ClosetBtns } from '../game-parts/ClosetBtns'
-import { UIContent } from '@/vfx-core/UIContent'
+// import { UIContent } from '@/vfx-core/UIContent'
 import { Suspense } from 'react'
 import { ARBG } from '../game-parts/ARBG'
 // import { useFrame, useThree } from '@react-three/fiber'
@@ -27,7 +27,7 @@ export function OnlineGame() {
       </Suspense>
       {/* <EnvLight></EnvLight> */}
 
-      <OnlineSystem mapID='dome-map'>
+      <OnlineSystem mapID='/scene/landing/os.glb'>
         <>
           <Player></Player>
         </>

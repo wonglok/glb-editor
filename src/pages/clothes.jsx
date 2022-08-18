@@ -1,4 +1,5 @@
 import { ChangeClothes } from '@/vfx-meta/game/ChangeClothes'
+import { Preload } from '@react-three/drei'
 import { Canvas } from '@react-three/fiber'
 import { Suspense } from 'react'
 import { sRGBEncoding } from 'three'
@@ -21,6 +22,8 @@ export default function Game() {
         }}
       >
         <Suspense fallback={null}>
+          <Preload all></Preload>
+
           <ChangeClothes></ChangeClothes>
         </Suspense>
       </Canvas>

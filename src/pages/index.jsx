@@ -1,4 +1,5 @@
 import { OnlineGame } from '@/vfx-meta/game/OnlineGame'
+import { Preload } from '@react-three/drei'
 import { Canvas } from '@react-three/fiber'
 import { Suspense } from 'react'
 import { sRGBEncoding } from 'three'
@@ -21,6 +22,7 @@ export default function Game() {
         }}
       >
         <Suspense fallback={null}>
+          <Preload all></Preload>
           <OnlineGame></OnlineGame>
         </Suspense>
       </Canvas>
