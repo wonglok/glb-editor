@@ -61,7 +61,7 @@ export class NoodleGeo {
 
         // "arc length" in range [-0.5 .. 0.5]
         xPositions.push(v.x)
-        oPositions.push(v.x, v.y, v.z)
+        oPositions.push(v.x * 0.0, v.y * 0.0, v.z * 0.0)
 
         // copy over the UV for this vertex
         uvs.push(faceUvs[j].toArray())
