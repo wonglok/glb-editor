@@ -1,24 +1,24 @@
-import { GPUComputationRenderer } from 'three-stdlib'
+// import { GPUComputationRenderer } from 'three-stdlib'
 import {
-  Vector3,
-  BufferAttribute,
-  CylinderBufferGeometry,
-  InstancedBufferAttribute,
-  InstancedBufferGeometry,
-  Vector2,
-  RepeatWrapping,
+  // Vector3,
+  // BufferAttribute,
+  // CylinderBufferGeometry,
+  // InstancedBufferAttribute,
+  // InstancedBufferGeometry,
+  // Vector2,
+  // RepeatWrapping,
   Mesh,
   Object3D,
   Color,
-  IcosahedronBufferGeometry,
-  FrontSide,
-  FloatType,
+  // IcosahedronBufferGeometry,
+  // FrontSide,
+  // FloatType,
   DoubleSide,
 } from 'three'
 import { MeshPhysicalMaterial } from 'three'
-import { Core } from '@/vfx-core/Core'
+// import { Core } from '@/vfx-core/Core'
 import { NoodleGeo } from './NoodleGeo'
-import { MeshBasicMaterial } from 'three140'
+// import { MeshBasicMaterial } from 'three140'
 
 //tunnelThickness
 export class NoodleRenderable {
