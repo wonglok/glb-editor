@@ -96,7 +96,7 @@ export function effect({ node, mini, data, setComponent }) {
     }
     return (
       <GlobalOnOff>
-        <EffectComposer>{values}</EffectComposer>
+        <EffectComposer key={'screen'}>{values}</EffectComposer>
       </GlobalOnOff>
     )
   }
