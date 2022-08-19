@@ -18,6 +18,7 @@ import {
 import { MeshPhysicalMaterial } from 'three'
 import { Core } from '@/vfx-core/Core'
 import { NoodleGeo } from './NoodleGeo'
+import { MeshBasicMaterial } from 'three140'
 
 //tunnelThickness
 export class NoodleRenderable {
@@ -41,6 +42,8 @@ export class NoodleRenderable {
     })
 
     geometry.instanceCount = count
+
+    // + 10.0
 
     let matConfig = {
       color: new Color('#ff0000'),
@@ -77,6 +80,7 @@ export class NoodleRenderable {
       posTexture: { value: 0 },
       time: { value: 0 },
     }
+
     matLine1.onBeforeCompile = (shader, renderer) => {
       shader.uniforms.posTexture = matLine1.userData.uniforms.posTexture
       shader.uniforms.time = matLine1.userData.uniforms.time
@@ -84,7 +88,6 @@ export class NoodleRenderable {
       let atBeginV = /* glsl */ `
       precision highp float;
       // #define PI 3.1415926535897932384626433832795
-
 
       #define lengthSegments ${subdivisions.toFixed(1)}
       attribute float angle;
@@ -95,24 +98,28 @@ export class NoodleRenderable {
       uniform sampler2D posTexture;
 
       vec3 getP3OfTex (float t, float lineIDXER) {
+        //
+
         vec4 color = texture2D(posTexture,
           vec2(
             t,
-            lineIDXER / ${this.sim.howManyTracker.toFixed(2)}
+            (lineIDXER) / ${this.sim.howManyTracker.toFixed(2)}
           )
         );
+
         return color.rgb;
       }
 
       vec3 sampleLine (float t) {
-        vec3 pt = (offset.xyz + 0.5) * 0.0;
-
+        vec3 pt = vec3(0.0);
 
         float lineIDXER = offset.w;
         pt += getP3OfTex(t, lineIDXER);
 
         return pt;
       }
+
+      varying vec3 vSize;
 
       void createTube (float t, vec2 volume, out vec3 pos, out vec3 normal) {
         // find next sample along curve
@@ -134,13 +141,14 @@ export class NoodleRenderable {
         // compute position and normal
         normal.xyz = normalize(B * circX + N * circY);
         pos.xyz = cur + B * volume.x * circX + N * volume.y * circY;
+
+        vSize = cur;
       }
 
       varying float vT;
 
       vec3 makeGeo () {
         float t = (tubeInfo) + 0.5;
-        // t *= 2.0;
         float thickness = 0.01 * (1.0 - t);
 
         vT = t;
@@ -157,7 +165,6 @@ export class NoodleRenderable {
 
       vec3 makeGeoNormal () {
         float t = (tubeInfo) + 0.5;
-        // t *= 2.0;
         float thickness = 0.01 * (1.0 - t);
 
         vec2 volume = vec2(thickness);
@@ -165,21 +172,17 @@ export class NoodleRenderable {
         vec3 objectNormal;
         createTube(t, volume, transformedYo, objectNormal);
 
-        // vec3 transformedNormal = normalMatrix * objectNormal;
+        vec3 transformedNormal = normalMatrix * objectNormal;
 
-        return objectNormal;
+        return transformedNormal;
       }
 
-
-
-        `
+      `
 
       let transformV3 = `
 
 
             vec3 nPos = makeGeo();
-
-            float lineIDXER = offset.w;
 
             vec3 transformed = vec3( nPos );
 
@@ -197,10 +200,8 @@ export class NoodleRenderable {
             `
 
       // let atEndV = `
-
       // `
 
-      //
       shader.vertexShader = shader.vertexShader.replace(
         `void main() {`,
         `${atBeginV.trim()} void main() {`
@@ -215,13 +216,33 @@ export class NoodleRenderable {
         `${transformV3Normal}`
       )
 
+      shader.vertexShader = shader.vertexShader.replace(
+        `#include <project_vertex>`,
+        `
+
+
+
+vec4 mvPosition = vec4( transformed, 1.0 );
+#ifdef USE_INSTANCING
+	mvPosition = instanceMatrix * mvPosition;
+#endif
+mvPosition = modelViewMatrix * mvPosition;
+
+gl_Position = projectionMatrix * mvPosition;
+
+
+        `
+      )
+
       shader.fragmentShader = shader.fragmentShader.replace(
         `void main() {`,
         `${`
   varying float vT;
+  varying vec3 vSize;
 
   `}\nvoid main() {`
       )
+
       shader.fragmentShader = shader.fragmentShader.replace(
         `#include <output_fragment>`,
         `
@@ -232,19 +253,24 @@ export class NoodleRenderable {
           diffuseColor.a *= transmissionAlpha + 0.1;
         #endif
 
+
         float aa = diffuseColor.a * (1.0 - vT);
 
         if (aa >= 0.01) {
           gl_FragColor = vec4( outgoingLight, aa );
         } else {
+          gl_FragColor.rgba *= 0.0;
           discard;
         }
+
+
       `
       )
+
+      //
       // console.log(shader.fragmentShader)
     }
     let line1 = new Mesh(geometry, matLine1)
-    line1.userData.enableBloom = true
 
     this.o3d.add(line1)
 
