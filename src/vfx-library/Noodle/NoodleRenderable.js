@@ -32,6 +32,7 @@ export class NoodleRenderable {
     this.wait = this.setup({ node })
   }
   async setup({ node }) {
+    //
     let self = this
 
     let { geometry, ballGeo, subdivisions, count } = new NoodleGeo({
@@ -42,8 +43,6 @@ export class NoodleRenderable {
     })
 
     geometry.instanceCount = count
-
-    // + 10.0
 
     let matConfig = {
       color: new Color('#ff0000'),

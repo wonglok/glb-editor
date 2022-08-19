@@ -1,4 +1,4 @@
-import { Sphere, Text } from '@react-three/drei'
+import { Preload, Sphere, Text } from '@react-three/drei'
 import { useFrame } from '@react-three/fiber'
 import { Suspense, useRef } from 'react'
 import { useMetaStore } from '../store/use-meta-store'
@@ -58,6 +58,7 @@ export function PlayerAvatar() {
       <Loader></Loader>
 
       <Suspense fallback={<></>}>
+        <Preload all></Preload>
         {avatarVendor === 'temp' && (
           <TempAvatar
             setAction={setAction}
@@ -107,6 +108,7 @@ export function PlayerAvatar() {
   )
 }
 
+// Video Chat
 function VideoFeed() {
   let myself = useMetaStore((s) => s.myCTX)
   let videoTextures = useMetaStore((s) => s.videoTextures)
