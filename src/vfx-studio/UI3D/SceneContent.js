@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useMemo, useRef } from 'react'
 import { useAccessor } from '@/vfx-studio/store/use-accessor'
 import { useThree } from '@react-three/fiber'
 import { HDRTex } from './HDRTex'
@@ -9,7 +9,7 @@ import {
   Select,
   useAnimations,
 } from '@react-three/drei'
-import { BoxBufferGeometry, BoxHelper, Object3D, Vector3 } from 'three'
+import { BoxBufferGeometry, BoxHelper, Object3D } from 'three'
 // import anime from 'animejs'
 import { EffectNodeRuntime } from '../effectnode/Runtime/EffectNodeRuntime/EffectNodeRuntime'
 import { Player } from '@/vfx-meta/game-parts/Player'
@@ -19,6 +19,8 @@ import { Mesh, MeshBasicMaterial, Scene } from 'three140'
 // import { EnvLight } from '@/vfx-meta/game-vfx/EnvLight'
 import { useRender } from '@/vfx-meta/store/use-render'
 import { useENEditor } from '../store/use-en-editor'
+import { SceneTransformControl } from './SceneTransformControl'
+import { AdaptTC } from './AdaptTC'
 
 export function SceneContent({}) {
   let glbObject = useAccessor((s) => s.glbObject)
@@ -75,6 +77,7 @@ export function SceneContent({}) {
   }, [setColliderFromScene, setPlayerReady, setPosition])
 
   //
+
   return (
     <>
       {/*  */}
@@ -129,6 +132,8 @@ export function SceneContent({}) {
         </>
       )}
 
+      {/* SceneTransformControl */}
+
       {/*  */}
 
       <Player></Player>
@@ -138,6 +143,10 @@ export function SceneContent({}) {
       {enableDefaultHDR && (
         <HDRTex scene={scene} url={`/hdr/greenwich_park_02_1k.hdr`} />
       )}
+
+      <AdaptTC node={glbObject.scene}></AdaptTC>
+
+      {/* <TransformControls></TransformControls> */}
 
       {/* <OrbitControls
         ref={(ev) => {

@@ -126,19 +126,26 @@ function Outputs({ node }) {
 // children
 
 function TitleText({ node }) {
+  //
   let [show, setShow] = useState(false)
 
   useEffect(() => {
     setShow(false)
     setTimeout(() => {
       setShow(true)
-    })
+    }, 100)
+
+    return () => {
+      setShow(false)
+    }
   }, [node])
+
+  //
   return (
     <Suspense fallback={null}>
       {show && (
         <Text
-          key={node._id + node?.displayTitle}
+          key={node._id}
           color={'#000000'}
           fontSize={0.7}
           maxWidth={200}

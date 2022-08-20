@@ -23,12 +23,8 @@ export function Nodes() {
                 ></NodeSingle>
               )
             })}
-
-          {/*  */}
         </>
       )}
-      {/*  */}
-      {/*  */}
       {/*  */}
     </group>
   )

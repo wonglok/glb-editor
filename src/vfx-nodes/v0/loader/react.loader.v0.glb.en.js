@@ -103,7 +103,8 @@ let loadGLB = async (v) => {
 export function effect({ node, mini, data, setComponent }) {
   let send = () => {
     if (data.value.glb) {
-      loadGLB(data.value.glb).then((glb) => {
+      //
+      loadGLB(data.value.glb).then(async (glb) => {
         node.out0.pulse(
           <group key={getID()}>
             <primitive object={glb.scene} />
@@ -113,6 +114,8 @@ export function effect({ node, mini, data, setComponent }) {
       })
     }
   }
+
+  //
   data.uniforms.glb((sig) => {
     send(sig.value)
   })

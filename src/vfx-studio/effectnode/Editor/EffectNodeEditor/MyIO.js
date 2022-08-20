@@ -127,6 +127,7 @@ export function MyIO({ io, idx, node, socket, e, total }) {
           onPointerDown={onPointerDown}
           onPointerUp={onPointerUp}
           onPointerMove={onPointerMove}
+          //
           // args={[1, 1, 1]}
           // radius={1 / 5}
         >
@@ -147,6 +148,7 @@ export function MyIO({ io, idx, node, socket, e, total }) {
           onPointerDown={onPointerDown}
           onPointerUp={onPointerUp}
           onPointerMove={onPointerMove}
+          //
           // args={[1, 1, 1]}
           // radius={2 / 5}
         >
