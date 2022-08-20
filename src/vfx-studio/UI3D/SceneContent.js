@@ -144,7 +144,7 @@ export function SceneContent({}) {
         <HDRTex scene={scene} url={`/hdr/greenwich_park_02_1k.hdr`} />
       )}
 
-      <AdaptTC node={glbObject.scene}></AdaptTC>
+      {glbObject && <AdaptTC node={glbObject.scene}></AdaptTC>}
 
       {/* <TransformControls></TransformControls> */}
 

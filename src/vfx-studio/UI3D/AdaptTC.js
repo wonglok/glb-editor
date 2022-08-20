@@ -27,6 +27,8 @@ import { Camera, Mesh, MeshBasicMaterial, Scene } from 'three140'
 import { useRender } from '@/vfx-meta/store/use-render'
 import { useENEditor } from '../store/use-en-editor'
 import { SceneTransformControl } from './SceneTransformControl'
+import { EffectComposer, SSR } from '@react-three/postprocessing'
+import { GLOverlay } from './GLOverlay'
 
 export function AdaptTC({ node }) {
   let reloadGraphID = useENEditor((s) => s.reloadGraphID)
@@ -38,38 +40,49 @@ export function AdaptTC({ node }) {
   let camQ = new Camera()
   camQ.position.z = 1
 
-  let quad = useMemo(() => {
-    return new Mesh(
-      new PlaneBufferGeometry(2, 2),
-      new MeshBasicMaterial({
-        map: fbo.texture,
-        side: DoubleSide,
-        color: 0xff0000,
-        transparent: true,
-        transparent: 1,
-      })
-    )
-  }, [fbo.texture])
+  // let quad = useMemo(() => {
+  //   return new Mesh(
+  //     new PlaneBufferGeometry(2, 2),
+  //     new MeshBasicMaterial({
+  //       map: fbo.texture,
+  //       side: DoubleSide,
+  //       color: 0xff0000,
+  //       transparent: true,
+  //       transparent: 1,
+  //     })
+  //   )
+  // }, [fbo.texture])
 
-  useFrame(({ gl, camera }) => {
-    if (fakeScene?.children.length > 0 && fakeScene && camera) {
-      //
+  useFrame(({ gl, scene, camera }) => {
+    if (fakeScene && fakeScene?.children.length > 0 && camera) {
+      // //
       gl.setRenderTarget(fbo)
       gl.setClearAlpha(0)
       gl.clear()
       gl.render(fakeScene, camera)
       gl.setRenderTarget(null)
-      gl.setClearAlpha(1)
-      //
+      gl.setClearAlpha(0)
 
-      gl.autoClear = false
-      gl.render(quad, camQ)
-      gl.autoClear = true
+      // gl.autoClear = false
+      // gl.render(quad, camQ)
+      // gl.autoClear = true
+
+      // gl.render(scene, camera)
+    } else {
+      // gl.render(scene, camera)
     }
-  }, 10000)
+  })
 
   return (
-    <>{<ENTCNode key={reloadGraphID} fakeScene={fakeScene} node={node} />}</>
+    <>
+      {fbo && (
+        <EffectComposer>
+          <GLOverlay fbo={fbo}></GLOverlay>
+        </EffectComposer>
+      )}
+
+      {<ENTCNode key={reloadGraphID} fakeScene={fakeScene} node={node} />}
+    </>
   )
 }
 

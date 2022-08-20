@@ -21,219 +21,222 @@ export function EffectNodeObjectNode({
 
     enRuntime.now.isEditingMode = isEditingMode
 
-    let featureModule = codes
-      .filter((e) => {
-        let res = true
+    let run = async () => {
+      let featureModule = codes
+        .filter((e) => {
+          let res = true
 
-        disabledNodes.forEach((name) => {
-          if (res) {
-            if (e.title.indexOf(name) !== -1) {
-              res = false
+          disabledNodes.forEach((name) => {
+            if (res) {
+              if (e.title.indexOf(name) !== -1) {
+                res = false
+              }
             }
-          }
+          })
+
+          // if (!res) {
+          //   console.log('disabled node found:', e.title)
+          // }
+          return res
         })
+        .find((e) => e.title === node.codeID)
 
-        // if (!res) {
-        //   console.log('disabled node found:', e.title)
-        // }
-        return res
-      })
-      .find((e) => e.title === node.codeID)
+      if (featureModule) {
+        featureModule.loader().then(async (logic) => {
+          enRuntime.set(node._id, node)
 
-    if (featureModule) {
-      featureModule.loader().then(async (logic) => {
-        enRuntime.set(node._id, node)
+          // let mode = 'queue'
+          // enRuntime.ready['all-ready'].then(() => {
+          //   mode = 'can-send'
+          //   queue.forEach((ev) => {
+          //     emit(ev.event, ev.data)
+          //   })
+          //   //
+          //   // comments.log(ev);
+          // })
+          // if (mode === 'can-send') {
+          // } else {
+          //   queue.push({
+          //     event: output._id,
+          //     data,
+          //   })
+          // }
 
-        // let mode = 'queue'
-        // enRuntime.ready['all-ready'].then(() => {
-        //   mode = 'can-send'
-        //   queue.forEach((ev) => {
-        //     emit(ev.event, ev.data)
-        //   })
-        //   //
-        //   // comments.log(ev);
-        // })
-        // if (mode === 'can-send') {
-        // } else {
-        //   queue.push({
-        //     event: output._id,
-        //     data,
-        //   })
-        // }
+          let portsAPIMap = new Map()
 
-        let portsAPIMap = new Map()
-
-        let inputs = node.inputs || []
-        let outputs = node.outputs || []
-
-        //
-        // portsAPIMap.set(`in${idx}`, {
-        // });
-
-        inputs.forEach((input, idx) => {
-          let answer = false
+          let inputs = node.inputs || []
+          let outputs = node.outputs || []
 
           //
-          let api = {
-            stream: (onReceive) => {
-              on(input._id, onReceive)
+          // portsAPIMap.set(`in${idx}`, {
+          // });
+
+          inputs.forEach((input, idx) => {
+            let answer = false
+
+            //
+            let api = {
+              stream: (onReceive) => {
+                on(input._id, onReceive)
+              },
+              get ready() {
+                return new Promise((resolve) => {
+                  let tt = setInterval(() => {
+                    if (answer) {
+                      clearInterval(tt)
+                      resolve(answer)
+                    }
+                  }, 0)
+                })
+              },
+            }
+
+            on(input._id, (v) => {
+              answer = v
+            })
+
+            portsAPIMap.set(`in${idx}`, api)
+          })
+
+          outputs.forEach((output, idx) => {
+            portsAPIMap.set(`out${idx}`, {
+              pulse: (data) => {
+                emit(output._id, data)
+              },
+            })
+          })
+
+          let nodeAPI = new Proxy(node, {
+            get: (obj, key) => {
+              if (key === 'data') {
+                return node
+              }
+
+              //
+              if (key.indexOf('in') === 0 && !isNaN(key[2])) {
+                return portsAPIMap.get(key)
+              }
+
+              if (key.indexOf('out') === 0 && !isNaN(key[3])) {
+                return portsAPIMap.get(key)
+              }
+
+              if (obj[key]) {
+                return obj[key]
+              }
+              //
             },
-            get ready() {
-              return new Promise((resolve) => {
-                let tt = setInterval(() => {
-                  if (answer) {
-                    clearInterval(tt)
-                    resolve(answer)
+          })
+
+          //
+
+          let dataAPI = new Proxy(
+            {},
+            {
+              get: (obj, accessKey) => {
+                if (accessKey === 'raw') {
+                  if (enRuntime && enRuntime.now[node._id]) {
+                    return enRuntime.now[node._id]
+                  } else {
+                    return null
                   }
-                }, 0)
-              })
-            },
-          }
-
-          on(input._id, (v) => {
-            answer = v
-          })
-
-          portsAPIMap.set(`in${idx}`, api)
-        })
-
-        outputs.forEach((output, idx) => {
-          portsAPIMap.set(`out${idx}`, {
-            pulse: (data) => {
-              emit(output._id, data)
-            },
-          })
-        })
-
-        let nodeAPI = new Proxy(node, {
-          get: (obj, key) => {
-            if (key === 'data') {
-              return node
-            }
-
-            //
-            if (key.indexOf('in') === 0 && !isNaN(key[2])) {
-              return portsAPIMap.get(key)
-            }
-
-            if (key.indexOf('out') === 0 && !isNaN(key[3])) {
-              return portsAPIMap.get(key)
-            }
-
-            if (obj[key]) {
-              return obj[key]
-            }
-            //
-          },
-        })
-
-        //
-
-        let dataAPI = new Proxy(
-          {},
-          {
-            get: (obj, accessKey) => {
-              if (accessKey === 'raw') {
-                if (enRuntime && enRuntime.now[node._id]) {
-                  return enRuntime.now[node._id]
-                } else {
-                  return null
-                }
-              } else if (accessKey === 'value') {
-                if (enRuntime && enRuntime.now[node._id])
+                } else if (accessKey === 'value') {
+                  if (enRuntime && enRuntime.now[node._id])
+                    return new Proxy(
+                      {},
+                      {
+                        get: (_ooo, entryName) => {
+                          let obj = enRuntime.now[node._id].uniforms.find(
+                            (e) => e.name === entryName
+                          )
+                          if (obj) {
+                            return obj.value
+                          } else {
+                            return undefined
+                          }
+                        },
+                      }
+                    )
+                } else if (
+                  //
+                  accessKey === 'shaders' ||
+                  accessKey === 'materials' ||
+                  accessKey === 'uniforms'
+                ) {
+                  //
                   return new Proxy(
                     {},
                     {
-                      get: (_ooo, entryName) => {
-                        let obj = enRuntime.now[node._id].uniforms.find(
-                          (e) => e.name === entryName
-                        )
-                        if (obj) {
-                          return obj.value
-                        } else {
-                          return undefined
+                      get: (obj, entryName) => {
+                        return (hander) => {
+                          enRuntime.onClean(
+                            enRuntime.onChange(
+                              node._id,
+                              (nodeData) => {
+                                //
+                                let arr = nodeData[accessKey] || []
+                                let founds = arr.filter(
+                                  (m) => m.name === entryName
+                                )
+
+                                founds.forEach((found) => {
+                                  if (found) {
+                                    hander(found)
+                                  }
+                                })
+
+                                if (founds.length > 1) {
+                                  console.log(
+                                    'duplicated item detected',
+                                    entryName
+                                  )
+                                }
+                              },
+                              {
+                                initFire: true,
+                              }
+                            )
+                          )
                         }
                       },
                     }
                   )
-              } else if (
+                }
                 //
-                accessKey === 'shaders' ||
-                accessKey === 'materials' ||
-                accessKey === 'uniforms'
-              ) {
-                //
-                return new Proxy(
-                  {},
-                  {
-                    get: (obj, entryName) => {
-                      return (hander) => {
-                        enRuntime.onClean(
-                          enRuntime.onChange(
-                            node._id,
-                            (nodeData) => {
-                              //
-                              let arr = nodeData[accessKey] || []
-                              let founds = arr.filter(
-                                (m) => m.name === entryName
-                              )
+              },
+            }
+          )
 
-                              founds.forEach((found) => {
-                                if (found) {
-                                  hander(found)
-                                }
-                              })
-
-                              if (founds.length > 1) {
-                                console.log(
-                                  'duplicated item detected',
-                                  entryName
-                                )
-                              }
-                            },
-                            {
-                              initFire: true,
-                            }
-                          )
-                        )
-                      }
-                    },
-                  }
-                )
-              }
-              //
-            },
+          let hhhh = ({ detail }) => {
+            if (detail._id === node._id) {
+              enRuntime.now[detail._id] = detail
+            }
           }
-        )
+          window.addEventListener('reload-node', hhhh)
 
-        let hhhh = ({ detail }) => {
-          if (detail._id === node._id) {
-            enRuntime.now[detail._id] = detail
-          }
-        }
-        window.addEventListener('reload-node', hhhh)
+          let mini = enRuntime.makeDisposableNode({ name: node.displayTitle })
 
-        let mini = enRuntime.makeDisposableNode({ name: node.displayTitle })
+          cleans.push(() => {
+            window.removeEventListener('reload-node', hhhh)
 
-        cleans.push(() => {
-          window.removeEventListener('reload-node', hhhh)
+            mini.clean()
+          })
 
-          mini.clean()
+          //
+          return await logic
+            .effect({
+              mini,
+              node: nodeAPI,
+              data: dataAPI,
+              setComponent,
+            })
+            ?.catch((e) => {
+              console.log(e)
+            })
         })
-
-        //
-        return await logic
-          .effect({
-            mini,
-            node: nodeAPI,
-            data: dataAPI,
-            setComponent,
-          })
-          ?.catch((e) => {
-            console.log(e)
-          })
-      })
+      }
     }
+    run()
 
     return () => {
       cleans.forEach((c) => c())

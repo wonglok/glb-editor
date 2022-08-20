@@ -75,6 +75,10 @@ function GlobalOnOff({ children }) {
   let setEnableButton = useRender((s) => s.setEnableButton)
   useEffect(() => {
     setEnableButton(true)
+
+    return () => {
+      setEnableButton(false)
+    }
   })
   return <>{enable && children}</>
 }

@@ -2,7 +2,7 @@
 import { useFrame, useThree } from '@react-three/fiber'
 import { useEffect, useRef } from 'react'
 import { useMetaStore } from '../store/use-meta-store'
-import { CompanionWrap } from './CompanionWrap'
+// import { CompanionWrap } from './CompanionWrap'
 // import { CompanionWrap } from './CompanionWrap'
 import { JoyStick } from './JoyStick'
 // import { NPCAvatar } from './NPCAvatar'
@@ -44,6 +44,7 @@ export function Player({ children }) {
   //
   return (
     <group>
+      {/*  */}
       {/*  */}
       {/*  */}
       <group ref={ref}>
