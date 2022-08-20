@@ -133,6 +133,7 @@ function TC({ node, nodeData, fakeScene }) {
           info.value.z = node.position.z
         } else {
           //
+          //
           o3.position.set(info.value.x, info.value.y, info.value.z)
         }
       }
