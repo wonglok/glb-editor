@@ -37,6 +37,8 @@ export function TextCnavas({ text = 'Lorem ipsum dolor sit amet' }) {
     })
   }, [text])
 
+  //
+
   return (
     <>
       {tex && (
