@@ -161,7 +161,6 @@ export function TabUnifroms({ node }) {
                 {mm.type === 'texture' && (
                   <TextureInput
                     object={mm}
-                    key={'input-el' + inv0}
                     name={'value'}
                     label={mm.name}
                     value={mm.value}
@@ -173,7 +172,6 @@ export function TabUnifroms({ node }) {
                 {mm.type === 'glb' && (
                   <GLBInput
                     object={mm}
-                    key={'input-el' + inv0}
                     name={'value'}
                     label={mm.name}
                     value={mm.value}
@@ -197,7 +195,6 @@ export function TabUnifroms({ node }) {
                 {mm.type === 'text' && (
                   <TextInput
                     object={mm}
-                    key={'input-el' + inv0}
                     name={'value'}
                     label={mm.name}
                     value={mm.value}
@@ -209,7 +206,6 @@ export function TabUnifroms({ node }) {
                 {mm.type === 'glsl' && (
                   <GLSLInput
                     object={mm}
-                    key={'input-el' + inv0}
                     name={'value'}
                     label={mm.name}
                     value={mm.value}
@@ -269,7 +265,6 @@ export function TabUnifroms({ node }) {
                 {mm.type === 'color' && (
                   <ColorInput
                     object={mm}
-                    key={'input-el' + inv0}
                     name={'value'}
                     label={mm.name}
                     value={mm.value}
@@ -984,6 +979,21 @@ function GLBInput({
       })
     } catch (e) {
       console.log(e)
+    }
+
+    //
+    if (object[name]) {
+      const btnDownload = pane.addButton({
+        title: 'Download',
+        label: 'download', // optional
+      })
+
+      btnDownload.on('click', () => {
+        let an = document.createElement('a')
+        an.href = object[name]
+        an.download = 'attached.glb'
+        an.click()
+      })
     }
 
     const btnReset = pane.addButton({
