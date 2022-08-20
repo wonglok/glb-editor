@@ -52,8 +52,7 @@ export function AdaptTC({ node }) {
   }, [fbo.texture])
 
   useFrame(({ gl, camera }) => {
-    console.log(fakeScene.children.length)
-    if (fakeScene.children.length > 0) {
+    if (fakeScene?.children.length > 0 && fakeScene && camera) {
       //
       gl.setRenderTarget(fbo)
       gl.setClearAlpha(0)
@@ -162,13 +161,29 @@ function TC({ node, nodeData, fakeScene }) {
           object={o3}
           onChange={(o3) => {
             //
-            let info = nodeData.uniforms.find(
+            let pos = nodeData.uniforms.find(
               (e) => e.name === 'transformPosition'
             )
 
-            info.value.x = o3.position.x
-            info.value.y = o3.position.y
-            info.value.z = o3.position.z
+            pos.value.x = o3.position.x
+            pos.value.y = o3.position.y
+            pos.value.z = o3.position.z
+
+            let rot = nodeData.uniforms.find(
+              (e) => e.name === 'transformRotation'
+            )
+
+            rot.value.x = o3.rotation.x
+            rot.value.y = o3.rotation.y
+            rot.value.z = o3.rotation.z
+
+            let scale = nodeData.uniforms.find(
+              (e) => e.name === 'transformScale'
+            )
+
+            scale.value.x = o3.scale.x
+            scale.value.y = o3.scale.y
+            scale.value.z = o3.scale.z
 
             window.dispatchEvent(
               new CustomEvent('reload-gui', { detail: nodeData })

@@ -51,6 +51,26 @@ export function SceneTransformControl({
       window.dispatchEvent(new CustomEvent('transform-update', { detail: o3 }))
     })
 
+    let canDo = true
+    window.addEventListener('useTranslate', () => {
+      if (!canDo) {
+        return
+      }
+      tc.setMode('translate')
+    })
+    window.addEventListener('useRotation', () => {
+      if (!canDo) {
+        return
+      }
+      tc.setMode('rotate')
+    })
+    window.addEventListener('useScale', () => {
+      if (!canDo) {
+        return
+      }
+      tc.setMode('scale')
+    })
+
     tc.addEventListener('dragging-changed', (ev) => {
       let ctrl = useMetaStore.getState().controls
 
@@ -72,6 +92,7 @@ export function SceneTransformControl({
     tc.attach(o3)
 
     return () => {
+      canDo = false
       tc.dispose()
       o3.removeFromParent()
       tc.removeFromParent()

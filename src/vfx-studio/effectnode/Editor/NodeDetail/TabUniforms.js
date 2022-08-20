@@ -272,6 +272,17 @@ export function TabUnifroms({ node }) {
                     onRemove={onRemove(mm)}
                   ></ColorInput>
                 )}
+
+                {mm.type === 'button' && (
+                  <ButtonInput
+                    object={mm}
+                    name={'value'}
+                    label={mm.name}
+                    value={mm.value}
+                    onSaveLater={onSaveLater(mm)}
+                    onRemove={onRemove(mm)}
+                  ></ButtonInput>
+                )}
               </div>
 
               {/*  */}
@@ -940,8 +951,6 @@ function GLBInput({
     const pane = new Pane({
       container: ref.current,
     })
-    pane.registerPlugin(TweakpaneImagePlugin)
-
     let tt = 0
     try {
       const btnSelect = pane.addButton({
@@ -1050,6 +1059,31 @@ function GLBInput({
         {object[name] && <ModelViewer url={object[name]} />}
       </div>
       <div ref={ref}></div>
+    </div>
+  )
+}
+
+function ButtonInput({
+  object = { value: null },
+  name = 'value',
+  label,
+  value = 0,
+  // min,
+  // max,
+  // step = 0.01,
+  // onSave = () => {},
+  // onSaveLater = () => {},
+  // onRemove = () => {},
+}) {
+  return (
+    <div>
+      <button
+        onClick={() => {
+          window.dispatchEvent(new CustomEvent(label, { detail: value }))
+        }}
+      >
+        {label}
+      </button>
     </div>
   )
 }
