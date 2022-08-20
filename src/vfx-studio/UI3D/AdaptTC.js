@@ -106,7 +106,7 @@ function GroupTCs({ node, graphData, fakeScene }) {
 }
 
 function TC({ node, nodeData, fakeScene }) {
-  let openEffectNode = useAccessor((s) => s.openEffectNode)
+  let updateSelected = useAccessor((s) => s.updateSelected)
 
   let o3 = useMemo(() => {
     let o3 = new Object3D()
@@ -157,7 +157,10 @@ function TC({ node, nodeData, fakeScene }) {
 
             clearTimeout(tt)
             tt = setTimeout(() => {
-              openEffectNode(node)
+              updateSelected([node])
+              window.dispatchEvent(
+                new CustomEvent('reload-node', { detail: nodeData })
+              )
             }, 100)
             //
           }}

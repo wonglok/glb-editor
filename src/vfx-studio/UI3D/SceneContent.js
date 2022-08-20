@@ -89,15 +89,19 @@ export function SceneContent({}) {
             onChange={(v) => {
               let onSelect = (v) => {
                 if (v[0]) {
-                  openEffectNode(v[0])
-                  setOverlay(null)
+                  let ctrl = useMetaStore.getState().controls
 
-                  let helper = new BoxHelper(v[0])
-                  clean.current()
-                  clean.current = () => {
-                    helper.removeFromParent()
+                  if (ctrl.enabled) {
+                    openEffectNode(v[0])
+                    setOverlay(null)
+
+                    let helper = new BoxHelper(v[0])
+                    clean.current()
+                    clean.current = () => {
+                      helper.removeFromParent()
+                    }
+                    scene.add(helper)
                   }
-                  scene.add(helper)
                 }
               }
 

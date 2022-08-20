@@ -55,7 +55,17 @@ export function SceneTransformControl({
       let ctrl = useMetaStore.getState().controls
 
       if (ctrl) {
-        ctrl.enabled = !ev.value
+        let setTo = !ev.value
+
+        if (setTo) {
+          setTimeout(() => {
+            ctrl.enabled = setTo
+            onChange(object)
+          }, 500)
+        } else {
+          ctrl.enabled = setTo
+          onChange(object)
+        }
       }
     })
 
