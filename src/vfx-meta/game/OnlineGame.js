@@ -18,17 +18,16 @@ import { OnlineSystem } from '../online/OnlineSystem'
 export function OnlineGame() {
   return (
     <group>
-      <BG url={`/hdr/moonless_golf_1k.hdr`}></BG>
-      <HDR url={`/hdr/moonless_golf_1k.hdr`}> </HDR>
       {/*  */}
 
-      <Suspense fallback={null}>
-        <Floor url={'/scene/landing/os-effect.glb'}></Floor>
-      </Suspense>
+      <Suspense fallback={null}></Suspense>
       {/* <EnvLight></EnvLight> */}
 
       <OnlineSystem mapID='/scene/landing/os.glb'>
         <>
+          <BG url={`/hdr/moonless_golf_1k.hdr`}></BG>
+          <HDR url={`/hdr/moonless_golf_1k.hdr`}> </HDR>
+          <Floor url={'/scene/landing/os-effect.glb'}></Floor>
           <Player></Player>
         </>
       </OnlineSystem>

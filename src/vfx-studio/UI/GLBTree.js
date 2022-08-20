@@ -9,7 +9,7 @@ export function GLBTree() {
   // let updateSelected = useAccessor((s) => s.updateSelected)
   let selectedMeshes = useAccessor((s) => s.selectedMeshes)
   // let overlay = useENEditor((s) => s.overlay)
-  let list = getArrayOfEditable({ glb: glbObject })
+  // let list = getArrayOfEditable({ glb: glbObject })
 
   let [filter, setFilter] = useState('')
 

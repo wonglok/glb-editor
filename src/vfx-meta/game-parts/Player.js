@@ -21,7 +21,9 @@ export function Player({ children }) {
   let camera = useThree((s) => s.camera)
   let dom = useThree((s) => s.gl.domElement)
   useFrame((st, dt) => {
-    updatePlayer((dt / 3) * 3)
+    if (playerInfoIsReady) {
+      updatePlayer((dt / 3) * 3)
+    }
   })
   useEffect(() => {
     return setKeyboard()
