@@ -158,8 +158,6 @@ function TC({ node, nodeData, fakeScene }) {
           object={o3}
           onChange={(o3) => {
             //
-            //
-
             let info = nodeData.uniforms.find(
               (e) => e.name === 'transformPosition'
             )
