@@ -1,4 +1,4 @@
-import { Box, RoundedBox, Text } from '@react-three/drei'
+import { Box, Html, RoundedBox, Text } from '@react-three/drei'
 import { useFrame } from '@react-three/fiber'
 import { Suspense, useEffect, useMemo, useRef, useState } from 'react'
 import { useENEditor } from '@/vfx-studio/store/use-en-editor'
@@ -144,23 +144,39 @@ function TitleText({ node }) {
   return (
     <Suspense fallback={null}>
       {show && (
-        <Text
-          key={node._id}
-          color={'#000000'}
-          fontSize={0.7}
-          maxWidth={200}
-          lineHeight={1}
-          textAlign={'center'}
-          font='/font/Cronos-Pro-Light_12448.ttf'
-          anchorX='center'
-          anchorY='middle'
-          outlineWidth={0.1}
-          outlineColor='#ffffff'
-          rotation-x={Math.PI * -0.25}
+        <Html
+          style={{
+            width: '250px',
+            backgroundColor: 'white',
+            pointerEvents: 'none',
+            fontSize: '18px',
+            zIndex: '-1',
+          }}
+          className='text-center'
+          center
+          transform
           position={[0, 0.5, 2.5]}
+          rotation-x={Math.PI * -0.25}
         >
           {node?.displayTitle}
-        </Text>
+        </Html>
+        // <Text
+        //   key={node._id}
+        //   color={'#000000'}
+        //   fontSize={0.7}
+        //   maxWidth={200}
+        //   lineHeight={1}
+        //   textAlign={'center'}
+        //   font='/font/Cronos-Pro-Light_12448.ttf'
+        //   anchorX='center'
+        //   anchorY='middle'
+        //   outlineWidth={0.1}
+        //   outlineColor='#ffffff'
+        //   rotation-x={Math.PI * -0.25}
+        //   position={[0, 0.5, 2.5]}
+        // >
+        //   {node?.displayTitle}
+        // </Text>
       )}
     </Suspense>
   )

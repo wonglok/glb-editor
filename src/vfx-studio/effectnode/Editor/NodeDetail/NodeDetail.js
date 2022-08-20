@@ -56,15 +56,16 @@ export function NodeDetail() {
 
           <div
             style={{
-              position: 'absolute',
+              position: 'fixed',
               top: `calc(50% - 85% / 2)`,
-              left: `calc(50% - 85% / 2)`,
-              width: `85%`,
+              left: `calc(100% - 85% / 2 + 50px)`,
+              width: `calc(85% / 2 - 100px)`,
               height: `85%`,
               overflow: 'scroll',
+              zIndex: 111111111,
             }}
             //
-            className='bg-white border border-yellow-300 shadow-xl bg-opacity-40 rounded-xl'
+            className='bg-white border border-yellow-300 shadow-xl bg-opacity-80 rounded-xl'
           >
             <div className='py-2 text-2xl text-center bg-yellow-400'>
               {node.displayTitle}
@@ -213,6 +214,7 @@ export function NodeDetail() {
               width: `50px`,
               height: `50px`,
               borderRadius: '100%',
+              zIndex: 111111111,
             }}
             className='text-white bg-red-500 shadow-xl cursor-pointer rounded-xl'
             onClick={() => {
