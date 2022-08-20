@@ -152,15 +152,19 @@ function TitleText({ node }) {
             fontSize: '18px',
             zIndex: '-1',
             padding: '5px 10px',
+            border: 'black solid 1px',
           }}
           className='text-center'
           center
           transform
-          position={[0, 0.5, 2.5]}
+          position={[0, 1, 0]}
           rotation-x={Math.PI * -0.25}
         >
           {node?.displayTitle}
         </Html>
+
+        //
+        //
         // <Text
         //   key={node._id}
         //   color={'#000000'}

@@ -35,6 +35,8 @@ export function TabUnifroms({ node }) {
     window.dispatchEvent(new CustomEvent('reload-node', { detail: node }))
     reload((s) => s + 1)
   }
+
+  //
   let onRemove = (mm) => () => {
     let arr = node[DataKey]
     arr.splice(
