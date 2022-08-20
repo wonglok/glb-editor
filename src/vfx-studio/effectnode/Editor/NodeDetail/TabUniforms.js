@@ -162,6 +162,7 @@ export function TabUnifroms({ node }) {
               className='mb-3 mr-3'
             >
               <div className='inline-block'>
+                {/*  */}
                 {mm.type === 'texture' && (
                   <TextureInput
                     object={mm}
