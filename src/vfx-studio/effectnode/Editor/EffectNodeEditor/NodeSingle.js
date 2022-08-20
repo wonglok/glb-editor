@@ -1,6 +1,6 @@
 import { Box, RoundedBox, Text } from '@react-three/drei'
 import { useFrame } from '@react-three/fiber'
-import { Suspense, useMemo, useRef } from 'react'
+import { Suspense, useEffect, useMemo, useRef, useState } from 'react'
 import { useENEditor } from '@/vfx-studio/store/use-en-editor'
 import { MyIO } from './MyIO'
 
@@ -126,25 +126,35 @@ function Outputs({ node }) {
 // children
 
 function TitleText({ node }) {
+  let [show, setShow] = useState(false)
+
+  useEffect(() => {
+    setShow(false)
+    setTimeout(() => {
+      setShow(true)
+    })
+  }, [node])
   return (
     <Suspense fallback={null}>
-      <Text
-        key={node._id}
-        color={'#000000'}
-        fontSize={0.7}
-        maxWidth={200}
-        lineHeight={1}
-        textAlign={'center'}
-        font='/font/Cronos-Pro-Light_12448.ttf'
-        anchorX='center'
-        anchorY='middle'
-        outlineWidth={0.1}
-        outlineColor='#ffffff'
-        rotation-x={Math.PI * -0.25}
-        position={[0, 0.5, 2.5]}
-      >
-        {node?.displayTitle}
-      </Text>
+      {show && (
+        <Text
+          key={node._id}
+          color={'#000000'}
+          fontSize={0.7}
+          maxWidth={200}
+          lineHeight={1}
+          textAlign={'center'}
+          font='/font/Cronos-Pro-Light_12448.ttf'
+          anchorX='center'
+          anchorY='middle'
+          outlineWidth={0.1}
+          outlineColor='#ffffff'
+          rotation-x={Math.PI * -0.25}
+          position={[0, 0.5, 2.5]}
+        >
+          {node?.displayTitle}
+        </Text>
+      )}
     </Suspense>
   )
 }
