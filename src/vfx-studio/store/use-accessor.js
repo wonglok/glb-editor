@@ -69,6 +69,9 @@ export const useAccessor = create((set, get) => {
       renameGLB({ fileID, name })
       //
     },
+    setGlbObjectBeforeEdit: (v) => {
+      set({ glbObjectBeforeEdit: v })
+    },
     loadBfferGLB: (fileID) => {
       set({ glbObject: null, glbObjectBeforeEdit: null })
 
@@ -78,14 +81,14 @@ export const useAccessor = create((set, get) => {
         set({ glbMetadata: metadata })
       })
 
-      loadBinaryByFileID(fileID).then((buffer) => {
+      return loadBinaryByFileID(fileID).then((buffer) => {
         let loader = new GLTFLoader()
         let draco = new DRACOLoader()
         draco.setDecoderPath(`/draco/`)
         draco.setCrossOrigin('')
         loader.setDRACOLoader(draco)
 
-        Promise.all([
+        return Promise.all([
           loader.parseAsync(buffer, '/'),
           loader.parseAsync(buffer, '/'),
         ]).then(([glb1, glb2]) => {

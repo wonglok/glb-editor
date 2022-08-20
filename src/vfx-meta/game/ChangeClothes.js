@@ -25,7 +25,7 @@ export function ChangeClothes() {
         <>
           <Player></Player>
           <ClothesUI></ClothesUI>
-          <Effects></Effects>
+          {/* <Effects></Effects> */}
         </>
       </OnlineSystem>
 

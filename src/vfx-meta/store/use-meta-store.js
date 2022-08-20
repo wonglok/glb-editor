@@ -1,8 +1,11 @@
 import { uploadS3 } from '@/aws/aws.s3.gui'
+import { useAccessor } from '@/vfx-studio/store/use-accessor'
+import { Exporter } from '@/vfx-studio/store/use-exporter'
 import { avatarCDN_A } from 'firebase.config'
 import md5 from 'md5'
 import { sRGBEncoding, Vector3 } from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
+import { clone } from 'three/examples/jsm/utils/SkeletonUtils'
 import { PerspectiveCamera, VideoTexture } from 'three140'
 import create from 'zustand'
 import { makeAvatarCTX } from '../ctx/make-avatar-ctx'
@@ -687,16 +690,46 @@ export const useMetaStore = create((set, get) => {
 
         if (group) {
           clearInterval(ttt)
-          group.traverse(console.log)
+          // group.traverse(console.log)
 
-          exportGLB({
-            clips,
-            group,
-            mixer,
-            onDone: () => {
+          mixer.stopAllAction()
+          mixer.update(1 / 60)
+
+          useAccessor.getState().setGlbObjectBeforeEdit({
+            scene: clone(group),
+            animations: clips,
+          })
+
+          //
+          Exporter.download({
+            clips: clips,
+            group: group,
+            downloadName: 'export-glb',
+            optimize: [1024, 1024],
+            onDoneOptimizeBuffer: (newBin) => {
               setAction('backflip', 1)
+              let newFile = new Blob([newBin], {
+                type: 'application/octet-stream',
+              })
+
+              let newURL = URL.createObjectURL(newFile)
+
+              let ahr = document.createElement('a')
+              ahr.href = newURL
+              ahr.download = 'my-avatar' + '.glb'
+              ahr.click()
             },
           })
+          // exportGLB({
+          //   clips,
+          //   group,
+          //   // mixer,
+          //   onDone: () => {
+          //     setAction('backflip', 1)
+          //   },
+          // })
+
+          //
         }
       })
     },
