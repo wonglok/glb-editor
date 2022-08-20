@@ -78,9 +78,9 @@ export function SceneTransformControl({
         let setTo = !ev.value
 
         if (setTo) {
+          onChange(object)
           setTimeout(() => {
             ctrl.enabled = setTo
-            onChange(object)
           }, 250)
         } else {
           ctrl.enabled = setTo

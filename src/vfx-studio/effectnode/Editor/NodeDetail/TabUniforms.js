@@ -16,7 +16,7 @@ export function TabUnifroms({ node }) {
     let hhh = () => {
       //
       //
-      reload((s) => s + 1)
+      window.dispatchEvent(new CustomEvent('reload-node', { detail: node }))
       //
       //
     }
@@ -1078,6 +1078,7 @@ function ButtonInput({
   return (
     <div>
       <button
+        className='p-2 bg-gray-200'
         onClick={() => {
           window.dispatchEvent(new CustomEvent(label, { detail: value }))
         }}

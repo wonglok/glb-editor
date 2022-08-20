@@ -114,29 +114,114 @@ function TC({ node, nodeData, fakeScene }) {
     let o3 = new Object3D()
 
     if (nodeData) {
-      let info = nodeData.uniforms.find((e) => e.name === 'transformPosition')
+      let transformPosition = nodeData.uniforms.find(
+        (e) => e.name === 'transformPosition'
+      )
 
-      if (info) {
+      if (transformPosition) {
         window.addEventListener('reload-node', ({}) => {
           if (o3.__disabled) {
             return
           }
-          o3.position.set(info.value.x, info.value.y, info.value.z)
+          o3.position.set(
+            transformPosition.value.x,
+            transformPosition.value.y,
+            transformPosition.value.z
+          )
         })
 
-        if (info.needsInit) {
-          info.needsInit = false
+        if (transformPosition.needsInit) {
+          transformPosition.needsInit = false
 
           //
           o3.position.copy(node.position)
 
-          info.value.x = node.position.x
-          info.value.y = node.position.y
-          info.value.z = node.position.z
+          transformPosition.value.x = node.position.x
+          transformPosition.value.y = node.position.y
+          transformPosition.value.z = node.position.z
         } else {
           //
           //
-          o3.position.set(info.value.x, info.value.y, info.value.z)
+          o3.position.set(
+            transformPosition.value.x,
+            transformPosition.value.y,
+            transformPosition.value.z
+          )
+        }
+      }
+
+      let transformScale = nodeData.uniforms.find(
+        (e) => e.name === 'transformScale'
+      )
+
+      if (transformScale) {
+        window.addEventListener('reload-node', ({}) => {
+          if (o3.__disabled) {
+            return
+          }
+          o3.scale.set(
+            transformScale.value.x,
+            transformScale.value.y,
+            transformScale.value.z
+          )
+        })
+
+        if (transformScale.needsInit) {
+          transformScale.needsInit = false
+
+          //
+          o3.scale.copy(node.scale)
+
+          transformScale.value.x = node.scale.x
+          transformScale.value.y = node.scale.y
+          transformScale.value.z = node.scale.z
+        } else {
+          //
+          //
+          o3.scale.set(
+            transformScale.value.x,
+            transformScale.value.y,
+            transformScale.value.z
+          )
+        }
+      }
+
+      let transformRotation = nodeData.uniforms.find(
+        (e) => e.name === 'transformRotation'
+      )
+
+      if (transformRotation) {
+        window.addEventListener('reload-node', ({}) => {
+          if (o3.__disabled) {
+            return
+          }
+          o3.rotation.set(
+            transformRotation.value.x,
+            transformRotation.value.y,
+            transformRotation.value.z
+          )
+        })
+
+        if (transformRotation.needsInit) {
+          transformRotation.needsInit = false
+
+          //
+          o3.rotation.x = node.rotation.x
+          o3.rotation.y = node.rotation.y
+          o3.rotation.z = node.rotation.z
+
+          transformRotation.value.x = node.rotation.x
+          transformRotation.value.y = node.rotation.y
+          transformRotation.value.z = node.rotation.z
+        } else {
+          //
+          //
+          o3.rotation.set(
+            transformRotation.value.x,
+            transformRotation.value.y,
+            transformRotation.value.z,
+            'XYZ'
+          )
         }
       }
     }
