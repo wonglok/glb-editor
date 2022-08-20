@@ -10,12 +10,14 @@ export function TabUnifroms({ node }) {
   let refName = useRef()
   let refType = useRef()
   let DataKey = 'uniforms'
-  let [inv0, reload] = useState(0)
+  let [, reload] = useState(0)
+  let [inv0, reload0] = useState(0)
 
   useEffect(() => {
     let hhh = () => {
       //
       //
+      reload0((s) => s + 1)
       window.dispatchEvent(new CustomEvent('reload-node', { detail: node }))
       //
       //
