@@ -129,6 +129,7 @@ function TitleText({ node }) {
   return (
     <Suspense fallback={null}>
       <Text
+        key={node._id}
         color={'#000000'}
         fontSize={0.7}
         maxWidth={200}

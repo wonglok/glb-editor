@@ -65,9 +65,16 @@ export function GLBTree() {
         //
         //
       >
-        {glbObject && (
-          <GLBTreeNode getClass={getClass} node={glbObject.scene}></GLBTreeNode>
-        )}
+        {glbObject &&
+          glbObject.scene.children.map((k) => {
+            return (
+              <GLBTreeNode
+                getClass={getClass}
+                key={k.uuid}
+                node={k}
+              ></GLBTreeNode>
+            )
+          })}
       </div>
     </>
   )
