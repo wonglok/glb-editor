@@ -10,7 +10,7 @@ export function TabUnifroms({ node }) {
   let refName = useRef()
   let refType = useRef()
   let DataKey = 'uniforms'
-  let [, reload] = useState(0)
+  let [inv0, reload] = useState(0)
 
   useEffect(() => {
     let hhh = () => {
@@ -52,6 +52,7 @@ export function TabUnifroms({ node }) {
     // })
   }
 
+  // reload((s) => s + 1)
   return (
     <div
       className='p-2'
@@ -150,11 +151,15 @@ export function TabUnifroms({ node }) {
         {node[DataKey].map((mm) => {
           mm._id = mm._id || getID()
           return (
-            <div key={mm._id + mm.nodeID + node._id} className='mb-3 mr-3'>
+            <div
+              key={mm._id + mm.nodeID + node._id + reload}
+              className='mb-3 mr-3'
+            >
               <div className='inline-block'>
                 {mm.type === 'texture' && (
                   <TextureInput
                     object={mm}
+                    key={'input-el' + inv0}
                     name={'value'}
                     label={mm.name}
                     value={mm.value}
@@ -166,6 +171,7 @@ export function TabUnifroms({ node }) {
                 {mm.type === 'glb' && (
                   <GLBInput
                     object={mm}
+                    key={'input-el' + inv0}
                     name={'value'}
                     label={mm.name}
                     value={mm.value}
@@ -177,6 +183,7 @@ export function TabUnifroms({ node }) {
                 {mm.type === 'bool' && (
                   <BoolInput
                     object={mm}
+                    key={'input-el' + inv0}
                     name={'value'}
                     label={mm.name}
                     value={mm.value}
@@ -188,6 +195,7 @@ export function TabUnifroms({ node }) {
                 {mm.type === 'text' && (
                   <TextInput
                     object={mm}
+                    key={'input-el' + inv0}
                     name={'value'}
                     label={mm.name}
                     value={mm.value}
@@ -199,6 +207,7 @@ export function TabUnifroms({ node }) {
                 {mm.type === 'glsl' && (
                   <GLSLInput
                     object={mm}
+                    key={'input-el' + inv0}
                     name={'value'}
                     label={mm.name}
                     value={mm.value}
@@ -210,6 +219,7 @@ export function TabUnifroms({ node }) {
                 {mm.type === 'float' && (
                   <FloatInput
                     object={mm}
+                    key={'input-el' + inv0}
                     name={'value'}
                     label={mm.name}
                     value={mm.value}
@@ -221,6 +231,7 @@ export function TabUnifroms({ node }) {
                 {mm.type === 'vec2' && (
                   <Vector2Input
                     object={mm}
+                    key={'input-el' + inv0}
                     name={'value'}
                     label={mm.name}
                     value={mm.value}
@@ -232,6 +243,7 @@ export function TabUnifroms({ node }) {
                 {mm.type === 'vec3' && (
                   <Vector3Input
                     object={mm}
+                    key={'input-el' + inv0}
                     name={'value'}
                     label={mm.name}
                     value={mm.value}
@@ -243,6 +255,7 @@ export function TabUnifroms({ node }) {
                 {mm.type === 'vec4' && (
                   <Vector4Input
                     object={mm}
+                    key={'input-el' + inv0}
                     name={'value'}
                     label={mm.name}
                     value={mm.value}
@@ -254,6 +267,7 @@ export function TabUnifroms({ node }) {
                 {mm.type === 'color' && (
                   <ColorInput
                     object={mm}
+                    key={'input-el' + inv0}
                     name={'value'}
                     label={mm.name}
                     value={mm.value}
