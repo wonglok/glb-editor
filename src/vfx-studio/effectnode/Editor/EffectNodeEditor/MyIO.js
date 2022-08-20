@@ -122,36 +122,45 @@ export function MyIO({ io, idx, node, socket, e, total }) {
       {/*  */}
 
       {io === 'input' && (
-        <RoundedBox
+        <mesh
           name={socket._id}
           onPointerDown={onPointerDown}
           onPointerUp={onPointerUp}
           onPointerMove={onPointerMove}
-          args={[1, 1, 1]}
-          radius={1 / 5}
+          // args={[1, 1, 1]}
+          // radius={1 / 5}
         >
+          {/* <cylinderBufferGeometry
+            args={[2 / 5, 2 / 5, 0.5, 32, 32]}
+          ></cylinderBufferGeometry> */}
+          <sphereBufferGeometry args={[2 / 5, 32, 32]}></sphereBufferGeometry>
           <meshStandardMaterial
-            roughness={0.1}
-            metalness={0.5}
+            roughness={0.3}
+            metalness={1}
             color={'lime'}
           ></meshStandardMaterial>
-        </RoundedBox>
+        </mesh>
       )}
       {io === 'output' && (
-        <RoundedBox
+        <mesh
           name={socket._id}
           onPointerDown={onPointerDown}
           onPointerUp={onPointerUp}
           onPointerMove={onPointerMove}
-          args={[1, 1, 1]}
-          radius={1 / 5}
+          // args={[1, 1, 1]}
+          // radius={2 / 5}
         >
+          {/* <cylinderBufferGeometry
+            args={[2 / 5, 2 / 5, 0.5, 32, 32]}
+          ></cylinderBufferGeometry> */}
+          <sphereBufferGeometry args={[2 / 5, 32, 32]}></sphereBufferGeometry>
+
           <meshStandardMaterial
-            roughness={0.1}
-            metalness={0.5}
+            roughness={0.3}
+            metalness={1}
             color={'cyan'}
           ></meshStandardMaterial>
-        </RoundedBox>
+        </mesh>
       )}
     </group>
   )

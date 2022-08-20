@@ -138,7 +138,7 @@ function TitleText({ node }) {
     <Suspense fallback={null}>
       {show && (
         <Text
-          key={node._id}
+          key={node._id + node?.displayTitle}
           color={'#000000'}
           fontSize={0.7}
           maxWidth={200}
