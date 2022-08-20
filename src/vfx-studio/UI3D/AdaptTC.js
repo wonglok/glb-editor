@@ -271,7 +271,7 @@ function TC({ node, nodeData, fakeScene }) {
             scale.value.z = o3.scale.z
 
             window.dispatchEvent(
-              new CustomEvent('reload-gui', { detail: nodeData })
+              new CustomEvent('reload-gui-value', { detail: nodeData })
             )
 
             clearTimeout(tt)

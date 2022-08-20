@@ -16,20 +16,19 @@ export function TabUnifroms({ node }) {
   useEffect(() => {
     let hhh = () => {
       //
-      //
       reload0((s) => s + 1)
-      window.dispatchEvent(new CustomEvent('reload-node', { detail: node }))
-      //
       //
     }
-    window.addEventListener('reload-gui', hhh)
+    window.addEventListener('reload-gui-value', hhh)
 
     return () => {
-      window.addEventListener('reload-gui', hhh)
+      window.addEventListener('reload-gui-value', hhh)
     }
   }, [])
 
   let onSaveLater = (mm) => () => {
+    //
+    //
     // ENMethods.saveCodeBlock({ node }).then(() => {
     //   // reload((s) => s + 1)
     // })
