@@ -107,7 +107,9 @@ export function effect({ node, mini, data, setComponent }) {
           ref.current.position.copy(data.value.transformPosition)
         }
         if (ref.current && data.value.transformRotation) {
-          ref.current.rotation.copy(data.value.transformRotation)
+          ref.current.rotation.x = data.value.transformRotation.x
+          ref.current.rotation.y = data.value.transformRotation.y
+          ref.current.rotation.z = data.value.transformRotation.z
         }
         if (ref.current && data.value.transformScale) {
           ref.current.scale.copy(data.value.transformScale)

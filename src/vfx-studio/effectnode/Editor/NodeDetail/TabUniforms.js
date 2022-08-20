@@ -12,6 +12,21 @@ export function TabUnifroms({ node }) {
   let DataKey = 'uniforms'
   let [, reload] = useState(0)
 
+  useEffect(() => {
+    let hhh = () => {
+      //
+      //
+      reload((s) => s + 1)
+      //
+      //
+    }
+    window.addEventListener('reload-gui', hhh)
+
+    return () => {
+      window.addEventListener('reload-gui', hhh)
+    }
+  }, [])
+
   let onSaveLater = (mm) => () => {
     // ENMethods.saveCodeBlock({ node }).then(() => {
     //   // reload((s) => s + 1)

@@ -111,28 +111,41 @@ function TC({ node, nodeData, fakeScene }) {
   let o3 = useMemo(() => {
     let o3 = new Object3D()
 
-    let info = nodeData.uniforms.find((e) => e.name === 'transformPosition')
+    if (nodeData) {
+      let info = nodeData.uniforms.find((e) => e.name === 'transformPosition')
 
-    if (info) {
-      console.log(info)
-      //
-      if (info.needsInit) {
-        info.needsInit = false
+      if (info) {
+        window.addEventListener('reload-node', ({}) => {
+          if (o3.__disabled) {
+            return
+          }
+          o3.position.set(info.value.x, info.value.y, info.value.z)
+        })
 
-        //
-        o3.position.copy(node.position)
+        if (info.needsInit) {
+          info.needsInit = false
 
-        info.value.x = node.position.x
-        info.value.y = node.position.y
-        info.value.z = node.position.z
-      } else {
-        //
-        o3.position.set(info.value.x, info.value.y, info.value.z)
+          //
+          o3.position.copy(node.position)
+
+          info.value.x = node.position.x
+          info.value.y = node.position.y
+          info.value.z = node.position.z
+        } else {
+          //
+          o3.position.set(info.value.x, info.value.y, info.value.z)
+        }
       }
     }
 
     return o3
   }, [node, nodeData])
+
+  useEffect(() => {
+    return () => {
+      o3.__disabled = true
+    }
+  }, [o3])
 
   //
 
@@ -155,12 +168,13 @@ function TC({ node, nodeData, fakeScene }) {
             info.value.y = o3.position.y
             info.value.z = o3.position.z
 
+            window.dispatchEvent(
+              new CustomEvent('reload-gui', { detail: nodeData })
+            )
+
             clearTimeout(tt)
             tt = setTimeout(() => {
               updateSelected([node])
-              window.dispatchEvent(
-                new CustomEvent('reload-node', { detail: nodeData })
-              )
             }, 100)
             //
           }}
