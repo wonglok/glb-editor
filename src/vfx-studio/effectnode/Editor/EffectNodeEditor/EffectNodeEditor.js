@@ -157,7 +157,7 @@ function ContentInside() {
 
         <Nodes></Nodes>
 
-        <group position={[0, 1, 0]}>
+        <group position={[0, 1.5, 0]}>
           <ConnectedWires></ConnectedWires>
         </group>
 

@@ -19,8 +19,10 @@ import { Mesh, MeshBasicMaterial, Scene } from 'three140'
 // import { EnvLight } from '@/vfx-meta/game-vfx/EnvLight'
 import { useRender } from '@/vfx-meta/store/use-render'
 import { useENEditor } from '../store/use-en-editor'
-import { SceneTransformControl } from './SceneTransformControl'
+// import { SceneTransformControl } from './SceneTransformControl'
 import { AdaptTC } from './AdaptTC'
+
+//
 
 export function SceneContent({}) {
   let glbObject = useAccessor((s) => s.glbObject)
@@ -48,6 +50,8 @@ export function SceneContent({}) {
     glbObject?.animations || [],
     glbObject?.scene || new Object3D()
   )
+
+  //
   useEffect(() => {
     let canStand = anim.actions.stand
 
@@ -73,6 +77,7 @@ export function SceneContent({}) {
     setTimeout(() => {
       setPlayerReady(true)
     }, 100)
+
     // playerInfoIsReady
   }, [setColliderFromScene, setPlayerReady, setPosition])
 

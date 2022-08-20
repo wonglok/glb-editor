@@ -146,11 +146,12 @@ function TitleText({ node }) {
       {show && (
         <Html
           style={{
-            width: '250px',
+            minWidth: '200px',
             backgroundColor: 'white',
             pointerEvents: 'none',
             fontSize: '18px',
             zIndex: '-1',
+            padding: '5px 10px',
           }}
           className='text-center'
           center

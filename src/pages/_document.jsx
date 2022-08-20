@@ -16,6 +16,15 @@ export default function Document() {
             `,
           }}
         />
+
+        <script
+          data-partytown-config
+          dangerouslySetInnerHTML={{
+            __html: `
+              window.remoteScript = (url) => import(url)
+            `,
+          }}
+        />
       </Head>
       <body className='w-full h-full'>
         <noscript>

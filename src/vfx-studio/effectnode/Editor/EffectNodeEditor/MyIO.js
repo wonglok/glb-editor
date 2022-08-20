@@ -123,6 +123,7 @@ export function MyIO({ io, idx, node, socket, e, total }) {
 
       {io === 'input' && (
         <mesh
+          position={[0, 1, 0]}
           name={socket._id}
           onPointerDown={onPointerDown}
           onPointerUp={onPointerUp}
@@ -134,16 +135,19 @@ export function MyIO({ io, idx, node, socket, e, total }) {
           {/* <cylinderBufferGeometry
             args={[2 / 5, 2 / 5, 0.5, 32, 32]}
           ></cylinderBufferGeometry> */}
-          <sphereBufferGeometry args={[2 / 5, 32, 32]}></sphereBufferGeometry>
+          <cylinderBufferGeometry
+            args={[2 / 5, 2 / 5, 1, 32, 32]}
+          ></cylinderBufferGeometry>
           <meshStandardMaterial
-            roughness={0.3}
-            metalness={1}
+            roughness={0.2}
+            metalness={0.5}
             color={'lime'}
           ></meshStandardMaterial>
         </mesh>
       )}
       {io === 'output' && (
         <mesh
+          position={[0, 1, 0]}
           name={socket._id}
           onPointerDown={onPointerDown}
           onPointerUp={onPointerUp}
@@ -155,11 +159,13 @@ export function MyIO({ io, idx, node, socket, e, total }) {
           {/* <cylinderBufferGeometry
             args={[2 / 5, 2 / 5, 0.5, 32, 32]}
           ></cylinderBufferGeometry> */}
-          <sphereBufferGeometry args={[2 / 5, 32, 32]}></sphereBufferGeometry>
+          <cylinderBufferGeometry
+            args={[2 / 5, 2 / 5, 1, 32, 32]}
+          ></cylinderBufferGeometry>
 
           <meshStandardMaterial
-            roughness={0.3}
-            metalness={1}
+            roughness={0.2}
+            metalness={0.5}
             color={'cyan'}
           ></meshStandardMaterial>
         </mesh>
