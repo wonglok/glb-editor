@@ -13,6 +13,8 @@ export function TextCnavas({ text = 'Lorem ipsum dolor sit amet' }) {
     c.width = text.length * 21
     c.height = 80
 
+    c.width += 25
+
     ctx.fillStyle = '#ffffff'
     ctx.fillRect(0, 0, c.width - 0, c.height - 0)
     ctx.strokeRect(0, 0, c.width - 0, c.height - 0)
@@ -28,6 +30,7 @@ export function TextCnavas({ text = 'Lorem ipsum dolor sit amet' }) {
 
     setTexture({
       wRatio: c.width / c.height,
+      hRatio: c.height / c.width,
       texture: texture,
       canvas: c,
       size: [ctx.canvas.width, ctx.canvas.height],
@@ -44,7 +47,7 @@ export function TextCnavas({ text = 'Lorem ipsum dolor sit amet' }) {
           rotation-x={Math.PI * -0.25}
         >
           <planeBufferGeometry
-            args={[10, 10 / tex.wRatio]}
+            args={[1.5 / tex.hRatio, 1.5]}
           ></planeBufferGeometry>
           <meshBasicMaterial
             side={DoubleSide}

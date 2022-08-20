@@ -49,22 +49,25 @@ export function AdaptTC({ node }) {
         transparent: 1,
       })
     )
-  }, [fbo])
+  }, [fbo.texture])
 
   useFrame(({ gl, camera }) => {
-    //
-    gl.setRenderTarget(fbo)
-    gl.setClearAlpha(0)
-    gl.clear()
-    gl.render(fakeScene, camera)
-    gl.setRenderTarget(null)
-    gl.setClearAlpha(1)
-    //
+    console.log(fakeScene.children.length)
+    if (fakeScene.children.length > 0) {
+      //
+      gl.setRenderTarget(fbo)
+      gl.setClearAlpha(0)
+      gl.clear()
+      gl.render(fakeScene, camera)
+      gl.setRenderTarget(null)
+      gl.setClearAlpha(1)
+      //
 
-    gl.autoClear = false
-    gl.render(quad, camQ)
-    gl.autoClear = true
-  }, 1)
+      gl.autoClear = false
+      gl.render(quad, camQ)
+      gl.autoClear = true
+    }
+  }, 10000)
 
   return (
     <>{<ENTCNode key={reloadGraphID} fakeScene={fakeScene} node={node} />}</>
