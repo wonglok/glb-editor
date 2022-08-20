@@ -10,6 +10,7 @@ export function EffectNodeObjectNode({
   emit,
   node,
   enRuntime,
+  isEditingMode,
   disabledNodes = [],
 }) {
   let codes = useENEditor((s) => s.codes)
@@ -17,6 +18,8 @@ export function EffectNodeObjectNode({
   let [component, setComponent] = useState(null)
   useEffect(() => {
     let cleans = []
+
+    enRuntime.now.isEditingMode = isEditingMode
 
     let featureModule = codes
       .filter((e) => {

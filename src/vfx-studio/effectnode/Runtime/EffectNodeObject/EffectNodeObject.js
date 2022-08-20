@@ -14,6 +14,7 @@ export function EffectNodeObject({
   item,
   effectNode,
   disabledNodes,
+  isEditingMode,
 }) {
   //
   let [enRuntime, setEnRuntime] = useState()
@@ -76,6 +77,11 @@ export function EffectNodeObject({
 
   useFrame(() => {
     enRuntime?.work()
+    if (enRuntime) {
+      if (enRuntime.now.isEditingMode !== isEditingMode) {
+        enRuntime.now.isEditingMode = isEditingMode
+      }
+    }
   })
   //
 

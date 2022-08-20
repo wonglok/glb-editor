@@ -11,6 +11,7 @@ export function EffectNodeRuntime({
   glbObject,
   originalGLBObject,
   disabledNodes = ['effect-composer', '.pass.', 'global.'],
+  isEditingMode = false,
 }) {
   let reloadGraphID = useENEditor((s) => s.reloadGraphID)
   // let ens = useFilterEffectNode({ glbObject })
@@ -80,6 +81,7 @@ export function EffectNodeRuntime({
           disabledNodes={disabledNodes}
           node={glbObject.scene}
           glbObject={glbObject}
+          isEditingMode={isEditingMode}
         ></ENRunNode>
       </Suspense>
       {/* <EffectNodeObject></EffectNodeObject> */}

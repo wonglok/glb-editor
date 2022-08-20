@@ -49,12 +49,8 @@ export const Exporter = {
         //   }
         // })
 
-        console.log(cloned)
-
         let glbObjectBeforeEdit = useAccessor.getState().glbObjectBeforeEdit
-        let objectForExport =
-          glbObjectBeforeEdit.scene.getObjectByName('Scene') ||
-          glbObjectBeforeEdit.scene
+        let objectForExport = glbObjectBeforeEdit.scene
 
         cloned.traverse((pp) => {
           if (pp.userData.effectNode) {
@@ -94,7 +90,7 @@ export const Exporter = {
 
         // Parse the input and generate the glTF output
         exporter.parse(
-          [objectForExport],
+          [...objectForExport.children],
           // called when the gltf has been generated
           async function (gltf) {
             //

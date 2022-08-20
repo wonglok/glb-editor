@@ -1,7 +1,7 @@
 import { useENEditor } from '@/vfx-studio/store/use-en-editor'
 import { EffectNodeObject } from '../EffectNodeObject/EffectNodeObject'
 
-export function ENRunNode({ glbObject, node, disabledNodes }) {
+export function ENRunNode({ glbObject, node, disabledNodes, isEditingMode }) {
   let reloadGraphID = useENEditor((s) => s.reloadGraphID)
 
   return (
@@ -13,6 +13,7 @@ export function ENRunNode({ glbObject, node, disabledNodes }) {
           item={node}
           disabledNodes={disabledNodes}
           effectNode={node.userData.effectNode}
+          isEditingMode={isEditingMode}
         ></EffectNodeObject>
       )}
 

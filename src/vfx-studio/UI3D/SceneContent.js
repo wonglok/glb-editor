@@ -113,6 +113,7 @@ export function SceneContent({}) {
 
               //
             }}
+            //
             filter={(items) => items}
           >
             {/*  */}
@@ -123,6 +124,7 @@ export function SceneContent({}) {
             glbObject={glbObject}
             originalGLBObject={glbObjectBeforeEdit}
             disabledNodes={[]}
+            isEditingMode={true}
           ></EffectNodeRuntime>
         </>
       )}
