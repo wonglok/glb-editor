@@ -19,6 +19,9 @@ export function GLBTree() {
   }, [glbObject])
 
   let getClass = (li) => {
+    if (!li) {
+      return 'w-full p-1 text-xs text-right bg-gray-300 border-b border-gray-500 cursor-pointer hover:bg-gray-400 bg-opacity-30 hover:bg-opacity-30 border'
+    }
     // li.userData.effectNode
 
     if (selectedMeshes[0] && selectedMeshes[0].uuid === li.uuid) {

@@ -252,7 +252,7 @@ export function ClosetAvatar({
         })
 
         base.scene.traverse((obj) => {
-          if (obj.isBone && obj.name.includes('Hips')) {
+          if (obj && obj.isBone && obj.name.includes('Hips')) {
             setHips(obj)
           }
         })
