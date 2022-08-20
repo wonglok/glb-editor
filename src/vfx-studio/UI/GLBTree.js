@@ -54,6 +54,8 @@ export function GLBTree() {
           setFilter(ev.target.value)
         }}
       ></input>
+      {/*  */}
+      {/*  */}
       <div
         style={{
           maxHeight: 'calc(100vh - 300px)',
@@ -64,10 +66,7 @@ export function GLBTree() {
         //
       >
         {glbObject && (
-          <GLBTreeNode
-            getClass={getClass}
-            node={glbObject.scene.getObjectByName('Scene') || glbObject.scene}
-          ></GLBTreeNode>
+          <GLBTreeNode getClass={getClass} node={glbObject.scene}></GLBTreeNode>
         )}
       </div>
     </>

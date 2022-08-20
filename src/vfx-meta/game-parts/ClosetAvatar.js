@@ -22,7 +22,7 @@ export let Fashion = [
       },
       {
         name: 'b',
-        url: '/skinning/female3-01/upper/holo-upper.glb',
+        url: '/skinning/female3-01/upper/upper.glb',
       },
     ],
     lowers: [
@@ -32,7 +32,7 @@ export let Fashion = [
       },
       {
         name: 'b',
-        url: '/skinning/female3-01/lower/holo-lower.glb',
+        url: '/skinning/female3-01/lower/lower.glb',
       },
     ],
     shoes: [

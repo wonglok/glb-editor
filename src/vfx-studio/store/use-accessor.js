@@ -129,7 +129,9 @@ export const getArrayOfEditable = ({ glb: glbObject }) => {
   //
   let list = []
   glbObject?.scene?.traverse((it) => {
-    list.push(it)
+    if (it) {
+      list.push(it)
+    }
   })
 
   //
