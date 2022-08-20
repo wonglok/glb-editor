@@ -98,27 +98,11 @@ export function effect({ node, mini, data, setComponent }) {
       }
     }
 
-    let defaultConfig = {
-      position: [
-        data.value.transformPosition.x,
-        data.value.transformPosition.y,
-        data.value.transformPosition.z,
-      ],
-      rotation: [
-        data.value.transformRotation.x,
-        data.value.transformRotation.y,
-        data.value.transformRotation.z,
-      ],
-      scale: [
-        //
-        data.value.transformScale.x,
-        data.value.transformScale.y,
-        data.value.transformScale.z,
-      ],
-    }
-
     useEffect(() => {
       let tt = setInterval(() => {
+        if (ref.current) {
+          ref.current.visible = true
+        }
         if (ref.current && data.value.transformPosition) {
           ref.current.position.copy(data.value.transformPosition)
         }
@@ -139,7 +123,11 @@ export function effect({ node, mini, data, setComponent }) {
     //
     // console.log(data.value.rotation)
 
-    return <group ref={ref}>{values}</group>
+    return (
+      <group visible={false} ref={ref}>
+        {values}
+      </group>
+    )
   }
 
   let send = () => {

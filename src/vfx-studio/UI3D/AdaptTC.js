@@ -118,6 +118,8 @@ function TC({ node, nodeData, fakeScene }) {
       //
       if (info.needsInit) {
         info.needsInit = false
+
+        //
         o3.position.copy(node.position)
 
         info.value.x = node.position.x
