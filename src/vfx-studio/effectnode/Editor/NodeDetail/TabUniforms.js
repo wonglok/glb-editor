@@ -1,7 +1,6 @@
 import { getID } from '@/vfx-runtime/ENUtils'
 import { useEffect, useRef, useState } from 'react'
 import { Pane } from 'tweakpane'
-import Editor from '@monaco-editor/react'
 import { GLSLEditor } from '@/vfx-studio/UI/GLSLEditor'
 import * as TweakpaneImagePlugin from 'tweakpane-image-plugin'
 import { ModelViewer } from './ModelViewer'
@@ -27,17 +26,10 @@ export function TabUnifroms({ node }) {
   }, [])
 
   let onSaveLater = (mm) => () => {
-    //
-    //
-    // ENMethods.saveCodeBlock({ node }).then(() => {
-    //   // reload((s) => s + 1)
-    // })
-
     window.dispatchEvent(new CustomEvent('reload-node', { detail: node }))
     reload((s) => s + 1)
   }
 
-  //
   let onRemove = (mm) => () => {
     let arr = node[DataKey]
     arr.splice(
@@ -49,13 +41,8 @@ export function TabUnifroms({ node }) {
 
     window.dispatchEvent(new CustomEvent('reload-node', { detail: node }))
     reload((s) => s + 1)
-
-    // ENMethods.saveCodeBlock({ node }).then(() => {
-    //   reload((s) => s + 1)
-    // })
   }
 
-  // reload((s) => s + 1)
   return (
     <div
       className='p-2'
