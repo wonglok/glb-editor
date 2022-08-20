@@ -100,12 +100,12 @@ export function SceneContent({}) {
                     openEffectNode(v[0])
                     setOverlay(null)
 
-                    let helper = new BoxHelper(v[0])
-                    clean.current()
-                    clean.current = () => {
-                      helper.removeFromParent()
-                    }
-                    scene.add(helper)
+                    // let helper = new BoxHelper(v[0])
+                    // clean.current()
+                    // clean.current = () => {
+                    //   helper.removeFromParent()
+                    // }
+                    // scene.add(helper)
                   }
                 }
               }
@@ -146,6 +146,8 @@ export function SceneContent({}) {
 
       {glbObject && <AdaptTC node={glbObject.scene}></AdaptTC>}
 
+      <Helper></Helper>
+
       {/* <TransformControls></TransformControls> */}
 
       {/* <OrbitControls
@@ -175,3 +177,14 @@ export function SceneContent({}) {
 }
 
 //
+
+function Helper() {
+  let selectedMeshes = useAccessor((s) => s.selectedMeshes)
+  return (
+    <>
+      {selectedMeshes && selectedMeshes[0] && (
+        <boxHelper args={[selectedMeshes[0]]}></boxHelper>
+      )}
+    </>
+  )
+}
