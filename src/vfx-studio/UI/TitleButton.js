@@ -14,6 +14,7 @@ export function TitleButton() {
           rows={1}
           key={glbMetadata.fileID}
           defaultValue={glbMetadata.name}
+          disabled
           onChange={(ev) => {
             //
 
