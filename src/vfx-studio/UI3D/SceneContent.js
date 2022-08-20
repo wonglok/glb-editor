@@ -3,20 +3,20 @@ import { useAccessor } from '@/vfx-studio/store/use-accessor'
 import { useThree } from '@react-three/fiber'
 import { HDRTex } from './HDRTex'
 import {
-  FlyControls,
-  MapControls,
-  OrbitControls,
+  // FlyControls,
+  // MapControls,
+  // OrbitControls,
   Select,
   useAnimations,
 } from '@react-three/drei'
 import { BoxBufferGeometry, BoxHelper, Object3D, Vector3 } from 'three'
-import anime from 'animejs'
+// import anime from 'animejs'
 import { EffectNodeRuntime } from '../effectnode/Runtime/EffectNodeRuntime/EffectNodeRuntime'
 import { Player } from '@/vfx-meta/game-parts/Player'
-import { OnlineSystem } from '@/vfx-meta/online/OnlineSystem'
+// import { OnlineSystem } from '@/vfx-meta/online/OnlineSystem'
 import { useMetaStore } from '@/vfx-meta/store/use-meta-store'
 import { Mesh, MeshBasicMaterial, Scene } from 'three140'
-import { EnvLight } from '@/vfx-meta/game-vfx/EnvLight'
+// import { EnvLight } from '@/vfx-meta/game-vfx/EnvLight'
 import { useRender } from '@/vfx-meta/store/use-render'
 import { useENEditor } from '../store/use-en-editor'
 
@@ -24,7 +24,7 @@ export function SceneContent({}) {
   let glbObject = useAccessor((s) => s.glbObject)
   let glbObjectBeforeEdit = useAccessor((s) => s.glbObjectBeforeEdit)
   let openEffectNode = useAccessor((s) => s.openEffectNode)
-  let updateSelected = useAccessor((s) => s.updateSelected)
+  // let updateSelected = useAccessor((s) => s.updateSelected)
   let scene = useThree((s) => s.scene)
   let setOverlay = useENEditor((s) => s.setOverlay)
 

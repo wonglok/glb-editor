@@ -16,6 +16,7 @@ export function HDRTex({ url, scene }) {
     if (using === TextureLoader) {
       tex.encoding = sRGBEncoding
     } else {
+      //
     }
     tex.mapping = EquirectangularReflectionMapping
 

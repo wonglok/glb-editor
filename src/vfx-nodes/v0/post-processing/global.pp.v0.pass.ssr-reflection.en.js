@@ -88,7 +88,8 @@ export async function nodeData({ defaultData, nodeID }) {
 export function effect({ node, mini, data, setComponent }) {
   let defaultConfig = {}
   let send = () => {
-    node.out0.pulse(<SSR key={getID()} {...defaultConfig} />)
+    console.log(data.raw.nodeID)
+    node.out0.pulse(<SSR key={data.raw.nodeID} {...defaultConfig} />)
   }
 
   let keys = Object.keys(props)
