@@ -113,15 +113,6 @@ export function SceneContent({}) {
               setTimeout(() => {
                 onSelect(v)
               }, 100)
-              setTimeout(() => {
-                onSelect(v)
-              }, 200)
-              setTimeout(() => {
-                onSelect(v)
-              }, 300)
-              setTimeout(() => {
-                onSelect(v)
-              }, 400)
 
               //
             }}
