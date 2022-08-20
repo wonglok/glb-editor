@@ -3,6 +3,7 @@ import { useFrame } from '@react-three/fiber'
 import { Suspense, useEffect, useMemo, useRef, useState } from 'react'
 import { useENEditor } from '@/vfx-studio/store/use-en-editor'
 import { MyIO } from './MyIO'
+import { TextCnavas } from './TextCanvas'
 
 export function NodeSingle({ node, graph }) {
   let ref = useRef()
@@ -144,29 +145,33 @@ function TitleText({ node }) {
   return (
     <Suspense fallback={null}>
       {show && (
-        <Html
-          style={{
-            minWidth: '200px',
-            backgroundColor: 'white',
-            pointerEvents: 'none',
-            fontSize: '18px',
-            zIndex: '-1',
-            padding: '5px 10px',
-            border: 'black solid 1px',
-          }}
-          className='text-center'
-          center
-          transform
-          position={[0, 1, 0]}
-          rotation-x={Math.PI * -0.25}
-        >
-          {node?.displayTitle}
-        </Html>
-
-        //
-        //
+        // <Html
+        //   style={{
+        //     minWidth: '200px',
+        //     backgroundColor: 'white',
+        //     pointerEvents: 'none',
+        //     fontSize: '18px',
+        //     zIndex: -1,
+        //     padding: '5px 10px',
+        //     border: 'black solid 1px',
+        //   }}
+        //   className='text-center pointer-events-none select-none'
+        //   center
+        //   transform
+        //   position={[0, 1, 0]}
+        //   rotation-x={Math.PI * -0.25}
+        //   onPointerDown={(ev) => {
+        //     ev.preventDefault()
+        //   }}
+        // >
+        //   {node?.displayTitle}
+        // </Html>
+        <TextCnavas text={node?.displayTitle}></TextCnavas>
+        // //
+        // //
+        // //
         // <Text
-        //   key={node._id}
+        //   key={node._id + node?.displayTitle}
         //   color={'#000000'}
         //   fontSize={0.7}
         //   maxWidth={200}
