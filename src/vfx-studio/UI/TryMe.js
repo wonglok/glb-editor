@@ -3,7 +3,7 @@ export function TryMe({ onFile }) {
     <button
       className='p-2 bg-blue-200'
       onClick={async () => {
-        let file = await fetch(`/scene/loklokdemo/loklok-demo.glb`).then((e) =>
+        let file = await fetch(`/scene/loklokdemo/glassman_.glb`).then((e) =>
           e.blob()
         )
         file.name = 'demofile.glb'

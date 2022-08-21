@@ -38,11 +38,11 @@ export const makeAvatarCTX = () => {
 
     voiceID: '',
     //
-    avatarURL: `/rpm/rpm-avatar/white-armor.glb`,
+    avatarURL: `/scene/loklokdemo/glassman_.glb`,
     avatarVendor: `rpm`,
 
     //
-    avatarURLWrap: `/scene/loklokdemo/shader-3.glb`,
+    avatarURLWrap: `/scene/loklokdemo/glassman_.glb`,
 
     avatarActionResumeOnKeyUp: 'stand',
     avatarActionName: 'stand',

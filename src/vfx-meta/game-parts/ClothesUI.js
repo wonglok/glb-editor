@@ -29,6 +29,8 @@ export function ClothesUI() {
   )
 }
 
+// /scene/loklokdemo/glassman_.glb
+
 function UseAvatar() {
   let exportAvatar = useMetaStore((s) => s.exportAvatar)
   let myself = useMetaStore((s) => s.myself)
@@ -80,7 +82,7 @@ function UseAvatar() {
                         let loader = new GLTFLoader()
                         let draco = new DRACOLoader()
                         draco.setDecoderPath(`/draco/`)
-                        draco.setCrossOrigin('')
+                        draco.setCrossOrigin(``)
                         loader.setDRACOLoader(draco)
 
                         await loader.loadAsync(a.url).then((glb) => {
@@ -111,7 +113,7 @@ function UseAvatar() {
                         if (window.confirm('remove?')) {
                           setAvatar({
                             vendor: 'rpm',
-                            avatarURL: `/scene/loklokdemo/lok-green-wear.glb`,
+                            avatarURL: `/scene/loklokdemo/glassman_.glb`,
                           })
                           removeAvatar(a._id)
                         }
@@ -279,13 +281,13 @@ function AvatarRPMARea() {
             //
             setAvatar({
               vendor: 'rpm',
-              avatarURL: `/scene/loklokdemo/lok-green-wear.glb`,
+              avatarURL: `/scene/loklokdemo/glassman_.glb`,
             })
           }}
           fontSize={0.5}
           position={[0, 0, 1]}
         >
-          Ready Player Me Green
+          Ready Player Me Glassman
         </Text>
         <Text
           rotation-x={Math.PI * -0.25}
