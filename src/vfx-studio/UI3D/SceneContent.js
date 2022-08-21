@@ -150,7 +150,9 @@ export function SceneContent({}) {
 
       {/* <TransformControls></TransformControls> */}
 
-      {/* <OrbitControls
+      {/*
+
+      <OrbitControls
         ref={(ev) => {
           setContorl(ev)
         }}
@@ -158,7 +160,9 @@ export function SceneContent({}) {
         target-y={0}
         object-position-z={3}
         makeDefault={true}
-      ></OrbitControls> */}
+      ></OrbitControls>
+
+      */}
 
       {/* <MapControls
         object-position-y={3}
@@ -170,6 +174,7 @@ export function SceneContent({}) {
         ref={(ev) => {
           setContorl(ev)
         }}
+
         enableRotate={false}
       /> */}
     </>
