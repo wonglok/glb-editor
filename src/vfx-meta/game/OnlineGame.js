@@ -19,8 +19,10 @@ export function OnlineGame() {
   return (
     <group>
       {/*  */}
+      {/*  */}
 
       <Suspense fallback={null}></Suspense>
+      {/*  */}
       {/* <EnvLight></EnvLight> */}
 
       <OnlineSystem mapID='/scene/landing/os.glb'>

@@ -135,7 +135,7 @@ export const Exporter = {
           //   return a
           // }),
 
-          forceIndice: true,
+          forceIndice: false,
           includeCustomExtensions: true,
         }
 
@@ -223,19 +223,19 @@ export const Exporter = {
 
             let glbDocument = await io.readBinary(new Uint8Array(rawGltf))
 
-            await glbDocument.transform(
-              // Remove duplicate vertex or texture data, if any.
-              dedup(),
+            // await glbDocument.transform(
+            //   // Remove duplicate vertex or texture data, if any.
+            //   dedup(),
 
-              // Losslessly resample animation frames.
-              // resample(),
+            //   // Losslessly resample animation frames.
+            //   // resample(),
 
-              // Remove unused nodes, textures, or other data.
-              prune()
+            //   // Remove unused nodes, textures, or other data.
+            //   prune()
 
-              // Resize all textures to ≤1K.
-              // textureResize({ size: optimize })
-            )
+            //   // Resize all textures to ≤1K.
+            //   // textureResize({ size: optimize })
+            // )
 
             glbDocument
               .createExtension(DracoMeshCompression)
@@ -249,8 +249,6 @@ export const Exporter = {
             // io.setVertexLayout(VertexLayout.SEPARATE)
 
             let newBin = await io.writeBinary(glbDocument)
-
-            // let newBin = rawGltf
 
             if (!onDoneOptimizeBuffer) {
               let newFile = new Blob([newBin], {

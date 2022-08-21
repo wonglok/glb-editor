@@ -2,6 +2,7 @@
 import { Text } from '@react-three/drei'
 import { useThree } from '@react-three/fiber'
 import { useState } from 'react'
+import { DRACOLoader } from 'three140/examples/jsm/loaders/DRACOLoader'
 // import { DRACOLoader } from 'three140/examples/jsm/loaders/DRACOLoader'
 import { GLTFLoader } from 'three140/examples/jsm/loaders/GLTFLoader'
 import { useMetaStore } from '../store/use-meta-store'
@@ -10,6 +11,7 @@ export function UploadAvatar() {
   let uploadAvatar = useMetaStore((s) => s.uploadAvatar)
 
   let setAvatar = useMetaStore((s) => s.setAvatar)
+  let setAction = useMetaStore((s) => s.setAction)
 
   let [phase, setPhase] = useState('')
   return (
@@ -36,7 +38,14 @@ export function UploadAvatar() {
                 setPhase('')
 
                 let foundRPM = false
-                await new GLTFLoader()
+
+                let loader = new GLTFLoader()
+                let draco = new DRACOLoader()
+                draco.setDecoderPath(`/draco/`)
+                draco.setCrossOrigin('')
+                loader.setDRACOLoader(draco)
+
+                await loader
                   .loadAsync(URL.createObjectURL(file))
                   .then((glb) => {
                     glb.scene.traverse((it) => {
@@ -51,6 +60,7 @@ export function UploadAvatar() {
                   vendor: foundRPM ? 'rpm' : 'temp',
                   avatarURL: url, //URL.createObjectURL(file),
                 })
+                setAction('backflip', 1)
               })
               //
             }

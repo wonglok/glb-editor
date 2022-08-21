@@ -7,6 +7,7 @@ import { ClosetAvatar } from './ClosetAvatar'
 import { RPMAvatar } from './RPMAvatar'
 import { UploadAvatar } from './UploadAvatar'
 import { GLTFLoader } from 'three140/examples/jsm/loaders/GLTFLoader'
+import { DRACOLoader } from 'three140/examples/jsm/loaders/DRACOLoader'
 // import { CompanionWrap } from './CompanionWrap'
 // import { NPCAvatar } from './NPCAvatar'
 //useState
@@ -35,6 +36,7 @@ function UseAvatar() {
 
   let avatars = useMetaStore((s) => s.avatars)
   let removeAvatar = useMetaStore((s) => s.removeAvatar)
+  // let setAction = useMetaStore((s) => s.setAction)
 
   console.log(avatars)
 
@@ -74,7 +76,14 @@ function UseAvatar() {
                       onClick={async () => {
                         //
                         let foundRPM = false
-                        await new GLTFLoader().loadAsync(a.url).then((glb) => {
+
+                        let loader = new GLTFLoader()
+                        let draco = new DRACOLoader()
+                        draco.setDecoderPath(`/draco/`)
+                        draco.setCrossOrigin('')
+                        loader.setDRACOLoader(draco)
+
+                        await loader.loadAsync(a.url).then((glb) => {
                           glb.scene.traverse((it) => {
                             if (it.name.indexOf('Wolf3D_') !== -1) {
                               foundRPM = true

@@ -718,6 +718,7 @@ export const useMetaStore = create((set, get) => {
               ahr.href = newURL
               ahr.download = 'my-avatar' + '.glb'
               ahr.click()
+              setAction('backflip', 1)
             },
           })
           // exportGLB({

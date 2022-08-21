@@ -53,128 +53,163 @@ function AvatarContent() {
   let avatarGroup = useRef()
 
   let exportGLB = ({ clips, group }) => {
+    // mixer.stopAllAction()
+    // mixer.update(1 / 60)
+
+    if (avatarAnim.mixer) {
+      avatarAnim.mixer.stopAllAction()
+      avatarAnim.mixer.update(1 / 60)
+    }
+
+    useAccessor.getState().setGlbObjectBeforeEdit({
+      scene: clone(group),
+      animations: clips,
+    })
+
     //
-    //
-    import('three/examples/jsm/exporters/GLTFExporter.js').then(
-      ({ GLTFExporter }) => {
-        const exporter = new GLTFExporter()
-        const options = {
-          binary: true,
-          trs: false,
-
-          onlyVisible: false,
-          truncateDrawRange: false,
-          binary: true,
-          maxTextureSize: Infinity,
-          animations: clips,
-          // .filter((aa) => {
-          //   return aa.name.indexOf('mixamo') === 0
-          // })
-          // .map((e) => {
-          //   let a = e.clone()
-          //   a.validate()
-
-          //   return a
-          // }),
-          forceIndice: true,
-          includeCustomExtensions: true,
-        }
-
-        let clonedObject = clone(group)
-        clonedObject.traverse((it) => {
-          if (it.userData.beforeMat) {
-            delete it.userData.beforeMat
-          }
+    Exporter.download({
+      clips: clips,
+      group: group,
+      downloadName: 'export-glb',
+      optimize: [1024, 1024],
+      onDoneOptimizeBuffer: (newBin) => {
+        setAction('backflip', 1)
+        let newFile = new Blob([newBin], {
+          type: 'application/octet-stream',
         })
 
-        // Parse the input and generate the glTF output
-        exporter.parse(
-          [clonedObject],
-          // called when the gltf has been generated
-          async function (gltf) {
-            //
+        let newURL = URL.createObjectURL(newFile)
 
-            // let { WebIO } = await import('@gltf-transform/core')
+        let ahr = document.createElement('a')
+        ahr.href = newURL
+        ahr.download = 'my-avatar' + '.glb'
+        ahr.click()
+        setAction('backflip', 1)
+      },
+    })
 
-            // let { prune, dedup, resample, textureResize } = await import(
-            //   '@gltf-transform/functions'
-            // )
+    //
+    //
+    // import('three/examples/jsm/exporters/GLTFExporter.js').then(
+    //   ({ GLTFExporter }) => {
+    //     const exporter = new GLTFExporter()
+    //     const options = {
+    //       binary: true,
+    //       trs: false,
 
-            // let { DracoMeshCompression } = await import(
-            //   '@gltf-transform/extensions'
-            // )
+    //       onlyVisible: false,
+    //       truncateDrawRange: false,
+    //       binary: true,
+    //       maxTextureSize: Infinity,
+    //       animations: clips,
+    //       // .filter((aa) => {
+    //       //   return aa.name.indexOf('mixamo') === 0
+    //       // })
+    //       // .map((e) => {
+    //       //   let a = e.clone()
+    //       //   a.validate()
 
-            // // let rawBlob = new Blob([gltf], {
-            // //   type: 'application/octet-stream',
-            // // })
+    //       //   return a
+    //       // }),
+    //       forceIndice: true,
+    //       includeCustomExtensions: true,
+    //     }
 
-            // // let rawUrl = URL.createObjectURL(rawBlob)
+    //     let clonedObject = clone(group)
+    //     clonedObject.traverse((it) => {
+    //       if (it.userData.beforeMat) {
+    //         delete it.userData.beforeMat
+    //       }
+    //     })
 
-            // const io = new WebIO({
-            //   mode: 'cors',
-            //   cache: 'no-cache',
-            // })
+    //     // Parse the input and generate the glTF output
+    //     exporter.parse(
+    //       [clonedObject],
+    //       // called when the gltf has been generated
+    //       async function (gltf) {
+    //         //
 
-            // let glbDocument = await io.readBinary(new Uint8Array(gltf))
-            // // // let glbDocument = await io.read(rawUrl)
+    //         // let { WebIO } = await import('@gltf-transform/core')
 
-            // // /**
-            // //  * simple_pipeline.js
-            // //  *
-            // //  * Short example of an glTF optimization pipeline implemented with
-            // //  * the glTF-Transform (https://gltf-transform.donmccurdy.com/) API.
-            // //  * Other common problems — e.g. high vertex or draw counts — may
-            // //  * require working in other tools, like gltfpack or Blender.
-            // //  */
+    //         // let { prune, dedup, resample, textureResize } = await import(
+    //         //   '@gltf-transform/functions'
+    //         // )
 
-            // await glbDocument.transform(
-            //   // Remove duplicate vertex or texture data, if any.
-            //   dedup(),
+    //         // let { DracoMeshCompression } = await import(
+    //         //   '@gltf-transform/extensions'
+    //         // )
 
-            //   // Losslessly resample animation frames.
-            //   resample(),
+    //         // // let rawBlob = new Blob([gltf], {
+    //         // //   type: 'application/octet-stream',
+    //         // // })
 
-            //   // Remove unused nodes, textures, or other data.
-            //   prune(),
+    //         // // let rawUrl = URL.createObjectURL(rawBlob)
 
-            //   // Resize all textures to ≤1K.
-            //   textureResize({ size: [512, 512] })
-            // )
+    //         // const io = new WebIO({
+    //         //   mode: 'cors',
+    //         //   cache: 'no-cache',
+    //         // })
 
-            // glbDocument
-            //   .createExtension(DracoMeshCompression)
-            //   .setRequired(true)
-            //   .setEncoderOptions({
-            //     method: DracoMeshCompression.EncoderMethod.EDGEBREAKER,
-            //     encodeSpeed: 5,
-            //     decodeSpeed: 5,
-            //   })
+    //         // let glbDocument = await io.readBinary(new Uint8Array(gltf))
+    //         // // // let glbDocument = await io.read(rawUrl)
 
-            // let newBin = await io.writeBinary(glbDocument)
-            // // let newBin = gltf
+    //         // // /**
+    //         // //  * simple_pipeline.js
+    //         // //  *
+    //         // //  * Short example of an glTF optimization pipeline implemented with
+    //         // //  * the glTF-Transform (https://gltf-transform.donmccurdy.com/) API.
+    //         // //  * Other common problems — e.g. high vertex or draw counts — may
+    //         // //  * require working in other tools, like gltfpack or Blender.
+    //         // //  */
 
-            let newFile = new Blob([gltf], {
-              type: 'application/octet-stream',
-            })
+    //         // await glbDocument.transform(
+    //         //   // Remove duplicate vertex or texture data, if any.
+    //         //   dedup(),
 
-            let newURL = URL.createObjectURL(newFile)
+    //         //   // Losslessly resample animation frames.
+    //         //   resample(),
 
-            let ahr = document.createElement('a')
-            ahr.href = newURL
-            ahr.download = 'opsimitsedGLB.glb'
-            ahr.click()
-            //
+    //         //   // Remove unused nodes, textures, or other data.
+    //         //   prune(),
 
-            //
-          },
-          // called when there is an error in the generation
-          function (error) {
-            console.log(error, 'An error happened')
-          },
-          options
-        )
-      }
-    )
+    //         //   // Resize all textures to ≤1K.
+    //         //   textureResize({ size: [512, 512] })
+    //         // )
+
+    //         // glbDocument
+    //         //   .createExtension(DracoMeshCompression)
+    //         //   .setRequired(true)
+    //         //   .setEncoderOptions({
+    //         //     method: DracoMeshCompression.EncoderMethod.EDGEBREAKER,
+    //         //     encodeSpeed: 5,
+    //         //     decodeSpeed: 5,
+    //         //   })
+
+    //         // let newBin = await io.writeBinary(glbDocument)
+    //         // // let newBin = gltf
+
+    //         let newFile = new Blob([gltf], {
+    //           type: 'application/octet-stream',
+    //         })
+
+    //         let newURL = URL.createObjectURL(newFile)
+
+    //         let ahr = document.createElement('a')
+    //         ahr.href = newURL
+    //         ahr.download = 'opsimitsedGLB.glb'
+    //         ahr.click()
+    //         //
+
+    //         //
+    //       },
+    //       // called when there is an error in the generation
+    //       function (error) {
+    //         console.log(error, 'An error happened')
+    //       },
+    //       options
+    //     )
+    //   }
+    // )
   }
 
   const base = useGLTF('/skinning/female3-00/upper/upper_001.glb')
