@@ -5,7 +5,7 @@ import { Suspense } from 'react'
 import { ARBG } from '../game-parts/ARBG'
 // import { useFrame, useThree } from '@react-three/fiber'
 // import { useEffect } from 'react'
-import { BG } from '../game-parts/BG'
+import { BG, BGPng } from '../game-parts/BG'
 import { Floor } from '../game-parts/Floor'
 import { HDR } from '../game-parts/HDR'
 import { Player } from '../game-parts/Player'
@@ -25,7 +25,7 @@ export function OnlineGame() {
 
       <OnlineSystem mapID='/scene/landing/os.glb'>
         <>
-          <BG url={`/hdr/moonless_golf_1k.hdr`}></BG>
+          <BGPng url={`/bg/galaxy2048.png`}></BGPng>
           <HDR url={`/hdr/moonless_golf_1k.hdr`}> </HDR>
           <Floor url={'/scene/landing/os-effect.glb'}></Floor>
           <Player></Player>
