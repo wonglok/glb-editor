@@ -22,13 +22,13 @@ export function OnlineGame() {
       {/*  */}
 
       <Suspense fallback={null}></Suspense>
+      <BGPng url={`/bg/galaxy2048.png`}></BGPng>
+      <HDR url={`/hdr/moonless_golf_1k.hdr`}> </HDR>
       {/*  */}
       {/* <EnvLight></EnvLight> */}
 
       <OnlineSystem mapID='/scene/landing/os.glb'>
         <>
-          <BGPng url={`/bg/galaxy2048.png`}></BGPng>
-          <HDR url={`/hdr/moonless_golf_1k.hdr`}> </HDR>
           <Floor url={'/scene/landing/os-effect.glb'}></Floor>
           <Player></Player>
         </>
