@@ -134,6 +134,7 @@ export const Exporter = {
 
           //   return a
           // }),
+
           forceIndice: true,
           includeCustomExtensions: true,
         }
@@ -189,7 +190,9 @@ export const Exporter = {
         // }
         // /*
 
+        //
         // */
+        //
 
         // Parse the input and generate the glTF output
         exporter.parse(
@@ -243,7 +246,7 @@ export const Exporter = {
                 decodeSpeed: 5,
               })
 
-            io.setVertexLayout(VertexLayout.SEPARATE)
+            // io.setVertexLayout(VertexLayout.SEPARATE)
 
             let newBin = await io.writeBinary(glbDocument)
 
