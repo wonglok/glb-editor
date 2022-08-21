@@ -12,14 +12,18 @@ import { useAccessor } from './use-accessor'
 
 import { VertexLayout, WebIO } from '@gltf-transform/core'
 import { DracoMeshCompression } from '@gltf-transform/extensions'
-import {
-  dedup,
-  prune,
-  // quantize,
-  // reorder,
-  // resample,
-  // textureResize,
-} from '@gltf-transform/functions'
+import { FileLoader } from 'three140'
+import { dedup, prune } from '@gltf-transform/functions'
+// import {
+//   dedup,
+//   prune,
+//   // quantize,
+//   // reorder,
+//   // resample,
+//   // textureResize,
+// } from '@gltf-transform/functions'
+
+// import draco3d from 'draco3dgltf'
 
 export const Exporter = {
   download: ({
@@ -134,6 +138,59 @@ export const Exporter = {
           includeCustomExtensions: true,
         }
 
+        // let pending = false
+        // let _loadLibrary = (url, responseType) => {
+        //   const loader = new FileLoader()
+        //   loader.setPath(`/draco/`)
+        //   loader.setResponseType(responseType)
+        //   loader.setWithCredentials(true)
+
+        //   return new Promise((resolve, reject) => {
+        //     loader.load(url, resolve, undefined, reject)
+        //   })
+        // }
+        // let initEncoder = () => {
+        //   if (pending) return pending
+
+        //   const useJS = false
+
+        //   const librariesPending = []
+
+        //   if (useJS) {
+        //     librariesPending.push(_loadLibrary('draco_encoder.js', 'text'))
+        //   } else {
+        //     librariesPending.push(_loadLibrary('draco_wasm_wrapper.js', 'text'))
+        //     librariesPending.push(
+        //       _loadLibrary('draco_encoder.wasm', 'arraybuffer')
+        //     )
+        //   }
+
+        //   pending = Promise.all(librariesPending).then((libraries) => {
+        //     const jsContent = libraries[0]
+
+        //     if (!useJS) {
+        //       this.decoderConfig.wasmBinary = libraries[1]
+        //     }
+
+        //     const fn = DRACOWorker.toString()
+
+        //     const body = [
+        //       '/* draco decoder */',
+        //       jsContent,
+        //       '',
+        //       '/* worker */',
+        //       fn.substring(fn.indexOf('{') + 1, fn.lastIndexOf('}')),
+        //     ].join('\n')
+
+        //     this.workerSourceURL = URL.createObjectURL(new Blob([body]))
+        //   })
+
+        //   return pending
+        // }
+        // /*
+
+        // */
+
         // Parse the input and generate the glTF output
         exporter.parse(
           [...objectForExport.children],
@@ -145,11 +202,21 @@ export const Exporter = {
 
             // let rawUrl = URL.createObjectURL(rawBlob)
 
+            let dracoMod = await remoteImport('/draco/draco_encoder_raw.js')
+
             const io = new WebIO({
               mode: 'cors',
               cache: 'no-cache',
             })
-            io.setVertexLayout(VertexLayout.SEPARATE)
+
+            // let draco3d = loadDraco()
+
+            let mod = dracoMod.DracoEncoderModule()
+            io.registerExtensions([DracoMeshCompression])
+            io.registerDependencies({
+              // 'draco3d.decoder': await draco3d.createDecoderModule(), // Optional.
+              'draco3d.encoder': mod, // Optional.
+            })
 
             let glbDocument = await io.readBinary(new Uint8Array(rawGltf))
 
@@ -171,12 +238,16 @@ export const Exporter = {
               .createExtension(DracoMeshCompression)
               .setRequired(true)
               .setEncoderOptions({
-                method: DracoMeshCompression.EncoderMethod.EDGEBREAKER,
+                method: DracoMeshCompression.EncoderMethod.SEQUENTIAL,
                 encodeSpeed: 5,
                 decodeSpeed: 5,
               })
 
+            io.setVertexLayout(VertexLayout.SEPARATE)
+
             let newBin = await io.writeBinary(glbDocument)
+
+            // let newBin = rawGltf
 
             if (!onDoneOptimizeBuffer) {
               let newFile = new Blob([newBin], {

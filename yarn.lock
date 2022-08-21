@@ -3646,6 +3646,11 @@ draco3d@^1.5.3:
   resolved "https://registry.yarnpkg.com/draco3d/-/draco3d-1.5.3.tgz#75dfb3da7d1420571b1ab999191c49fdc2a74571"
   integrity sha512-Ahum6SewAd1oVMm6Fk8T/zCE0qbzjohhO5pl1Xp5Outl4JKv7jYicfd5vNtkzImx94XE35fhNXVqHk9ajt+6Tg==
 
+draco3dgltf@^1.5.3:
+  version "1.5.3"
+  resolved "https://registry.yarnpkg.com/draco3dgltf/-/draco3dgltf-1.5.3.tgz#7ce504a2b94c56f90c414d38956c7f8a000840bf"
+  integrity sha512-XZC3TEBDr4AhkaLME4JJZihTcsoDJ2l2DVz6JwHCzzjplCdxiBdfldCizdCLtSSZzIZSAfeUZjhttarVr7YIbA==
+
 duplexer@^0.1.2:
   version "0.1.2"
   resolved "https://registry.npmjs.org/duplexer/-/duplexer-0.1.2.tgz"
