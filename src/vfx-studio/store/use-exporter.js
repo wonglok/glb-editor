@@ -10,6 +10,17 @@ import { Object3D } from 'three'
 import { clone } from 'three140/examples/jsm/utils/SkeletonUtils'
 import { useAccessor } from './use-accessor'
 
+import { VertexLayout, WebIO } from '@gltf-transform/core'
+import { DracoMeshCompression } from '@gltf-transform/extensions'
+import {
+  dedup,
+  prune,
+  // quantize,
+  // reorder,
+  // resample,
+  // textureResize,
+} from '@gltf-transform/functions'
+
 export const Exporter = {
   download: ({
     clips = [],
@@ -48,6 +59,41 @@ export const Exporter = {
         //     })
         //   }
         // })
+
+        //
+        /*
+        // This is a minimal example showing how to create the Draco encoder module.
+        // The encoder module is created asynchronously, so you need to set a
+        // callback to make sure it is initialized before you try and call the module.
+
+        'use_strict';
+
+        const draco3d = require('./draco3d');
+
+        let encoderModule = null;
+
+        // The code to create the encoder module is asynchronous.
+        // draco3d.createEncoderModule will return a promise to a funciton with a
+        // module as a parameter when the module has been fully initialized.
+        draco3d.createEncoderModule({}).then(function(module) {
+          // This is reached when everything is ready, and you can call methods on
+          // Module.
+          encoderModule = module;
+          console.log('Encoder Module Initialized!');
+          moduleInitialized();
+        });
+
+        function moduleInitialized() {
+          let encoder = new encoderModule.Encoder();
+          // Do the actual encoding here. See 'draco_nodejs_example.js' for a more
+          // comprehensive example.
+          cleanup(encoder);
+        }
+
+        function cleanup(encoder) {
+          encoderModule.destroy(encoder);
+        }
+        */
 
         let glbObjectBeforeEdit = useAccessor.getState().glbObjectBeforeEdit
         let objectForExport = glbObjectBeforeEdit.scene
@@ -92,59 +138,45 @@ export const Exporter = {
         exporter.parse(
           [...objectForExport.children],
           // called when the gltf has been generated
-          async function (gltf) {
-            //
-
+          async function (rawGltf) {
             // let rawBlob = new Blob([gltf], {
             //   type: 'application/octet-stream',
             // })
 
             // let rawUrl = URL.createObjectURL(rawBlob)
 
-            // const io = new WebIO({
-            //   mode: 'cors',
-            //   cache: 'no-cache',
-            // })
+            const io = new WebIO({
+              mode: 'cors',
+              cache: 'no-cache',
+            })
+            io.setVertexLayout(VertexLayout.SEPARATE)
 
-            // let glbDocument = await io.readBinary(new Uint8Array(gltf))
-            // // let glbDocument = await io.read(rawUrl)
+            let glbDocument = await io.readBinary(new Uint8Array(rawGltf))
 
-            // /**
-            //  * simple_pipeline.js
-            //  *
-            //  * Short example of an glTF optimization pipeline implemented with
-            //  * the glTF-Transform (https://gltf-transform.donmccurdy.com/) API.
-            //  * Other common problems — e.g. high vertex or draw counts — may
-            //  * require working in other tools, like gltfpack or Blender.
-            //  */
+            await glbDocument.transform(
+              // Remove duplicate vertex or texture data, if any.
+              dedup(),
 
-            // await glbDocument.transform(
-            //   // Remove duplicate vertex or texture data, if any.
-            //   dedup(),
+              // Losslessly resample animation frames.
+              // resample(),
 
-            //   // Losslessly resample animation frames.
-            //   resample(),
+              // Remove unused nodes, textures, or other data.
+              prune()
 
-            //   // Remove unused nodes, textures, or other data.
-            //   prune(),
+              // Resize all textures to ≤1K.
+              // textureResize({ size: optimize })
+            )
 
-            //   // Resize all textures to ≤1K.
-            //   textureResize({ size: optimize })
-            // )
+            glbDocument
+              .createExtension(DracoMeshCompression)
+              .setRequired(true)
+              .setEncoderOptions({
+                method: DracoMeshCompression.EncoderMethod.EDGEBREAKER,
+                encodeSpeed: 5,
+                decodeSpeed: 5,
+              })
 
-            // glbDocument
-            //   .createExtension(DracoMeshCompression)
-            //   .setRequired(true)
-            //   .setEncoderOptions({
-            //     method: DracoMeshCompression.EncoderMethod.EDGEBREAKER,
-            //     encodeSpeed: 5,
-            //     decodeSpeed: 5,
-            //   })
-
-            // io.setVertexLayout(VertexLayout.SEPARATE)
-            // let newBin = await io.writeBinary(glbDocument)
-
-            let newBin = gltf
+            let newBin = await io.writeBinary(glbDocument)
 
             if (!onDoneOptimizeBuffer) {
               let newFile = new Blob([newBin], {

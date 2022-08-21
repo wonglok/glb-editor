@@ -21,7 +21,7 @@ export default function Document() {
           data-partytown-config
           dangerouslySetInnerHTML={{
             __html: `
-              window.remoteScript = (url) => import(url)
+              window.remoteImport = (url) => import(url)
             `,
           }}
         />

@@ -1622,29 +1622,29 @@
   resolved "https://registry.npmjs.org/@firebase/webchannel-wrapper/-/webchannel-wrapper-0.6.1.tgz"
   integrity sha512-9FqhNjKQWpQ3fGnSOCovHOm+yhhiorKEqYLAfd525jWavunDJcx8rOW6i6ozAh+FbwcYMkL7b+3j4UR/30MpoQ==
 
-"@gltf-transform/core@^2.2.0":
-  version "2.2.0"
-  resolved "https://registry.yarnpkg.com/@gltf-transform/core/-/core-2.2.0.tgz#d413c6633541998ee218c4cec502924d72eca83b"
-  integrity sha512-HbYWwJoH4TuvBEXMK9/HDBwZwosGsBHj4m8qoUHpxVxSC6pl9lBpjEp/D/SppM+zUJpLyC7JOnHQt1+X+PgQ7w==
+"@gltf-transform/core@^2.4.1":
+  version "2.4.1"
+  resolved "https://registry.yarnpkg.com/@gltf-transform/core/-/core-2.4.1.tgz#d9b5c694e50326ee1626e5c6da750c1d3b2ec742"
+  integrity sha512-R8fGMMXDS3LvoUEKGwg88soKgxyF4FIyMHhqI6BNPNzBaDOi3JMAbAd3MAyH5U+9+HQeBRXtq/Tq64Na8e/j+Q==
   dependencies:
     gl-matrix "~3.4.3"
     property-graph "^0.2.6"
 
-"@gltf-transform/extensions@^2.2.0":
-  version "2.2.0"
-  resolved "https://registry.yarnpkg.com/@gltf-transform/extensions/-/extensions-2.2.0.tgz#4157983176435d949f3cd1544e92ecc00977cc20"
-  integrity sha512-8e8ixvoSHmz75Ac4HqwX7SQ2o9Ga/5l6wV7aLJfqKaPb5lIDKsOoMDTykmB4qFxiyq9pO2MgC6Ku+hc03gMAfQ==
+"@gltf-transform/extensions@^2.4.1":
+  version "2.4.1"
+  resolved "https://registry.yarnpkg.com/@gltf-transform/extensions/-/extensions-2.4.1.tgz#526afa3f934c88d73780a08939291082d7519fd2"
+  integrity sha512-uCxa19x0LSC7YCmyu0NPvKPEQe7ls3TPydKXn0sWnPbGnmbRH2VkLh0iCWDdYZzxLGR1XWm3yTWYcgUHULcfwQ==
   dependencies:
-    "@gltf-transform/core" "^2.2.0"
-    ktx-parse "^0.3.3"
+    "@gltf-transform/core" "^2.4.1"
+    ktx-parse "^0.4.5"
 
-"@gltf-transform/functions@^2.2.0":
-  version "2.2.0"
-  resolved "https://registry.yarnpkg.com/@gltf-transform/functions/-/functions-2.2.0.tgz#7959bc049d90fb015809c69bc0acc787a6b58225"
-  integrity sha512-LFq1DjmdM5ss1Ukv2j97Xn3h+Bbwke0xoteeIlodHW1F07+P5hTydmCvEpzShMkd3Y8qSiCII1o0VR5zt1NSfw==
+"@gltf-transform/functions@^2.4.1":
+  version "2.4.1"
+  resolved "https://registry.yarnpkg.com/@gltf-transform/functions/-/functions-2.4.1.tgz#db71ab31013e0863e754f0d03bcc140c5ecad54b"
+  integrity sha512-76JyKvHRVnd3GqJWrh4hCkWCvTGNw7Iftw5T6BqouxDSS7BQg2b3qJy8YAEnyihYYtjoh9sQPkZ8dpJ3Y/WLiA==
   dependencies:
-    "@gltf-transform/core" "^2.2.0"
-    "@gltf-transform/extensions" "^2.2.0"
+    "@gltf-transform/core" "^2.4.1"
+    "@gltf-transform/extensions" "^2.4.1"
     gl-matrix "~3.4.3"
     ndarray "^1.0.19"
     ndarray-lanczos "^0.1.2"
@@ -3641,6 +3641,11 @@ draco3d@^1.4.1:
   resolved "https://registry.npmjs.org/draco3d/-/draco3d-1.5.2.tgz"
   integrity sha512-AeRQ25Fb29c14vpjnh167UGW0nGY0ZpEM3ld+zEXoEySlmEXcXfsCHZeTgo5qXH925V1JsdjrzasdaQ22/vXog==
 
+draco3d@^1.5.3:
+  version "1.5.3"
+  resolved "https://registry.yarnpkg.com/draco3d/-/draco3d-1.5.3.tgz#75dfb3da7d1420571b1ab999191c49fdc2a74571"
+  integrity sha512-Ahum6SewAd1oVMm6Fk8T/zCE0qbzjohhO5pl1Xp5Outl4JKv7jYicfd5vNtkzImx94XE35fhNXVqHk9ajt+6Tg==
+
 duplexer@^0.1.2:
   version "0.1.2"
   resolved "https://registry.npmjs.org/duplexer/-/duplexer-0.1.2.tgz"
@@ -5622,15 +5627,15 @@ ktx-parse@^0.2.1:
   resolved "https://registry.npmjs.org/ktx-parse/-/ktx-parse-0.2.2.tgz"
   integrity sha512-cFBc1jnGG2WlUf52NbDUXK2obJ+Mo9WUkBRvr6tP6CKxRMvZwDDFNV3JAS4cewETp5KyexByfWm9sm+O8AffiQ==
 
-ktx-parse@^0.3.3:
-  version "0.3.3"
-  resolved "https://registry.yarnpkg.com/ktx-parse/-/ktx-parse-0.3.3.tgz#f9c0f9dd7836a874d0e82c50a8e7023ae43a246c"
-  integrity sha512-zCRp7rj20Szrqm69O5gTYlNRNjcGoxekTWW3rX90nxeN8/ps2XR2aPpYCF/dd68hso3VBoMxyDS2R0UMnAU5xw==
-
 ktx-parse@^0.4.3:
   version "0.4.3"
   resolved "https://registry.yarnpkg.com/ktx-parse/-/ktx-parse-0.4.3.tgz#d2d73353c6d255e071968a9818b94f0786c69568"
   integrity sha512-ufymOwzu1VLFpZukNaav+ro1I5JGIQuRw12s0iqXOgNvjbHLFC5qOThNW2dWbAcpGtovONpHlNvJhZ5kbRSYrA==
+
+ktx-parse@^0.4.5:
+  version "0.4.5"
+  resolved "https://registry.yarnpkg.com/ktx-parse/-/ktx-parse-0.4.5.tgz#79905e22281a9d3e602b2ff522df1ee7d1813aa6"
+  integrity sha512-MK3FOody4TXbFf8Yqv7EBbySw7aPvEcPX++Ipt6Sox+/YMFvR5xaTyhfNSk1AEmMy+RYIw81ctN4IMxCB8OAlg==
 
 language-subtag-registry@~0.3.2:
   version "0.3.21"
@@ -5959,6 +5964,11 @@ meshline@^2.0.4:
   version "2.0.4"
   resolved "https://registry.npmjs.org/meshline/-/meshline-2.0.4.tgz"
   integrity sha512-Jh6DJl/zLqA4xsKvGv5950jr2ukyXQE1wgxs8u94cImHrvL6soVIggqjP+2hVHZXGYaKnWszhtjuCbKNeQyYiw==
+
+meshoptimizer@^0.18.1:
+  version "0.18.1"
+  resolved "https://registry.yarnpkg.com/meshoptimizer/-/meshoptimizer-0.18.1.tgz#cdb90907f30a7b5b1190facd3b7ee6b7087797d8"
+  integrity sha512-ZhoIoL7TNV4s5B6+rx5mC//fw8/POGyNxS/DZyCJeiZ12ScLfVwRE/GfsxwiTkMYYD5DmK2/JXnEVXqL4rF+Sw==
 
 micromatch@^4.0.4:
   version "4.0.5"
