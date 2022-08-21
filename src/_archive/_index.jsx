@@ -2,15 +2,15 @@ import dynamic from 'next/dynamic'
 // Step 5 - delete Instructions components
 import Instructions from '@/components/dom/Instructions'
 import Head from 'next/head'
-import { ENLogicGraphAutoLoad } from '@/vfx-runtime/ENLogicGraph'
-import { Canvas, useFrame, useThree } from '@react-three/fiber'
-import { BGColor } from '@/vfx-library/Generic/BG'
-import { HomePageGraphID } from 'firebase.config'
+// import { ENLogicGraphAutoLoad } from '@/vfx-runtime/ENLogicGraph'
+// import { Canvas, useFrame, useThree } from '@react-three/fiber'
+// import { BGColor } from '@/vfx-library/Generic/BG'
+// import { HomePageGraphID } from 'firebase.config'
 
-import { useEffect } from 'react'
-import { Core } from '@/vfx-core/Core'
-import { Box } from '@react-three/drei'
-import { PerspectiveCamera, Vector2 } from 'three'
+// import { useEffect } from 'react'
+// import { Core } from '@/vfx-core/Core'
+// import { Box } from '@react-three/drei'
+// import { PerspectiveCamera, Vector2 } from 'three'
 import { VRCanvas } from '@react-three/xr'
 
 // import Shader from '@/components/canvas/Shader/Shader'
@@ -48,7 +48,7 @@ Page.r3f = (props) => (
     <CoreVR></CoreVR> */}
 
       {/*  */}
-      <ENLogicGraphAutoLoad graphID={HomePageGraphID}></ENLogicGraphAutoLoad>
+      {/* <ENLogicGraphAutoLoad graphID={HomePageGraphID}></ENLogicGraphAutoLoad> */}
     </LCanvas>
   </>
 )
