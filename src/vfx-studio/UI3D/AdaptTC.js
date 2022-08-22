@@ -1,8 +1,9 @@
 import { useEffect, useMemo, useRef } from 'react'
 import { useAccessor } from '@/vfx-studio/store/use-accessor'
-import { useFrame, useThree } from '@react-three/fiber'
+import { useFrame, useThree, createPortal } from '@react-three/fiber'
 import { HDRTex } from './HDRTex'
 import {
+  Plane,
   // FlyControls,
   // MapControls,
   // OrbitControls,
@@ -11,6 +12,7 @@ import {
   useFBO,
 } from '@react-three/drei'
 import {
+  BackSide,
   BoxBufferGeometry,
   BoxHelper,
   DoubleSide,
@@ -57,11 +59,14 @@ export function AdaptTC({ node }) {
     if (fakeScene && fakeScene?.children.length > 0 && camera) {
       // //
       gl.setRenderTarget(fbo)
+      gl.setClearColor(0xffffff, 0)
       gl.setClearAlpha(0)
       gl.clear()
       gl.render(fakeScene, camera)
       gl.setRenderTarget(null)
       gl.setClearAlpha(0)
+
+      console.log(fakeScene.children.length)
 
       // gl.autoClear = false
       // gl.render(quad, camQ)
@@ -75,13 +80,57 @@ export function AdaptTC({ node }) {
 
   return (
     <>
-      {fbo && (
+      {/* {fbo && (
         <EffectComposer>
           <GLOverlay fbo={fbo}></GLOverlay>
         </EffectComposer>
-      )}
+      )} */}
+
+      <Screen fbo={fbo}></Screen>
 
       {<ENTCNode key={reloadGraphID} fakeScene={fakeScene} node={node} />}
+    </>
+  )
+}
+
+const visibleHeightAtZDepth = (depth, camera) => {
+  // compensate for cameras not positioned at z=0
+  const cameraOffset = camera.position.z
+  if (depth < cameraOffset) depth -= cameraOffset
+  else depth += cameraOffset
+
+  // vertical fov in radians
+  const vFOV = (camera.fov * Math.PI) / 180
+
+  // Math.abs to ensure the result is always positive
+  return 2 * Math.tan(vFOV / 2) * Math.abs(depth)
+}
+
+const visibleWidthAtZDepth = (depth, camera) => {
+  const height = visibleHeightAtZDepth(depth, camera)
+  return height * camera.aspect
+}
+
+function Screen({ fbo }) {
+  let camera = useThree((e) => e.camera)
+
+  let w = visibleWidthAtZDepth(0.1, camera)
+  let h = visibleHeightAtZDepth(0.1, camera)
+  return (
+    <>
+      {createPortal(
+        <mesh position={[0, 0, -0.1]} scale={[1]}>
+          <planeBufferGeometry args={[w, h]}></planeBufferGeometry>
+          <meshBasicMaterial
+            transparent={true}
+            map={fbo.texture}
+            side={DoubleSide}
+            color='#ffffff'
+          ></meshBasicMaterial>
+        </mesh>,
+        camera
+      )}
+      <primitive object={camera}></primitive>
     </>
   )
 }
