@@ -5,6 +5,7 @@ import { useMetaStore } from '../store/use-meta-store'
 
 export function Floor({ url = '/scene/dome/dome.glb' }) {
   let glb = useGLTF(url)
+  let playerInfoIsReady = useMetaStore((s) => s.playerInfoIsReady)
   let setColliderFromScene = useMetaStore((s) => s.setColliderFromScene)
 
   let anim = useAnimations(glb.animations, glb.scene)
@@ -19,13 +20,16 @@ export function Floor({ url = '/scene/dome/dome.glb' }) {
   return (
     <group>
       {/*  */}
-
-      <primitive object={glb.scene}></primitive>
-      <EffectNodeRuntime
-        key={url}
-        disabledNodes={[]}
-        glbObject={glb}
-      ></EffectNodeRuntime>
+      {playerInfoIsReady && (
+        <>
+          <primitive object={glb.scene}></primitive>
+          <EffectNodeRuntime
+            key={url}
+            disabledNodes={[]}
+            glbObject={glb}
+          ></EffectNodeRuntime>
+        </>
+      )}
     </group>
   )
 }
