@@ -8,7 +8,7 @@ import { JoyStick } from './JoyStick'
 // import { NPCAvatar } from './NPCAvatar'
 import { PlayerAvatar } from './PlayerAvatar'
 
-export function Player({ children }) {
+export function Player({ children, show = true }) {
   let myCTX = useMetaStore((s) => s.myCTX)
   let updatePlayer = useMetaStore((s) => s.updatePlayer)
   let setControls = useMetaStore((s) => s.setControls)
@@ -48,18 +48,19 @@ export function Player({ children }) {
       {/*  */}
       {/*  */}
       <group ref={ref}>
-        {playerInfoIsReady && (
-          <group rotation-y={Math.PI} position={[0, -1.52, 0]}>
-            <PlayerAvatar></PlayerAvatar>
+        {playerInfoIsReady && <>{children}</>}
+        {playerInfoIsReady && show && (
+          <group>
+            <group rotation-y={Math.PI} position={[0, -1.52, 0]}>
+              <PlayerAvatar></PlayerAvatar>
+            </group>
           </group>
         )}
       </group>
 
       {/*  */}
       {/*  */}
-      {playerInfoIsReady && <JoyStick></JoyStick>}
-
-      {playerInfoIsReady && <>{children}</>}
+      {playerInfoIsReady && show && <JoyStick></JoyStick>}
 
       {/*  */}
       {/*  */}

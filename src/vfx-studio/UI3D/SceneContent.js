@@ -3,6 +3,8 @@ import { useAccessor } from '@/vfx-studio/store/use-accessor'
 import { useThree } from '@react-three/fiber'
 import { HDRTex } from './HDRTex'
 import {
+  Box,
+  Capsule,
   // FlyControls,
   // MapControls,
   // OrbitControls,
@@ -136,7 +138,9 @@ export function SceneContent({}) {
 
       {/*  */}
 
-      <Player></Player>
+      <Player show={false}>
+        <Box position={[0, -1, 0]} args={[0.1, 1, 0.1]}></Box>
+      </Player>
 
       <gridHelper args={[100, 50, 0x00ffff, 0xff00ff]}> </gridHelper>
 
