@@ -101,13 +101,6 @@ export function SceneContent({}) {
                   if (ctrl.enabled) {
                     openEffectNode(v[0])
                     setOverlay(null)
-
-                    // let helper = new BoxHelper(v[0])
-                    // clean.current()
-                    // clean.current = () => {
-                    //   helper.removeFromParent()
-                    // }
-                    // scene.add(helper)
                   }
                 }
               }
@@ -139,7 +132,7 @@ export function SceneContent({}) {
       {/*  */}
 
       <Player show={false}>
-        <Box position={[0, -1, 0]} args={[0.1, 1, 0.1]}></Box>
+        <Box position={[0, 0, 0]} args={[0.01, 0.01, 0.01]}></Box>
       </Player>
 
       <gridHelper args={[100, 50, 0x00ffff, 0xff00ff]}> </gridHelper>
@@ -178,7 +171,6 @@ export function SceneContent({}) {
         ref={(ev) => {
           setContorl(ev)
         }}
-
         enableRotate={false}
       /> */}
     </>
