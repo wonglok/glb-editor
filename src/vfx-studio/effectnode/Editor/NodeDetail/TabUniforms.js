@@ -27,6 +27,7 @@ export function TabUnifroms({ node }) {
 
   let onSaveLater = (mm) => () => {
     window.dispatchEvent(new CustomEvent('reload-node', { detail: node }))
+    window.dispatchEvent(new CustomEvent('reload-3d-gui', { detail: node }))
     reload((s) => s + 1)
   }
 
@@ -40,6 +41,7 @@ export function TabUnifroms({ node }) {
     )
 
     window.dispatchEvent(new CustomEvent('reload-node', { detail: node }))
+    window.dispatchEvent(new CustomEvent('reload-3d-gui', { detail: node }))
     reload((s) => s + 1)
   }
 

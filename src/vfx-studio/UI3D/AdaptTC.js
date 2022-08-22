@@ -132,7 +132,7 @@ function TC({ node, nodeData, fakeScene }) {
       )
 
       if (transformPosition) {
-        window.addEventListener('reload-node', ({}) => {
+        window.addEventListener('reload-3d-gui', ({}) => {
           if (o3.__disabled) {
             return
           }
@@ -168,7 +168,7 @@ function TC({ node, nodeData, fakeScene }) {
       )
 
       if (transformScale) {
-        window.addEventListener('reload-node', ({}) => {
+        window.addEventListener('reload-3d-gui', ({}) => {
           if (o3.__disabled) {
             return
           }
@@ -204,7 +204,7 @@ function TC({ node, nodeData, fakeScene }) {
       )
 
       if (transformRotation) {
-        window.addEventListener('reload-node', ({}) => {
+        window.addEventListener('reload-3d-gui', ({}) => {
           if (o3.__disabled) {
             return
           }
