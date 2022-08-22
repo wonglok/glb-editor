@@ -46,6 +46,10 @@ export function MyFiles({ onOpen = () => {} }) {
                       renameGLB({
                         fileID: file.fileID,
                         name: ev.target.value,
+                      }).then(() => {
+                        loadFilesMetadata().then((array) => {
+                          setFiles(array)
+                        })
                       })
                     }}
                   ></textarea>
@@ -85,7 +89,7 @@ export function MyFiles({ onOpen = () => {} }) {
 
                         let ahr = document.createElement('a')
                         ahr.href = newURL
-                        ahr.download = renameRef.current.value || file.name
+                        ahr.download = file.name
 
                         if (ahr.download.indexOf('.glb') === -1) {
                           ahr.download = ahr.download + '.glb'

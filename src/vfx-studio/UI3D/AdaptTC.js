@@ -18,6 +18,7 @@ import {
   DoubleSide,
   Object3D,
   PlaneBufferGeometry,
+  Vector3,
 } from 'three'
 // import anime from 'animejs'
 import { EffectNodeRuntime } from '../effectnode/Runtime/EffectNodeRuntime/EffectNodeRuntime'
@@ -113,14 +114,23 @@ const visibleWidthAtZDepth = (depth, camera) => {
 
 function Screen({ fbo }) {
   let camera = useThree((e) => e.camera)
+  let viewport = useThree((e) => e.viewport)
+  let size = useThree((e) => e.size)
+  let vp = viewport.getCurrentViewport(
+    camera,
+    camera.position.clone().add(new Vector3(0, 0, -2)),
+    size
+  )
 
-  let w = visibleWidthAtZDepth(0.1, camera)
-  let h = visibleHeightAtZDepth(0.1, camera)
+  // let w = visibleWidthAtZDepth(0, camera)
+  // let h = visibleHeightAtZDepth(0, camera)
   return (
     <>
       {createPortal(
-        <mesh position={[0, 0, -0.1]} scale={[0.012, 0.012, 0.012]}>
-          <planeBufferGeometry args={[w, h]}></planeBufferGeometry>
+        <mesh position={[0, 0, -2]} scale={1}>
+          <planeBufferGeometry
+            args={[vp.width, vp.height]}
+          ></planeBufferGeometry>
           <meshBasicMaterial
             transparent={true}
             map={fbo.texture}
