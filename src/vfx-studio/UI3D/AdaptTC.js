@@ -119,7 +119,7 @@ function Screen({ fbo }) {
   return (
     <>
       {createPortal(
-        <mesh position={[0, 0, -0.1]} scale={[1]}>
+        <mesh position={[0, 0, -0.1]} scale={[0.012, 0.012, 0.012]}>
           <planeBufferGeometry args={[w, h]}></planeBufferGeometry>
           <meshBasicMaterial
             transparent={true}
