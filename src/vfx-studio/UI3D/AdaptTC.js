@@ -40,7 +40,7 @@ export function AdaptTC({ node }) {
 
   let fakeScene = useMemo(() => new Scene(), [])
 
-  let fbo = useFBO(512, 1024)
+  let fbo = useFBO(256, 512)
 
   let camQ = new Camera()
   camQ.position.z = 1
@@ -120,7 +120,7 @@ function Screen({ fbo }) {
   let size = useThree((e) => e.size)
   let vp = viewport.getCurrentViewport(
     camera,
-    camera.position.clone().add(new Vector3(0, 0, -0.1)),
+    camera.position.clone().add(new Vector3(0, 0, -0.5)),
     size
   )
 
@@ -132,7 +132,7 @@ function Screen({ fbo }) {
         <mesh
           renderOrder={-1}
           frustumCulled={false}
-          position={[0, 0, -0.1]}
+          position={[0, 0, -0.5]}
           scale={1}
         >
           <planeBufferGeometry
