@@ -60,7 +60,7 @@ export function Player({ children, show = true }) {
 
       {/*  */}
       {/*  */}
-      {playerInfoIsReady && show && <JoyStick></JoyStick>}
+      {playerInfoIsReady && show === true && <JoyStick></JoyStick>}
 
       {/*  */}
       {/*  */}

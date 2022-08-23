@@ -126,27 +126,19 @@ export function SceneContent({}) {
           ></EffectNodeRuntime>
         </>
       )}
-
-      {/* SceneTransformControl */}
-
       {/*  */}
-
+      {/*  */}
+      {/*  */}
       <Player show={false}>
         <Box position={[0, 0, 0]} args={[0.0, 0.0, 0.0]}></Box>
       </Player>
-
       <gridHelper args={[100, 50, 0x00ffff, 0xff00ff]}> </gridHelper>
-
       {enableDefaultHDR && (
         <HDRTex scene={scene} url={`/hdr/greenwich_park_02_1k.hdr`} />
       )}
-
       {glbObject && <AdaptTC node={glbObject.scene}></AdaptTC>}
-
       <Helper></Helper>
-
       {/* <TransformControls></TransformControls> */}
-
       {/*
 
       <OrbitControls
@@ -160,7 +152,6 @@ export function SceneContent({}) {
       ></OrbitControls>
 
       */}
-
       {/* <MapControls
         object-position-y={3}
         object-position-z={3}
