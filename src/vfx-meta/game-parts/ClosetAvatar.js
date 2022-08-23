@@ -353,11 +353,19 @@ function Generic({ frustumCulled, skeleton, url, mixer }) {
         })
       }
 
+      let bones = []
       glb.scene.traverse((it) => {
+        if (it.isBone) {
+          bones.push(it)
+        }
         if (it.isSkinnedMesh) {
           it.skeleton = skeleton
         }
       })
+      bones.forEach((it) => {
+        it.removeFromParent()
+      })
+
       mixer.update(1 / 60)
       setSkinMeshes(
         <>

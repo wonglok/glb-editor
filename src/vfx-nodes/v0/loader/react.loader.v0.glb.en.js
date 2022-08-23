@@ -100,12 +100,37 @@ let loadGLB = async (v) => {
 // }
 
 // let original = new Map()
+
 export function effect({ node, mini, data, setComponent }) {
   let send = () => {
     if (data.value.glb) {
       //
       loadGLB(data.value.glb).then(async (glb) => {
         node.out0.pulse(
+          <group key={getID()}>
+            <primitive object={glb.scene} />
+            <EffectNodeRuntime key={getID()} glbObject={glb} />
+          </group>
+        )
+        node.out1.pulse(
+          <group key={getID()}>
+            <primitive object={glb.scene} />
+            <EffectNodeRuntime key={getID()} glbObject={glb} />
+          </group>
+        )
+        node.out2.pulse(
+          <group key={getID()}>
+            <primitive object={glb.scene} />
+            <EffectNodeRuntime key={getID()} glbObject={glb} />
+          </group>
+        )
+        node.out3.pulse(
+          <group key={getID()}>
+            <primitive object={glb.scene} />
+            <EffectNodeRuntime key={getID()} glbObject={glb} />
+          </group>
+        )
+        node.out4.pulse(
           <group key={getID()}>
             <primitive object={glb.scene} />
             <EffectNodeRuntime key={getID()} glbObject={glb} />
