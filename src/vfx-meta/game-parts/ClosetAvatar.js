@@ -280,12 +280,17 @@ export function ClosetAvatar({
       {/*  */}
       {/* {base && <primitive object={base.scene}></primitive>} */}
       {/*  */}
+      {/*  */}
+      {/*  */}
+      {/*  */}
       <group ref={avatarGroup} rotation={[-Math.PI * 0.5, 0, 0]}>
         <group name={'Armature'} rotation={[-Math.PI * 0.5 * 0.0, 0, 0]}>
           {skeleton && hips && base && mixer && (
             <>
               <>
+                {/* <group rotation={[-Math.PI * 0.5 * 0.0, 0, 0]}> */}
                 <primitive object={hips} />
+                {/* </group> */}
 
                 <Suspense fallback={null}>
                   <Generic
