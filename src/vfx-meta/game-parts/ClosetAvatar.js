@@ -280,44 +280,41 @@ export function ClosetAvatar({
       {/*  */}
       {/* {base && <primitive object={base.scene}></primitive>} */}
       {/*  */}
-
-      <group
-        ref={avatarGroup}
-        name={'Armature'}
-        rotation={[-Math.PI * 0.5, 0, 0]}
-      >
-        {skeleton && hips && base && mixer && (
-          <>
+      <group ref={avatarGroup} rotation={[-Math.PI * 0.5, 0, 0]}>
+        <group name={'Armature'} rotation={[-Math.PI * 0.5 * 0.0, 0, 0]}>
+          {skeleton && hips && base && mixer && (
             <>
-              <primitive object={hips} />
+              <>
+                <primitive object={hips} />
 
-              <Suspense fallback={null}>
-                <Generic
-                  frustumCulled={frustumCulled}
-                  mixer={mixer}
-                  skeleton={skeleton}
-                  url={avatarPartUpper}
-                ></Generic>
-              </Suspense>
-              <Suspense fallback={null}>
-                <Generic
-                  frustumCulled={frustumCulled}
-                  mixer={mixer}
-                  skeleton={skeleton}
-                  url={avatarPartLower}
-                ></Generic>
-              </Suspense>
-              <Suspense fallback={null}>
-                <Generic
-                  frustumCulled={frustumCulled}
-                  mixer={mixer}
-                  skeleton={skeleton}
-                  url={avatarPartShoes}
-                ></Generic>
-              </Suspense>
+                <Suspense fallback={null}>
+                  <Generic
+                    frustumCulled={frustumCulled}
+                    mixer={mixer}
+                    skeleton={skeleton}
+                    url={avatarPartUpper}
+                  ></Generic>
+                </Suspense>
+                <Suspense fallback={null}>
+                  <Generic
+                    frustumCulled={frustumCulled}
+                    mixer={mixer}
+                    skeleton={skeleton}
+                    url={avatarPartLower}
+                  ></Generic>
+                </Suspense>
+                <Suspense fallback={null}>
+                  <Generic
+                    frustumCulled={frustumCulled}
+                    mixer={mixer}
+                    skeleton={skeleton}
+                    url={avatarPartShoes}
+                  ></Generic>
+                </Suspense>
+              </>
             </>
-          </>
-        )}
+          )}
+        </group>
       </group>
       {exportAvatar && (
         <Exporter

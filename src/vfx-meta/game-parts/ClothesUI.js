@@ -60,6 +60,7 @@ function UseAvatar() {
               rotation-x={Math.PI * -0.25}
               onClick={() => {
                 //
+
                 exportAvatar()
                 //
               }}
@@ -322,7 +323,7 @@ export function PreviewRPMAvaTester() {
   // let avatarPartUpper = useMetaStore((s) => s.myCTX.avatarPartUpper)
   // let avatarPartLower = useMetaStore((s) => s.myCTX.avatarPartLower)
   // let avatarPartShoes = useMetaStore((s) => s.myCTX.avatarPartShoes)
-  // let setExporter = useMetaStore((s) => s.myCTX.setExporter)
+  // let setExporter = useMetaStore((s) => s.myCTX.setExporter
   let setAction = useMetaStore((s) => s.setAction)
 
   return (

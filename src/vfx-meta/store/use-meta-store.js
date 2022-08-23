@@ -696,10 +696,11 @@ export const useMetaStore = create((set, get) => {
           mixer.update(1 / 60)
 
           useAccessor.getState().setGlbObjectBeforeEdit({
-            scene: clone(group),
+            scene: group,
             animations: clips,
           })
 
+          console.log(clips)
           //
           Exporter.download({
             clips: clips,
@@ -721,6 +722,10 @@ export const useMetaStore = create((set, get) => {
               setAction('backflip', 1)
             },
           })
+
+          //
+          //
+          //
           // exportGLB({
           //   clips,
           //   group,
