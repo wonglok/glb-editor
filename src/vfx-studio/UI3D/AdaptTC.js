@@ -249,11 +249,11 @@ function TC({ node, nodeData, fakeScene }) {
 
     setInterval(() => {
       if (node) {
-        node.updateMatrixWorld()
+        // node.updateMatrixWorld()
         node.getWorldPosition(po3.position)
         node.getWorldQuaternion(po3.quaternion)
         node.getWorldScale(po3.scale)
-        po3.updateMatrix()
+        // po3.updateMatrix()
       }
     })
 
