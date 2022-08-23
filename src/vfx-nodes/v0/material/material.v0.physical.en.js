@@ -336,8 +336,11 @@ export function effect({ node, mini, data, setComponent }) {
           newMat[uni.name] = getSide(val)
         } else if (uni.name === 'map') {
           newMat[uni.name] = loadTexture(val)
-
           newMat[uni.name].flipY = data.value['mapFlipY']
+          newMat[uni.name].needsUpdate = true
+        } else if (uni.name.includes('Map')) {
+          newMat[uni.name] = loadTexture(val)
+          newMat[uni.name].flipY = data.value[uni.name + 'MapFlipY']
           newMat[uni.name].needsUpdate = true
         } else if (uni.name === 'emissiveMap') {
           newMat[uni.name] = loadTexture(val)
@@ -352,6 +355,8 @@ export function effect({ node, mini, data, setComponent }) {
           newMat[uni.name].flipY = data.value[uni.name + 'FlipY']
           newMat[uni.name].needsUpdate = true
         } else if (uni.type === 'float') {
+          newMat[uni.name] = val
+        } else if (uni.name.includes('FlipY')) {
           newMat[uni.name] = val
         } else if (uni.type === 'color') {
           newMat[uni.name] = new Color(val)
