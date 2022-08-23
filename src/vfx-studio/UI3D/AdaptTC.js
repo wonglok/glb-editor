@@ -7,33 +7,22 @@ import {
   // FlyControls,
   // MapControls,
   // OrbitControls,
-  Select,
-  useAnimations,
   useFBO,
 } from '@react-three/drei'
-import {
-  AdditiveBlending,
-  BackSide,
-  BoxBufferGeometry,
-  BoxHelper,
-  DoubleSide,
-  NormalBlending,
-  Object3D,
-  PlaneBufferGeometry,
-  Vector3,
-} from 'three'
+import { DoubleSide, NormalBlending, Object3D, Vector3 } from 'three'
 // import anime from 'animejs'
-import { EffectNodeRuntime } from '../effectnode/Runtime/EffectNodeRuntime/EffectNodeRuntime'
-import { Player } from '@/vfx-meta/game-parts/Player'
+// import { EffectNodeRuntime } from '../effectnode/Runtime/EffectNodeRuntime/EffectNodeRuntime'
+// import { Player } from '@/vfx-meta/game-parts/Player'
 // import { OnlineSystem } from '@/vfx-meta/online/OnlineSystem'
-import { useMetaStore } from '@/vfx-meta/store/use-meta-store'
-import { Camera, Mesh, MeshBasicMaterial, Scene } from 'three140'
+// import { useMetaStore } from '@/vfx-meta/store/use-meta-store'/
+//Mesh, MeshBasicMaterial,
+import { Camera, Scene } from 'three140'
 // import { EnvLight } from '@/vfx-meta/game-vfx/EnvLight'
-import { useRender } from '@/vfx-meta/store/use-render'
+// import { useRender } from '@/vfx-meta/store/use-render'
 import { useENEditor } from '../store/use-en-editor'
 import { SceneTransformControl } from './SceneTransformControl'
-import { EffectComposer, SSR } from '@react-three/postprocessing'
-import { GLOverlay } from './GLOverlay'
+// import { EffectComposer, SSR } from '@react-three/postprocessing'
+// import { GLOverlay } from './GLOverlay'
 
 export function AdaptTC({ node }) {
   let reloadGraphID = useENEditor((s) => s.reloadGraphID)
