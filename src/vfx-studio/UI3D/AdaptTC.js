@@ -12,10 +12,12 @@ import {
   useFBO,
 } from '@react-three/drei'
 import {
+  AdditiveBlending,
   BackSide,
   BoxBufferGeometry,
   BoxHelper,
   DoubleSide,
+  NormalBlending,
   Object3D,
   PlaneBufferGeometry,
   Vector3,
@@ -118,7 +120,7 @@ function Screen({ fbo }) {
   let size = useThree((e) => e.size)
   let vp = viewport.getCurrentViewport(
     camera,
-    camera.position.clone().add(new Vector3(0, 0, -2)),
+    camera.position.clone().add(new Vector3(0, 0, -0.1)),
     size
   )
 
@@ -127,7 +129,12 @@ function Screen({ fbo }) {
   return (
     <>
       {createPortal(
-        <mesh position={[0, 0, -2]} scale={1}>
+        <mesh
+          renderOrder={-1}
+          frustumCulled={false}
+          position={[0, 0, -0.1]}
+          scale={1}
+        >
           <planeBufferGeometry
             args={[vp.width, vp.height]}
           ></planeBufferGeometry>
@@ -136,6 +143,7 @@ function Screen({ fbo }) {
             map={fbo.texture}
             side={DoubleSide}
             color='#ffffff'
+            blending={NormalBlending}
           ></meshBasicMaterial>
         </mesh>,
         camera
