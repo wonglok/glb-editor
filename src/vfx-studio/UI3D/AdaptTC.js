@@ -40,7 +40,7 @@ export function AdaptTC({ node }) {
 
   let fakeScene = useMemo(() => new Scene(), [])
 
-  let fbo = useFBO(256, 512)
+  let fbo = useFBO(512, 1024)
 
   let camQ = new Camera()
   camQ.position.z = 1
