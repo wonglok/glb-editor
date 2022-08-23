@@ -342,6 +342,7 @@ function Generic({ frustumCulled, skeleton, url, mixer }) {
   let [skinnedMeshes, setSkinMeshes] = useState([])
   let gl = useThree((s) => s.gl)
   let camera = useThree((s) => s.camera)
+
   useEffect(() => {
     get(url, gl, camera).then((glb) => {
       if (frustumCulled === false) {
@@ -372,7 +373,7 @@ function Generic({ frustumCulled, skeleton, url, mixer }) {
     return () => {
       //
     }
-  }, [url, gl, skeleton, camera, mixer])
+  }, [url, gl, skeleton, frustumCulled, camera, mixer])
 
   return <group>{skinnedMeshes}</group>
 }
