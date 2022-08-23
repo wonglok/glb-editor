@@ -89,9 +89,8 @@ export function SceneTransformControl({
 
     return () => {
       canDo = false
+      tc.visible = false
       tc.dispose()
-      o3.removeFromParent()
-      tc.removeFromParent()
     }
   }, [camera, fakeScene, object, onChange, gl.domElement])
 

@@ -236,6 +236,8 @@ function TC({ node, nodeData, fakeScene }) {
           )
         })
       }
+
+      window.dispatchEvent(new CustomEvent('reload-3d-gui'))
     }
 
     return o3
@@ -244,10 +246,9 @@ function TC({ node, nodeData, fakeScene }) {
   // node, nodeData, fakeScene
   useEffect(() => {
     let po3 = new Object3D()
-    po3.add(o3)
 
     setInterval(() => {
-      if (!o3.__disabled && node) {
+      if (node) {
         node.updateMatrixWorld()
         node.getWorldPosition(po3.position)
         node.getWorldQuaternion(po3.quaternion)
@@ -256,6 +257,7 @@ function TC({ node, nodeData, fakeScene }) {
       }
     })
 
+    po3.add(o3)
     fakeScene.add(po3)
     return () => {
       po3.visible = false
