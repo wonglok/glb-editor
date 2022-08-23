@@ -201,25 +201,6 @@ function TC({ node, nodeData, fakeScene }) {
             transformPosition.value.z
           )
         })
-
-        if (transformPosition.needsInit) {
-          transformPosition.needsInit = false
-
-          //
-          o3.position.copy(node.position)
-
-          transformPosition.value.x = node.position.x
-          transformPosition.value.y = node.position.y
-          transformPosition.value.z = node.position.z
-        } else {
-          //
-          //
-          o3.position.set(
-            transformPosition.value.x,
-            transformPosition.value.y,
-            transformPosition.value.z
-          )
-        }
       }
 
       let transformScale = nodeData.uniforms.find(
@@ -237,25 +218,6 @@ function TC({ node, nodeData, fakeScene }) {
             transformScale.value.z
           )
         })
-
-        if (transformScale.needsInit) {
-          transformScale.needsInit = false
-
-          //
-          o3.scale.copy(node.scale)
-
-          transformScale.value.x = node.scale.x
-          transformScale.value.y = node.scale.y
-          transformScale.value.z = node.scale.z
-        } else {
-          //
-          //
-          o3.scale.set(
-            transformScale.value.x,
-            transformScale.value.y,
-            transformScale.value.z
-          )
-        }
       }
 
       let transformRotation = nodeData.uniforms.find(
@@ -273,39 +235,33 @@ function TC({ node, nodeData, fakeScene }) {
             transformRotation.value.z
           )
         })
-
-        if (transformRotation.needsInit) {
-          transformRotation.needsInit = false
-
-          //
-          o3.rotation.x = node.rotation.x
-          o3.rotation.y = node.rotation.y
-          o3.rotation.z = node.rotation.z
-
-          transformRotation.value.x = node.rotation.x
-          transformRotation.value.y = node.rotation.y
-          transformRotation.value.z = node.rotation.z
-        } else {
-          //
-          //
-          o3.rotation.set(
-            transformRotation.value.x,
-            transformRotation.value.y,
-            transformRotation.value.z,
-            'XYZ'
-          )
-        }
       }
     }
 
     return o3
-  }, [node, nodeData])
+  }, [])
 
+  // node, nodeData, fakeScene
   useEffect(() => {
+    let po3 = new Object3D()
+    po3.add(o3)
+
+    setInterval(() => {
+      if (!o3.__disabled && node) {
+        node.updateMatrixWorld()
+        node.getWorldPosition(po3.position)
+        node.getWorldQuaternion(po3.quaternion)
+        node.getWorldScale(po3.scale)
+        po3.updateMatrix()
+      }
+    })
+
+    fakeScene.add(po3)
     return () => {
+      po3.visible = false
       o3.__disabled = true
     }
-  }, [o3])
+  }, [o3, node, fakeScene])
 
   //
 

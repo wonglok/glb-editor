@@ -39,7 +39,13 @@ export function JoyStick() {
         color: 'white',
       })
       clean()
+
+      let cleans = []
       clean = () => {
+        if (found) {
+          found.innerHTML = ''
+        }
+        cleans.forEach((e) => e())
         manager.destroy()
       }
 
@@ -51,6 +57,9 @@ export function JoyStick() {
 
       manager
         .on('added', (evt, nipple) => {
+          cleans.push(() => {
+            nipple.off('start move end dir plain')
+          })
           nipple.on('start move end dir plain', (evta, nipple) => {
             if (evta.type === 'move') {
               if (nipple?.angle?.radian) {

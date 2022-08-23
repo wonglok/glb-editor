@@ -38,12 +38,8 @@ export function SceneTransformControl({
   let gl = useThree((s) => s.gl)
   useEffect(() => {
     let tc = new TransformControls(camera, gl.domElement)
-
     let o3 = object
 
-    let li = new AmbientLight(0xffffff, 1)
-    fakeScene.add(li)
-    fakeScene.add(o3)
     fakeScene.add(tc)
 
     tc.addEventListener('change', (ev) => {

@@ -132,7 +132,7 @@ export function SceneContent({}) {
       {/*  */}
 
       <Player show={false}>
-        <Box position={[0, 0, 0]} args={[0.01, 0.01, 0.01]}></Box>
+        <Box position={[0, 0, 0]} args={[0.0, 0.0, 0.0]}></Box>
       </Player>
 
       <gridHelper args={[100, 50, 0x00ffff, 0xff00ff]}> </gridHelper>
