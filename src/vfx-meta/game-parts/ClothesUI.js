@@ -8,6 +8,7 @@ import { RPMAvatar } from './RPMAvatar'
 import { UploadAvatar } from './UploadAvatar'
 import { GLTFLoader } from 'three140/examples/jsm/loaders/GLTFLoader'
 import { DRACOLoader } from 'three140/examples/jsm/loaders/DRACOLoader'
+import { Effects } from '../game-vfx/Effects'
 // import { CompanionWrap } from './CompanionWrap'
 // import { NPCAvatar } from './NPCAvatar'
 //useState
@@ -17,6 +18,7 @@ export function ClothesUI() {
   // let [status, setStatus] = useState('stand')
   return (
     <group>
+      <Effects></Effects>
       <UseAvatar></UseAvatar>
       <AvatarRPMARea></AvatarRPMARea>
       <AvatarMixMatch></AvatarMixMatch>
