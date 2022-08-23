@@ -247,7 +247,7 @@ function TC({ node, nodeData, fakeScene }) {
   useEffect(() => {
     let po3 = new Object3D()
 
-    setInterval(() => {
+    let tt = setInterval(() => {
       if (node) {
         // node.updateMatrixWorld()
         node.getWorldPosition(po3.position)
@@ -260,6 +260,7 @@ function TC({ node, nodeData, fakeScene }) {
     po3.add(o3)
     fakeScene.add(po3)
     return () => {
+      clearInterval(tt)
       po3.visible = false
       o3.__disabled = true
     }
