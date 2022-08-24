@@ -111,58 +111,24 @@ export async function nodeData({ defaultData, nodeID }) {
 
 export function effect({ node, mini, data, setComponent }) {
   let send = () => {
-    node.out0.pulse(
-      <group key={getID()}>
-        <pointLight
-          intensity={data.value.intensity}
-          color={data.value.color}
-        ></pointLight>
-      </group>
+    let obj = () => (
+      <pointLight
+        key={getID()}
+        intensity={data.value.intensity}
+        color={data.value.color}
+      ></pointLight>
     )
-    node.out1.pulse(
-      <group key={getID()}>
-        <pointLight
-          intensity={data.value.intensity}
-          color={data.value.color}
-        ></pointLight>
-      </group>
-    )
-    node.out2.pulse(
-      <group key={getID()}>
-        <pointLight
-          intensity={data.value.intensity}
-          color={data.value.color}
-        ></pointLight>
-      </group>
-    )
-    node.out3.pulse(
-      <group key={getID()}>
-        <pointLight
-          intensity={data.value.intensity}
-          color={data.value.color}
-        ></pointLight>
-      </group>
-    )
-    node.out4.pulse(
-      <group key={getID()}>
-        <pointLight
-          intensity={data.value.intensity}
-          color={data.value.color}
-        ></pointLight>
-      </group>
-    )
-
-    //
-    // loadGLB(data.value.glb).then(async (glb) => {
-
-    // })
+    node.out0.pulse(obj())
   }
 
   //
-  data.uniforms.glb((sig) => {
-    send(sig.value)
+  data.uniforms.intensity(() => {
+    send()
   })
-  send(data.value.glb)
+  data.uniforms.color(() => {
+    send()
+  })
+  send()
 
   mini.onClean(() => {
     node.out0.pulse(null)
