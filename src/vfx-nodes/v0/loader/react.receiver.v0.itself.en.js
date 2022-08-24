@@ -75,7 +75,6 @@ export function effect({ node, mini, data, setComponent }) {
   //
 
   let receivers = {}
-
   let makeElemnet = () => {
     let values = []
 
@@ -84,6 +83,7 @@ export function effect({ node, mini, data, setComponent }) {
         values.push(receivers[socketInputName])
       }
     }
+
     return <group key={getID()}>{values}</group>
   }
 
@@ -101,7 +101,7 @@ export function effect({ node, mini, data, setComponent }) {
       o3d.removeFromParent()
     }
     mini.now.scene.add(o3d)
-    setComponent(createPortal(makeElemnet(receivers), o3d))
+    setComponent(createPortal(makeElemnet(), o3d))
   }
 
   let keys = ['in0', 'in1', 'in2', 'in3', 'in4', 'in5', 'in6', 'in7', 'in8']
@@ -112,6 +112,7 @@ export function effect({ node, mini, data, setComponent }) {
       receivers[socket] = v
       send()
     })
+    send()
   })
 
   // keys.forEach((kn) => {

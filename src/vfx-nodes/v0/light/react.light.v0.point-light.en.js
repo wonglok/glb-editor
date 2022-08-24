@@ -59,6 +59,7 @@ export async function nodeData({ defaultData, nodeID }) {
     // ],
 
     uniforms: [
+      //
       {
         id: getID(),
         nodeID,
@@ -67,6 +68,7 @@ export async function nodeData({ defaultData, nodeID }) {
         value: 50,
         protected: true,
       },
+      //
       {
         id: getID(),
         nodeID,
