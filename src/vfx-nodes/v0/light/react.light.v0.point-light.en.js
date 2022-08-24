@@ -118,10 +118,10 @@ export function effect({ node, mini, data, setComponent }) {
         color={data.value.color}
       ></pointLight>
     )
+
     node.out0.pulse(obj())
   }
 
-  //
   data.uniforms.intensity(() => {
     send()
   })
