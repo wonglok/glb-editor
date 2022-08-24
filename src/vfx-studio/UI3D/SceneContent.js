@@ -55,16 +55,20 @@ export function SceneContent({}) {
 
   //
   useEffect(() => {
-    let canStand = anim.actions.stand
+    let canStand = anim.actions['stand']
+    let first = anim['actions'][anim.names[0]]
 
     if (canStand) {
       anim.mixer.stopAllAction()
       canStand.play()
-    } else {
+    } else if (first) {
       anim.mixer.stopAllAction()
+      first.play()
+    } else {
       Object.values(anim.actions).forEach((e) => e.play())
     }
-  })
+    //
+  }, [anim, anim.actions, anim.mixer, anim.names])
 
   let setColliderFromScene = useMetaStore((s) => s.setColliderFromScene)
   useEffect(() => {

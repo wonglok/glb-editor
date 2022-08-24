@@ -95,9 +95,7 @@ export function NodeDetail() {
 
             {tab === 'uniforms' && (
               <>
-                {/*  */}
                 <TabUnifroms node={node}></TabUnifroms>
-                {/*  */}
               </>
             )}
 
