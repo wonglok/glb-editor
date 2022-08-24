@@ -64,7 +64,7 @@ export async function nodeData({ defaultData, nodeID }) {
         nodeID,
         name: 'intensity',
         type: 'float',
-        value: 1,
+        value: 50,
         protected: true,
       },
       {
