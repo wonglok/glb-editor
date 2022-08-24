@@ -58,8 +58,6 @@ export function AdaptTC({ node }) {
       gl.setRenderTarget(null)
       gl.setClearAlpha(0)
 
-      console.log(fakeScene.children.length)
-
       // gl.autoClear = false
       // gl.render(quad, camQ)
       // gl.autoClear = true
@@ -85,23 +83,23 @@ export function AdaptTC({ node }) {
   )
 }
 
-const visibleHeightAtZDepth = (depth, camera) => {
-  // compensate for cameras not positioned at z=0
-  const cameraOffset = camera.position.z
-  if (depth < cameraOffset) depth -= cameraOffset
-  else depth += cameraOffset
+// const visibleHeightAtZDepth = (depth, camera) => {
+//   // compensate for cameras not positioned at z=0
+//   const cameraOffset = camera.position.z
+//   if (depth < cameraOffset) depth -= cameraOffset
+//   else depth += cameraOffset
 
-  // vertical fov in radians
-  const vFOV = (camera.fov * Math.PI) / 180
+//   // vertical fov in radians
+//   const vFOV = (camera.fov * Math.PI) / 180
 
-  // Math.abs to ensure the result is always positive
-  return 2 * Math.tan(vFOV / 2) * Math.abs(depth)
-}
+//   // Math.abs to ensure the result is always positive
+//   return 2 * Math.tan(vFOV / 2) * Math.abs(depth)
+// }
 
-const visibleWidthAtZDepth = (depth, camera) => {
-  const height = visibleHeightAtZDepth(depth, camera)
-  return height * camera.aspect
-}
+// const visibleWidthAtZDepth = (depth, camera) => {
+//   const height = visibleHeightAtZDepth(depth, camera)
+//   return height * camera.aspect
+// }
 
 function Screen({ fbo }) {
   let camera = useThree((e) => e.camera)
@@ -265,7 +263,7 @@ function TC({ node, nodeData, fakeScene }) {
 
   //
 
-  let tt = 0
+  // let tt = 0
   return (
     <>
       {nodeData.uniforms.some((e) => e.name === 'transformPosition') && (
@@ -301,10 +299,10 @@ function TC({ node, nodeData, fakeScene }) {
               new CustomEvent('reload-gui-value', { detail: nodeData })
             )
 
-            clearTimeout(tt)
-            tt = setTimeout(() => {
-              updateSelected([node])
-            }, 100)
+            // clearTimeout(tt)
+            // tt = setTimeout(() => {
+            //   updateSelected([node])
+            // }, 100)
             //
           }}
         ></SceneTransformControl>
