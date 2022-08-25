@@ -140,6 +140,20 @@ function ObjectItem({ data }) {
   )
 }
 
+function Compo({ node, mini, data, setComponent }) {
+  let item = <ObjectItem mini={mini} data={data}></ObjectItem>
+
+  node.out0.pulse(item)
+  data.uniforms.intensity(() => {
+    node.out0.pulse(item)
+  })
+  data.uniforms.color(() => {
+    node.out0.pulse(item)
+  })
+
+  return null
+}
+
 export function effect({ node, mini, data, setComponent }) {
   // let send = () => {
   //   let makeObj = () => (
@@ -165,14 +179,7 @@ export function effect({ node, mini, data, setComponent }) {
   //   node.out0.pulse(null)
   // })
 
-  let item = <ObjectItem mini={mini} data={data}></ObjectItem>
-  node.out0.pulse(item)
-  data.uniforms.intensity(() => {
-    node.out0.pulse(item)
-  })
-  data.uniforms.color(() => {
-    node.out0.pulse(item)
-  })
+  setComponent(<Compo node={node} mini={mini} data={data}></Compo>)
 
   //
   // //
