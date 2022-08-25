@@ -1,5 +1,6 @@
 import { getID } from '@/vfx-runtime/ENUtils'
 import { createPortal } from '@react-three/fiber'
+import { useEffect, useState } from 'react'
 import { Object3D } from 'three140'
 //
 
@@ -69,84 +70,49 @@ export async function nodeData({ defaultData, nodeID }) {
   }
 }
 
-export function effect({ node, mini, data, setComponent }) {
-  //
-  // setComponent
-  //
+function Inbound({ socketName, node, mini }) {
+  let [item, setItem] = useState(null)
 
-  let receivers = {}
-  let makeElemnet = () => {
-    let values = []
-
-    for (let socketInputName in receivers) {
-      if (receivers[socketInputName]) {
-        values.push(receivers[socketInputName])
-      }
-    }
-
-    return <group key={getID()}>{values}</group>
-  }
-
-  let clean = () => {}
-  let send = () => {
-    let o3d = new Object3D()
-    mini.onLoop(() => {
-      mini.now.itself.getWorldPosition(o3d.position)
-      mini.now.itself.getWorldQuaternion(o3d.quaternion)
-      mini.now.itself.getWorldScale(o3d.scale)
+  useEffect(() => {
+    node[socketName].ready.then((v) => {
+      setItem(v)
+    })
+    node[socketName].stream((v) => {
+      setItem(v)
     })
 
-    clean()
-    clean = () => {
-      o3d.removeFromParent()
+    return () => {
+      //
     }
-    mini.now.scene.add(o3d)
-    setComponent(createPortal(makeElemnet(), o3d))
-  }
-
-  let keys = ['in0', 'in1', 'in2', 'in3', 'in4', 'in5', 'in6', 'in7', 'in8']
-
-  keys.forEach((socket) => {
-    receivers[socket] = null
-    node[socket].stream((v) => {
-      receivers[socket] = v
-      send()
-    })
-    send()
-  })
-
-  // keys.forEach((kn) => {
-  //   data.uniforms[kn]((v) => {
-  //     defaultConfig[kn] = v || null
-  //     setComponent(makeElemnet(defaultConfig))
-  //   })
-  // })
-
-  // //
-
-  // keys.forEach((kn) => {
-  //   console.log(data.value[kn])
-  //   defaultConfig[kn] = data.value[kn] || null
-  // })
+  }, [mini, node, socketName])
+  return <group>{item}</group>
 }
 
-//
+export function effect({ node, mini, data, setComponent }) {
+  let o3d = new Object3D()
+  mini.now.scene.add(o3d)
 
-/*
-<Noise premultiply={true} opacity={0.2} />
+  mini.onLoop(() => {
+    mini.now.itself.getWorldPosition(o3d.position)
+    mini.now.itself.getWorldQuaternion(o3d.quaternion)
+    mini.now.itself.getWorldScale(o3d.scale)
+  })
 
-<SSR {...props} />
-<Bloom
-  luminanceThreshold={0.2}
-  mipmapBlur
-  luminanceSmoothing={0}
-  intensity={0.5}
-/>
-<LUT lut={texture} />
-{/* <DepthOfField
-    focusDistance={2}
-    focalLength={0.02}
-    bokehScale={2}
-    height={480}
-  />
-  */
+  setComponent(
+    createPortal(
+      <group>
+        <Inbound socketName={'in0'} node={node} mini={mini}></Inbound>
+        <Inbound socketName={'in1'} node={node} mini={mini}></Inbound>
+        <Inbound socketName={'in2'} node={node} mini={mini}></Inbound>
+        <Inbound socketName={'in3'} node={node} mini={mini}></Inbound>
+        <Inbound socketName={'in4'} node={node} mini={mini}></Inbound>
+        <Inbound socketName={'in5'} node={node} mini={mini}></Inbound>
+        <Inbound socketName={'in6'} node={node} mini={mini}></Inbound>
+        <Inbound socketName={'in7'} node={node} mini={mini}></Inbound>
+        <Inbound socketName={'in8'} node={node} mini={mini}></Inbound>
+        <Inbound socketName={'in9'} node={node} mini={mini}></Inbound>
+      </group>,
+      o3d
+    )
+  )
+}

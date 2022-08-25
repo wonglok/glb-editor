@@ -113,7 +113,7 @@ export async function nodeData({ defaultData, nodeID }) {
 
 export function effect({ node, mini, data, setComponent }) {
   let send = () => {
-    let obj = () => (
+    let makeObj = () => (
       <pointLight
         key={getID()}
         intensity={data.value.intensity}
@@ -121,7 +121,7 @@ export function effect({ node, mini, data, setComponent }) {
       ></pointLight>
     )
 
-    node.out0.pulse(obj())
+    node.out0.pulse(makeObj())
   }
 
   data.uniforms.intensity(() => {
