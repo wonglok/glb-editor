@@ -113,17 +113,17 @@ export function effect({ node, mini, data, setComponent }) {
     let [glb, setGLB] = useState(null)
 
     useEffect(() => {
-      data.uniforms.glb((sig) => {
-        send(sig.value)
-      })
-      send(data.value.glb)
-
       // data.value.glb
       let send = (url) => {
         loadGLB(url).then((glb) => {
           setGLB(glb)
         })
       }
+
+      data.uniforms.glb((sig) => {
+        send(sig.value)
+      })
+      send(data.value.glb)
     }, [])
     //
     //
