@@ -1,16 +1,7 @@
 import { getID } from '@/vfx-runtime/ENUtils'
 import { EffectNodeRuntime } from '@/vfx-studio/effectnode/Runtime/EffectNodeRuntime/EffectNodeRuntime'
 import { createPortal } from '@react-three/fiber'
-import md5 from 'md5'
-import { useEffect } from 'react'
-import { BackSide, FrontSide, sRGBEncoding } from 'three'
-import {
-  Color,
-  DoubleSide,
-  MeshPhysicalMaterial,
-  Texture,
-  TextureLoader,
-} from 'three140'
+import { useEffect, useState } from 'react'
 import { DRACOLoader } from 'three140/examples/jsm/loaders/DRACOLoader'
 import { GLTFLoader } from 'three140/examples/jsm/loaders/GLTFLoader'
 // import { Bloom, EffectComposer, Noise } from '@react-three/postprocessing'
