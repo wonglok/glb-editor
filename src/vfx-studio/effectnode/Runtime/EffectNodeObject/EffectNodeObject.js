@@ -101,6 +101,21 @@ export function EffectNodeObject({
       {enRuntime && (
         <>
           <group>
+            {/*  */}
+            {effectNode?.connections &&
+              effectNode.connections.map((conn) => {
+                return (
+                  <EffectNodeObjectLink
+                    key={conn._id + enRuntime.name}
+                    link={conn}
+                    allLinks={effectNode.connections}
+                    on={on}
+                    emit={emit}
+                    enRuntime={enRuntime}
+                  ></EffectNodeObjectLink>
+                )
+              })}
+
             {effectNode &&
               effectNode.nodes &&
               effectNode.nodes.map((node) => {
@@ -124,25 +139,21 @@ export function EffectNodeObject({
                 )
               })}
 
-            {/*  */}
-            {effectNode?.connections &&
-              effectNode.connections.map((conn) => {
-                return (
-                  <EffectNodeObjectLink
-                    key={conn._id + enRuntime.name}
-                    link={conn}
-                    allLinks={effectNode.connections}
-                    on={on}
-                    emit={emit}
-                    enRuntime={enRuntime}
-                  ></EffectNodeObjectLink>
-                )
-              })}
+            <AllReady enRuntime={enRuntime}></AllReady>
           </group>
         </>
       )}
     </>
   )
+}
+
+function AllReady({ enRuntime }) {
+  useEffect(() => {
+    setTimeout(() => {
+      enRuntime.now['all-ready'] = true
+    }, 0)
+  }, [enRuntime])
+  return null
 }
 
 // export class EN2Runtime {

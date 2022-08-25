@@ -49,23 +49,22 @@ export function EffectNodeObjectNode({
 
           //
           //
-          // let mode = 'queue'
-          // enRuntime.ready['all-ready'].then(() => {
-          //   mode = 'can-send'
-          //   queue.forEach((ev) => {
-          //     emit(ev.event, ev.data)
-          //   })
-          //   //
-          //   // comments.log(ev);
-          // })
-          // if (mode === 'can-send') {
-          // } else {
-          //   queue.push({
-          //     event: output._id,
-          //     data,
-          //   })
-          // }
-          //
+          let queue = []
+          let mode = 'queue'
+          enRuntime.ready['all-ready'].then(() => {
+            mode = 'can-send'
+            queue.forEach((ev) => {
+              emit(ev.event, ev.data)
+            })
+            // comments.log(ev);
+          })
+          //  if (mode === 'can-send') {
+          //  } else {
+          //    queue.push({
+          //      event: output._id,
+          //      data,
+          //    })
+          //  }
           //
 
           let portsAPIMap = new Map()
@@ -107,7 +106,14 @@ export function EffectNodeObjectNode({
           outputs.forEach((output, idx) => {
             portsAPIMap.set(`out${idx}`, {
               pulse: (data) => {
-                emit(output._id, data)
+                if (mode === 'can-send') {
+                  emit(output._id, data)
+                } else {
+                  queue.push({
+                    event: output._id,
+                    data,
+                  })
+                }
               },
             })
           })
@@ -228,19 +234,21 @@ export function EffectNodeObjectNode({
 
           //
           return await logic
+
             .effect({
               mini,
               node: nodeAPI,
               data: dataAPI,
               setComponent,
             })
+
             ?.catch((e) => {
               console.log(e)
             })
         })
       }
     }
-    run()
+    run().then(() => {})
 
     return () => {
       cleans.forEach((c) => c())
