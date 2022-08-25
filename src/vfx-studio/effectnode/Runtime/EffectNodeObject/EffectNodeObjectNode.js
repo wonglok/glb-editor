@@ -43,6 +43,7 @@ export function EffectNodeObjectNode({
         })
         .find((e) => e.title === node.codeID)
 
+      //
       if (featureModule) {
         featureModule.loader().then(async (logic) => {
           enRuntime.set(node._id, node)
@@ -254,6 +255,8 @@ export function EffectNodeObjectNode({
         })
       }
     }
+
+    //
     run().then(() => {})
 
     return () => {
