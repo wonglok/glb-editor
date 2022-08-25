@@ -2,6 +2,7 @@ import { getID } from '@/vfx-runtime/ENUtils'
 import { EffectNodeRuntime } from '@/vfx-studio/effectnode/Runtime/EffectNodeRuntime/EffectNodeRuntime'
 import { createPortal } from '@react-three/fiber'
 import md5 from 'md5'
+import { useEffect, useRef } from 'react'
 import { BackSide, FrontSide, sRGBEncoding } from 'three'
 import {
   Color,
@@ -111,29 +112,67 @@ export async function nodeData({ defaultData, nodeID }) {
 
 // let original = new Map()
 
+function ObjectItem({ data }) {
+  let ref = useRef()
+
+  useEffect(() => {
+    ref.current.intensity = data.value.intensity
+    ref.current.color = data.value.color
+
+    data.uniforms.intensity((sig) => {
+      if (ref.current) {
+        ref.current.intensity = sig.value
+      }
+    })
+    data.uniforms.color((sig) => {
+      if (ref.current) {
+        ref.current.color = new Color(sig.value)
+      }
+    })
+  }, [data])
+
+  return (
+    <pointLight
+      ref={ref}
+      key={getID()}
+      intensity={data.value.intensity}
+      color={data.value.color}
+    ></pointLight>
+  )
+}
+
 export function effect({ node, mini, data, setComponent }) {
-  let send = () => {
-    let makeObj = () => (
-      <pointLight
-        key={getID()}
-        intensity={data.value.intensity}
-        color={data.value.color}
-      ></pointLight>
-    )
+  // let send = () => {
+  //   let makeObj = () => (
+  //     <pointLight
+  //       key={getID()}
+  //       intensity={data.value.intensity}
+  //       color={data.value.color}
+  //     ></pointLight>
+  //   )
 
-    node.out0.pulse(makeObj())
-  }
+  //   node.out0.pulse(makeObj())
+  // }
 
+  // data.uniforms.intensity(() => {
+  //   send()
+  // })
+  // data.uniforms.color(() => {
+  //   send()
+  // })
+  // send()
+
+  // mini.onClean(() => {
+  //   node.out0.pulse(null)
+  // })
+
+  let item = <ObjectItem mini={mini} data={data}></ObjectItem>
+  node.out0.pulse(item)
   data.uniforms.intensity(() => {
-    send()
+    node.out0.pulse(item)
   })
   data.uniforms.color(() => {
-    send()
-  })
-  send()
-
-  mini.onClean(() => {
-    node.out0.pulse(null)
+    node.out0.pulse(item)
   })
 
   //
