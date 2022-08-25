@@ -45,6 +45,8 @@ export function EffectNodeObjectNode({
         featureModule.loader().then(async (logic) => {
           enRuntime.set(node._id, node)
 
+          //
+
           // let mode = 'queue'
           // enRuntime.ready['all-ready'].then(() => {
           //   mode = 'can-send'
@@ -180,9 +182,7 @@ export function EffectNodeObjectNode({
                                 )
 
                                 founds.forEach((found) => {
-                                  if (found) {
-                                    hander(found)
-                                  }
+                                  hander(found)
                                 })
 
                                 if (founds.length > 1) {
