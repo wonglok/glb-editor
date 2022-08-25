@@ -34,9 +34,11 @@ export function EffectNodeObjectNode({
             }
           })
 
+          //
           // if (!res) {
           //   console.log('disabled node found:', e.title)
           // }
+          //
           return res
         })
         .find((e) => e.title === node.codeID)
@@ -46,7 +48,7 @@ export function EffectNodeObjectNode({
           enRuntime.set(node._id, node)
 
           //
-
+          //
           // let mode = 'queue'
           // enRuntime.ready['all-ready'].then(() => {
           //   mode = 'can-send'
@@ -63,6 +65,8 @@ export function EffectNodeObjectNode({
           //     data,
           //   })
           // }
+          //
+          //
 
           let portsAPIMap = new Map()
 

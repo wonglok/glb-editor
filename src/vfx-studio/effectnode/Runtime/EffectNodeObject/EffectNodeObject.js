@@ -29,7 +29,7 @@ export function EffectNodeObject({
 
   //
   useEffect(() => {
-    item.geometry?.computeBoundingSphere()
+    // item.geometry?.computeBoundingSphere()
     // let center = item.geometry.boundingSphere.center
     // // let radius = item.geometry.boundingSphere.radius
 
