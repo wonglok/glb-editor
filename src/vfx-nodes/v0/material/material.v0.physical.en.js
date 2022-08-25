@@ -1,5 +1,5 @@
 import { getID } from '@/vfx-runtime/ENUtils'
-import { createPortal } from '@react-three/fiber'
+// import { createPortal } from '@react-three/fiber'
 import { BackSide, FrontSide, sRGBEncoding } from 'three'
 import {
   Color,
@@ -361,6 +361,10 @@ export function effect({ node, mini, data, setComponent }) {
         } else if (uni.type === 'color') {
           newMat[uni.name] = new Color(val)
         }
+
+        //
+        //
+        //
         /*
         else if (uni.type === 'texture') {
           // needs fix

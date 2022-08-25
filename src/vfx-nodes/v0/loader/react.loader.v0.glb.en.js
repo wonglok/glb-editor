@@ -116,6 +116,7 @@ export function effect({ node, mini, data, setComponent }) {
     useEffect(() => {
       // data.value.glb
       let send = (url) => {
+        setGLB(null)
         loadGLB(url).then((glb) => {
           setGLB(glb)
         })
