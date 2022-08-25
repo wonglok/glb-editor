@@ -2,6 +2,7 @@ import { getID } from '@/vfx-runtime/ENUtils'
 import { EffectNodeRuntime } from '@/vfx-studio/effectnode/Runtime/EffectNodeRuntime/EffectNodeRuntime'
 import { createPortal } from '@react-three/fiber'
 import md5 from 'md5'
+import { useEffect } from 'react'
 import { BackSide, FrontSide, sRGBEncoding } from 'three'
 import {
   Color,
@@ -101,55 +102,110 @@ let loadGLB = async (v) => {
 
 // let original = new Map()
 
+// function Socket({ node, mini, data }) {
+//   let [item, setItem] = useState(null)
+
+//   return (
+//     <group>
+//       {item}
+//       {/*  */}
+//       {/*  */}
+//       {/*  */}
+//       {/*  */}
+//       {/*  */}
+//     </group>
+//   )
+// }
+
 export function effect({ node, mini, data, setComponent }) {
-  let send = () => {
-    if (data.value.glb) {
-      //
-      loadGLB(data.value.glb).then(async (glb) => {
-        node.out0.pulse(
-          <group key={getID()}>
-            <primitive object={glb.scene} />
-            <EffectNodeRuntime key={getID()} glbObject={glb} />
-          </group>
-        )
-        node.out1.pulse(
-          <group key={getID()}>
-            <primitive object={glb.scene} />
-            <EffectNodeRuntime key={getID()} glbObject={glb} />
-          </group>
-        )
-        node.out2.pulse(
-          <group key={getID()}>
-            <primitive object={glb.scene} />
-            <EffectNodeRuntime key={getID()} glbObject={glb} />
-          </group>
-        )
-        node.out3.pulse(
-          <group key={getID()}>
-            <primitive object={glb.scene} />
-            <EffectNodeRuntime key={getID()} glbObject={glb} />
-          </group>
-        )
-        node.out4.pulse(
-          <group key={getID()}>
-            <primitive object={glb.scene} />
-            <EffectNodeRuntime key={getID()} glbObject={glb} />
-          </group>
-        )
+  let MakeObject = () => {
+    let [glb, setGLB] = useState(null)
+
+    useEffect(() => {
+      data.uniforms.glb((sig) => {
+        send(sig.value)
       })
-    }
+      send(data.value.glb)
+
+      // data.value.glb
+      let send = (url) => {
+        loadGLB(url).then((glb) => {
+          setGLB(glb)
+        })
+      }
+    }, [])
+    //
+    //
+    return (
+      <>
+        {glb && (
+          <group key={getID()}>
+            <primitive object={glb.scene} />
+            <EffectNodeRuntime key={getID()} glbObject={glb} />
+          </group>
+        )}
+      </>
+    )
   }
 
+  node.out0.pulse(<MakeObject key={getID()}></MakeObject>)
+  node.out1.pulse(<MakeObject key={getID()}></MakeObject>)
+  node.out2.pulse(<MakeObject key={getID()}></MakeObject>)
+  node.out3.pulse(<MakeObject key={getID()}></MakeObject>)
+  node.out4.pulse(<MakeObject key={getID()}></MakeObject>)
+
   //
-  data.uniforms.glb((sig) => {
-    send(sig.value)
-  })
-  send(data.value.glb)
-
-  mini.onClean(() => {
-    node.out0.pulse(null)
-  })
-
+  // //
+  // setComponent(
+  //   <>
+  //     <Socket node={node} mini={mini} data={data}></Socket>
+  //   </>
+  // )
+  // let send = () => {
+  //   if (data.value.glb) {
+  //     //
+  //     loadGLB(data.value.glb).then(async (glb) => {
+  //       node.out0.pulse(
+  //         <group key={getID()}>
+  //           <primitive object={glb.scene} />
+  //           <EffectNodeRuntime key={getID()} glbObject={glb} />
+  //         </group>
+  //       )
+  //       node.out1.pulse(
+  //         <group key={getID()}>
+  //           <primitive object={glb.scene} />
+  //           <EffectNodeRuntime key={getID()} glbObject={glb} />
+  //         </group>
+  //       )
+  //       node.out2.pulse(
+  //         <group key={getID()}>
+  //           <primitive object={glb.scene} />
+  //           <EffectNodeRuntime key={getID()} glbObject={glb} />
+  //         </group>
+  //       )
+  //       node.out3.pulse(
+  //         <group key={getID()}>
+  //           <primitive object={glb.scene} />
+  //           <EffectNodeRuntime key={getID()} glbObject={glb} />
+  //         </group>
+  //       )
+  //       node.out4.pulse(
+  //         <group key={getID()}>
+  //           <primitive object={glb.scene} />
+  //           <EffectNodeRuntime key={getID()} glbObject={glb} />
+  //         </group>
+  //       )
+  //     })
+  //   }
+  // }
+  // //
+  // data.uniforms.glb((sig) => {
+  //   send(sig.value)
+  // })
+  // send(data.value.glb)
+  // mini.onClean(() => {
+  //   node.out0.pulse(null)
+  // })
   //
   // //
   // // setComponent

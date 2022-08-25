@@ -64,6 +64,7 @@ export async function nodeData({ defaultData, nodeID }) {
     ],
 
     //
+    //
     shaders: [],
 
     //
@@ -118,3 +119,5 @@ export function effect({ node, mini, data, setComponent }) {
     )
   )
 }
+
+//
