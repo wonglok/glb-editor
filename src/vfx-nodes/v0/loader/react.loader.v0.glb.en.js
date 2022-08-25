@@ -117,9 +117,14 @@ export function effect({ node, mini, data, setComponent }) {
       // data.value.glb
       let send = (url) => {
         setGLB(null)
-        loadGLB(url).then((glb) => {
-          setGLB(glb)
-        })
+
+        if (url) {
+          loadGLB(url).then((glb) => {
+            setGLB(glb)
+          })
+        } else {
+          setGLB(null)
+        }
       }
 
       data.uniforms.glb((sig) => {
