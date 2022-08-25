@@ -134,7 +134,6 @@ function ObjectItem({ data }) {
   return (
     <pointLight
       ref={ref}
-      key={getID()}
       intensity={data.value.intensity}
       color={data.value.color}
     ></pointLight>
