@@ -177,7 +177,9 @@ function Parent({ node, data, mini }) {
 export function effect({ node, mini, data, setComponent }) {
   // Inbound
 
-  node.out0.pulse(<Parent node={node} mini={mini} data={data}></Parent>)
+  node.out0.pulse(
+    <Parent key={getID()} node={node} mini={mini} data={data}></Parent>
+  )
 
   //
   // let send = () => {
