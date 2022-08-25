@@ -49,13 +49,13 @@ export function EffectNodeObjectNode({
 
           //
           //
-          let queue = []
+          // let queue = []
           let mode = 'queue'
           enRuntime.ready['all-ready'].then(() => {
             mode = 'can-send'
-            queue.forEach((ev) => {
-              emit(ev.event, ev.data)
-            })
+            // queue.forEach((ev) => {
+            //   emit(ev.event, ev.data)
+            // })
             // comments.log(ev);
           })
           //  if (mode === 'can-send') {
@@ -106,14 +106,20 @@ export function EffectNodeObjectNode({
           outputs.forEach((output, idx) => {
             portsAPIMap.set(`out${idx}`, {
               pulse: (data) => {
-                if (mode === 'can-send') {
-                  emit(output._id, data)
-                } else {
-                  queue.push({
-                    event: output._id,
-                    data,
-                  })
-                }
+                let ttt = setInterval(() => {
+                  if (mode === 'can-send') {
+                    emit(output._id, data)
+                    clearInterval(ttt)
+                  }
+                })
+
+                // if (mode === 'can-send') {
+                // } else {
+                //   queue.push({
+                //     event: output._id,
+                //     data,
+                //   })
+                // }
               },
             })
           })
