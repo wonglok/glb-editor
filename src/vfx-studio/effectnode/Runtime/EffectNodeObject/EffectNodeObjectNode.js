@@ -45,214 +45,217 @@ export function EffectNodeObjectNode({
 
       //
       if (featureModule) {
-        featureModule.loader().then(async (logic) => {
-          enRuntime.set(node._id, node)
-
+        featureModule
           //
-          //
-          // let queue = []
-          let mode = 'queue'
-          enRuntime.ready['all-ready'].then(() => {
-            mode = 'can-send'
-            // queue.forEach((ev) => {
-            //   emit(ev.event, ev.data)
-            // })
-            // comments.log(ev);
-          })
-          //  if (mode === 'can-send') {
-          //  } else {
-          //    queue.push({
-          //      event: output._id,
-          //      data,
-          //    })
-          //  }
-          //
-
-          let portsAPIMap = new Map()
-
-          let inputs = node.inputs || []
-          let outputs = node.outputs || []
-
-          //
-          // portsAPIMap.set(`in${idx}`, {
-          // });
-
-          inputs.forEach((input, idx) => {
-            let answer = false
+          .loader()
+          .then(async (logic) => {
+            enRuntime.set(node._id, node)
 
             //
-            let api = {
-              stream: (onReceive) => {
-                on(input._id, onReceive)
-              },
-              get ready() {
-                return new Promise((resolve) => {
-                  let tt = setInterval(() => {
-                    if (answer) {
-                      clearInterval(tt)
-                      resolve(answer)
+            //
+            // let queue = []
+            let mode = 'queue'
+            enRuntime.ready['all-ready'].then(() => {
+              mode = 'can-send'
+              // queue.forEach((ev) => {
+              //   emit(ev.event, ev.data)
+              // })
+              // comments.log(ev);
+            })
+            //  if (mode === 'can-send') {
+            //  } else {
+            //    queue.push({
+            //      event: output._id,
+            //      data,
+            //    })
+            //  }
+            //
+
+            let portsAPIMap = new Map()
+
+            let inputs = node.inputs || []
+            let outputs = node.outputs || []
+
+            //
+            // portsAPIMap.set(`in${idx}`, {
+            // });
+
+            inputs.forEach((input, idx) => {
+              let answer = false
+
+              //
+              let api = {
+                stream: (onReceive) => {
+                  on(input._id, onReceive)
+                },
+                get ready() {
+                  return new Promise((resolve) => {
+                    let tt = setInterval(() => {
+                      if (answer) {
+                        clearInterval(tt)
+                        resolve(answer)
+                      }
+                    }, 0)
+                  })
+                },
+              }
+
+              on(input._id, (v) => {
+                answer = v
+              })
+
+              portsAPIMap.set(`in${idx}`, api)
+            })
+
+            outputs.forEach((output, idx) => {
+              portsAPIMap.set(`out${idx}`, {
+                pulse: (data) => {
+                  let ttt = setInterval(() => {
+                    if (mode === 'can-send') {
+                      emit(output._id, data)
+                      clearInterval(ttt)
                     }
-                  }, 0)
-                })
-              },
-            }
+                  })
 
-            on(input._id, (v) => {
-              answer = v
+                  // if (mode === 'can-send') {
+                  // } else {
+                  //   queue.push({
+                  //     event: output._id,
+                  //     data,
+                  //   })
+                  // }
+                },
+              })
             })
 
-            portsAPIMap.set(`in${idx}`, api)
-          })
+            let nodeAPI = new Proxy(node, {
+              get: (obj, key) => {
+                if (key === 'data') {
+                  return node
+                }
 
-          outputs.forEach((output, idx) => {
-            portsAPIMap.set(`out${idx}`, {
-              pulse: (data) => {
-                let ttt = setInterval(() => {
-                  if (mode === 'can-send') {
-                    emit(output._id, data)
-                    clearInterval(ttt)
-                  }
-                })
+                //
+                if (key.indexOf('in') === 0 && !isNaN(key[2])) {
+                  return portsAPIMap.get(key)
+                }
 
-                // if (mode === 'can-send') {
-                // } else {
-                //   queue.push({
-                //     event: output._id,
-                //     data,
-                //   })
-                // }
+                if (key.indexOf('out') === 0 && !isNaN(key[3])) {
+                  return portsAPIMap.get(key)
+                }
+
+                if (obj[key]) {
+                  return obj[key]
+                }
+                //
               },
             })
-          })
 
-          let nodeAPI = new Proxy(node, {
-            get: (obj, key) => {
-              if (key === 'data') {
-                return node
-              }
+            //
 
-              //
-              if (key.indexOf('in') === 0 && !isNaN(key[2])) {
-                return portsAPIMap.get(key)
-              }
-
-              if (key.indexOf('out') === 0 && !isNaN(key[3])) {
-                return portsAPIMap.get(key)
-              }
-
-              if (obj[key]) {
-                return obj[key]
-              }
-              //
-            },
-          })
-
-          //
-
-          let dataAPI = new Proxy(
-            {},
-            {
-              get: (obj, accessKey) => {
-                if (accessKey === 'raw') {
-                  if (enRuntime && enRuntime.now[node._id]) {
-                    return enRuntime.now[node._id]
-                  } else {
-                    return null
-                  }
-                } else if (accessKey === 'value') {
-                  if (enRuntime && enRuntime.now[node._id])
+            let dataAPI = new Proxy(
+              {},
+              {
+                get: (obj, accessKey) => {
+                  if (accessKey === 'raw') {
+                    if (enRuntime && enRuntime.now[node._id]) {
+                      return enRuntime.now[node._id]
+                    } else {
+                      return null
+                    }
+                  } else if (accessKey === 'value') {
+                    if (enRuntime && enRuntime.now[node._id])
+                      return new Proxy(
+                        {},
+                        {
+                          get: (_ooo, entryName) => {
+                            let obj = enRuntime.now[node._id].uniforms.find(
+                              (e) => e.name === entryName
+                            )
+                            if (obj) {
+                              return obj.value
+                            } else {
+                              return undefined
+                            }
+                          },
+                        }
+                      )
+                  } else if (
+                    //
+                    accessKey === 'shaders' ||
+                    accessKey === 'materials' ||
+                    accessKey === 'uniforms'
+                  ) {
+                    //
                     return new Proxy(
                       {},
                       {
-                        get: (_ooo, entryName) => {
-                          let obj = enRuntime.now[node._id].uniforms.find(
-                            (e) => e.name === entryName
-                          )
-                          if (obj) {
-                            return obj.value
-                          } else {
-                            return undefined
+                        get: (obj, entryName) => {
+                          return (hander) => {
+                            enRuntime.onClean(
+                              enRuntime.onChange(
+                                node._id,
+                                (nodeData) => {
+                                  //
+                                  let arr = nodeData[accessKey] || []
+                                  let founds = arr.filter(
+                                    (m) => m.name === entryName
+                                  )
+
+                                  founds.forEach((found) => {
+                                    hander(found)
+                                  })
+
+                                  if (founds.length > 1) {
+                                    console.log(
+                                      'duplicated item detected',
+                                      entryName
+                                    )
+                                  }
+                                },
+                                {
+                                  initFire: true,
+                                }
+                              )
+                            )
                           }
                         },
                       }
                     )
-                } else if (
+                  }
                   //
-                  accessKey === 'shaders' ||
-                  accessKey === 'materials' ||
-                  accessKey === 'uniforms'
-                ) {
-                  //
-                  return new Proxy(
-                    {},
-                    {
-                      get: (obj, entryName) => {
-                        return (hander) => {
-                          enRuntime.onClean(
-                            enRuntime.onChange(
-                              node._id,
-                              (nodeData) => {
-                                //
-                                let arr = nodeData[accessKey] || []
-                                let founds = arr.filter(
-                                  (m) => m.name === entryName
-                                )
+                },
+              }
+            )
 
-                                founds.forEach((found) => {
-                                  hander(found)
-                                })
-
-                                if (founds.length > 1) {
-                                  console.log(
-                                    'duplicated item detected',
-                                    entryName
-                                  )
-                                }
-                              },
-                              {
-                                initFire: true,
-                              }
-                            )
-                          )
-                        }
-                      },
-                    }
-                  )
-                }
-                //
-              },
+            let hhhh = ({ detail }) => {
+              if (detail._id === node._id) {
+                enRuntime.now[detail._id] = detail
+              }
             }
-          )
+            window.addEventListener('reload-node', hhhh)
 
-          let hhhh = ({ detail }) => {
-            if (detail._id === node._id) {
-              enRuntime.now[detail._id] = detail
-            }
-          }
-          window.addEventListener('reload-node', hhhh)
+            let mini = enRuntime.makeDisposableNode({ name: node.displayTitle })
 
-          let mini = enRuntime.makeDisposableNode({ name: node.displayTitle })
+            cleans.push(() => {
+              window.removeEventListener('reload-node', hhhh)
 
-          cleans.push(() => {
-            window.removeEventListener('reload-node', hhhh)
+              mini.clean()
+            })
 
-            mini.clean()
+            //
+            return await logic
+
+              .effect({
+                mini,
+                node: nodeAPI,
+                data: dataAPI,
+                setComponent,
+              })
+              //
+              ?.catch((e) => {
+                console.log(e)
+              })
           })
-
-          //
-          return await logic
-
-            .effect({
-              mini,
-              node: nodeAPI,
-              data: dataAPI,
-              setComponent,
-            })
-
-            ?.catch((e) => {
-              console.log(e)
-            })
-        })
       }
     }
 
