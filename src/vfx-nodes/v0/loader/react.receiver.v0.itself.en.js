@@ -77,6 +77,8 @@ function Inbound({ socketName, node, mini }) {
     node[socketName].ready.then((v) => {
       setItem(v)
     })
+
+    //
     node[socketName].stream((v) => {
       setItem(v)
     })
