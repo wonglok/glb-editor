@@ -109,6 +109,7 @@ let loadGLB = async (v) => {
 // }
 
 export function effect({ node, mini, data, setComponent }) {
+  //
   let MakeObject = () => {
     let [glb, setGLB] = useState(null)
 
