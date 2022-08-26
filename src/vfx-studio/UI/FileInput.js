@@ -31,7 +31,7 @@ export function FileInput({ onFile = () => {} }) {
         }
         input.click()
       }}
-      className='p-5 text-white bg-blue-500'
+      className='p-5 px-8 text-white bg-blue-800 rounded-lg'
     >
       Select GLB File to Edit
     </button>
