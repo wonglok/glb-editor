@@ -192,9 +192,15 @@ export default function StudioHome() {
             </h4>
           </div>
           <div className='mt-6 lg:mt-0'>
-            <a href='/clothes'>
+            <a href='/'>
               <button className='px-6 py-2 mx-2 my-2 text-sm text-indigo-700 bg-white rounded transition duration-150 ease-in-out focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-indigo-700 focus:ring-white hover:bg-gray-100'>
-                Go Back to Wardrobe
+                Back to Home
+              </button>
+            </a>
+
+            <a href='/clothes'>
+              <button className='px-6 py-2 mx-2 my-2 mr-8 text-sm text-indigo-700 bg-white rounded transition duration-150 ease-in-out focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-indigo-700 focus:ring-white hover:bg-gray-100'>
+                Bakc to Wardrobe
               </button>
             </a>
 
