@@ -112,9 +112,7 @@ export function GunUI() {
             sendFire()
           }}
           className='flex items-center justify-center w-32 h-32 text-2xl bg-yellow-500 rounded-full bg-opacity-50'
-        >
-          Fire
-        </div>
+        ></div>
       </div>
     </UIContent>
   )

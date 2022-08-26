@@ -115,7 +115,7 @@ function Aim() {
         name={'raycastBallDestination'}
         frustumCulled={false}
       >
-        <sphereBufferGeometry args={[50, 32, 32]}></sphereBufferGeometry>
+        <sphereBufferGeometry args={[150, 32, 32]}></sphereBufferGeometry>
         <meshStandardMaterial
           side={DoubleSide}
           transparent={true}
