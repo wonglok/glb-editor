@@ -6,7 +6,7 @@ import { ClosetAvatar } from './ClosetAvatar'
 import { RPMAvatar } from './RPMAvatar'
 import { TempAvatar } from './TempAvatar'
 
-export function PlayerAvatar() {
+export function PlayerAvatar({ isAR = false }) {
   let player = useMetaStore((s) => s.myCTX.player)
   let avatarVendor = useMetaStore((s) => s.myCTX.avatarVendor)
 
@@ -61,6 +61,7 @@ export function PlayerAvatar() {
         <Preload all></Preload>
         {avatarVendor === 'temp' && (
           <TempAvatar
+            isAR={isAR}
             setAction={setAction}
             avatarActionName={avatarActionName}
             // avatarActionIdleName={avatarActionIdleName}
@@ -72,6 +73,7 @@ export function PlayerAvatar() {
 
         {avatarVendor === 'rpm' && (
           <RPMAvatar
+            isAR={isAR}
             setAction={setAction}
             avatarActionName={avatarActionName}
             // avatarActionIdleName={avatarActionIdleName}
@@ -86,6 +88,7 @@ export function PlayerAvatar() {
 
         {avatarVendor === 'closet' && (
           <ClosetAvatar
+            isAR={isAR}
             setAction={setAction}
             avatarPartUpper={avatarPartUpper}
             avatarPartLower={avatarPartLower}

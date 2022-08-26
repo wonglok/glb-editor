@@ -5,13 +5,15 @@ import { GLTFLoader } from 'three140/examples/jsm/loaders/GLTFLoader'
 import { FBXLoader } from 'three/examples/jsm/loaders/FBXLoader'
 import { useFrame, useThree } from '@react-three/fiber'
 import { EffectNodeRuntime } from '@/vfx-studio/effectnode/Runtime/EffectNodeRuntime/EffectNodeRuntime'
-import { Camera } from 'three'
+import { Camera, Vector3 } from 'three'
 import { inPlace } from '../store/in-place'
 import { useActions } from '../store/use-actions'
 
 const PromisesMap = new Map()
 
 export function TempAvatar({
+  isAR = false,
+
   frustumCulled = true,
   setAction,
   avatarActionName = 'stand',
@@ -28,6 +30,19 @@ export function TempAvatar({
 
   let gl = useThree((s) => s.gl)
   let camera = useThree((s) => s.camera)
+
+  // let aimTarget = new Vector3()
+  // useFrame(({ scene }) => {
+  //   let aim = scene.getObjectByName('aim')
+  //   let head =
+  //     glb?.scene?.getObjectByName('Head') ||
+  //     glb?.scene?.getObjectByName('mixamorigHead')
+
+  //   if (isAR && aim && head) {
+  //     aim.getWorldPosition(aimTarget)
+  //     head.lookAt(aimTarget)
+  //   }
+  // })
 
   useEffect(() => {
     onBeginLoading()

@@ -52,7 +52,7 @@ export function Player({ isAR = false, children, show = true }) {
         {playerInfoIsReady && show && (
           <group>
             <group rotation-y={Math.PI} position={[0, -1.52, 0]}>
-              <PlayerAvatar></PlayerAvatar>
+              <PlayerAvatar isAR={isAR}></PlayerAvatar>
             </group>
           </group>
         )}

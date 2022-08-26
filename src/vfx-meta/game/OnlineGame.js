@@ -34,7 +34,7 @@ export function OnlineGame() {
         </>
       </OnlineSystem>
 
-      <ARBG></ARBG>
+      {/* <ARBG></ARBG> */}
 
       <TopLeft>
         <EffectButton></EffectButton>

@@ -405,13 +405,15 @@ export const useMetaStore = create((set, get) => {
       camera.far = 500
       camera.updateProjectionMatrix()
 
-      if (isAR) {
-        controls.enableZoom = false
-        controls.enableRotate = false
-      }
       set({ controls, camera })
 
       get().setPosition({})
+
+      if (isAR) {
+        controls.enableZoom = false
+        controls.enableRotate = false
+        controls.enabled = false
+      }
 
       return () => {
         controls.dispose()
@@ -425,35 +427,41 @@ export const useMetaStore = create((set, get) => {
       if (self.controlsAR) {
         self.controlsAR.dispose()
       }
-      let video = document.createElement('video')
 
-      let intv = -1
-      navigator.mediaDevices
-        .getUserMedia({
-          audio: false,
-          video: {
-            facingMode: 'environment',
-          },
-        })
-        .then((s) => {
-          video.playsInline = true
-          video.srcObject = s
-          video.autoplay = true
-          video.oncanplay = () => {
-            video.play()
-            //
-            let vtex = new VideoTexture(video)
+      camera.rotation.x = Math.PI * -0.1
+      camera.rotation.y = 0
+      camera.rotation.z = 0
 
-            clearInterval(intv)
-            intv = setInterval(() => {
-              vtex.needsUpdate = true
-            })
-            vtex.encoding = sRGBEncoding
-            set({ arTexture: vtex })
+      //
+      // let video = document.createElement('video')
 
-            console.log(vtex)
-          }
-        })
+      // let intv = -1
+      // navigator.mediaDevices
+      //   .getUserMedia({
+      //     audio: false,
+      //     video: {
+      //       facingMode: 'environment',
+      //     },
+      //   })
+      //   .then((s) => {
+      //     video.playsInline = true
+      //     video.srcObject = s
+      //     video.autoplay = true
+      //     video.oncanplay = () => {
+      //       video.play()
+      //       //
+      //       let vtex = new VideoTexture(video)
+
+      //       clearInterval(intv)
+      //       intv = setInterval(() => {
+      //         vtex.needsUpdate = true
+      //       })
+      //       vtex.encoding = sRGBEncoding
+      //       set({ arTexture: vtex })
+
+      //       console.log(vtex)
+      //     }
+      //   })
       // video.src =
 
       let clean = () => {}
