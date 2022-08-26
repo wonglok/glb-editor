@@ -199,7 +199,7 @@ export default function StudioHome() {
             </a>
 
             <TryMe
-              onFile={async ({ buffer, file, name }) => {
+              onFile={async ({ buffer, file, name, done }) => {
                 // file
                 // console.log(file)
                 let { fileID } = await writeGLB({
@@ -209,6 +209,7 @@ export default function StudioHome() {
 
                 Core.now.reloadFileList = getID()
 
+                done()
                 router.push(`/${Slug}/${fileID}`)
               }}
             ></TryMe>
