@@ -40,6 +40,8 @@ export default function StudioHome() {
             router.push(`/${Slug}/${file.fileID}`)
           }}
         ></MyFiles>
+
+        {/*  */}
       </div>
 
       {/*  */}
@@ -49,6 +51,8 @@ export default function StudioHome() {
     </div>
   )
 }
+
+//
 
 //
 
