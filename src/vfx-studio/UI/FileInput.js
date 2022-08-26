@@ -4,7 +4,8 @@ export function FileInput({ onFile = () => {} }) {
       onClick={() => {
         let input = document.createElement('input')
         input.type = 'file'
-        input.accept = 'model/gltf-binary'
+        input.accept =
+          'application/gltf-buffer;	model/gltf-binary; model/gltf+json'
         input.onchange = async (ev) => {
           //
           //
