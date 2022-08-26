@@ -32,7 +32,7 @@ export function MyFiles({ onOpen = () => {} }) {
   let renameRef = useRef()
   return (
     <div>
-      <div>File List</div>
+      <div>Files on this Device's Browser</div>
       <>
         {files
           ? files.map((file) => {

@@ -12,32 +12,35 @@ export default function StudioHome() {
   let router = useRouter()
   return (
     <div>
-      <div>Please Select GLB File</div>
-      <div>
-        <FileInput
-          onFile={async ({ buffer, file, name }) => {
-            // file
-            // console.log(file)
-            writeGLB({ name, buffer })
-            Core.now.reloadFileList = getID()
-          }}
-        ></FileInput>
+      <div className='p-2'>
+        <h1 className='text-2xl font-bold'>Decenralisted GLB Editor</h1>
+        <div>Please Pick a GLB File to Edit.</div>
+        <div>
+          <FileInput
+            onFile={async ({ buffer, file, name }) => {
+              // file
+              // console.log(file)
+              writeGLB({ name, buffer })
+              Core.now.reloadFileList = getID()
+            }}
+          ></FileInput>
 
-        <TryMe
-          onFile={async ({ buffer, file, name }) => {
-            // file
-            // console.log(file)
-            writeGLB({ name, buffer })
-            Core.now.reloadFileList = getID()
+          <TryMe
+            onFile={async ({ buffer, file, name }) => {
+              // file
+              // console.log(file)
+              writeGLB({ name: name + '-' + new Date().getTime(), buffer })
+              Core.now.reloadFileList = getID()
+            }}
+          ></TryMe>
+        </div>
+
+        <MyFiles
+          onOpen={(file) => {
+            router.push(`/${Slug}/${file.fileID}`)
           }}
-        ></TryMe>
+        ></MyFiles>
       </div>
-
-      <MyFiles
-        onOpen={(file) => {
-          router.push(`/${Slug}/${file.fileID}`)
-        }}
-      ></MyFiles>
 
       {/*  */}
       {/*  */}

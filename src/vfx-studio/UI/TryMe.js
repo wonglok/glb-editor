@@ -16,7 +16,7 @@ export function TryMe({ onFile }) {
         })
       }}
     >
-      Try Demo File
+      Download and Try Out Editing Demo File
     </button>
   )
 }
