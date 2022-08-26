@@ -19,6 +19,7 @@ export function EffectNodeObjectNode({
   useEffect(() => {
     let cleans = []
 
+    //
     enRuntime.now.isEditingMode = isEditingMode
 
     let run = async () => {
@@ -34,7 +35,6 @@ export function EffectNodeObjectNode({
             }
           })
 
-          //
           // if (!res) {
           //   console.log('disabled node found:', e.title)
           // }
@@ -54,14 +54,20 @@ export function EffectNodeObjectNode({
             //
             //
             // let queue = []
+            //
+            //
+
             let mode = 'queue'
             enRuntime.ready['all-ready'].then(() => {
               mode = 'can-send'
+
+              //
               // queue.forEach((ev) => {
               //   emit(ev.event, ev.data)
               // })
               // comments.log(ev);
             })
+
             //  if (mode === 'can-send') {
             //  } else {
             //    queue.push({
@@ -243,24 +249,26 @@ export function EffectNodeObjectNode({
             })
 
             //
-            return await logic
-
+            logic
               .effect({
                 mini,
                 node: nodeAPI,
                 data: dataAPI,
                 setComponent,
               })
-              //
               ?.catch((e) => {
                 console.log(e)
               })
+              .then(() => {})
           })
+      } else {
       }
     }
 
     //
-    run().then(() => {})
+    run().then(() => {
+      enRuntime.now['ok' + node._id] = true
+    })
 
     return () => {
       cleans.forEach((c) => c())

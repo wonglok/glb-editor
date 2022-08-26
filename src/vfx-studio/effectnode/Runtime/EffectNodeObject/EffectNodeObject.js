@@ -139,7 +139,12 @@ export function EffectNodeObject({
                 )
               })}
 
-            <AllReady enRuntime={enRuntime}></AllReady>
+            {effectNode && effectNode.nodes && (
+              <AllReady
+                nodes={effectNode.nodes}
+                enRuntime={enRuntime}
+              ></AllReady>
+            )}
           </group>
         </>
       )}
@@ -147,12 +152,28 @@ export function EffectNodeObject({
   )
 }
 
-function AllReady({ enRuntime }) {
+function AllReady({ nodes, enRuntime }) {
   useEffect(() => {
-    setTimeout(() => {
-      enRuntime.now['all-ready'] = true
-    }, 0)
-  }, [enRuntime])
+    let check = () => {
+      return (
+        nodes
+          .map((node) => {
+            return enRuntime.now['ok' + node._id]
+          })
+          .filter((e) => !e).length === 0
+      )
+    }
+    let tt = setInterval(() => {
+      let allOk = check()
+
+      if (allOk) {
+        clearInterval(tt)
+        setTimeout(() => {
+          enRuntime.now['all-ready'] = true
+        }, 0)
+      }
+    })
+  }, [enRuntime, nodes])
   return null
 }
 
