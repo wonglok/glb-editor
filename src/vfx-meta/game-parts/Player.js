@@ -8,7 +8,7 @@ import { JoyStick } from './JoyStick'
 // import { NPCAvatar } from './NPCAvatar'
 import { PlayerAvatar } from './PlayerAvatar'
 
-export function Player({ children, show = true }) {
+export function Player({ isAR = false, children, show = true }) {
   let myCTX = useMetaStore((s) => s.myCTX)
   let updatePlayer = useMetaStore((s) => s.updatePlayer)
   let setControls = useMetaStore((s) => s.setControls)
@@ -30,7 +30,7 @@ export function Player({ children, show = true }) {
   }, [])
 
   useEffect(() => {
-    return setControls({ camera: camera, dom: dom })
+    return setControls({ camera: camera, dom: dom, isAR })
   }, [])
 
   let ref = useRef(false)

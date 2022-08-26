@@ -392,7 +392,7 @@ export const useMetaStore = create((set, get) => {
 
     updateCameraAR: () => {},
 
-    setControls: ({ camera, dom }) => {
+    setControls: ({ camera, dom, isAR = false }) => {
       let self = get()
 
       if (self.controls) {
@@ -405,6 +405,10 @@ export const useMetaStore = create((set, get) => {
       camera.far = 500
       camera.updateProjectionMatrix()
 
+      if (isAR) {
+        controls.enableZoom = false
+        controls.enableRotate = false
+      }
       set({ controls, camera })
 
       get().setPosition({})

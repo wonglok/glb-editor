@@ -15,7 +15,12 @@ import { EditorButton } from './EditorButton'
 import { MyARButton } from './MyARButton'
 // import { SetupOnlineID } from './SetupOnlineID'
 
-export function OnlineSystem({ children, mapID = 'yoyo' }) {
+export function OnlineSystem({
+  isAR = false,
+  children,
+  mapID = 'yoyo',
+  btnTR = null,
+}) {
   let setMyself = useMetaStore((s) => s.setMyself)
   let myself = useMetaStore((s) => s.myself)
   let mode = useMetaStore((s) => s.mode)
@@ -75,11 +80,15 @@ export function OnlineSystem({ children, mapID = 'yoyo' }) {
         <>
           <TopRightButtons>
             <LogoutButtons></LogoutButtons>
-            <AvatarButton></AvatarButton>
-            <HomeButton></HomeButton>
-            <ChatButton></ChatButton>
-            <EditorButton></EditorButton>
-            {camera && <MyARButton camera={camera}></MyARButton>}
+            {!btnTR && (
+              <>
+                <AvatarButton></AvatarButton>
+                <HomeButton></HomeButton>
+                <ChatButton></ChatButton>
+                <EditorButton></EditorButton>
+              </>
+            )}
+            {btnTR}
           </TopRightButtons>
 
           <OtherPlayers></OtherPlayers>
