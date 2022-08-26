@@ -1,7 +1,12 @@
 import create from 'zustand'
 import { UIContent } from '@/vfx-core/UIContent'
-import { BoxBufferGeometry, Vector3 } from 'three'
-import { Mesh, MeshBasicMaterial, Object3D } from 'three140'
+import { BoxBufferGeometry, SphereBufferGeometry, Vector3 } from 'three'
+import {
+  Mesh,
+  MeshBasicMaterial,
+  MeshPhysicalMaterial,
+  Object3D,
+} from 'three140'
 import { getID } from '@/vfx-runtime/ENUtils'
 import amim from 'animejs'
 
@@ -14,8 +19,14 @@ class OneMissle extends Object3D {
     this.tAim = new Vector3()
 
     let ball = new Mesh(
-      new BoxBufferGeometry(3, 3, 3),
-      new MeshBasicMaterial({ color: 0xff0000 })
+      new SphereBufferGeometry(3, 32, 32),
+      new MeshPhysicalMaterial({
+        color: 0xff0000,
+        transmission: 1,
+        ior: 1.2,
+        thickness: 1,
+        transparent: true,
+      })
     )
     this.add(ball)
 
@@ -30,12 +41,13 @@ class OneMissle extends Object3D {
         x: this.tAim.x,
         y: this.tAim.y,
         z: this.tAim.z,
+        duration: 3000,
         complete: () => {
           amim({
             targets: [ball.scale],
-            x: 0,
-            y: 0,
-            z: 0,
+            x: 10,
+            y: 10,
+            z: 10,
             complete: () => {
               this.visible = false
             },

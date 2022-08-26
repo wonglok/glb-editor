@@ -98,8 +98,6 @@ function Aim() {
           from.copy(camera.position)
           to.copy(rayAim.current.position)
           rayAim.current.position.lerp(first.point, 0.1)
-
-          console.log(to)
         }
       }
       //
