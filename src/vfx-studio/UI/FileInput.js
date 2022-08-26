@@ -31,9 +31,9 @@ export function FileInput({ onFile = () => {} }) {
         }
         input.click()
       }}
-      className='p-2 bg-gray-200'
+      className='p-5 text-white bg-blue-500'
     >
-      Select File
+      Select GLB File to Edit
     </button>
   )
 }

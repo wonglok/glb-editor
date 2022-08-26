@@ -31,14 +31,16 @@ export function MyFiles({ onOpen = () => {} }) {
   //
   let renameRef = useRef()
   return (
-    <div>
-      <div>Files on this Device's Browser</div>
+    <div className='mt-8 '>
+      <div className='mb-3 text-4xl'>My Project Files</div>
+      <div className='mb-8 text-sm text-gray-500'>In this Browser Device</div>
       <>
         {files
           ? files.map((file) => {
               return (
-                <div key={file.fileID}>
+                <div key={file.fileID} className='flex items-end h-12 mb-3'>
                   <textarea
+                    className='h-full p-2 mr-3 bg-gray-200'
                     cols={40}
                     defaultValue={file.name}
                     ref={renameRef}
@@ -54,7 +56,7 @@ export function MyFiles({ onOpen = () => {} }) {
                     }}
                   ></textarea>
                   <button
-                    className='p-2 mr-1 bg-blue-200'
+                    className='h-full p-2 mr-3 bg-blue-200'
                     onClick={() => {
                       //
                       onOpen(file)
@@ -64,7 +66,7 @@ export function MyFiles({ onOpen = () => {} }) {
                   </button>
 
                   <button
-                    className='p-2 mr-1 bg-red-200'
+                    className='h-full p-2 mr-3 bg-red-200'
                     onClick={() => {
                       if (window.confirm('remove??')) {
                         removeGLB(file.fileID)
@@ -76,7 +78,7 @@ export function MyFiles({ onOpen = () => {} }) {
                   </button>
 
                   <button
-                    className='p-2 mr-1 bg-green-200'
+                    className='h-full p-2 mr-3 bg-green-200'
                     onClick={(ev) => {
                       ev.target.innerText = 'Optimising, Exporting....'
 

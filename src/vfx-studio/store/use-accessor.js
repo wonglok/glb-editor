@@ -88,6 +88,9 @@ export const useAccessor = create((set, get) => {
         draco.setCrossOrigin('')
         loader.setDRACOLoader(draco)
 
+        if (!buffer) {
+          return
+        }
         return Promise.all([
           loader.parseAsync(buffer, '/'),
           loader.parseAsync(buffer, '/'),
