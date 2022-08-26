@@ -60,6 +60,8 @@ export const writeGLB = async ({ name, buffer }) => {
       fileID,
     }),
   ])
+
+  return { fileID }
 }
 
 export const updateGLBBinary = async ({ fileID, buffer }) => {

@@ -110,8 +110,6 @@ export async function effect({ node, mini, data }) {
     ior: 1.5,
   }
 
-  let scene = mini.now.scene
-
   let noodle = new NoodleRenderable({
     renderConfig,
     node: mini,
@@ -119,8 +117,6 @@ export async function effect({ node, mini, data }) {
     howManyTracker: howManyTracker,
     howLongTail: howLongTail,
   })
-
-  scene.add(noodle.o3d)
 
   let pars = new ParticleRenderable({
     renderConfig,
@@ -135,12 +131,14 @@ export async function effect({ node, mini, data }) {
     },
   })
 
-  scene.add(pars)
-
   mini.onClean(() => {
     pars.removeFromParent()
     noodle.o3d.removeFromParent()
   })
+
+  let scene = await mini.ready.scene
+  scene.add(noodle.o3d)
+  scene.add(pars)
 }
 
 //

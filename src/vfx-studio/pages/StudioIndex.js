@@ -29,8 +29,14 @@ export default function StudioHome() {
             onFile={async ({ buffer, file, name }) => {
               // file
               // console.log(file)
-              writeGLB({ name: name + '-' + new Date().getTime(), buffer })
+              let { fileID } = await writeGLB({
+                name: name + '-' + new Date().getTime(),
+                buffer,
+              })
+
               Core.now.reloadFileList = getID()
+
+              router.push(`/${Slug}/${fileID}`)
             }}
           ></TryMe>
         </div>
