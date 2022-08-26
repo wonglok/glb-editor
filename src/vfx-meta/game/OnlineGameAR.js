@@ -86,8 +86,9 @@ function Aim() {
   let camera = useThree((s) => s.camera)
   let raycastball = useRef()
   let rayAim = useRef()
+  let aimer = useRef()
   useFrame(({ raycaster, camera, mouse }) => {
-    if (raycastball.current && rayAim.current) {
+    if (raycastball.current && rayAim.current && aimer.current) {
       raycaster.setFromCamera(v00, camera)
       let res = raycaster.intersectObject(raycastball.current, false)
 
@@ -95,7 +96,8 @@ function Aim() {
         let first = res[0]
 
         if (first) {
-          from.copy(camera.position)
+          // camera.position
+          aimer.current.getWorldPosition(from)
           to.copy(rayAim.current.position)
           rayAim.current.position.lerp(first.point, 0.1)
         }
@@ -134,7 +136,7 @@ function Aim() {
       {createPortal(
         <>
           <group position={[0, 0, -25]}>
-            <mesh name='aim'>
+            <mesh name='aim' ref={aimer}>
               <sphereBufferGeometry args={[0.1, 24, 24]}></sphereBufferGeometry>
               <meshPhysicalMaterial
                 transmission={1}

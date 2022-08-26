@@ -9,6 +9,7 @@ import {
 } from 'three140'
 import { getID } from '@/vfx-runtime/ENUtils'
 import amim from 'animejs'
+import { useMetaStore } from '../store/use-meta-store'
 
 class OneMissle extends Object3D {
   constructor() {
@@ -22,6 +23,7 @@ class OneMissle extends Object3D {
       new SphereBufferGeometry(3, 32, 32),
       new MeshPhysicalMaterial({
         color: 0xff0000,
+        roughness: 0,
         transmission: 1,
         ior: 1.2,
         thickness: 1,
@@ -33,8 +35,20 @@ class OneMissle extends Object3D {
     this.visible = false
     this.play = () => {
       this.visible = true
-      ball.scale.setScalar(1)
+      ball.scale.setScalar(0.5)
       ball.position.copy(this.tFrom)
+
+      amim({
+        targets: [ball.scale],
+        x: 1,
+        y: 1,
+        z: 1,
+        duration: 3000,
+
+        complete: () => {
+          this.visible = false
+        },
+      })
 
       amim({
         targets: [ball.position],
@@ -42,17 +56,7 @@ class OneMissle extends Object3D {
         y: this.tAim.y,
         z: this.tAim.z,
         duration: 3000,
-        complete: () => {
-          amim({
-            targets: [ball.scale],
-            x: 10,
-            y: 10,
-            z: 10,
-            complete: () => {
-              this.visible = false
-            },
-          })
-        },
+        complete: () => {},
       })
     }
 
@@ -86,7 +90,7 @@ export const useGun = create((set, get) => {
       let aMissle = get().missles[latestCursor]
 
       //
-
+      get().from.z += -11
       aMissle.tFrom.copy(get().from)
       aMissle.tAim.copy(get().to)
       aMissle.play()
@@ -115,15 +119,24 @@ export function Gun() {
 
 export function GunUI() {
   let sendFire = useGun((s) => s.sendFire)
+  let myCTX = useMetaStore((s) => s.myCTX)
+
+  let t = 0
   return (
     <UIContent>
-      <div className='fixed bottom-0 right-0 p-2'>
+      <div className='fixed bottom-0 right-0 p-2 select-none'>
         <div
-          onClick={() => {
+          onPointerDown={() => {
             //
-            sendFire()
+            clearInterval(t)
+            t = setInterval(() => {
+              sendFire({ player: myCTX.player })
+            }, 30)
           }}
-          className='flex items-center justify-center w-32 h-32 text-2xl bg-yellow-500 rounded-full bg-opacity-50'
+          onPointerUp={() => {
+            clearInterval(t)
+          }}
+          className='flex items-center justify-center w-32 h-32 text-2xl bg-yellow-500 rounded-full select-none bg-opacity-50'
         ></div>
       </div>
     </UIContent>
