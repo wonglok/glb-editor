@@ -17,59 +17,14 @@ export function EffectNodeRuntime({
   // let ens = useFilterEffectNode({ glbObject })
   glbObject.scene.updateMatrixWorld(true)
 
-  let [ready, setReady] = useState(false)
+  // let [ready, setReady] = useState(false)
   useEffect(() => {
-    setReady(false)
+    // setReady(false)
 
     getPosMD5(glbObject)
     if (originalGLBObject) {
       getPosMD5(originalGLBObject)
     }
-
-    // setTimeout(() => {
-    //   //
-    //   // glbObject.scene =
-
-    //   // clone(originalGLBObject.scene)
-
-    //   // let ens = []
-
-    //   // if (glbObject) {
-    //   //   glbObject.scene.traverse((it) => {
-    //   //     if (it.userData.effectNode) {
-    //   //       ens.push(it)
-    //   //     }
-    //   //   })
-    //   // }
-
-    //   // ens.forEach((en) => {
-    //   //   en.updateMatrixWorld()
-    //   //   //
-    //   //   if (en.userData.effectNode) {
-    //   //     if (originalGLBObject) {
-    //   //       originalGLBObject.scene.traverse((oo) => {
-    //   //         if (oo.userData.posMD5 === en.userData.posMD5) {
-    //   //           if (oo.material) {
-    //   //             en.material = oo.material.clone()
-    //   //             en.material.needsUpdate = true
-    //   //           }
-    //   //           if (oo.geometry) {
-    //   //             if (
-    //   //               en.geometry.attributes.position.array.length !==
-    //   //               oo.geometry.attributes.position.array.length
-    //   //             ) {
-    //   //               en.geometry = oo.geometry.clone()
-    //   //               en.geometry.needsUpdate = true
-    //   //             }
-    //   //           }
-    //   //         }
-    //   //       })
-    //   //     }
-    //   //   }
-    //   // })
-
-    //   setReady(true)
-    // })
   }, [glbObject, originalGLBObject, reloadGraphID])
 
   //
@@ -84,6 +39,7 @@ export function EffectNodeRuntime({
           isEditingMode={isEditingMode}
         ></ENRunNode>
       </Suspense>
+
       {/* <EffectNodeObject></EffectNodeObject> */}
       {/* <group>
         {ready &&

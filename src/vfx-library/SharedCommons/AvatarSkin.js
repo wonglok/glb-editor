@@ -21,7 +21,7 @@ export const loadGLTF = (url) => {
     let loader = new GLTFLoader()
     const dracoLoader = new DRACOLoader()
     dracoLoader.setDecoderPath('/draco/')
-    loader.setDRACOLoader(dracoLoader)
+    loader.setDRACOLoader()
     loader.crossOrigin = true
 
     loader.load(url, (res) => {
