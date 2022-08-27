@@ -21,6 +21,7 @@ function AvatarGenerationButton() {
   let clips = useAvatarForge((s) => s.clips)
   let avatar = useAvatarForge((s) => s.avatar)
   let exportAvatar = useAvatarForge((s) => s.exportAvatar)
+
   //
   return (
     <div>
@@ -29,7 +30,11 @@ function AvatarGenerationButton() {
           <button
             onClick={() => {
               //
-              exportAvatar()
+              exportAvatar({
+                // onDone: ({ url, blob, buffer }) => {
+                //   //
+                // },
+              })
             }}
           >
             Download

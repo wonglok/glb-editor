@@ -15,7 +15,7 @@ export const useAvatarForge = create((set, get) => {
     avatar: false,
     clips: [],
 
-    exportAvatar: async () => {
+    exportAvatar: async ({ onDone = false }) => {
       //
       let { avatar, clips } = get()
 
@@ -95,16 +95,31 @@ export const useAvatarForge = create((set, get) => {
       let compressedBuffer = await io.writeBinary(glbDocument)
 
       let exportBuffer = compressedBuffer
-      let newFile = new Blob([exportBuffer], {
-        type: 'application/octet-stream',
-      })
 
-      let newURL = URL.createObjectURL(newFile)
+      if (onDone) {
+        let newFile = new Blob([exportBuffer], {
+          type: 'application/octet-stream',
+        })
 
-      let ahr = document.createElement('a')
-      ahr.href = newURL
-      ahr.download = 'avatar' + '.glb'
-      ahr.click()
+        let newURL = URL.createObjectURL(newFile)
+
+        onDone({
+          blob: newFile,
+          buffer: exportBuffer,
+          url: newURL,
+        })
+      } else {
+        let newFile = new Blob([exportBuffer], {
+          type: 'application/octet-stream',
+        })
+
+        let newURL = URL.createObjectURL(newFile)
+
+        let ahr = document.createElement('a')
+        ahr.href = newURL
+        ahr.download = 'avatar' + '.glb'
+        ahr.click()
+      }
 
       //
     },
