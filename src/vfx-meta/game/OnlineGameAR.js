@@ -115,7 +115,7 @@ function Aim() {
         name={'raycastBallDestination'}
         frustumCulled={false}
       >
-        <sphereBufferGeometry args={[150, 32, 32]}></sphereBufferGeometry>
+        <sphereBufferGeometry args={[250, 32, 32]}></sphereBufferGeometry>
         <meshStandardMaterial
           side={DoubleSide}
           transparent={true}
@@ -135,7 +135,7 @@ function Aim() {
 
       {createPortal(
         <>
-          <group position={[0, 0, -25]}>
+          <group position={[0, 0, -50]}>
             <mesh name='aim' ref={aimer}>
               <sphereBufferGeometry args={[0.1, 24, 24]}></sphereBufferGeometry>
               <meshPhysicalMaterial

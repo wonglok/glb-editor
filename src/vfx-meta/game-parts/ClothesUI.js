@@ -93,6 +93,9 @@ function UseAvatar() {
                             if (it.name.indexOf('Wolf3D_') !== -1) {
                               foundRPM = true
                             }
+                            if (it.name.indexOf('RPM_') !== -1) {
+                              foundRPM = true
+                            }
                           })
                         })
 

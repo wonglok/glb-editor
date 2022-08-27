@@ -51,7 +51,9 @@ export function UploadAvatar() {
                     glb.scene.traverse((it) => {
                       if (it.name.indexOf('Wolf3D_') !== -1) {
                         foundRPM = true
-                        console.log(it.name)
+                      }
+                      if (it.name.indexOf('RPM_') !== -1) {
+                        foundRPM = true
                       }
                     })
                   })

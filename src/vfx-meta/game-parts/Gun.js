@@ -35,20 +35,8 @@ class OneMissle extends Object3D {
     this.visible = false
     this.play = () => {
       this.visible = true
-      ball.scale.setScalar(0.5)
+      ball.scale.setScalar(1.5)
       ball.position.copy(this.tFrom)
-
-      amim({
-        targets: [ball.scale],
-        x: 1,
-        y: 1,
-        z: 1,
-        duration: 3000,
-
-        complete: () => {
-          this.visible = false
-        },
-      })
 
       amim({
         targets: [ball.position],
@@ -56,7 +44,19 @@ class OneMissle extends Object3D {
         y: this.tAim.y,
         z: this.tAim.z,
         duration: 3000,
-        complete: () => {},
+        complete: () => {
+          amim({
+            targets: [ball.scale],
+            x: 0,
+            y: 0,
+            z: 0,
+            duration: 3000,
+
+            complete: () => {
+              this.visible = false
+            },
+          })
+        },
       })
     }
 
@@ -131,7 +131,7 @@ export function GunUI() {
             clearInterval(t)
             t = setInterval(() => {
               sendFire({ player: myCTX.player })
-            }, 30)
+            }, 15)
           }}
           onPointerUp={() => {
             clearInterval(t)

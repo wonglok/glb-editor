@@ -32,8 +32,8 @@ export function getCodes() {
 }
 
 //
+//
 export class ENRuntime {
-  //
   constructor({ json, codes }) {
     this.events = new EventEmitter()
 
