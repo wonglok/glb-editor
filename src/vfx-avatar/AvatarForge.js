@@ -41,9 +41,6 @@ function AvatarGenerationButton() {
           </button>
         </>
       )}
-      {/*  */}
-
-      {/*  */}
     </div>
   )
 }
