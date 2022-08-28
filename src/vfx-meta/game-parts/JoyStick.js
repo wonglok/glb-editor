@@ -17,13 +17,10 @@ export function JoyStick() {
     if (!controls) {
       return
     }
-
-    let clean = () => {}
+    let cleans = []
     //leftjoystick
     import('nipplejs').then(async (nipplejs) => {
       let found = await new Promise((resolve) => {
-        //
-
         let t1 = setInterval(() => {
           let found = ref.current
           if (found) {
@@ -38,17 +35,16 @@ export function JoyStick() {
         zone: found,
         color: 'white',
       })
-      clean()
 
-      let cleans = []
-      clean = () => {
+      cleans.push(() => {
         if (found) {
           found.innerHTML = ''
         }
-        cleans.forEach((e) => e())
-        manager.destroy()
-      }
 
+        manager.destroy()
+      })
+
+      //
       let up = new Vector3(0, 1, 0)
       let forward = new Vector3()
       let nippleAngle = 0
@@ -58,7 +54,10 @@ export function JoyStick() {
       manager
         .on('added', (evt, nipple) => {
           cleans.push(() => {
+            nippleAngle = 0
+            nippleForce = 0
             nipple.off('start move end dir plain')
+            setAction('standing', 1)
           })
           nipple.on('start move end dir plain', (evta, nipple) => {
             if (evta.type === 'move') {
@@ -104,8 +103,7 @@ export function JoyStick() {
     })
 
     return () => {
-      active = 'off'
-      clean()
+      cleans.forEach((e) => e())
     }
   }, [
     controls,
