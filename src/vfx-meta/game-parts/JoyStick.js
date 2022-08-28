@@ -17,9 +17,12 @@ export function JoyStick() {
     if (!controls) {
       return
     }
+
+    //
     let cleans = []
-    //leftjoystick
+    //
     import('nipplejs').then(async (nipplejs) => {
+      cleans.forEach((c) => c())
       let found = await new Promise((resolve) => {
         let t1 = setInterval(() => {
           let found = ref.current
@@ -28,7 +31,6 @@ export function JoyStick() {
             resolve(found)
           }
         })
-
         //
       })
       let manager = nipplejs.create({
@@ -40,10 +42,8 @@ export function JoyStick() {
         if (found) {
           found.innerHTML = ''
         }
-
         manager.destroy()
       })
-      //
 
       //
       let up = new Vector3(0, 1, 0)
@@ -52,15 +52,21 @@ export function JoyStick() {
       let nippleForce = 0
       let active = 'off'
 
+      cleans.push(() => {
+        //
+        active = 'off'
+        nippleAngle = 0
+        nippleForce = 0
+
+        //
+        setAction('standing', 1)
+      })
+
+      //
       manager
         .on('added', (evt, nipple) => {
-          cleans.push(() => {
-            active = 'off'
-            nippleAngle = 0
-            nippleForce = 0
-            nipple.off('start move end dir plain')
-            setAction('standing', 1)
-          })
+          //
+
           nipple.on('start move end dir plain', (evta, nipple) => {
             if (evta.type === 'move') {
               if (nipple?.angle?.radian) {
@@ -84,6 +90,10 @@ export function JoyStick() {
               }
             }
           })
+
+          cleans.push(() => {
+            nipple.off('start move end dir plain')
+          })
         })
         .on('removed', (evt, nipple) => {
           nipple.off('start move end dir plain')
@@ -102,6 +112,10 @@ export function JoyStick() {
           myCTX.player.rotation.y = nippleAngle + controls.getAzimuthalAngle()
         }
       }
+
+      cleans.push(() => {
+        doWork.current = () => {}
+      })
     })
 
     return () => {
