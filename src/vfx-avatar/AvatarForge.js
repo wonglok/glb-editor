@@ -33,6 +33,8 @@ function AvatarGenerationButton() {
               //
               //
               exportAvatar({
+                avatar,
+                clips,
                 onDone: ({ url, blob, buffer }) => {
                   let ahr = document.createElement('a')
                   ahr.href = url

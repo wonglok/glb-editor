@@ -15,9 +15,8 @@ export const useAvatarForge = create((set, get) => {
     avatar: false,
     clips: [],
 
-    exportAvatar: async ({ onDone = false }) => {
+    exportAvatar: async ({ avatar, clips, onDone = false }) => {
       //
-      let { avatar, clips } = get()
 
       const exporter = new GLTFExporter()
       const options = {
