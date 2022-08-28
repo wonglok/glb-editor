@@ -109,16 +109,14 @@ export const useAvatarForge = create((set, get) => {
           url: newURL,
         })
       } else {
-        let newFile = new Blob([exportBuffer], {
-          type: 'application/octet-stream',
-        })
-
-        let newURL = URL.createObjectURL(newFile)
-
-        let ahr = document.createElement('a')
-        ahr.href = newURL
-        ahr.download = 'avatar' + '.glb'
-        ahr.click()
+        // let newFile = new Blob([exportBuffer], {
+        //   type: 'application/octet-stream',
+        // })
+        // let newURL = URL.createObjectURL(newFile)
+        // let ahr = document.createElement('a')
+        // ahr.href = newURL
+        // ahr.download = 'avatar' + '.glb'
+        // ahr.click()
       }
 
       //

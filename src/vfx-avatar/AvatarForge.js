@@ -3,13 +3,13 @@ import Dropzone from 'react-dropzone'
 
 export function AvatarForge() {
   return (
-    <div>
+    <div className='h-full'>
       {/*  */}
       {/*  */}
       <div>
         <AvatarGenerationButton></AvatarGenerationButton>
       </div>
-      <div className='flex h-32'>
+      <div className='flex w-full h-full'>
         <AvatarZone></AvatarZone>
         <MotionZone></MotionZone>
       </div>
@@ -21,19 +21,24 @@ function AvatarGenerationButton() {
   let clips = useAvatarForge((s) => s.clips)
   let avatar = useAvatarForge((s) => s.avatar)
   let exportAvatar = useAvatarForge((s) => s.exportAvatar)
+  //
 
   //
   return (
-    <div>
+    <div className='h-full'>
       {clips && clips.length > 0 && avatar && (
         <>
           <button
             onClick={() => {
               //
+              //
               exportAvatar({
-                // onDone: ({ url, blob, buffer }) => {
-                //   //
-                // },
+                onDone: ({ url, blob, buffer }) => {
+                  let ahr = document.createElement('a')
+                  ahr.href = url
+                  ahr.download = 'avatar' + '.glb'
+                  ahr.click()
+                },
               })
             }}
           >
@@ -49,7 +54,7 @@ function MotionZone() {
   let setClipsByFiles = useAvatarForge((s) => s.setClipsByFiles)
   let clips = useAvatarForge((s) => s.clips)
   return (
-    <div>
+    <div className='w-1/2 h-full'>
       <Dropzone
         onDrop={(acceptedFiles) => {
           let arr = []
@@ -61,15 +66,15 @@ function MotionZone() {
         }}
       >
         {({ getRootProps, getInputProps }) => (
-          <section>
-            <div {...getRootProps()}>
+          <>
+            <div className='h-full' {...getRootProps()}>
               <input {...getInputProps()} />
               {!(clips && clips.length > 0) ? (
-                <div className='p-12 mb-2 mr-2 bg-gray-200'>
+                <div className='h-full p-12 mb-2 mr-2 bg-gray-200'>
                   Drop Motion Files
                 </div>
               ) : (
-                <div className='p-12 mb-2 mr-2 bg-gray-200'>
+                <div className='h-full p-12 mb-2 mr-2 bg-gray-200'>
                   MotionZone
                   <br></br>
                   <ul>
@@ -80,7 +85,7 @@ function MotionZone() {
                 </div>
               )}
             </div>
-          </section>
+          </>
         )}
       </Dropzone>
     </div>
@@ -94,7 +99,7 @@ function AvatarZone() {
   let avatar = useAvatarForge((s) => s.avatar)
 
   return (
-    <div>
+    <div className='w-1/2 h-full'>
       <Dropzone
         onDrop={(acceptedFiles) => {
           let arr = []
@@ -109,18 +114,20 @@ function AvatarZone() {
         }}
       >
         {({ getRootProps, getInputProps }) => (
-          <section>
-            <div {...getRootProps()}>
+          <>
+            <div className='h-full' {...getRootProps()}>
               <input {...getInputProps()} />
               {!avatar ? (
-                <div className='p-12 mb-2 mr-2 bg-gray-200'>
+                <div className='h-full p-12 mb-2 mr-2 bg-gray-200'>
                   Drop Avatar Files
                 </div>
               ) : (
-                <div className='p-12 mb-2 mr-2 bg-gray-200'>{avatar.name}</div>
+                <div className='h-full p-12 mb-2 mr-2 bg-gray-200'>
+                  {avatar.name}
+                </div>
               )}
             </div>
-          </section>
+          </>
         )}
       </Dropzone>
     </div>
