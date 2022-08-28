@@ -43,6 +43,7 @@ export function JoyStick() {
 
         manager.destroy()
       })
+      //
 
       //
       let up = new Vector3(0, 1, 0)
