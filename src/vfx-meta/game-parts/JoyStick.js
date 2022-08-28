@@ -55,6 +55,7 @@ export function JoyStick() {
       manager
         .on('added', (evt, nipple) => {
           cleans.push(() => {
+            active = 'off'
             nippleAngle = 0
             nippleForce = 0
             nipple.off('start move end dir plain')
