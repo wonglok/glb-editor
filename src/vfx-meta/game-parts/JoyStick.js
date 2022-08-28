@@ -65,8 +65,6 @@ export function JoyStick() {
       //
       manager
         .on('added', (evt, nipple) => {
-          //
-
           nipple.on('start move end dir plain', (evta, nipple) => {
             if (evta.type === 'move') {
               if (nipple?.angle?.radian) {
