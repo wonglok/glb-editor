@@ -10,10 +10,10 @@ import { Object3D } from 'three'
 import { clone } from 'three140/examples/jsm/utils/SkeletonUtils'
 import { useAccessor } from './use-accessor'
 
-import { VertexLayout, WebIO } from '@gltf-transform/core'
+import { WebIO } from '@gltf-transform/core'
 import { DracoMeshCompression } from '@gltf-transform/extensions'
-import { FileLoader } from 'three140'
-import { dedup, prune } from '@gltf-transform/functions'
+// import { FileLoader } from 'three140'
+// import { dedup, prune } from '@gltf-transform/functions'
 // import {
 //   dedup,
 //   prune,
