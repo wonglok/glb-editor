@@ -15,14 +15,24 @@ export function GLBEditor() {
   return (
     <div className='flex w-full h-full'>
       <div
-        className='h-full'
+        className='h-screen pb-12'
         style={{
           width: `280px`,
+          overflow: 'auto',
         }}
       >
-        <BackButton></BackButton>
-        <TitleButton></TitleButton>
-        <DownloadButton></DownloadButton>
+        <div
+          style={{
+            position: 'sticky',
+            top: '0px',
+            left: '0px',
+          }}
+        >
+          <BackButton></BackButton>
+          <TitleButton></TitleButton>
+          <DownloadButton></DownloadButton>
+        </div>
+
         <GLBTree></GLBTree>
       </div>
       <div
@@ -46,12 +56,9 @@ export function GLBEditor() {
           <Overlay></Overlay>
         </div>
 
-        {/*  */}
-        {
-          <div className='w-1/2 h-full bg-gray-100'>
-            <EditorColumnEffectNode></EditorColumnEffectNode>
-          </div>
-        }
+        <div className='w-1/2 h-full bg-gray-100'>
+          <EditorColumnEffectNode></EditorColumnEffectNode>
+        </div>
       </div>
 
       {/*  */}

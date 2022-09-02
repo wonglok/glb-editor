@@ -60,10 +60,7 @@ export function GLBTree() {
       {/*  */}
       {/*  */}
       <div
-        style={{
-          maxHeight: 'calc(100vh - 300px)',
-          overflow: 'scroll',
-        }}
+        style={{}}
         //
         //
         //
