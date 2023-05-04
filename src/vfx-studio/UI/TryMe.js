@@ -4,7 +4,7 @@ export function TryMe({ onFile }) {
       onClick={async (ev) => {
         ev.target.innerText = 'Loading....'
 
-        let file = await fetch(`/scene/loklokdemo/glassman_.glb`).then((e) =>
+        let file = await fetch(`/demo/shield-guy-stage1.glb`).then((e) =>
           e.blob()
         )
         file.name = 'demofile.glb'
