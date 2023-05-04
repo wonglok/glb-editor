@@ -103,6 +103,7 @@ export function effect({ node, mini, data }) {
   //   myItem.removeFromParent()
   // })
 
+  //
   let mesh = new Mesh(
     new SphereGeometry(0.15, 32, 32),
     new MeshPhysicalMaterial({
