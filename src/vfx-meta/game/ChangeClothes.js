@@ -21,8 +21,6 @@ export function ChangeClothes() {
       <EnvLight></EnvLight>
       <BG url={`/hdr/moonless_golf_1k.hdr`}></BG>
 
-      {/*  */}
-
       <OnlineSystem mapID='closet'>
         <>
           <Player></Player>
@@ -34,7 +32,6 @@ export function ChangeClothes() {
       <TopLeft>
         <EffectButton></EffectButton>
       </TopLeft>
-      {/*  */}
 
       {/* <TopLeft></TopLeft> */}
     </group>
@@ -69,5 +66,4 @@ export function ChangeClothes() {
 //     </>
 //   )
 // }
-
-// //
+//

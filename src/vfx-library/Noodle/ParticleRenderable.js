@@ -145,7 +145,7 @@ export class ParticleRenderable extends Object3D {
         shader.vertexShader = shader.vertexShader.replace(
           `#include <begin_vertex>`,
           /* glsl */ `
-          //
+
           vec4 tt = texture2D(tPos, uvinfo.xy);
           vec3 tn = normalize(tt.rgb);
           vec3 pos = position;

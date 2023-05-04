@@ -91,6 +91,7 @@ export function effect({ node, mini, data }) {
         metalnessMap: it.material.metalnessMap,
         roughnessMap: it.material.roughnessMap,
         transparent: true,
+        opacity: 1,
       })
 
       //
