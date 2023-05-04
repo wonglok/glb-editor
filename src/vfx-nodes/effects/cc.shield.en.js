@@ -74,14 +74,6 @@ export function effect({ node, mini, data }) {
 
   console.log(it)
 
-  // data.uniforms.colorA((v) => {
-  //   if (v && typeof v.value !== 'undefined') {
-  //     if (it.material) {
-  //       it.material.color = new Color(v.value)
-  //     }
-  //   }
-  // })
-
   // data.uniforms.shader((v) => {
   //   console.log(v.value)
   // })
@@ -104,44 +96,51 @@ export function effect({ node, mini, data }) {
   // })
 
   //
-  let mesh = new Mesh(
-    new SphereGeometry(0.15, 32, 32),
-    new MeshPhysicalMaterial({
-      transmission: 1,
-      roughness: 0,
-      thickness: 1.045,
-      transparent: true,
-      opacity: 0.85,
-    })
-  )
 
-  it.geometry.computeBoundingSphere()
-  let center = it.geometry.boundingSphere.center.clone()
-
-  mesh.position.copy(center)
-  mesh.position.x = 1
-
-  let tt = 10
-  for (let i = 0; i < tt; i++) {
-    let gp = new Object3D()
+  let run = (initY = 0) => {
+    let mesh = new Mesh(
+      new SphereGeometry(0.3, 32, 32),
+      new MeshPhysicalMaterial({
+        transmission: 1,
+        roughness: 0,
+        thickness: 1.645,
+        transparent: true,
+        opacity: 0.85,
+      })
+    )
     let clock = new Clock()
-    let rot = new Object3D()
-    rot.add(mesh.clone())
-    rot.rotation.y = Math.PI * 2 * (i / tt)
-
+    let rotRoot = new Object3D()
+    rotRoot.rotation.y = initY || 0
     mini.onLoop(() => {
-      let et = clock.getElapsedTime()
-      rot.rotation.y = et * 0.5 + Math.PI * 2 * (i / tt)
+      let dt = clock.getDelta()
+      rotRoot.rotation.y += 1.1 * dt
     })
-    gp.add(rot)
+    let fly = new Object3D()
+    fly.position.x = 1
 
+    fly.add(mesh)
+    rotRoot.add(fly)
+
+    rotRoot.rotation.x = Math.PI * 0.5
+
+    fly.position.y = 1.2
+
+    it.add(rotRoot)
     mini.onClean(() => {
       mesh.removeFromParent()
     })
 
-    mini.now.mounter.add(gp)
+    data.uniforms.colorA((v) => {
+      if (v && typeof v.value !== 'undefined') {
+        if (mesh.material) {
+          mesh.material.color = new Color(v.value)
+        }
+      }
+    })
+  }
 
-    gp.rotation.x = mini.now.mounter.rotation.x
+  for (let i = 0; i < 5; i++) {
+    run((i / 5) * Math.PI * 2.0)
   }
 
   //
